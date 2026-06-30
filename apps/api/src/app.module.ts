@@ -25,6 +25,8 @@ import { AttendanceModule } from './modules/attendance/attendance.module';
 import { HrModule } from './modules/hr/hr.module';
 import { NotificationModule } from './modules/notifications/notification.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
@@ -54,6 +56,8 @@ import { StorageModule } from './modules/storage/storage.module';
     HrModule,
     NotificationModule,
     StorageModule,
+    DashboardModule,
+    ReportsModule,
   ],
 })
 export class AppModule {}
