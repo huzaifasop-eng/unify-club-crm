@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: unify-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: unify
+      POSTGRES_PASSWORD: unify_password
+      POSTGRES_DB: unify_club_crm
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U unify"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: unify-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgresql://unify:unify_password@postgres:5432/unify_club_crm?schema=public"
+      JWT_ACCESS_SECRET: "change-me-access-secret"
+      JWT_REFRESH_SECRET: "change-me-refresh-secret"
+      JWT_ACCESS_EXPIRES_IN: "15m"
+      JWT_REFRESH_EXPIRES_IN: "7d"
+      PORT: 4000
+      NODE_ENV: production
+      CORS_ORIGIN: "http://localhost:3000"
+    ports:
+      - "4000:4000"
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: unify-web
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:4000/api/v1"
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
