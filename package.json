@@ -7,10 +7,13 @@
   ],
   "scripts": {
     "dev:web": "npm run dev -w apps/web",
+    "dev:website": "npm run dev -w apps/website",
     "dev:api": "npm run dev -w apps/api",
     "build:web": "npm run build -w apps/web",
+    "build:website": "npm run build -w apps/website",
     "build:api": "npm run build -w apps/api",
     "lint:web": "npm run lint -w apps/web",
+    "lint:website": "npm run lint -w apps/website",
     "lint:api": "npm run lint -w apps/api",
     "test:api": "npm run test -w apps/api"
   }
