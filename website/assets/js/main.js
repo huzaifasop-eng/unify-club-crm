@@ -8,15 +8,33 @@ document.addEventListener('DOMContentLoaded', () => {
       const expanded = document.body.classList.contains('nav-open');
       navToggle.setAttribute('aria-expanded', String(expanded));
     });
-    document.querySelectorAll('.nav-links a').forEach((link) => {
+    document.querySelectorAll('.nav-links > a, .dropdown-panel a').forEach((link) => {
       link.addEventListener('click', () => document.body.classList.remove('nav-open'));
     });
   }
+
+  /* Dropdown nav items: hover/focus on desktop (CSS-only), tap-to-expand on mobile */
+  document.querySelectorAll('.nav-item.has-dropdown > a').forEach((trigger) => {
+    trigger.addEventListener('click', (event) => {
+      if (window.matchMedia('(max-width: 1080px)').matches) {
+        event.preventDefault();
+        const item = trigger.parentElement;
+        document.querySelectorAll('.nav-item.dropdown-open').forEach((open) => {
+          if (open !== item) open.classList.remove('dropdown-open');
+        });
+        item.classList.toggle('dropdown-open');
+      }
+    });
+  });
 
   /* Mark active nav link based on current page */
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a[data-page]').forEach((link) => {
     if (link.dataset.page === path) link.classList.add('active');
+  });
+  document.querySelectorAll('.dropdown-panel a.active').forEach((child) => {
+    const parentTrigger = child.closest('.nav-item')?.querySelector(':scope > a');
+    parentTrigger?.classList.add('active');
   });
 
   /* Scroll reveal */

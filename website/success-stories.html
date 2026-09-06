@@ -40,6 +40,11 @@
 <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 6.8 12 12 16 14.2"/></symbol>
 <symbol id="i-sparkles" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M11 3.5l1.2 3.6 3.6 1.2-3.6 1.2L11 13.1l-1.2-3.6L6.2 8.3l3.6-1.2L11 3.5Zm7 6 .8 2.3 2.3.8-2.3.8-.8 2.3-.8-2.3-2.3-.8 2.3-.8.8-2.3Zm-11 4.5.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z"/></symbol>
 <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 12 16 19 9"/></symbol>
+<symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="17" height="4.5" rx="1"/><rect x="4.5" y="13.5" width="15" height="7" rx="1"/><line x1="12" y1="9" x2="12" y2="20.5"/><path d="M12 9C12 6 9 4.5 8 5.5c-1.2 1.2 1 3.5 4 3.5Zm0 0c0-3 3-4.5 4-3.5 1.2 1.2-1 3.5-4 3.5Z"/></symbol>
+<symbol id="i-handshake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5l4-3.5 3 2 3-2.5 4.5 3.5"/><path d="M4.5 13.5l4 3.5c1 .8 2 .3 2.5-.3l4-4.7"/><path d="M9.5 15l2.3-2.2c.8-.8 2-.4 2.4.3l1.3 2"/><path d="M15.5 10l3-2.5 3 2.8-3.2 3.7"/></symbol>
+<symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="15" rx="1.5"/><line x1="6" y1="9" x2="14" y2="9"/><line x1="6" y1="12.5" x2="14" y2="12.5"/><line x1="6" y1="16" x2="11" y2="16"/><path d="M17 8.5h2.5a1.5 1.5 0 0 1 1.5 1.5v8a2 2 0 0 1-2 2H8"/></symbol>
+<symbol id="i-help-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.9.4-1.4 1-1.4 2"/><line x1="12" y1="16.8" x2="12" y2="16.9"/></symbol>
 <symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="5"/><path d="M8.5 12.8 7 20.5l5-2.3 5 2.3-1.5-7.7"/></symbol>
 <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6.5" y1="12" x2="17.5" y2="12"/><rect x="3" y="9.5" width="3" height="5" rx="1"/><rect x="18" y="9.5" width="3" height="5" rx="1"/><rect x="6.2" y="8" width="2" height="8" rx="1"/><rect x="15.8" y="8" width="2" height="8" rx="1"/></symbol>
 <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="3" x2="10.5" y2="13.5"/><polygon points="21 3 14.5 21 10.5 13.5 3 9.5 21 3"/></symbol>
@@ -55,13 +60,32 @@
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html">Home</a>
-      <a href="about.html" data-page="about.html">About</a>
+      <div class="nav-item has-dropdown">
+        <a href="about.html" data-page="about.html">About <svg><use href="#i-chevron-down"/></svg></a>
+        <div class="dropdown-panel">
+          <a href="about.html" data-page="about.html">Our Story</a>
+          <a href="team.html" data-page="team.html">Team &amp; Board</a>
+        </div>
+      </div>
       <a href="programs.html" data-page="programs.html">Programs</a>
       <a href="success-stories.html" data-page="success-stories.html">Stories</a>
-      <a href="events.html" data-page="events.html">Events</a>
+      <div class="nav-item has-dropdown">
+        <a href="get-involved.html" data-page="get-involved.html">Get Involved <svg><use href="#i-chevron-down"/></svg></a>
+        <div class="dropdown-panel">
+          <a href="get-involved.html" data-page="get-involved.html">Donate &amp; Volunteer</a>
+          <a href="events.html" data-page="events.html">Events</a>
+        </div>
+      </div>
+      <a href="news.html" data-page="news.html">News</a>
       <a href="gallery.html" data-page="gallery.html">Gallery</a>
       <a href="locations.html" data-page="locations.html">Locations</a>
-      <a href="contact.html" data-page="contact.html">Contact</a>
+      <div class="nav-item has-dropdown">
+        <a href="contact.html" data-page="contact.html">Contact <svg><use href="#i-chevron-down"/></svg></a>
+        <div class="dropdown-panel">
+          <a href="contact.html" data-page="contact.html">Contact Us</a>
+          <a href="faqs.html" data-page="faqs.html">FAQs</a>
+        </div>
+      </div>
       <a href="book.html" class="nav-cta-mobile">Book a Free Trial</a>
     </nav>
     <div class="nav-actions">
@@ -75,6 +99,7 @@
 </header>
 
 <main id="main">
+
 
   <section class="page-hero">
     <div class="container">
@@ -189,18 +214,19 @@
         <h4>Explore</h4>
         <ul class="footer-links">
           <li><a href="about.html">About Unify Club</a></li>
+          <li><a href="team.html">Team &amp; Board</a></li>
           <li><a href="programs.html">Our Programs</a></li>
           <li><a href="success-stories.html">Success Stories</a></li>
-          <li><a href="events.html">Events &amp; Activities</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="news.html">News &amp; Stories</a></li>
         </ul>
       </div>
       <div>
-        <h4>Programs</h4>
+        <h4>Get Involved</h4>
         <ul class="footer-links">
-          <li><a href="programs.html#therapy">Therapy-Led Sessions</a></li>
-          <li><a href="programs.html#fitness">Physical Fitness</a></li>
-          <li><a href="programs.html#rehab">Rehabilitation</a></li>
+          <li><a href="get-involved.html">Donate &amp; Volunteer</a></li>
+          <li><a href="events.html">Events &amp; Activities</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="locations.html">Locations</a></li>
           <li><a href="book.html">Reserve a Free Trial</a></li>
         </ul>
       </div>
@@ -209,6 +235,7 @@
         <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
+        <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;">Frequently Asked Questions</a></span></div>
         <div class="newsletter">
           <input type="email" placeholder="Your email address" aria-label="Email for newsletter" />
           <button type="button">Join</button>
