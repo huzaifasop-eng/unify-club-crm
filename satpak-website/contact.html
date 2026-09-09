@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact | SaT PaK — Let's Talk About Your Water</title>
+<meta name="description" content="Book a consultation, request a technical or builder assessment, or reach SaT PaK directly. Karachi, Pakistan — 0318-1112606.">
+<link rel="canonical" href="https://www.satpak.com/contact.html">
+<meta name="theme-color" content="#0E4D45">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 4C24 4 34 12 34 24C34 36 24 44 24 44C24 44 30 35 30 24C30 13 24 4 24 4Z' fill='%230E4D45'/%3E%3Cpath d='M24 4C24 4 14 12 14 24C14 36 24 44 24 44C24 44 18 35 18 24C18 13 24 4 24 4Z' fill='%239A7B3F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body data-page="contact">
+
+<div data-include="/partials/header.html"></div>
+
+<section class="hero hero--page" style="min-height:50vh;">
+  <div class="hero-bg"><div class="ripple"></div></div>
+  <div class="container hero-content">
+    <span class="eyebrow">Contact</span>
+    <h1>Let's talk about your water.</h1>
+    <p class="lede">Whichever department fits your need, your message reaches the right team — with a reference number so you always know where things stand.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container row align-center" style="align-items:flex-start;">
+
+    <div class="col" style="flex:1.4;">
+
+      <div data-tabs data-reveal>
+        <div class="tabs">
+          <button class="tab-btn is-active" data-tab-target="consultation">Consultation</button>
+          <button class="tab-btn" data-tab-target="technical">Technical Consultation</button>
+          <button class="tab-btn" data-tab-target="builder">Builder Enquiry</button>
+          <button class="tab-btn" data-tab-target="ask">Ask SaT PaK</button>
+        </div>
+
+        <!-- Consultation -->
+        <div class="tab-panel is-active" data-tab-panel="consultation" id="consultation">
+          <div class="form-card">
+            <h3>Book a Consultation</h3>
+            <p class="body-copy mt-8">Phone, video, physical or on-site — pick what works.</p>
+            <p class="note-flag mt-16">Calendly embed goes here for live scheduling — see README "Consultation booking". Meanwhile, use the form below and our team will confirm a slot.</p>
+            <form data-satpak-form data-ref-prefix="CONSULT" class="mt-24">
+              <input type="hidden" name="department" value="Consultation">
+              <div class="form-grid">
+                <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
+                <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
+                <div class="form-field"><label>Email</label><input type="email" name="email"></div>
+                <div class="form-field"><label>Preferred format</label>
+                  <select name="format">
+                    <option>Phone</option><option>Video</option><option>Physical / office visit</option><option>Site visit</option>
+                  </select>
+                </div>
+                <div class="form-field full"><label>What can we help with?</label><textarea name="message"></textarea></div>
+              </div>
+              <button type="submit" class="btn btn-primary">Request Consultation</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Technical -->
+        <div class="tab-panel" data-tab-panel="technical" id="technical">
+          <div class="form-card">
+            <h3>Book a Technical Consultation</h3>
+            <p class="body-copy mt-8">For industrial, commercial and agricultural RO enquiries.</p>
+            <form data-satpak-form data-ref-prefix="TECH" class="mt-24">
+              <input type="hidden" name="department" value="RO Plants &amp; Services — Technical">
+              <div class="form-grid">
+                <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
+                <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
+                <div class="form-field"><label>Required capacity (GPD)</label><input type="text" name="capacity" placeholder="e.g. 30,000 GPD"></div>
+                <div class="form-field"><label>Water source</label><input type="text" name="source" placeholder="Municipal / borewell / tanker"></div>
+                <div class="form-field"><label>Known TDS (if any)</label><input type="text" name="tds"></div>
+                <div class="form-field"><label>Existing plant?</label>
+                  <select name="existing_plant"><option>No — new installation</option><option>Yes — needs rehabilitation</option><option>Yes — needs AMC / servicing</option></select>
+                </div>
+                <div class="form-field full"><label>Location</label><input type="text" name="location"></div>
+                <div class="form-field full"><label>Additional details</label><textarea name="message"></textarea></div>
+              </div>
+              <button type="submit" class="btn btn-primary">Request Technical Consultation</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Builder -->
+        <div class="tab-panel" data-tab-panel="builder" id="builder">
+          <div class="form-card">
+            <h3>Talk to us about your building</h3>
+            <p class="body-copy mt-8">Mineralized tap water designed into your project from the ground up.</p>
+            <form data-satpak-form data-ref-prefix="BUILD" class="mt-24">
+              <input type="hidden" name="department" value="Builder — Mineralized Tap Water">
+              <div class="form-grid">
+                <div class="form-field"><label>Contact name *</label><input type="text" name="name" required></div>
+                <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
+                <div class="form-field"><label>Project name</label><input type="text" name="project"></div>
+                <div class="form-field"><label>Location</label><input type="text" name="location"></div>
+                <div class="form-field"><label>Number of towers</label><input type="number" name="towers" min="0"></div>
+                <div class="form-field"><label>Number of units</label><input type="number" name="units" min="0"></div>
+                <div class="form-field full"><label>Project stage</label>
+                  <select name="stage"><option>Design / planning</option><option>Under construction</option><option>Near completion</option><option>Already occupied</option></select>
+                </div>
+                <div class="form-field full">
+                  <label>Drawings, plumbing layout, BOQ, plant specs, water reports</label>
+                  <label class="file-drop" for="builder-files">Click to attach files, or drag &amp; drop (PDF, DWG, images)</label>
+                  <input id="builder-files" type="file" name="files" multiple style="display:none;">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit Builder Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Ask SaT PaK -->
+        <div class="tab-panel" data-tab-panel="ask" id="ask">
+          <div class="form-card">
+            <h3>Ask SaT PaK</h3>
+            <p class="body-copy mt-8">Anonymous question box. Approved answers may be published as public Q&amp;A — no personal details included.</p>
+            <form data-satpak-form data-ref-prefix="ASK" class="mt-24">
+              <input type="hidden" name="department" value="Ask SaT PaK">
+              <div class="form-field"><label>Your question *</label><textarea name="question" required></textarea></div>
+              <div class="form-field"><label>Email (optional — only if you want a direct reply)</label><input type="email" name="email"></div>
+              <button type="submit" class="btn btn-primary">Submit Question</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card mt-48" data-reveal id="chemicals">
+        <h3>Chemicals &amp; Distributor Enquiries</h3>
+        <p class="body-copy mt-8" id="distributor">Requesting a quote, or interested in becoming a distributor? Send us your details.</p>
+        <form data-satpak-form data-ref-prefix="CHEM" class="mt-24">
+          <input type="hidden" name="department" value="Chemicals &amp; Minerals">
+          <div class="form-grid">
+            <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
+            <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
+            <div class="form-field full"><label>Enquiry type</label>
+              <select name="type"><option>Quote request</option><option>Become a distributor</option><option>Technical question</option></select>
+            </div>
+            <div class="form-field full">
+              <label>Products of interest</label>
+              <input type="text" name="products" data-basket-summary-field placeholder="Add products from the Chemicals & Minerals catalogue, or type here">
+              <span class="hint">Your inquiry list (below) fills this automatically.</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-outline">Send Chemicals Enquiry</button>
+          <div class="form-status"></div>
+        </form>
+      </div>
+
+      <div class="form-card mt-48" data-reveal id="health">
+        <h3>Health &amp; Wellness Enquiries</h3>
+        <form data-satpak-form data-ref-prefix="HEALTH" class="mt-24">
+          <input type="hidden" name="department" value="Health &amp; Wellness">
+          <div class="form-grid">
+            <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
+            <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
+            <div class="form-field full"><label>What are you interested in?</label><textarea name="message"></textarea></div>
+          </div>
+          <button type="submit" class="btn btn-outline">Send Enquiry</button>
+          <div class="form-status"></div>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="col" style="flex:0.8;position:sticky;top:120px;">
+      <div class="card" data-reveal>
+        <div class="media ratio-4-3 tone-mono" style="margin:-34px -34px 24px;border-radius:12px 12px 0 0;aspect-ratio:16/11;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <div class="media-caption">Map — G-1 Samana Pride (embed a real Google Map before launch)</div>
+        </div>
+        <h3>Visit or reach us</h3>
+        <ul class="stack-tight mt-16" style="font-size:0.92rem;">
+          <li><strong>Address —</strong> G-1 Samana Pride, Gulshan-e-Iqbal, Karachi. Plus code W34P+VJ.</li>
+          <li><strong>Phone —</strong> <a href="tel:+923181112606" style="color:var(--teal);text-decoration:underline;">0318-1112606</a></li>
+          <li><strong>Email —</strong> <a href="mailto:satpak.official@gmail.com" style="color:var(--teal);text-decoration:underline;">satpak.official@gmail.com</a> <span class="hint">(temporary — domain email later)</span></li>
+          <li><strong>WhatsApp —</strong> <a href="https://wa.me/923181112606" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:underline;">0318-1112606</a></li>
+          <li><strong>Hours —</strong> Mon–Sat 8:30 AM – 7:30 PM · Sunday closed</li>
+        </ul>
+        <a href="https://wa.me/923181112606?text=Hi%20SaT%20PaK%2C%20I%27d%20like%20to%20get%20in%20touch." class="btn btn-whatsapp mt-24" style="width:100%;justify-content:center;" target="_blank" rel="noopener">WhatsApp Us</a>
+      </div>
+
+      <div class="card mt-24" data-reveal id="inquiry-basket">
+        <h3>Your Inquiry List</h3>
+        <p class="hint mt-8">Products you've added from Chemicals &amp; Minerals.</p>
+        <ul class="mt-16" data-basket-list style="font-size:0.9rem;"></ul>
+        <button class="btn btn-text btn-sm mt-8" type="button" data-basket-clear>Clear list</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div data-include="/partials/footer.html"></div>
+<script src="/assets/js/include.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
