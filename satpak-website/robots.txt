@@ -4,4 +4,4 @@ Disallow: /privacy.html
 Disallow: /terms.html
 Disallow: /cookie-policy.html
 
-Sitemap: https://www.satpak.com/sitemap.xml
+Sitemap: https://satpak.pk/sitemap.xml
