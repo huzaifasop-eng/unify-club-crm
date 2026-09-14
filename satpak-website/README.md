@@ -1,11 +1,11 @@
 # SaT PaK — Website (satpak-website/)
 
 A multi-page, "quiet industrial luxury" corporate website for **Shaikh al Tijarat
-Pakistan (SaT PaK)**, built from the brief documents supplied (Requirements,
-Sitemap & Architecture, Website Copy, Branding & Identity Spec, Technical Launch
-Spec, and the Website Master Fix List v1). It is a **static, dependency-free
-HTML/CSS/JS site** — no build step, no database, no framework — so it can be
-uploaded to any host and be live immediately.
+Pakistan (SaT PaK)**, built from the full brief (Requirements, Sitemap &
+Architecture, Website Copy, Branding & Identity Spec, Technical Launch Spec,
+the Website Master Fix List, and the Pictures & Icons Manifest). It is a
+**static, dependency-free HTML/CSS/JS site** — no build step, no database, no
+framework — so it can be uploaded to any host and be live immediately.
 
 > **Note on scope:** this was built inside the `unify-club-crm` repository as a
 > self-contained folder (`satpak-website/`), separate from that repo's own
@@ -26,8 +26,8 @@ unlike a CMS. Two ways forward:
 1. Keep it static — a developer edits the HTML files directly (each page is
    self-contained, well-commented, and the design system lives in one CSS file).
 2. Use this site as the design/content reference and rebuild it as a WordPress
-   theme with custom post types for products — all copy, structure and visual
-   spec are already finalized here, which is most of the work.
+   theme with custom post types for products — all copy, structure, pricing
+   and visual spec are already finalized here, which is most of the work.
 
 ## Structure
 
@@ -35,13 +35,13 @@ unlike a CMS. Two ways forward:
 satpak-website/
   index.html                       Home
   ro-plants-services.html          RO Plants & Services
-  chemicals-minerals.html          Chemicals & Minerals (catalogue, filters, cart)
-  product-klassec.html … product-filters-fittings.html   12 product detail pages
-  article.html                     Article — mineralized drinking water + subscribe
+  chemicals-minerals.html          Chemicals & Minerals (catalogue, pricing, cart)
+  product-klassec.html … product-filters-fittings.html   12 priced product detail pages
+  article.html                     Article — pricing, real lab report data, subscribe
   health-wellness.html             Health & Wellness (category-grouped, license-gated)
   home-care.html                   Home Care (category-grouped)
   contact.html                     Segmented enquiry chooser + forms + live map
-  our-story.html                   Our Story & Heritage
+  our-story.html                   Our Story & Heritage, founder's message, client list
   privacy.html / terms.html / cookie-policy.html   Legal drafts (have counsel review)
   404.html
   robots.txt / sitemap.xml
@@ -57,101 +57,138 @@ served over HTTP(S) (any real host), not by double-clicking the HTML file locall
 
 ## Deploying (upload & go live)
 
-1. Buy and point **satpak.pk** at your hosting/CDN (chosen as the canonical
-   domain across the site — every canonical/OG URL already points here).
+1. Point **satpak.pk** at your hosting/CDN (every canonical/OG URL already points here).
 2. Upload the entire `satpak-website/` folder contents to the web root (e.g. `public_html/`).
 3. Enforce HTTPS (most hosts / Netlify / Vercel / Cloudflare do this automatically).
 4. Test locally first if you like: `python3 -m http.server 8000` from inside
    `satpak-website/`, then open `http://localhost:8000/index.html`.
 
-## What changed in this pass (Website Master Fix List v1)
+## The SaT PaK Pipeline (CRM)
 
-- **Canonical domain** locked to `https://satpak.pk` across every page, `sitemap.xml` and `robots.txt`.
-- **Product naming finalized**: KLASSeC · CLARO · NEORA · E LYTE 0-4 · MEDIX ·
-  PULSER · BIOX · PUREX · Tank Wash · PVC Jointing Solution · PVC
-  Surfacer/Cleaner · Filters/Caps & Fittings — replacing Genesys/Klassic/E-Lyte
-  R1–R10/Inner Wash/Outer Wash/Anti-Bacterial everywhere, including a full
-  product-detail page per item (`product-klassec.html` … `product-filters-fittings.html`).
-- **Cart → WhatsApp checkout**: every product card (Chemicals & Minerals,
-  Health & Wellness, Home Care) now has a quantity selector, a pack-size
-  picker, and "Add to Cart." A cart icon in the header (with live count) opens
-  a slide-in panel to review/edit/remove items and "Checkout on WhatsApp" —
-  which opens `wa.me` with a prefilled, formatted order message. State
-  persists in `localStorage` across pages.
-- **Floating WhatsApp + social cluster**: fixed bottom-right on every page,
-  scroll-independent, with Instagram and Facebook stacked above a larger
-  WhatsApp button; clears the mobile CTA bar with extra bottom offset.
-- **SMC/SECP registration** line added to the footer and Our Story.
-- **All leaking dev-notes removed** ("photography pending," "embed a real map
-  before launch," the founder license-gate note, etc.) — anything still
-  outstanding for you to supply is now in an HTML comment, invisible to visitors.
-- **Copy rewrite pass**: the specific Home/RO/Chemicals rewrites from the fix
-  list applied verbatim, plus a site-wide sweep removing em-dash-heavy
-  sentence construction from body prose (structural uses — citations, label:
-  value pairs, technical grade options — were left alone).
-- **Animated stat counters** on Home (0 → target, eased, ~2s, triggered on
-  scroll into view); "KHI" relabeled "Karachi."
-- **RO process steps** now animate on scroll: the connecting line draws
-  left-to-right, then each numbered step fades/scales in sequentially.
-- **Home**: SadaPay-style department card hover (lift + shadow + arrow
-  slide, ~220ms), a new "Sectors We Serve" icon band, and a "What Our
-  Clients Say" testimonials section (draft quotes, placeholder attribution —
-  see "Outstanding items").
-- **Article**: new "Our Water" mineral spec panel, a "Lab Reports &
-  Certifications" section, a benefit-icons row, and a full Subscribe form
-  (name/phone/email/area/address/bottle count/payment + a working
-  "Detect My Location" button using the browser's Geolocation API).
-- **Health & Wellness / Home Care**: products regrouped into named categories
-  (Hydration, Skin Care, Hair Care, Oral Care, Everyday / Hands, Kitchen,
-  Floors & Surfaces, Bathroom, Glass, Pest, Laundry), each a full product card
-  with cart controls; Health & Wellness gained a short philosophy intro.
-- **Contact**: replaced the plain tab bar with an icon-led segmented chooser
-  (Consultation · Technical · Builder · Distributor · Product Quote · Ask SaT
-  PaK) that shows only the selected form; the Distributor form gained
-  Area/City and "do you already have a shop?" qualifying fields; the map is
-  now a **live embedded Google Map** (no API key needed — see below); the
-  Product Quote form auto-fills from the cart.
-- **Our Story**: milestones rewritten to decade-level ranges (no invented
-  exact years) using the fix list's supplied copy; SMC/SECP badge added.
-- **Forms**: every form now POSTs to [Web3Forms](https://web3forms.com) when
-  you add a free access key (see "Forms & integrations"); until then they
-  keep confirming submissions locally so nothing looks broken.
+A working lead-tracking board, built as a separate tool (not part of the
+static site — it needs a live backend the static files can't provide):
 
-## Outstanding items before launch ([NEED FROM YOU] in the fix list)
+**https://claude.ai/code/artifact/86434be0-bee3-49e1-93cf-b286ecb3fffb**
 
-- **Real logo files (SVG/AI/EPS)** — header/footer still use an original
-  abstract mark (globe + leaf, teal/brass) since no vector file was supplied.
-  Swap `partials/header.html` / `partials/footer.html`'s inline
-  `<svg class="logo-mark">` and every page's favicon `<link rel="icon">` data-URI.
-- **Product naming — final packaging check**: BIOX / PUREX / Tank Wash are
-  used per the fix list's final catalogue list, replacing the old "Inner
-  Wash / Outer Wash / Anti-Bacterial." Confirm these match what's actually
-  printed on your bottles before launch.
-- **Client logos + testimonials**: `index.html`'s "Trusted By" still uses
-  text placeholders (`Client Name`), and the "What Our Clients Say" section
-  uses the fix list's draft quotes with placeholder attribution (`Client
-  name, sector`) — do not treat these as real, published quotes. Send the
-  real client logos and named, permission-cleared testimonials and swap
-  them in (search each file for `Client Name` / `Client name, sector`).
-- **Founder section** (`our-story.html`) — photo and personal message are
-  intentionally left out (see the HTML comment there); no earlier company
-  name is referenced anywhere.
-- **Exact milestone years** — Our Story's timeline currently shows decade
-  ranges (e.g. "1990s – 2000s"). Send exact founding/milestone years if
+Open it, enter a name and one of these passcodes:
+- **Owner passcode:** `SATPAK-OWNER` — sees every lead, can delete leads.
+- **Team passcode:** `SATPAK-TEAM` — sees only leads assigned to them, plus
+  unassigned ones.
+
+It's a Kanban board (New → Contacted → Quoted → Won → Lost) with notes,
+assignment, search, and reference numbers, backed by a real shared database
+(everyone who opens it sees the same live board). Two seeded sample leads
+show what a populated board looks like — delete them once your team starts
+adding real ones.
+
+**Be honest about what this is and isn't:**
+- **It is not connected to the live website's forms.** A static website has
+  no way to write into this board directly — there's no server in between.
+  When a Web3Forms email comes in, someone clicks "+ Add Lead" and logs it
+  (takes seconds; the reference number format matches what the visitor saw).
+  Real auto-sync needs a small backend service that both emails you *and*
+  writes to a real database — exactly what the fix list itself flagged as
+  needing "hosting + keys," which this environment doesn't have. If you want
+  that built later, it's a well-scoped follow-up (a serverless function
+  triggered by Web3Forms, writing to Supabase or similar).
+- **The owner/team passcodes are a lightweight access gate, not real
+  authentication.** They're hardcoded in the page (search `OWNER_PIN` /
+  `MANAGER_PIN` in the artifact's source if you ever need to change them) —
+  fine for a small trusted team, not a substitute for individual logins.
+  The brief asked for 6 named users (3 owners, 3 management); rather than
+  hardcode names nobody gave me, each person just types their own name once
+  (remembered on their device) and uses whichever passcode matches their role.
+- Only people signed in to Claude can open it — it's private to your
+  account/workspace, not publicly indexed.
+
+## What changed in the FINAL Master Fix List + Pictures & Icons Manifest pass
+
+- **Real pricing added throughout Chemicals & Minerals** — every catalogue
+  card and every one of the 12 product pages now shows real PKR pricing by
+  pack size (e.g. KLASSeC: 1.2L PET Rs 200, 5L PE Rs 950, 5L PET Rs 900), live
+  total that updates as you change quantity/pack. `Filters / Caps & Fittings`
+  has no given price, so it shows "Price on inquiry."
+- **Article: real pricing, real lab data, real delivery areas.** Rs 110 per
+  19L refill, a one-time Rs 1,100 refundable bottle deposit, weekly delivery —
+  shown as a clear pricing panel with a worked example. The "Lab Reports &
+  Certifications" section now shows your actual Reverse Osmosis Plant
+  Association test results (Total Colony Count, Coliforms, TDS, pH, Chief
+  Chemist) instead of a placeholder image, with honest wording that PSQCA
+  registration is in process (not "certified," since the license hasn't
+  issued yet). The area dropdown uses your real delivery list.
+- **Our Story: your actual founder's message**, in full, replacing the
+  placeholder line. Founder photo is still an abstract placeholder — see
+  "What I did not do" below for why.
+- **Real client names** on Home's "Trusted By" strip (the 8 strongest) and a
+  fuller "Who we work with" list on Our Story (all 13, including MAP and
+  Pakistan Armed Forces as text-only per your instruction) — see "What I did
+  not do" for why these are typographic wordmarks, not logo graphics.
+- **The SaT PaK Pipeline CRM** — see above.
+- Reconfirmed everything from the prior pass still holds: canonical domain,
+  final product naming, the cart → WhatsApp checkout, the floating
+  WhatsApp/social cluster, SMC/SECP lines, zero visitor-facing dev-notes
+  (including two more I found and fixed on Privacy/Terms), and the em-dash /
+  AI-feel copy cleanup — plus the exact Trusted-By and Home Care line swaps
+  from this final doc.
+- Fixed a real bug: on the Chemicals catalogue page specifically, "Add to
+  Cart" buttons were markup-nested outside the controls the cart JS looks
+  inside, so clicking them silently did nothing. Verified fixed with an
+  automated cart test.
+- Fixed anchor links landing with their heading hidden behind the sticky
+  header site-wide (`scroll-margin-top`).
+
+## What I did not do, and why
+
+- **No AI-generated product/hero photography.** The Pictures & Icons
+  Manifest says AI-generated images are an acceptable stand-in until real
+  photos exist. I tried — six `generate_image` calls all failed with `402
+  Insufficient credits` on the connected Gamma workspace (0 of its image
+  budget remaining). I can't produce real imagery without either that
+  workspace's credits being topped up (gamma.app/settings/billing) or another
+  image source. In the meantime I put more polish into the abstract
+  gradient/line-art placeholders instead (richer layered gradients, a
+  medallion treatment behind every icon) so the site doesn't look unfinished
+  — but it's not the real photography the manifest asked for.
+- **No fabricated photo of Muhammad Ali Bin Zaki.** The manifest marks the
+  founder photo as "owner will supply later." Generating a fake AI face and
+  presenting it as a real, named person would be a fabricated photo of
+  someone real — I don't do that regardless of how the placeholder is
+  labeled. His actual message is in full on the site; the photo slot stays
+  an abstract placeholder until you send a real one.
+- **No fabricated client logos.** No logo image files were supplied for Al
+  Asr Group, BlueEx, Masafi, or anyone else on the list — inventing visual
+  marks for real, named companies risks misrepresenting them. Every client
+  name on the site is a clean typographic wordmark, not a drawn logo. Send
+  real vector logos and I'll swap them in.
+- **No fully automated form → CRM → team-notification pipeline.** That
+  needs a real backend with hosting and API keys (Section D of the fix list
+  says this explicitly). What's live: forms → Web3Forms (once you add a
+  free key) for real email delivery, plus the CRM as a separate tool for
+  tracking what happens next. Bridging the two automatically is a scoped,
+  buildable follow-up, not something I can stand up here.
+
+## Outstanding items before launch
+
+- **Real logo files (SVG/AI/EPS)** for the SaT PaK mark itself — header/footer
+  still use an original abstract mark (globe + leaf, teal/brass). Swap
+  `partials/header.html` / `partials/footer.html`'s inline `<svg
+  class="logo-mark">` and every page's favicon data-URI.
+- **Product naming — final packaging check**: BIOX / PUREX / Tank Wash and
+  all pricing are per the fix list's final catalogue and price table.
+  Confirm both match what's actually printed on your bottles before launch.
+- **Testimonials**: the "What Our Clients Say" section on Home still uses
+  the fix list's draft quotes with placeholder attribution (`Client name,
+  sector`) — explicitly marked in the doc as drafts to approve/edit first.
+  Don't publish as-is; swap in named, permission-cleared quotes.
+- **Exact milestone years** — Our Story's timeline shows decade ranges
+  (e.g. "1990s – 2000s") since no exact years were given. Send them if
   you'd like the timeline sharper.
-- **Monthly lab report** — Article's "Lab Reports & Certifications" section
-  links to `/lab-reports/latest.pdf`, which doesn't exist yet. Add that file
-  (and update the link if you'd rather host reports elsewhere) each time a
-  new report is published.
 - **Health & Wellness** — shown with soft, non-therapeutic language only,
   per the license-gate note. Have this page reviewed by whoever handles your
   regulatory/medical sign-off before it goes live.
-- **Photography** — every image slot is an intentional abstract brand-toned
-  placeholder (not a broken image). Replace `.media` blocks and product
-  thumbnails with real photography (facility shots, plant installs, product
-  packaging, archival/founder images) before launch.
 - **Company Profile PDF** — buttons link to `/company-profile.pdf`; add that
   file to the site root once ready.
+- **Real photography** — see "What I did not do" above.
 
 ## Forms & integrations
 
@@ -168,11 +205,9 @@ needs no server of your own. To turn it on:
    immediately, tagged with which department it came from and its reference
    number. Until you do this, forms still show a normal success message
    locally (nothing looks broken to a visitor), they just don't email anyone yet.
-
-For the fuller requirement in the brief (department-routed inbox aliases +
-CRM entry + auto-acknowledgement + staff alert), you can either use Web3Forms'
-"Auto Response" + "Custom Redirect/Webhook" features, or point the same forms
-at a small serverless function later — no HTML changes needed either way.
+4. When a Web3Forms email arrives, log it in the SaT PaK Pipeline CRM
+   (link above) with "+ Add Lead" so your team can track it through the
+   sales stages.
 
 The **builder form**'s file upload (`#builder input[type=file]`) is included
 in the Web3Forms submission automatically once your access key is set — the
@@ -207,20 +242,26 @@ Dark `#0C2B28` / Brass `#9A7B3F`; Fraunces (display serif, headings/heritage)
 line-art icons only; subtle fade/rise-on-scroll animation (`[data-reveal]`,
 IntersectionObserver-driven, with a 2.5s safety-net timeout in
 `assets/js/include.js` so content never stays invisible if a script fails).
+The CRM (SaT PaK Pipeline) reuses the same palette and type pair, plus five
+stage colors (slate/amber/violet/green/terracotta) kept separate from the
+brand accent so lead status reads at a glance.
 
 ## What's functional right now, client-side only
 
 - Sticky, condensing header with cart + search icons; full-screen mobile menu.
 - 7-page primary nav + Our Story/legal in the footer (no "Solutions" dropdown).
-- Chemicals & Minerals catalogue filtering by category, 12 full product pages.
-- Cart with quantities and pack sizes, shared across Chemicals, Health &
-  Wellness and Home Care, checking out straight to a prefilled WhatsApp message.
+- Chemicals & Minerals catalogue with real pricing, filtering, 12 full product pages.
+- Cart with quantities, pack sizes and live pricing, shared across Chemicals,
+  Health & Wellness and Home Care, checking out straight to a prefilled WhatsApp message.
 - Animated stat counters and RO process-step animation, both scroll-triggered.
 - Segmented, icon-led enquiry chooser on Contact showing one form at a time.
-- Article subscribe form with a working geolocation "Detect My Location" button.
+- Article subscribe form with real pricing, a working geolocation "Detect My
+  Location" button, and real lab-report data.
 - Live Google Map embed on Contact (no API key).
 - All forms produce a reference number on submit, and email you directly once
   a Web3Forms key is added (see "Forms & integrations").
+- A live, shared CRM board (separate artifact — see above) for tracking leads
+  through stages with notes and assignment.
 - Cookie consent bar (`localStorage`-based, doesn't block the site).
 - Mobile-first responsive layout, persistent mobile CTA bar (WhatsApp / Call /
   Consult), tap-to-call links.

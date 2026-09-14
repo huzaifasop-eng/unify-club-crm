@@ -333,9 +333,16 @@ p.lede{
 .product-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
 .product-thumb{
   aspect-ratio:4/3;background:linear-gradient(135deg,var(--teal-100),#fff);
-  display:flex;align-items:center;justify-content:center;color:var(--teal);position:relative;
+  display:flex;align-items:center;justify-content:center;color:var(--teal);position:relative;overflow:hidden;
 }
-.product-thumb svg{width:52px;height:52px;opacity:0.55;}
+.product-thumb::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.7),transparent 55%);
+}
+.product-thumb svg{
+  width:44px;height:44px;opacity:0.7;position:relative;z-index:1;padding:16px;
+  border-radius:50%;background:rgba(255,255,255,0.55);box-shadow:0 8px 20px rgba(14,77,69,0.08);
+}
 .product-cat-tag{
   position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.9);color:var(--brass);
   font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;
@@ -345,6 +352,7 @@ p.lede{
 .product-body h3{font-size:1.08rem;}
 .product-body p{font-size:0.88rem;color:rgba(30,30,30,0.64);flex:1;}
 .product-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.product-price-tag{font-family:var(--font-display);font-size:1.1rem;color:var(--teal);margin-top:10px;font-weight:500;}
 
 /* filters */
 .filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
@@ -402,13 +410,24 @@ p.lede{
   border-radius:var(--radius-lg);overflow:hidden;position:relative;
   background:linear-gradient(135deg,var(--teal) 0%,#123f38 60%,var(--heritage-dark) 100%);
   aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08), var(--shadow-md);
 }
 .media::before{
   content:"";position:absolute;inset:0;opacity:.5;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.09'%3E%3Cpath d='M0 60 Q75 20 150 60 T300 60'/%3E%3Cpath d='M0 130 Q75 90 150 130 T300 130'/%3E%3Cpath d='M0 200 Q75 160 150 200 T300 200'/%3E%3Cpath d='M0 270 Q75 230 150 270 T300 270'/%3E%3C/g%3E%3C/svg%3E");
   background-size:280px;
 }
-.media svg{position:relative;z-index:1;width:30%;opacity:0.9;color:rgba(255,255,255,0.85);}
+.media::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 25% 18%,rgba(255,255,255,0.16),transparent 42%),
+    radial-gradient(circle at 82% 88%,rgba(154,123,63,0.28),transparent 48%);
+}
+.media svg{
+  position:relative;z-index:1;width:26%;opacity:0.95;color:rgba(255,255,255,0.92);
+  padding:14%;border-radius:50%;background:rgba(255,255,255,0.06);
+  box-shadow:0 0 0 1px rgba(255,255,255,0.14), 0 12px 30px rgba(0,0,0,0.18);
+}
 .media.tone-brass{background:linear-gradient(135deg,#7c6435,var(--brass) 55%,#b3925e);}
 .media.tone-mono{background:linear-gradient(135deg,#2a2a2a,#111 70%);}
 .media.ratio-16-9{aspect-ratio:16/9;}

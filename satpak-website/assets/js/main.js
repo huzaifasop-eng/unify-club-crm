@@ -222,7 +222,7 @@ function satpakInit(){
     window.open("https://wa.me/923181112606?text=" + encodeURIComponent(msg), "_blank", "noopener");
   });
 
-  /* product cards: qty selector + pack select + Add to Cart */
+  /* product cards: qty selector + pack select + Add to Cart + live price */
   document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
     var name = ctrl.getAttribute("data-product-name") || "Product";
     var qtyInput = ctrl.querySelector("[data-qty-input]");
@@ -230,20 +230,39 @@ function satpakInit(){
     var dec = ctrl.querySelector("[data-qty-dec]");
     var inc = ctrl.querySelector("[data-qty-inc]");
     var addBtn = ctrl.querySelector("[data-add-to-cart]");
+    var priceOut = ctrl.parentElement.querySelector("[data-price-display]");
+
+    function refreshPrice(){
+      if(!priceOut) return;
+      var opt = packSelect ? packSelect.options[packSelect.selectedIndex] : null;
+      var unitPrice = opt ? parseFloat(opt.getAttribute("data-price")) : NaN;
+      var qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
+      if(isNaN(unitPrice)){
+        priceOut.textContent = "Price on inquiry";
+      } else {
+        priceOut.textContent = "Rs " + (unitPrice * qty).toLocaleString("en-PK");
+      }
+    }
+
     if(dec) dec.addEventListener("click", function(){
       var v = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
       qtyInput.value = v;
+      refreshPrice();
     });
     if(inc) inc.addEventListener("click", function(){
       var v = (parseInt(qtyInput.value, 10) || 1) + 1;
       qtyInput.value = v;
+      refreshPrice();
     });
+    if(packSelect) packSelect.addEventListener("change", refreshPrice);
     if(addBtn) addBtn.addEventListener("click", function(){
       var qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
       var pack = packSelect ? packSelect.value : "";
       addToCart(name, pack, qty);
       if(qtyInput) qtyInput.value = 1;
+      refreshPrice();
     });
+    refreshPrice();
   });
 
   renderCart();
