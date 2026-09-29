@@ -12,6 +12,10 @@
     "build:api": "npm run build -w apps/api",
     "lint:web": "npm run lint -w apps/web",
     "lint:api": "npm run lint -w apps/api",
-    "test:api": "npm run test -w apps/api"
+    "test:api": "npm run test -w apps/api",
+    "dev:platform": "npm run dev -w apps/platform",
+    "build:platform": "npm run build -w apps/platform",
+    "lint:platform": "npm run lint -w apps/platform",
+    "test:platform": "npm run test -w apps/platform"
   }
 }

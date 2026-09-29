@@ -29,9 +29,9 @@ rewritten regardless — so the stack switch costs little *extra*. The real ques
 If it's a tenant, children/admissions/fees become an industry add-on module on top of the generic
 core, and that shapes the customer model now.
 
-**Recommendation (assumed below):** build the new system in this monorepo as a fresh
-`apps/web` (Next.js 15, Supabase), keep `apps/api` untouched until the new app reaches parity,
-then delete it. Don't try to incrementally migrate NestJS endpoints — two auth systems in
+**Recommendation (assumed below):** build the new system in this monorepo as a fresh app,
+**`apps/platform`** (Next.js 15, Supabase), and keep `apps/web` + `apps/api` untouched until the
+new app reaches parity, then delete them. Don't try to incrementally migrate NestJS endpoints — two auth systems in
 parallel is where security bugs live.
 
 ### 0.2 Single company or multi-tenant SaaS?
@@ -170,7 +170,7 @@ Preview deployments must **never** receive production env vars — a common and 
 ### 1.4 Proposed repository layout
 
 ```
-apps/web/
+apps/platform/
   src/app/
     (auth)/login, signup, invite/[token], reset-password, mfa
     (app)/[orgSlug]/            ← org in URL: bookmarkable, multi-org safe
@@ -770,7 +770,7 @@ because §12 answers move them — payroll alone can swing by a month depending 
 
 | Phase | Scope | Est. | Exit criteria |
 | --- | --- | --- | --- |
-| **0. Foundations** | Supabase projects (local/staging/prod), new `apps/web` on Next 15, CI (lint, typecheck, Vitest, pgTAP, Playwright), Supabase Auth (login, invite, reset, MFA), orgs/branches/memberships, RBAC catalog + role editor, RLS helpers, audit trigger, outbox + job runner, in-app notifications + bell, app shell/navigation/branch filter/⌘K, design system port | 3–4 wks | An invited user signs in, sees only permitted nav; pgTAP proves cross-tenant & cross-branch isolation; every write produces an audit row |
+| **0. Foundations** | Supabase projects (local/staging/prod), new `apps/platform` on Next 15, CI (lint, typecheck, Vitest, pgTAP, Playwright), Supabase Auth (login, invite, reset, MFA), orgs/branches/memberships, RBAC catalog + role editor, RLS helpers, audit trigger, outbox + job runner, in-app notifications + bell, app shell/navigation/branch filter/⌘K, design system port | 3–4 wks | An invited user signs in, sees only permitted nav; pgTAP proves cross-tenant & cross-branch isolation; every write produces an audit row |
 | **1. CRM** | Leads (list/kanban/import/dedupe/convert), customers & contacts, pipelines & deals kanban, activities timeline, follow-ups + reminders, basic tasks, sales dashboards, custom fields | 4–5 wks | A sales team can run their full funnel; sales KPIs match hand-calculated fixtures |
 | **2. People core** | Employees (+ private data split), departments/designations/hierarchy, org chart, shifts/holidays, attendance (web+mobile check-in, geofence, regularization), **generic approval engine**, leave (types, ledger, requests, calendar), approvals inbox, HR dashboard, PWA + web push | 5–6 wks | Employees check in from phones; leave flows through multi-step approvals with correct balances |
 | **3. Finance & operations** | Expenses + receipts + approval policies, vendors, (POs), inventory ledger/transfers/counts, assets & assignments/maintenance, documents & versions & AV scan, projects, email channel (Resend), finance/ops dashboards | 5–7 wks | Expense submit → approve → paid works end-to-end with SoD; stock always reconciles to movements |

@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 94%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 220 14% 95%;
+    --muted-foreground: 220 9% 42%;
+    --accent: 220 14% 94%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 89%;
+    --input: 220 13% 89%;
+    --ring: 243 75% 59%;
+    --radius: 0.6rem;
+
+    --sidebar: 0 0% 100%;
+    --sidebar-foreground: 220 9% 38%;
+    --sidebar-active: 243 75% 96%;
+    --sidebar-active-foreground: 243 60% 45%;
+  }
+
+  .dark {
+    --background: 224 28% 7%;
+    --foreground: 210 20% 96%;
+    --card: 224 24% 10%;
+    --card-foreground: 210 20% 96%;
+    --popover: 224 24% 10%;
+    --popover-foreground: 210 20% 96%;
+    --primary: 243 85% 70%;
+    --primary-foreground: 224 28% 7%;
+    --secondary: 222 18% 16%;
+    --secondary-foreground: 210 20% 96%;
+    --muted: 222 18% 14%;
+    --muted-foreground: 218 11% 65%;
+    --accent: 222 18% 16%;
+    --accent-foreground: 210 20% 96%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 16% 18%;
+    --input: 222 16% 18%;
+    --ring: 243 85% 70%;
+
+    --sidebar: 224 26% 9%;
+    --sidebar-foreground: 218 11% 70%;
+    --sidebar-active: 243 40% 20%;
+    --sidebar-active-foreground: 243 100% 88%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family:
+      ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+      'Noto Sans', sans-serif;
+  }
+}

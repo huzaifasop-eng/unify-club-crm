@@ -8,7 +8,8 @@ therapy, daycare, rehabilitation, and education programs to children with disabi
 
 > **Planned re-architecture:** see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and
 > [`docs/DATABASE.md`](docs/DATABASE.md) for the proposed Company Management & CRM platform
-> (Next.js + Supabase). Design only — the code below is unchanged.
+> (Next.js + Supabase). The new app lives in [`apps/platform`](apps/platform/README.md); the
+> code documented below is unchanged.
 
 ## Tech stack
 
