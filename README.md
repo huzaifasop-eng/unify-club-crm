@@ -6,6 +6,10 @@ A multi-branch ERP & CRM platform for organizations delivering inclusive sports,
 therapy, daycare, rehabilitation, and education programs to children with disabilities
 (Autism, Down Syndrome, ADHD, Cerebral Palsy, and others).
 
+> **Planned re-architecture:** see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and
+> [`docs/DATABASE.md`](docs/DATABASE.md) for the proposed Company Management & CRM platform
+> (Next.js + Supabase). Design only — the code below is unchanged.
+
 ## Tech stack
 
 | Layer | Technology |

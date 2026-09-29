@@ -1,0 +1,1549 @@
+# Database Plan — Company Management & CRM
+
+Companion to [`ARCHITECTURE.md`](./ARCHITECTURE.md). Target: **Supabase PostgreSQL 15+** with
+Row-Level Security (RLS) as the tenant/permission enforcement layer.
+
+The table definitions below are written in **DBML** so the whole schema can be pasted into
+<https://dbdiagram.io> to render an interactive ERD. They are a design, not the migration —
+migrations will be hand-written SQL (see §6).
+
+---
+
+## 1. Conventions (apply to every table unless stated)
+
+| Concern | Rule | Why |
+| --- | --- | --- |
+| Primary keys | `id uuid default gen_random_uuid()` | Non-enumerable IDs in URLs; safe to generate client-side for optimistic UI. |
+| Tenancy | Every business table has `org_id uuid not null`. Branch-owned tables also have `branch_id`. | RLS policies filter on it; composite indexes lead with it. `org_id` is **never** accepted from the client — it's derived from the session. |
+| Audit columns | `created_at timestamptz`, `updated_at timestamptz`, `created_by uuid`, `updated_by uuid` → `memberships.id`. **Omitted from the DBML below to keep it readable.** | Set by trigger, not by app code. |
+| Soft delete | `deleted_at timestamptz` only on master data (leads, customers, vendors, items, employees, documents…). Financial/ledger rows are **never** deleted — they are voided/reversed via status. | Keeps FK history intact; audit and payroll reproducibility. |
+| Money | `numeric(14,2)` + `currency char(3)`. Never float. | Rounding errors in payroll/expenses are unacceptable. |
+| Time | `timestamptz` for instants; `date` for calendar concepts (work_date, leave dates, period_start). Branch has an IANA `timezone` that defines what "today" means for attendance. | A 23:30 check-in in Karachi must not land on the next UTC day. |
+| Status fields | `text` + `CHECK` constraint for system-defined lifecycles; lookup tables for org-configurable lists (lead sources, expense categories, leave types). | Postgres enums are painful to alter in migrations. |
+| Human-readable codes | `EMP-0042`, `EXP-2026-00017`, `PO-…` generated from `number_sequences` inside the insert transaction. | Gap-free-ish, concurrency-safe, per-org. |
+| Concurrency | Mutable master records carry `version int`; updates use `WHERE id = $1 AND version = $2`. | Two managers editing the same deal must not silently overwrite each other. |
+| Custom fields | `custom_fields jsonb` on leads, customers, deals, employees, assets, validated against `custom_field_definitions`. | Every customer asks for "one more field"; avoids schema churn. |
+| Ledgers over counters | Stock, leave balances and approvals are **append-only ledgers**; balances are derived (view or trigger-maintained cache). | Reproducible history and a natural audit trail. |
+
+---
+
+## 2. Domain map
+
+```mermaid
+flowchart LR
+  subgraph Core[Tenancy & Identity]
+    ORG[organizations] --> BR[branches]
+    ORG --> MEM[memberships]
+    MEM --> MR[membership_roles] --> ROLE[roles] --> RP[role_permissions]
+  end
+  subgraph CRM
+    LEAD[leads] -->|converts to| CUST[customers]
+    LEAD -->|converts to| DEAL[deals]
+    CUST --> DEAL
+    DEAL --> STG[pipeline_stages]
+    ACT[activities] -.-> LEAD & CUST & DEAL
+    FU[follow_ups] -.-> LEAD & CUST & DEAL
+  end
+  subgraph HR
+    EMP[employees] --> ATT[attendance_records]
+    EMP --> LR[leave_requests]
+    EMP --> PS[payslips] --> RUN[payroll_runs]
+  end
+  subgraph Finance
+    EXP[expenses] --> VEN[vendors]
+    PO[purchase_orders] --> VEN
+  end
+  subgraph Ops
+    TASK[tasks] --> PROJ[projects]
+    ITEM[items] --> MOV[stock_movements]
+    AST[assets] --> ASG[asset_assignments]
+  end
+  APR[approval_requests] -.-> LR & EXP & PO & RUN
+  MEM --- EMP
+  BR --- LEAD & EMP & EXP & ITEM & AST
+  AUD[(audit_logs)] -.-> Core & CRM & HR & Finance & Ops
+  OUT[(outbox_events)] --> NOTIF[notifications]
+```
+
+93 tables / 271 foreign keys across 12 domains (validated with the `@dbml/core` parser).
+Counts: Core 15 · CRM 10 · HR 12 · Payroll 7 · Approvals 6 · Finance/Procurement 7 ·
+Operations 5 · Inventory 7 · Assets 4 · Documents 5 · Notifications 7 · Audit/Reports/AI 8.
+Not all of them ship in v1 — see the roadmap in `ARCHITECTURE.md` §13.
+
+---
+
+## 3. Tables (DBML)
+
+> `→` in prose means "foreign key to". Columns `created_at/updated_at/created_by/updated_by` exist
+> on every table but are omitted below.
+
+### 3.1 Tenancy, identity & access control
+
+```dbml
+Table organizations {
+  id uuid [pk]
+  name text [not null]
+  slug text [not null, unique]
+  legal_name text
+  tax_id text
+  base_currency char(3) [not null, default: 'PKR']
+  default_timezone text [not null, default: 'Asia/Karachi']
+  fiscal_year_start_month smallint [not null, default: 7]
+  logo_path text
+  settings jsonb [not null, default: '{}', note: 'feature flags, week start, attendance rules, security policy (MFA required roles, session length)']
+  plan text [not null, default: 'standard', note: 'reserved for SaaS billing']
+  status text [not null, default: 'active', note: 'active|suspended|closed']
+}
+
+Table branches {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  code text [not null]
+  name text [not null]
+  address text
+  city text
+  country char(2)
+  timezone text [not null]
+  phone text
+  email text
+  geofence jsonb [note: '{lat,lng,radius_m} for attendance check-in']
+  allowed_ip_ranges cidr[]
+  manager_employee_id uuid [ref: > employees.id]
+  is_active boolean [not null, default: true]
+  indexes { (org_id, code) [unique] }
+}
+
+Table departments {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id, note: 'null = org-wide department']
+  parent_id uuid [ref: > departments.id]
+  name text [not null]
+  head_employee_id uuid [ref: > employees.id]
+  cost_center_code text
+}
+
+Table designations {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  title text [not null]
+  grade text
+  level smallint
+}
+
+Table profiles {
+  id uuid [pk, note: '= auth.users.id (Supabase Auth). One row per human login.']
+  full_name text [not null]
+  avatar_path text
+  phone text
+  locale text [default: 'en']
+  active_org_id uuid [ref: > organizations.id, note: 'org the user is currently working in']
+}
+
+Table memberships {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  user_id uuid [not null, ref: > profiles.id]
+  status text [not null, note: 'invited|active|suspended|removed']
+  default_branch_id uuid [ref: > branches.id]
+  mfa_required boolean [not null, default: false]
+  last_active_at timestamptz
+  indexes { (org_id, user_id) [unique] }
+  Note: 'A login inside one org. Not every membership is an employee (external accountant, auditor); not every employee has a membership (field staff without login).'
+}
+
+Table invitations {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  email text [not null]
+  role_id uuid [not null, ref: > roles.id]
+  branch_id uuid [ref: > branches.id]
+  employee_id uuid [ref: > employees.id]
+  token_hash text [not null, note: 'store hash only']
+  expires_at timestamptz [not null]
+  accepted_at timestamptz
+  revoked_at timestamptz
+}
+
+Table permissions {
+  key text [pk, note: 'module.action e.g. expenses.approve']
+  module text [not null]
+  description text [not null]
+  is_sensitive boolean [not null, default: false, note: 'salary, national id, audit — shown with warning in role editor']
+  Note: 'Global catalog shipped in migrations; not editable by tenants.'
+}
+
+Table roles {
+  id uuid [pk]
+  org_id uuid [ref: > organizations.id, note: 'null = system template, copied into each org on creation']
+  key text [not null]
+  name text [not null]
+  description text
+  is_system boolean [not null, default: false, note: 'system roles cannot be deleted; permissions editable except Owner']
+  indexes { (org_id, key) [unique] }
+}
+
+Table role_permissions {
+  role_id uuid [not null, ref: > roles.id]
+  permission_key text [not null, ref: > permissions.key]
+  scope text [not null, note: 'own|team|branch|org']
+  indexes { (role_id, permission_key) [pk] }
+}
+
+Table membership_roles {
+  id uuid [pk]
+  membership_id uuid [not null, ref: > memberships.id]
+  role_id uuid [not null, ref: > roles.id]
+  branch_id uuid [ref: > branches.id, note: 'null = role applies to all branches; else only this branch. UNIQUE NULLS NOT DISTINCT']
+  valid_until timestamptz [note: 'temporary elevation, e.g. acting manager']
+  indexes { (membership_id, role_id, branch_id) [unique] }
+}
+
+Table employee_hierarchy {
+  org_id uuid [not null, ref: > organizations.id]
+  ancestor_id uuid [not null, ref: > employees.id]
+  descendant_id uuid [not null, ref: > employees.id]
+  depth smallint [not null]
+  indexes { (ancestor_id, descendant_id) [pk] }
+  Note: 'Closure table maintained by trigger on employees.manager_id. Makes "team" scope an index lookup instead of a recursive CTE inside every RLS check.'
+}
+
+Table number_sequences {
+  org_id uuid [not null, ref: > organizations.id]
+  key text [not null, note: 'EMP|EXP|PO|DEAL|AST…']
+  prefix text [not null]
+  next_value bigint [not null, default: 1]
+  reset_policy text [not null, default: 'never', note: 'never|yearly']
+  indexes { (org_id, key) [pk] }
+}
+
+Table custom_field_definitions {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  entity_type text [not null, note: 'lead|customer|deal|employee|asset|item|vendor']
+  key text [not null]
+  label text [not null]
+  field_type text [not null, note: 'text|number|date|select|multiselect|boolean']
+  options jsonb
+  is_required boolean [not null, default: false]
+  position int [not null, default: 0]
+  indexes { (org_id, entity_type, key) [unique] }
+}
+
+Table lookup_values {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  list_key text [not null, note: 'lead_source|lost_reason|industry|asset_condition…']
+  value text [not null]
+  position int [not null, default: 0]
+  is_active boolean [not null, default: true]
+  indexes { (org_id, list_key, value) [unique] }
+  Note: 'One generic table for small org-configurable picklists instead of a dozen tiny tables.'
+}
+```
+
+### 3.2 CRM / Sales
+
+```dbml
+Table leads {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  owner_id uuid [ref: > memberships.id]
+  code text
+  status text [not null, note: 'new|contacted|qualified|unqualified|converted|junk']
+  source_id uuid [ref: > lookup_values.id]
+  first_name text
+  last_name text
+  company_name text
+  job_title text
+  email citext
+  phone text [note: 'E.164 normalised']
+  city text
+  estimated_value numeric(14,2)
+  score smallint [note: '0-100, rules-based first, AI-assisted later']
+  tags text[]
+  custom_fields jsonb
+  unqualified_reason_id uuid [ref: > lookup_values.id]
+  converted_customer_id uuid [ref: > customers.id]
+  converted_deal_id uuid [ref: > deals.id]
+  converted_at timestamptz
+  last_activity_at timestamptz
+  next_follow_up_at timestamptz [note: 'denormalised for list sorting']
+  deleted_at timestamptz
+  version int [not null, default: 1]
+  indexes {
+    (org_id, branch_id, status)
+    (org_id, owner_id)
+    (org_id, phone)
+    (org_id, email)
+  }
+}
+
+Table customers {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  owner_id uuid [ref: > memberships.id]
+  code text
+  type text [not null, note: 'individual|company']
+  name text [not null]
+  email citext
+  phone text
+  tax_id text
+  industry_id uuid [ref: > lookup_values.id]
+  billing_address jsonb
+  shipping_address jsonb
+  status text [not null, default: 'active', note: 'active|inactive|churned']
+  lifetime_value numeric(14,2) [note: 'cached sum of won deals']
+  source_lead_id uuid [ref: > leads.id]
+  tags text[]
+  custom_fields jsonb
+  deleted_at timestamptz
+  version int [not null, default: 1]
+  indexes { (org_id, branch_id, status) }
+}
+
+Table customer_contacts {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  customer_id uuid [not null, ref: > customers.id]
+  name text [not null]
+  email citext
+  phone text
+  job_title text
+  is_primary boolean [not null, default: false]
+}
+
+Table pipelines {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  name text [not null]
+  is_default boolean [not null, default: false]
+  branch_id uuid [ref: > branches.id, note: 'null = available to all branches']
+}
+
+Table pipeline_stages {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  pipeline_id uuid [not null, ref: > pipelines.id]
+  name text [not null]
+  position int [not null]
+  probability smallint [not null, note: '0-100, used for weighted pipeline']
+  kind text [not null, default: 'open', note: 'open|won|lost']
+  rotting_days int [note: 'flag deals idle longer than this']
+}
+
+Table deals {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  pipeline_id uuid [not null, ref: > pipelines.id]
+  stage_id uuid [not null, ref: > pipeline_stages.id]
+  customer_id uuid [ref: > customers.id]
+  contact_id uuid [ref: > customer_contacts.id]
+  lead_id uuid [ref: > leads.id]
+  owner_id uuid [ref: > memberships.id]
+  code text
+  title text [not null]
+  amount numeric(14,2) [not null, default: 0]
+  currency char(3) [not null]
+  expected_close_date date
+  status text [not null, default: 'open', note: 'open|won|lost (mirrors stage.kind; kept for indexing)']
+  closed_at timestamptz
+  lost_reason_id uuid [ref: > lookup_values.id]
+  stage_entered_at timestamptz [not null]
+  position numeric [note: 'order within kanban column']
+  custom_fields jsonb
+  deleted_at timestamptz
+  version int [not null, default: 1]
+  indexes {
+    (org_id, pipeline_id, stage_id)
+    (org_id, owner_id, status)
+    (org_id, status, closed_at)
+  }
+}
+
+Table deal_stage_history {
+  id bigint [pk, increment]
+  org_id uuid [not null, ref: > organizations.id]
+  deal_id uuid [not null, ref: > deals.id]
+  from_stage_id uuid [ref: > pipeline_stages.id]
+  to_stage_id uuid [not null, ref: > pipeline_stages.id]
+  changed_by uuid [ref: > memberships.id]
+  changed_at timestamptz [not null]
+  seconds_in_prev_stage int
+  Note: 'Append-only. Powers sales-velocity and stage-conversion KPIs that cannot be reconstructed from current state.'
+}
+
+Table deal_line_items {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  deal_id uuid [not null, ref: > deals.id]
+  item_id uuid [ref: > items.id]
+  description text [not null]
+  quantity numeric(12,3) [not null]
+  unit_price numeric(14,2) [not null]
+  discount_pct numeric(5,2) [default: 0]
+}
+
+Table activities {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  type text [not null, note: 'call|email|meeting|whatsapp|note|sms|visit']
+  lead_id uuid [ref: > leads.id]
+  customer_id uuid [ref: > customers.id]
+  deal_id uuid [ref: > deals.id]
+  contact_id uuid [ref: > customer_contacts.id]
+  actor_id uuid [ref: > memberships.id]
+  occurred_at timestamptz [not null]
+  duration_seconds int
+  direction text [note: 'inbound|outbound']
+  outcome text
+  subject text
+  body text
+  follow_up_id uuid [ref: > follow_ups.id, note: 'the follow-up this activity completed']
+  Note: 'CHECK (num_nonnulls(lead_id, customer_id, deal_id) >= 1). Explicit nullable FKs instead of polymorphic (subject_type, subject_id) so the DB enforces referential integrity.'
+}
+
+Table follow_ups {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  assignee_id uuid [not null, ref: > memberships.id]
+  lead_id uuid [ref: > leads.id]
+  customer_id uuid [ref: > customers.id]
+  deal_id uuid [ref: > deals.id]
+  type text [not null, note: 'call|email|meeting|whatsapp|visit|other']
+  due_at timestamptz [not null]
+  status text [not null, default: 'pending', note: 'pending|done|missed|cancelled|rescheduled']
+  priority text [default: 'normal']
+  notes text
+  completed_at timestamptz
+  reminder_sent_at timestamptz
+  rescheduled_from_id uuid [ref: > follow_ups.id]
+  indexes {
+    (org_id, assignee_id, status, due_at)
+  }
+  Note: 'CHECK exactly one of lead_id/customer_id/deal_id. A nightly job flips overdue pending → missed and notifies.'
+}
+```
+
+### 3.3 Employees / HR, attendance, leave
+
+```dbml
+Table employees {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  department_id uuid [ref: > departments.id]
+  designation_id uuid [ref: > designations.id]
+  manager_id uuid [ref: > employees.id]
+  membership_id uuid [unique, ref: - memberships.id, note: 'null if the employee has no login']
+  code text [not null]
+  first_name text [not null]
+  last_name text
+  work_email citext
+  work_phone text
+  photo_path text
+  employment_type text [not null, note: 'full_time|part_time|contract|intern|consultant']
+  status text [not null, note: 'onboarding|active|on_notice|exited']
+  date_of_joining date [not null]
+  probation_end_date date
+  date_of_exit date
+  exit_reason text
+  custom_fields jsonb
+  deleted_at timestamptz
+  version int [not null, default: 1]
+  indexes {
+    (org_id, code) [unique]
+    (org_id, branch_id, status)
+    (org_id, manager_id)
+  }
+}
+
+Table employee_private {
+  employee_id uuid [pk, ref: - employees.id]
+  org_id uuid [not null, ref: > organizations.id]
+  national_id_enc bytea [note: 'CNIC/passport, pgsodium/Vault-encrypted']
+  date_of_birth date
+  gender text
+  marital_status text
+  personal_email citext
+  personal_phone text
+  address jsonb
+  emergency_contacts jsonb
+  Note: 'Split from employees because RLS is row-level, not column-level. Only employees.view_private can SELECT; everyone else can still see the directory row.'
+}
+
+Table employee_bank_accounts {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  employee_id uuid [not null, ref: > employees.id]
+  bank_name text [not null]
+  account_title text [not null]
+  iban_enc bytea [not null]
+  iban_last4 text [not null]
+  is_primary boolean [not null, default: true]
+}
+
+Table employee_compensation {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  employee_id uuid [not null, ref: > employees.id]
+  effective_from date [not null]
+  effective_to date
+  base_salary numeric(14,2) [not null]
+  currency char(3) [not null]
+  pay_frequency text [not null, default: 'monthly']
+  reason text [note: 'joining|increment|promotion|correction']
+  Note: 'History table; exclusion constraint prevents overlapping ranges per employee. Visible only with payroll.view_salary.'
+}
+
+Table shifts {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  name text [not null]
+  start_time time [not null]
+  end_time time [not null, note: 'may be < start_time for overnight shifts']
+  grace_minutes smallint [not null, default: 10]
+  half_day_after_minutes smallint
+  working_days smallint[] [not null, note: 'ISO weekday numbers']
+}
+
+Table employee_shifts {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  employee_id uuid [not null, ref: > employees.id]
+  shift_id uuid [not null, ref: > shifts.id]
+  effective_from date [not null]
+  effective_to date
+}
+
+Table holidays {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id, note: 'null = all branches']
+  date date [not null]
+  name text [not null]
+  is_optional boolean [not null, default: false]
+}
+
+Table attendance_records {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  employee_id uuid [not null, ref: > employees.id]
+  work_date date [not null, note: 'in branch timezone']
+  shift_id uuid [ref: > shifts.id]
+  check_in_at timestamptz
+  check_out_at timestamptz
+  check_in_source text [note: 'web|mobile|biometric|manual|import']
+  check_in_location point
+  check_in_ip inet
+  check_in_selfie_path text
+  within_geofence boolean
+  status text [not null, note: 'present|late|half_day|absent|on_leave|holiday|weekly_off']
+  late_minutes int [default: 0]
+  worked_minutes int
+  overtime_minutes int [default: 0]
+  is_regularized boolean [not null, default: false]
+  is_locked boolean [not null, default: false, note: 'locked once included in an approved payroll run']
+  indexes {
+    (employee_id, work_date) [unique]
+    (org_id, branch_id, work_date)
+  }
+}
+
+Table attendance_regularizations {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  attendance_id uuid [not null, ref: > attendance_records.id]
+  employee_id uuid [not null, ref: > employees.id]
+  requested_check_in timestamptz
+  requested_check_out timestamptz
+  requested_status text
+  reason text [not null]
+  status text [not null, default: 'pending']
+  approval_request_id uuid [ref: > approval_requests.id]
+}
+
+Table leave_types {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  code text [not null]
+  name text [not null]
+  is_paid boolean [not null, default: true]
+  annual_quota numeric(5,1) [not null]
+  accrual text [not null, default: 'annual_upfront', note: 'annual_upfront|monthly|none']
+  carry_forward_max numeric(5,1) [default: 0]
+  allow_half_day boolean [not null, default: true]
+  requires_document_after_days smallint
+  min_notice_days smallint [default: 0]
+  applicable_gender text
+  is_active boolean [not null, default: true]
+}
+
+Table leave_ledger {
+  id bigint [pk, increment]
+  org_id uuid [not null, ref: > organizations.id]
+  employee_id uuid [not null, ref: > employees.id]
+  leave_type_id uuid [not null, ref: > leave_types.id]
+  leave_year smallint [not null]
+  delta numeric(5,1) [not null, note: '+ accrual/adjustment, - usage']
+  entry_type text [not null, note: 'opening|accrual|usage|reversal|adjustment|carry_forward|encashment|lapse']
+  leave_request_id uuid [ref: > leave_requests.id]
+  note text
+  indexes { (employee_id, leave_type_id, leave_year) }
+  Note: 'Balance = SUM(delta). View leave_balances exposes it. Never updated in place.'
+}
+
+Table leave_requests {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  employee_id uuid [not null, ref: > employees.id]
+  leave_type_id uuid [not null, ref: > leave_types.id]
+  start_date date [not null]
+  end_date date [not null]
+  start_half text [note: 'first|second|null']
+  end_half text
+  days numeric(5,1) [not null, note: 'computed excluding weekly offs and holidays']
+  reason text
+  status text [not null, default: 'pending', note: 'draft|pending|approved|rejected|cancelled|withdrawn']
+  approval_request_id uuid [ref: > approval_requests.id]
+  attachment_document_id uuid [ref: > documents.id]
+  indexes { (org_id, employee_id, start_date) }
+  Note: 'Exclusion constraint: no overlapping approved/pending requests per employee.'
+}
+```
+
+### 3.4 Payroll
+
+```dbml
+Table payroll_components {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  code text [not null]
+  name text [not null]
+  kind text [not null, note: 'earning|deduction|employer_contribution|reimbursement']
+  calc_type text [not null, note: 'fixed|percent_of_base|per_day|per_hour|formula|system']
+  default_value numeric(14,4)
+  formula text [note: 'restricted expression DSL, never eval()']
+  is_taxable boolean [not null, default: true]
+  is_statutory boolean [not null, default: false, note: 'income tax, EOBI, social security…']
+  position int [not null, default: 0]
+}
+
+Table employee_pay_components {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  employee_id uuid [not null, ref: > employees.id]
+  component_id uuid [not null, ref: > payroll_components.id]
+  value numeric(14,4) [not null]
+  effective_from date [not null]
+  effective_to date
+}
+
+Table tax_slabs {
+  id uuid [pk]
+  country char(2) [not null]
+  fiscal_year text [not null, note: 'e.g. 2026-27']
+  lower_bound numeric(14,2) [not null]
+  upper_bound numeric(14,2)
+  fixed_amount numeric(14,2) [not null, default: 0]
+  rate_pct numeric(6,3) [not null]
+  Note: 'Global reference data maintained by us, not tenants. Jurisdiction rules are a core open requirement.'
+}
+
+Table payroll_runs {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id, note: 'null = whole org']
+  period_start date [not null]
+  period_end date [not null]
+  pay_date date
+  status text [not null, note: 'draft|calculating|calculated|pending_approval|approved|paid|locked|cancelled']
+  employee_count int
+  total_gross numeric(14,2)
+  total_deductions numeric(14,2)
+  total_net numeric(14,2)
+  total_employer_cost numeric(14,2)
+  approval_request_id uuid [ref: > approval_requests.id]
+  calculated_at timestamptz
+  paid_at timestamptz
+  locked_at timestamptz
+  indexes { (org_id, branch_id, period_start) [unique] }
+}
+
+Table payslips {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  payroll_run_id uuid [not null, ref: > payroll_runs.id]
+  employee_id uuid [not null, ref: > employees.id]
+  working_days numeric(5,1) [not null]
+  paid_days numeric(5,1) [not null]
+  unpaid_leave_days numeric(5,1) [not null, default: 0]
+  overtime_hours numeric(6,2) [default: 0]
+  gross numeric(14,2) [not null]
+  total_deductions numeric(14,2) [not null]
+  net_pay numeric(14,2) [not null]
+  currency char(3) [not null]
+  inputs_snapshot jsonb [not null, note: 'compensation, components, attendance summary used — makes the payslip reproducible']
+  pdf_path text
+  published_at timestamptz [note: 'visible to employee after publish']
+  indexes { (payroll_run_id, employee_id) [unique] }
+}
+
+Table payslip_lines {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  payslip_id uuid [not null, ref: > payslips.id]
+  component_id uuid [ref: > payroll_components.id]
+  label text [not null]
+  kind text [not null]
+  amount numeric(14,2) [not null]
+  advance_id uuid [ref: > employee_advances.id]
+}
+
+Table employee_advances {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  employee_id uuid [not null, ref: > employees.id]
+  amount numeric(14,2) [not null]
+  installment_amount numeric(14,2) [not null]
+  outstanding numeric(14,2) [not null]
+  status text [not null, note: 'pending|approved|disbursed|repaying|closed|rejected']
+  approval_request_id uuid [ref: > approval_requests.id]
+}
+```
+
+### 3.5 Generic approval engine
+
+One engine serves leave, attendance regularisation, expenses, purchase orders, payroll runs,
+advances and anything added later. Building three bespoke approval flows is the most common way
+these systems rot.
+
+```dbml
+Table approval_policies {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  entity_type text [not null, note: 'leave_request|expense|purchase_order|payroll_run|advance|attendance_regularization']
+  name text [not null]
+  priority int [not null, default: 0, note: 'first matching policy wins']
+  conditions jsonb [not null, default: '{}', note: '{"branch_ids":[..],"min_amount":50000,"category_ids":[..],"leave_type_ids":[..]}']
+  is_active boolean [not null, default: true]
+}
+
+Table approval_policy_steps {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  policy_id uuid [not null, ref: > approval_policies.id]
+  step_order smallint [not null]
+  approver_type text [not null, note: 'direct_manager|manager_level_n|branch_manager|department_head|role|specific_member']
+  approver_ref uuid [note: 'role_id or membership_id when relevant']
+  approver_level smallint
+  required_approvals smallint [not null, default: 1]
+  sla_hours int [note: 'reminder + escalation after this']
+  escalate_to_type text
+  escalate_to_ref uuid
+}
+
+Table approval_requests {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  entity_type text [not null]
+  entity_id uuid [not null]
+  policy_id uuid [ref: > approval_policies.id]
+  policy_snapshot jsonb [not null, note: 'policy frozen at submission — later policy edits do not change in-flight requests']
+  requested_by uuid [not null, ref: > memberships.id]
+  current_step smallint [not null, default: 1]
+  status text [not null, note: 'pending|approved|rejected|returned|cancelled|expired']
+  submitted_at timestamptz [not null]
+  decided_at timestamptz
+  indexes {
+    (entity_type, entity_id)
+    (org_id, status)
+  }
+}
+
+Table approval_assignments {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  approval_request_id uuid [not null, ref: > approval_requests.id]
+  step_order smallint [not null]
+  approver_id uuid [not null, ref: > memberships.id]
+  delegated_from_id uuid [ref: > memberships.id]
+  status text [not null, default: 'pending', note: 'pending|approved|rejected|skipped']
+  due_at timestamptz
+  indexes { (approver_id, status) }
+  Note: 'Resolved approvers per step. Powers the "My approvals" inbox with a single indexed query.'
+}
+
+Table approval_actions {
+  id bigint [pk, increment]
+  org_id uuid [not null, ref: > organizations.id]
+  approval_request_id uuid [not null, ref: > approval_requests.id]
+  step_order smallint [not null]
+  actor_id uuid [not null, ref: > memberships.id]
+  action text [not null, note: 'submit|approve|reject|return|delegate|escalate|cancel|comment']
+  comment text
+  acted_at timestamptz [not null]
+  Note: 'Append-only. Constraint: actor_id <> approval_requests.requested_by (no self-approval).'
+}
+
+Table approval_delegations {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  from_membership_id uuid [not null, ref: > memberships.id]
+  to_membership_id uuid [not null, ref: > memberships.id]
+  starts_at timestamptz [not null]
+  ends_at timestamptz [not null]
+  entity_types text[]
+}
+```
+
+### 3.6 Expenses, budgets, vendors, procurement
+
+```dbml
+Table expense_categories {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  parent_id uuid [ref: > expense_categories.id]
+  name text [not null]
+  gl_code text
+  receipt_required_above numeric(14,2)
+  per_claim_limit numeric(14,2)
+  is_active boolean [not null, default: true]
+}
+
+Table expenses {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  code text
+  category_id uuid [not null, ref: > expense_categories.id]
+  submitted_by_employee_id uuid [ref: > employees.id]
+  vendor_id uuid [ref: > vendors.id]
+  department_id uuid [ref: > departments.id]
+  project_id uuid [ref: > projects.id]
+  expense_date date [not null]
+  description text [not null]
+  amount numeric(14,2) [not null]
+  tax_amount numeric(14,2) [default: 0]
+  currency char(3) [not null]
+  kind text [not null, note: 'reimbursement (employee paid) | company_paid (vendor/petty cash)']
+  payment_method text
+  status text [not null, note: 'draft|submitted|approved|rejected|returned|paid|void']
+  approval_request_id uuid [ref: > approval_requests.id]
+  paid_at timestamptz
+  payment_reference text
+  receipt_hash text [note: 'sha256 of receipt file → duplicate-receipt detection']
+  indexes {
+    (org_id, branch_id, status)
+    (org_id, expense_date)
+  }
+  Note: 'Immutable once approved (trigger blocks edits to amount/category/date).'
+}
+
+Table budgets {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  department_id uuid [ref: > departments.id]
+  category_id uuid [ref: > expense_categories.id]
+  period_start date [not null]
+  period_end date [not null]
+  amount numeric(14,2) [not null]
+  Note: 'Needed for any "spend vs budget" KPI. Not in the original module list — see missing requirements.'
+}
+
+Table vendors {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  code text
+  name text [not null]
+  category_id uuid [ref: > lookup_values.id]
+  tax_id text
+  email citext
+  phone text
+  address jsonb
+  payment_terms_days smallint [default: 30]
+  bank_details_enc bytea
+  status text [not null, default: 'active', note: 'pending_verification|active|blocked']
+  rating smallint
+  custom_fields jsonb
+  deleted_at timestamptz
+}
+
+Table vendor_contacts {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  vendor_id uuid [not null, ref: > vendors.id]
+  name text [not null]
+  email citext
+  phone text
+  role text
+}
+
+Table purchase_orders {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  vendor_id uuid [not null, ref: > vendors.id]
+  code text [not null]
+  status text [not null, note: 'draft|pending_approval|approved|sent|partially_received|received|closed|cancelled']
+  order_date date [not null]
+  expected_date date
+  deliver_to_location_id uuid [ref: > stock_locations.id]
+  subtotal numeric(14,2) [not null, default: 0]
+  tax_total numeric(14,2) [not null, default: 0]
+  total numeric(14,2) [not null, default: 0]
+  currency char(3) [not null]
+  approval_request_id uuid [ref: > approval_requests.id]
+}
+
+Table purchase_order_items {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  purchase_order_id uuid [not null, ref: > purchase_orders.id]
+  item_id uuid [ref: > items.id]
+  description text [not null]
+  quantity numeric(12,3) [not null]
+  received_quantity numeric(12,3) [not null, default: 0]
+  unit_price numeric(14,2) [not null]
+  tax_rate numeric(5,2) [default: 0]
+}
+```
+
+### 3.7 Operations & tasks
+
+```dbml
+Table projects {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  customer_id uuid [ref: > customers.id]
+  deal_id uuid [ref: > deals.id]
+  code text
+  name text [not null]
+  owner_id uuid [ref: > memberships.id]
+  status text [not null, note: 'planned|active|on_hold|completed|cancelled']
+  start_date date
+  due_date date
+  budget numeric(14,2)
+  Note: '"Operations" in the brief is undefined; modelled as projects/work orders + tasks + checklists. Confirm.'
+}
+
+Table tasks {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  project_id uuid [ref: > projects.id]
+  parent_task_id uuid [ref: > tasks.id]
+  title text [not null]
+  description text
+  assignee_id uuid [ref: > memberships.id]
+  reporter_id uuid [ref: > memberships.id]
+  status text [not null, default: 'todo', note: 'todo|in_progress|blocked|in_review|done|cancelled']
+  priority text [not null, default: 'medium', note: 'low|medium|high|urgent']
+  due_at timestamptz
+  completed_at timestamptz
+  estimate_minutes int
+  lead_id uuid [ref: > leads.id]
+  customer_id uuid [ref: > customers.id]
+  deal_id uuid [ref: > deals.id]
+  asset_id uuid [ref: > assets.id]
+  recurrence_rule text [note: 'RFC 5545 RRULE; next instance generated on completion']
+  position numeric
+  indexes {
+    (org_id, assignee_id, status, due_at)
+    (org_id, project_id, status)
+  }
+}
+
+Table task_checklist_items {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  task_id uuid [not null, ref: > tasks.id]
+  label text [not null]
+  is_done boolean [not null, default: false]
+  position int [not null]
+}
+
+Table task_comments {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  task_id uuid [not null, ref: > tasks.id]
+  author_id uuid [not null, ref: > memberships.id]
+  body text [not null]
+  mentions uuid[] [note: 'membership ids → mention notifications']
+  edited_at timestamptz
+  deleted_at timestamptz
+}
+
+Table task_watchers {
+  task_id uuid [not null, ref: > tasks.id]
+  membership_id uuid [not null, ref: > memberships.id]
+  indexes { (task_id, membership_id) [pk] }
+}
+```
+
+### 3.8 Inventory
+
+```dbml
+Table stock_locations {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  name text [not null]
+  type text [not null, default: 'warehouse', note: 'warehouse|store|van|virtual']
+  is_active boolean [not null, default: true]
+}
+
+Table item_categories {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  parent_id uuid [ref: > item_categories.id]
+  name text [not null]
+}
+
+Table items {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  category_id uuid [ref: > item_categories.id]
+  sku text [not null]
+  barcode text
+  name text [not null]
+  description text
+  uom text [not null, default: 'unit']
+  cost_price numeric(14,2)
+  sale_price numeric(14,2)
+  reorder_level numeric(12,3) [default: 0]
+  reorder_quantity numeric(12,3)
+  preferred_vendor_id uuid [ref: > vendors.id]
+  track_inventory boolean [not null, default: true]
+  is_active boolean [not null, default: true]
+  custom_fields jsonb
+  deleted_at timestamptz
+  indexes { (org_id, sku) [unique] }
+}
+
+Table stock_movements {
+  id bigint [pk, increment]
+  org_id uuid [not null, ref: > organizations.id]
+  item_id uuid [not null, ref: > items.id]
+  location_id uuid [not null, ref: > stock_locations.id]
+  movement_type text [not null, note: 'receipt|issue|transfer_out|transfer_in|adjustment|return|opening']
+  quantity numeric(12,3) [not null, note: 'signed: + in, - out']
+  unit_cost numeric(14,4)
+  reference_type text [note: 'purchase_order|stock_transfer|stock_count|manual']
+  reference_id uuid
+  reason text
+  performed_by uuid [ref: > memberships.id]
+  occurred_at timestamptz [not null]
+  indexes { (org_id, item_id, location_id, occurred_at) }
+  Note: 'Append-only ledger. Corrections are new adjustment rows, never edits.'
+}
+
+Table stock_levels {
+  item_id uuid [not null, ref: > items.id]
+  location_id uuid [not null, ref: > stock_locations.id]
+  org_id uuid [not null, ref: > organizations.id]
+  on_hand numeric(12,3) [not null, default: 0]
+  reserved numeric(12,3) [not null, default: 0]
+  avg_cost numeric(14,4)
+  indexes { (item_id, location_id) [pk] }
+  Note: 'Cache maintained by trigger on stock_movements (row lock on the level row serialises concurrent issues). CHECK on_hand >= 0 unless org allows negative stock.'
+}
+
+Table stock_transfers {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  code text [not null]
+  from_location_id uuid [not null, ref: > stock_locations.id]
+  to_location_id uuid [not null, ref: > stock_locations.id]
+  status text [not null, note: 'draft|in_transit|received|cancelled']
+  shipped_at timestamptz
+  received_at timestamptz
+}
+
+Table stock_transfer_items {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  transfer_id uuid [not null, ref: > stock_transfers.id]
+  item_id uuid [not null, ref: > items.id]
+  quantity numeric(12,3) [not null]
+  received_quantity numeric(12,3)
+}
+```
+
+### 3.9 Assets
+
+```dbml
+Table asset_categories {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  name text [not null]
+  depreciation_method text [default: 'straight_line', note: 'none|straight_line|declining_balance']
+  useful_life_months int
+  salvage_pct numeric(5,2) [default: 0]
+}
+
+Table assets {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [not null, ref: > branches.id]
+  category_id uuid [not null, ref: > asset_categories.id]
+  asset_tag text [not null, note: 'printed as QR label']
+  name text [not null]
+  serial_number text
+  model text
+  vendor_id uuid [ref: > vendors.id]
+  purchase_date date
+  purchase_cost numeric(14,2)
+  warranty_expires_on date
+  status text [not null, note: 'in_stock|assigned|in_maintenance|retired|lost|disposed']
+  condition text
+  current_employee_id uuid [ref: > employees.id, note: 'denormalised from open assignment']
+  location_note text
+  disposed_at date
+  disposal_value numeric(14,2)
+  custom_fields jsonb
+  deleted_at timestamptz
+  indexes { (org_id, asset_tag) [unique] }
+}
+
+Table asset_assignments {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  asset_id uuid [not null, ref: > assets.id]
+  employee_id uuid [not null, ref: > employees.id]
+  assigned_at timestamptz [not null]
+  expected_return_at timestamptz
+  returned_at timestamptz
+  condition_out text
+  condition_in text
+  acknowledged_at timestamptz [note: 'employee e-acknowledges receipt']
+  Note: 'Partial unique index: one open (returned_at IS NULL) assignment per asset. Offboarding checklist lists open assignments.'
+}
+
+Table asset_maintenance {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  asset_id uuid [not null, ref: > assets.id]
+  type text [not null, note: 'preventive|repair|inspection']
+  scheduled_for date
+  completed_at timestamptz
+  vendor_id uuid [ref: > vendors.id]
+  cost numeric(14,2)
+  notes text
+  expense_id uuid [ref: > expenses.id]
+}
+```
+
+### 3.10 Documents & file storage
+
+```dbml
+Table folders {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  parent_id uuid [ref: > folders.id]
+  name text [not null]
+  visibility text [not null, default: 'org', note: 'private|role|branch|org']
+  allowed_role_ids uuid[]
+}
+
+Table documents {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  folder_id uuid [ref: > folders.id]
+  name text [not null]
+  category text [note: 'contract|policy|id_proof|receipt|invoice|certificate|other']
+  current_version_id uuid [ref: > document_versions.id]
+  is_confidential boolean [not null, default: false]
+  expires_on date [note: 'contract/licence expiry → reminder']
+  owner_id uuid [ref: > memberships.id]
+  deleted_at timestamptz
+}
+
+Table document_versions {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  document_id uuid [not null, ref: > documents.id]
+  version_no int [not null]
+  storage_path text [not null, note: '{org_id}/documents/{document_id}/{version_id}']
+  mime_type text [not null]
+  size_bytes bigint [not null]
+  sha256 text [not null]
+  scan_status text [not null, default: 'pending', note: 'pending|clean|infected|skipped']
+  uploaded_by uuid [ref: > memberships.id]
+  indexes { (document_id, version_no) [unique] }
+}
+
+Table attachments {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  document_id uuid [not null, ref: > documents.id]
+  entity_type text [not null, note: 'expense|lead|customer|deal|employee|vendor|asset|task|purchase_order|leave_request']
+  entity_id uuid [not null]
+  indexes { (entity_type, entity_id) }
+  Note: 'Polymorphic by design: attachments are secondary data, and one table beats ten join tables. Integrity is enforced by a trigger that checks the target exists in the same org, and RLS delegates to the parent entity.'
+}
+
+Table document_chunks {
+  id bigint [pk, increment]
+  org_id uuid [not null, ref: > organizations.id]
+  document_version_id uuid [not null, ref: > document_versions.id]
+  chunk_index int [not null]
+  content text [not null]
+  embedding vector
+  Note: 'pgvector, Phase 5 (AI document Q&A). Inherits visibility of the parent document via RLS.'
+}
+```
+
+### 3.11 Notifications & events
+
+```dbml
+Table outbox_events {
+  id bigint [pk, increment]
+  org_id uuid [not null, ref: > organizations.id]
+  event_type text [not null, note: 'lead.assigned, expense.approved, …']
+  entity_type text
+  entity_id uuid
+  actor_id uuid [ref: > memberships.id]
+  payload jsonb [not null]
+  occurred_at timestamptz [not null]
+  processed_at timestamptz
+  attempts smallint [not null, default: 0]
+  last_error text
+  indexes { (processed_at, id) }
+  Note: 'Written in the same transaction as the business change (transactional outbox). A worker fans out to notifications, webhooks, KPI refresh, AI indexing.'
+}
+
+Table notification_templates {
+  id uuid [pk]
+  org_id uuid [ref: > organizations.id, note: 'null = system default; org row overrides']
+  event_type text [not null]
+  channel text [not null, note: 'in_app|email|push|whatsapp|sms']
+  locale text [not null, default: 'en']
+  subject text
+  body text [not null, note: 'Handlebars-style, variables whitelisted per event']
+  provider_template_id text [note: 'WhatsApp requires pre-approved templates']
+  is_active boolean [not null, default: true]
+}
+
+Table notification_rules {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  event_type text [not null]
+  recipient_type text [not null, note: 'assignee|owner|requester|current_approvers|manager|branch_managers|role|watchers|mentioned']
+  recipient_ref uuid
+  channels text[] [not null]
+  is_active boolean [not null, default: true]
+}
+
+Table notification_preferences {
+  membership_id uuid [not null, ref: > memberships.id]
+  event_type text [not null]
+  channel text [not null]
+  enabled boolean [not null]
+  indexes { (membership_id, event_type, channel) [pk] }
+  Note: 'Plus memberships-level quiet hours & digest settings in a jsonb on profiles. Security & approval events are not opt-out-able for in_app.'
+}
+
+Table notifications {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  recipient_id uuid [not null, ref: > memberships.id]
+  event_type text [not null]
+  title text [not null]
+  body text
+  link_path text [note: 'relative path only, e.g. /sales/deals/<id>']
+  entity_type text
+  entity_id uuid
+  priority text [not null, default: 'normal']
+  group_key text [note: 'collapse "5 new leads assigned" style bursts']
+  outbox_event_id bigint [ref: > outbox_events.id]
+  read_at timestamptz
+  archived_at timestamptz
+  indexes { (recipient_id, read_at, id) }
+}
+
+Table notification_deliveries {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  notification_id uuid [not null, ref: > notifications.id]
+  channel text [not null]
+  destination text [not null, note: 'email / phone / push endpoint id']
+  status text [not null, note: 'queued|sending|sent|delivered|failed|suppressed']
+  provider text
+  provider_message_id text
+  attempts smallint [not null, default: 0]
+  next_attempt_at timestamptz
+  last_error text
+  sent_at timestamptz
+  indexes { (status, next_attempt_at) }
+}
+
+Table push_subscriptions {
+  id uuid [pk]
+  membership_id uuid [not null, ref: > memberships.id]
+  endpoint text [not null, unique]
+  p256dh text [not null]
+  auth text [not null]
+  user_agent text
+  last_used_at timestamptz
+}
+```
+
+### 3.12 Audit, reports, AI
+
+```dbml
+Table audit_logs {
+  id bigint [pk, increment]
+  org_id uuid [not null]
+  occurred_at timestamptz [not null]
+  actor_type text [not null, note: 'user|system|job|ai|api_key']
+  actor_membership_id uuid
+  actor_user_id uuid
+  impersonator_user_id uuid
+  action text [not null, note: 'insert|update|delete|soft_delete|restore|login|login_failed|logout|export|view_sensitive|approve|reject|permission_change|impersonate|ai_action']
+  entity_type text
+  entity_id uuid
+  branch_id uuid
+  changed_fields text[]
+  before jsonb
+  after jsonb
+  request_id uuid
+  ip inet
+  user_agent text
+  ai_conversation_id uuid
+  prev_hash bytea
+  row_hash bytea
+  Note: 'Partitioned by month on occurred_at. No FKs (must survive deletions and never block writes). UPDATE/DELETE blocked by trigger. Sensitive columns redacted to "[changed]".'
+}
+
+Table kpi_snapshots {
+  id bigint [pk, increment]
+  org_id uuid [not null, ref: > organizations.id]
+  branch_id uuid [ref: > branches.id]
+  snapshot_date date [not null]
+  metric_key text [not null]
+  value numeric [not null]
+  dimensions jsonb [default: '{}']
+  indexes { (org_id, metric_key, snapshot_date, branch_id) [unique] }
+  Note: 'Daily point-in-time values (open pipeline, headcount, stock value…). Current-state tables cannot reproduce "pipeline value on 1 March"; snapshots can.'
+}
+
+Table saved_reports {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  owner_id uuid [not null, ref: > memberships.id]
+  report_key text [not null]
+  name text [not null]
+  filters jsonb [not null]
+  columns jsonb
+  is_shared boolean [not null, default: false]
+  schedule_cron text
+  recipients uuid[]
+}
+
+Table report_exports {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  requested_by uuid [not null, ref: > memberships.id]
+  report_key text [not null]
+  params jsonb [not null]
+  format text [not null, note: 'csv|xlsx|pdf']
+  status text [not null, note: 'queued|running|ready|failed|expired']
+  storage_path text
+  row_count int
+  expires_at timestamptz
+}
+
+Table ai_conversations {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  membership_id uuid [not null, ref: > memberships.id]
+  title text
+  context_path text [note: 'page the user opened the assistant from']
+  archived_at timestamptz
+}
+
+Table ai_messages {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  conversation_id uuid [not null, ref: > ai_conversations.id]
+  role text [not null, note: 'user|assistant|tool']
+  content jsonb [not null]
+  model text
+  input_tokens int
+  output_tokens int
+  latency_ms int
+  feedback smallint [note: '-1|0|1']
+}
+
+Table ai_tool_calls {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  message_id uuid [not null, ref: > ai_messages.id]
+  tool_name text [not null]
+  arguments jsonb [not null]
+  is_write boolean [not null]
+  status text [not null, note: 'proposed|confirmed|executed|rejected|failed']
+  confirmed_by uuid [ref: > memberships.id]
+  result_summary jsonb
+  error text
+}
+
+Table api_keys {
+  id uuid [pk]
+  org_id uuid [not null, ref: > organizations.id]
+  name text [not null]
+  key_prefix text [not null]
+  key_hash text [not null]
+  scopes text[] [not null]
+  created_by uuid [ref: > memberships.id]
+  last_used_at timestamptz
+  expires_at timestamptz
+  revoked_at timestamptz
+  Note: 'Phase 6 — public API / integrations. Acts as a synthetic membership with a fixed role.'
+}
+```
+
+---
+
+## 4. Relationship summary (cardinalities)
+
+| Parent | Child | Card. | Delete behaviour |
+| --- | --- | --- | --- |
+| organizations | every tenant table | 1:N | `RESTRICT` (orgs are closed, never hard-deleted) |
+| profiles (auth.users) | memberships | 1:N | membership → `removed`; user can belong to many orgs |
+| memberships | membership_roles | 1:N | cascade |
+| roles | role_permissions | 1:N | cascade |
+| branches | leads, customers, deals, employees, attendance, expenses, stock_locations, assets | 1:N | `RESTRICT` — deactivate branches, don't delete |
+| employees | employees (manager_id) | 1:N self | `SET NULL` + hierarchy trigger |
+| employees ↔ memberships | | 0..1 : 0..1 | `SET NULL` |
+| employees | employee_private, attendance_records, leave_requests, leave_ledger, employee_compensation, payslips, asset_assignments | 1:1 / 1:N | `RESTRICT` (soft-delete employee) |
+| leads | activities, follow_ups, tasks | 1:N | `RESTRICT` |
+| leads → customers / deals | via `converted_customer_id`, `converted_deal_id` | N:1 | set once at conversion |
+| customers | customer_contacts, deals, activities, projects | 1:N | `RESTRICT` |
+| pipelines | pipeline_stages → deals | 1:N:N | stage delete requires moving deals |
+| deals | deal_stage_history, deal_line_items | 1:N | cascade on line items; history never deleted |
+| approval_policies | approval_policy_steps | 1:N | cascade |
+| approval_requests | approval_assignments, approval_actions | 1:N | never deleted |
+| leave_requests / expenses / purchase_orders / payroll_runs / employee_advances / attendance_regularizations | approval_requests | N:1 (`approval_request_id`) | |
+| payroll_runs | payslips → payslip_lines | 1:N:N | only while run is `draft/calculated` |
+| vendors | expenses, purchase_orders, assets, items (preferred), asset_maintenance | 1:N | `RESTRICT` |
+| purchase_orders | purchase_order_items | 1:N | cascade in draft |
+| items | stock_movements, stock_levels, purchase_order_items, deal_line_items | 1:N | `RESTRICT` |
+| stock_locations | stock_movements, stock_levels | 1:N | `RESTRICT` |
+| assets | asset_assignments, asset_maintenance, tasks | 1:N | `RESTRICT` |
+| documents | document_versions, attachments, document_chunks | 1:N | cascade (versions → storage cleanup job) |
+| outbox_events | notifications → notification_deliveries | 1:N:N | retention job purges > 90 days |
+| memberships | notifications, notification_preferences, push_subscriptions, ai_conversations | 1:N | cascade |
+
+---
+
+## 5. Row-Level Security model
+
+**Principle:** the database is the last line of defence. Even if a server action forgets an
+authorization check, or someone ships a bug in a query, RLS must still prevent a sales executive
+from reading payroll or another tenant's leads.
+
+### 5.1 Session context
+
+The app connects with a Postgres role that *is subject to RLS* (`authenticated`), and every
+request's transaction sets the Supabase JWT claims (`request.jwt.claims`), so `auth.uid()` works.
+The service-role key (bypasses RLS) is used **only** by background workers and migrations, never
+in request handlers — enforced by a lint rule and a single import location.
+
+### 5.2 Helper functions (`STABLE SECURITY DEFINER`, in a private `authz` schema)
+
+| Function | Returns |
+| --- | --- |
+| `authz.org_id()` | `profiles.active_org_id` **only if** the caller has an `active` membership in it; else `NULL` (→ every policy fails closed). |
+| `authz.membership_id()` | caller's membership in the active org. |
+| `authz.employee_id()` | linked employee, if any. |
+| `authz.scope(perm text)` | the broadest scope the caller holds for `perm` (`org > branch > team > own`, or `NULL`). |
+| `authz.branches(perm text)` | `uuid[]` of branches where the caller holds `perm` at ≥ branch scope. |
+| `authz.team_members()` | `uuid[]` of membership ids of the caller + all descendants (from `employee_hierarchy`). |
+| `authz.can(perm, row_branch_id, row_owner_id)` | boolean combining the above. |
+
+Permissions are **looked up from tables, not embedded in the JWT**. Trade-off: one extra indexed
+lookup per statement vs. stale permissions for up to an hour after a role change or offboarding.
+For an HR/payroll system, immediate revocation wins.
+
+### 5.3 Canonical policy (example: `leads`)
+
+```sql
+alter table leads enable row level security;
+alter table leads force row level security;
+
+create policy leads_select on leads for select to authenticated using (
+  org_id = (select authz.org_id())
+  and deleted_at is null
+  and (
+        (select authz.scope('leads.view')) = 'org'
+     or branch_id = any ((select authz.branches('leads.view')))
+     or ((select authz.scope('leads.view')) = 'team' and owner_id = any ((select authz.team_members())))
+     or ((select authz.scope('leads.view')) = 'own'  and owner_id = (select authz.membership_id()))
+  )
+);
+```
+
+Wrapping helpers in `(select …)` makes Postgres evaluate them once per statement (InitPlan)
+instead of once per row — the difference between 5 ms and 5 s on a 100k-row table.
+
+### 5.4 Policy families
+
+| Family | Tables | Rule |
+| --- | --- | --- |
+| **Scoped business data** | leads, customers, deals, activities, follow_ups, tasks, expenses, assets, projects | pattern above (org + scope + branch/owner) |
+| **Self-service** | attendance_records, leave_requests, payslips, expenses (own claims), asset_assignments | employee sees own rows always; managers via team scope; HR via branch/org scope |
+| **Highly sensitive** | employee_private, employee_bank_accounts, employee_compensation, payslips, payslip_lines | dedicated permission (`employees.view_private`, `payroll.view_salary`); **no team scope** — a line manager must not see subordinates' salaries by default |
+| **Org config** | roles, role_permissions, branches, policies, templates, categories | read: any active member; write: `settings.manage` |
+| **Append-only** | audit_logs, approval_actions, stock_movements, leave_ledger, deal_stage_history | no UPDATE/DELETE policy; trigger raises on attempt |
+| **Private to user** | notifications, notification_preferences, ai_conversations, ai_messages, push_subscriptions | `recipient_id/membership_id = authz.membership_id()` |
+| **Not exposed** | outbox_events, notification_deliveries, number_sequences, api_keys | RLS enabled with **no** policies → invisible to clients; only workers (service role) touch them |
+
+### 5.5 Supabase-specific hardening
+
+- Supabase auto-exposes the `public` schema through its REST/GraphQL Data API. A table created
+  without RLS is **readable by anyone with the anon key**. Mitigations: (a) business tables live in
+  an `app` schema that is *not* in the exposed-schemas list — the Next.js server queries Postgres
+  directly, so the Data API is unnecessary; (b) CI runs a query that fails the build if any table in
+  `app` has `relrowsecurity = false`.
+- Storage buckets are **private**; storage RLS policies require the first path segment to equal
+  `authz.org_id()` and delegate to the owning entity's permission. Downloads use signed URLs with
+  ≤ 5-minute expiry.
+
+---
+
+## 6. Migrations, indexing, performance
+
+- **Source of truth:** SQL migrations in `supabase/migrations/` (Supabase CLI). RLS, triggers,
+  functions and partitions are SQL anyway; an ORM schema DSL can't express them. The TypeScript
+  query layer (Drizzle) is generated by introspection, so types never drift from the DB.
+- **RLS tests:** pgTAP tests in `supabase/tests/` assert, per role, which rows are visible and
+  which writes are rejected. They run in CI against a fresh local Supabase. A new table without an
+  RLS test fails review.
+- **Indexes:** every FK column; composite indexes lead with `org_id`; partial indexes for hot
+  filters (`where deleted_at is null`, `where status = 'pending'`); `pg_trgm` GIN indexes on
+  name/email/phone for global search; `tsvector` generated columns on leads/customers/documents.
+- **Partitioning:** `audit_logs` (monthly), `stock_movements` and `attendance_records` (yearly)
+  once they pass ~10M rows. Not needed on day one; the PK/partition-key design allows it later.
+- **Aggregates:** dashboard KPIs read from materialized views refreshed by `pg_cron`
+  (every 5–15 min) plus `kpi_snapshots` for history — never live `COUNT(*)` over full tables on
+  every page load.
+- **Connection pooling:** Vercel serverless → Supabase Supavisor in **transaction mode**. This
+  forbids session-level `SET`, which is why RLS context is set with `set_config(..., true)`
+  (transaction-local) inside each request's transaction.
+- **Backups:** Supabase daily backups + Point-in-Time Recovery (paid add-on — required for a
+  payroll system). Quarterly restore drill.
