@@ -21,7 +21,12 @@ reaches parity; until then all three live side by side.
 npm install                 # from the repo root
 npm run dev:platform        # http://localhost:3100
 npm run test:platform       # navigation tests
+npm run export:html -w apps/platform   # → apps/platform/dist/unify-crm.html
 ```
+
+`export:html` writes a single self-contained HTML file of the shell (inline CSS, JS and icons)
+that opens by double-click, with no server or internet. It is generated from the same config as
+the app, so re-run it after changing the navigation or module definitions.
 
 ## Where things live
 

@@ -8,7 +8,8 @@
     "start": "next start --port 3100",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "export:html": "tsx scripts/export-html.tsx"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.20",
@@ -36,6 +37,7 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.23.15",
     "typescript": "^5.7.2",
     "vitest": "^3.2.4"
   }
