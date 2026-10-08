@@ -171,7 +171,7 @@ function satpakInit(){
       var row = document.createElement("div");
       row.className = "cart-item";
       row.innerHTML =
-        '<div class="cart-item-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 8l8-5 8 5v9l-8 5-8-5V8z"/></svg></div>' +
+        '<div class="cart-item-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h5v3h3l2 3v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9l2-3V3z"/><path d="M6 13h12"/></svg></div>' +
         '<div class="cart-item-info">' +
           '<h4>' + line.name + '</h4>' +
           '<div class="cart-item-pack">' + (line.pack || "Standard pack") + '</div>' +
@@ -373,36 +373,27 @@ function satpakInit(){
     });
   }
 
-  /* ---------- animated stat counters ---------- */
-  var counterGroup = document.querySelector("[data-counter-group]");
-  if(counterGroup && "IntersectionObserver" in window){
-    var counterIo = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(!entry.isIntersecting) return;
-        counterIo.unobserve(entry.target);
-        var els = entry.target.querySelectorAll("[data-count-to]");
-        var duration = 2000;
-        var start = null;
-        function frame(ts){
-          if(start === null) start = ts;
-          var progress = Math.min((ts - start) / duration, 1);
-          var eased = 1 - Math.pow(1 - progress, 3);
-          els.forEach(function(el){
-            var target = parseInt(el.getAttribute("data-count-to"), 10);
-            var suffix = el.getAttribute("data-count-suffix") || "";
-            el.textContent = Math.round(target * eased) + suffix;
-          });
-          if(progress < 1) requestAnimationFrame(frame);
-        }
-        requestAnimationFrame(frame);
-      });
-    }, {threshold:0.4});
-    counterIo.observe(counterGroup);
-  } else if(counterGroup){
-    counterGroup.querySelectorAll("[data-count-to]").forEach(function(el){
-      el.textContent = el.getAttribute("data-count-to") + (el.getAttribute("data-count-suffix") || "");
+  /* ---------- contact button ---------- */
+  var fab = document.querySelector("[data-fab]");
+  if(fab){
+    var fabToggle = fab.querySelector(".contact-fab-toggle");
+    function setFab(open){
+      fab.classList.toggle("is-open", open);
+      fabToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    fabToggle.addEventListener("click", function(e){
+      e.stopPropagation();
+      setFab(!fab.classList.contains("is-open"));
+    });
+    document.addEventListener("click", function(e){
+      if(!fab.contains(e.target)) setFab(false);
+    });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape") setFab(false);
     });
   }
+
+  /* Stat counters are animated by assets/js/motion.js (data-counter-group). */
 
   /* ---------- process step animation (line draw + sequential nodes) ---------- */
   document.querySelectorAll(".process-track").forEach(function(track){

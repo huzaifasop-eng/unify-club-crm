@@ -33,22 +33,28 @@ unlike a CMS. Two ways forward:
 
 ```
 satpak-website/
-  index.html                       Home
+  index.html                       Home — cinematic scroll-driven film hero
   ro-plants-services.html          RO Plants & Services
   chemicals-minerals.html          Chemicals & Minerals (catalogue, pricing, cart)
   product-klassec.html … product-filters-fittings.html   12 priced product detail pages
-  article.html                     Article — pricing, real lab report data, subscribe
+  article.html                     Article — pricing, real lab report data, bill calculator, subscribe
   health-wellness.html             Health & Wellness (category-grouped, license-gated)
   home-care.html                   Home Care (category-grouped)
   contact.html                     Segmented enquiry chooser + forms + live map
-  our-story.html                   Our Story & Heritage, founder's message, client list
+  our-story.html                   Our Story & Heritage, founder's message, milestones
   privacy.html / terms.html / cookie-policy.html   Legal drafts (have counsel review)
   404.html
   robots.txt / sitemap.xml
-  partials/header.html, partials/footer.html   Shared header, footer, cart panel, float cluster
-  assets/css/style.css             Full design system
+  partials/header.html, partials/footer.html   Shared header, footer, cart panel, contact FAB
+  assets/css/style.css             Core design system
+  assets/css/cinematic.css         Scroll-choreography layer (film heroes, parallax, pipeline, marquee…)
   assets/js/include.js             Loads header/footer partials + reveal-animation safety net
-  assets/js/main.js                All site behaviour (menu, forms, cart, counters, animations)
+  assets/js/main.js                Site behaviour (menu, forms, cart + live pricing, contact FAB, etc.)
+  assets/js/motion.js              Scroll choreography engine (reveals, parallax, pinned scenes, counters)
+  assets/img/brand/                Real SaT PaK logo files (satpak-mark.png, satpak-logo.png)
+  assets/img/clients/              Real client logo images (11 files)
+  assets/img/plant/                Real RO plant photography (5 files)
+  assets/video/                    Hero/RO/chemicals/article footage + poster frames (8 mp4 + 4 webp)
 ```
 
 Header and footer live once in `partials/` and are injected into every page via
@@ -101,6 +107,58 @@ adding real ones.
 - Only people signed in to Claude can open it — it's private to your
   account/workspace, not publicly indexed.
 
+## What changed in the "cinematic" pass
+
+A second asset/design pack ("cinematic edits") was supplied and merged into
+the FINAL-pass content below — not swapped in wholesale, since its HTML was
+based on an earlier draft and would have regressed pricing, lab data and the
+founder's message if copied as-is. What's new:
+
+- **Real brand and photography assets, finally.** `satpak-mark.png` /
+  `satpak-logo.png` (the real logo, replacing the abstract placeholder mark
+  in header/footer/favicon), 11 real client logo images, 5 real RO-plant
+  photographs, and 8 short hero/RO/chemicals/article video clips with poster
+  frames. These were missing in every earlier pass; this is the first time
+  real imagery exists on the site instead of abstract line-art placeholders.
+- **A scroll-driven cinematic layer** (`assets/css/cinematic.css` +
+  `assets/js/motion.js`): full-bleed video heroes that settle into a framed
+  window as you scroll, word-by-word statement reveals, a horizontal
+  scroll-pinned "water line" process strip with an animated flow path, a
+  cursor-following department preview panel, parallax plant photography, an
+  auto-scrolling client logo marquee, and a testimonial carousel. Degrades
+  cleanly: without JavaScript or with `prefers-reduced-motion`, every section
+  renders fully readable in its end state.
+- **A new contact FAB** (floating action button) replacing the old
+  always-visible stacked WhatsApp/Instagram/Facebook icons — one tap-to-open
+  button expanding into WhatsApp, Call, Instagram and Facebook, now including
+  tap-to-call as a floating option on every page.
+- **A real Google Maps place embed** on Contact, pointed at the actual SaT
+  PaK RO Plant Manufacturer & Maintenance business listing, with a "Get
+  directions" link.
+- **Article gets a live bill estimator** — a bottles-per-week slider that
+  computes your monthly bill and refundable deposit in real time, using the
+  real Rs 110/refill and Rs 1,100/deposit figures.
+- **Reconciled during the merge, not just copied through:**
+  - The cinematic pack's testimonials used invented company names ("Pure Aqua
+    Lime", "Purifa Water", "Paragon", "Al Matir") not found in any brief
+    document. These were not real client names, so I kept the new carousel
+    design but put back honest `Client name, sector` placeholder attribution
+    — same as every earlier pass. Don't publish named quotes until you've
+    approved and sourced them for real.
+  - The client marquee and its body copy asserted "100+ RO plant operators"
+    as a specific client count with no source. I removed the number, keeping
+    "RO plant operators" as an unquantified category alongside the named
+    clients.
+  - Every price, pack size and lab figure in Chemicals & Minerals, the 12
+    product pages and Article was re-applied on top of the new layout — the
+    pack's own base HTML had no pricing at all (it predates that work) and
+    used generic placeholder pack sizes (e.g. "2.5 L / 5 L / 10 L / 25 L" for
+    every product) that didn't match what's actually on your price list.
+  - The founder's message (Our Story) was restored in full — the pack's
+    version had only a single placeholder line waiting for a message to be
+    supplied. The new monogram treatment (M·A·Z) is kept as a tasteful stand-in
+    for the still-missing founder photo, replacing the old plain media box.
+
 ## What changed in the FINAL Master Fix List + Pictures & Icons Manifest pass
 
 - **Real pricing added throughout Chemicals & Minerals** — every catalogue
@@ -117,16 +175,15 @@ adding real ones.
   registration is in process (not "certified," since the license hasn't
   issued yet). The area dropdown uses your real delivery list.
 - **Our Story: your actual founder's message**, in full, replacing the
-  placeholder line. Founder photo is still an abstract placeholder — see
+  placeholder line. Founder photo is still a monogram placeholder — see
   "What I did not do" below for why.
-- **Real client names** on Home's "Trusted By" strip (the 8 strongest) and a
-  fuller "Who we work with" list on Our Story (all 13, including MAP and
-  Pakistan Armed Forces as text-only per your instruction) — see "What I did
-  not do" for why these are typographic wordmarks, not logo graphics.
+- **Real client names** on Home's client marquee and Our Story — see
+  "cinematic pass" above for the real logo images added since, and "What I
+  did not do" for the two that are still text-only.
 - **The SaT PaK Pipeline CRM** — see above.
 - Reconfirmed everything from the prior pass still holds: canonical domain,
-  final product naming, the cart → WhatsApp checkout, the floating
-  WhatsApp/social cluster, SMC/SECP lines, zero visitor-facing dev-notes
+  final product naming, the cart → WhatsApp checkout, the floating contact
+  button, SMC/SECP lines, zero visitor-facing dev-notes
   (including two more I found and fixed on Privacy/Terms), and the em-dash /
   AI-feel copy cleanup — plus the exact Trusted-By and Home Care line swaps
   from this final doc.
@@ -139,27 +196,20 @@ adding real ones.
 
 ## What I did not do, and why
 
-- **No AI-generated product/hero photography.** The Pictures & Icons
-  Manifest says AI-generated images are an acceptable stand-in until real
-  photos exist. I tried — six `generate_image` calls all failed with `402
-  Insufficient credits` on the connected Gamma workspace (0 of its image
-  budget remaining). I can't produce real imagery without either that
-  workspace's credits being topped up (gamma.app/settings/billing) or another
-  image source. In the meantime I put more polish into the abstract
-  gradient/line-art placeholders instead (richer layered gradients, a
-  medallion treatment behind every icon) so the site doesn't look unfinished
-  — but it's not the real photography the manifest asked for.
-- **No fabricated photo of Muhammad Ali Bin Zaki.** The manifest marks the
-  founder photo as "owner will supply later." Generating a fake AI face and
-  presenting it as a real, named person would be a fabricated photo of
-  someone real — I don't do that regardless of how the placeholder is
-  labeled. His actual message is in full on the site; the photo slot stays
-  an abstract placeholder until you send a real one.
-- **No fabricated client logos.** No logo image files were supplied for Al
-  Asr Group, BlueEx, Masafi, or anyone else on the list — inventing visual
-  marks for real, named companies risks misrepresenting them. Every client
-  name on the site is a clean typographic wordmark, not a drawn logo. Send
-  real vector logos and I'll swap them in.
+- **Still no photo of Muhammad Ali Bin Zaki.** Real plant photography and
+  real client logos have since been supplied and are now live (see
+  "cinematic pass" above), but no founder photo has been provided. Generating
+  a fake AI face and presenting it as a real, named person would be a
+  fabricated photo of someone real — I don't do that regardless of how the
+  placeholder is labeled. His actual message is in full on the site; the
+  photo slot uses a tasteful monogram (M·A·Z) stand-in until a real photo
+  is sent.
+- **Client logos are now real images where supplied, honest wordmarks where
+  not.** 11 real client logo files arrived with the cinematic pack and are
+  live in Home's client marquee. Two entries (Pakistan Armed Forces, MAP)
+  still have no logo file, so they remain plain text tiles rather than
+  invented marks — same principle as before, just resolved for everyone a
+  real file exists for.
 - **No fully automated form → CRM → team-notification pipeline.** That
   needs a real backend with hosting and API keys (Section D of the fix list
   says this explicitly). What's live: forms → Web3Forms (once you add a
@@ -169,10 +219,9 @@ adding real ones.
 
 ## Outstanding items before launch
 
-- **Real logo files (SVG/AI/EPS)** for the SaT PaK mark itself — header/footer
-  still use an original abstract mark (globe + leaf, teal/brass). Swap
-  `partials/header.html` / `partials/footer.html`'s inline `<svg
-  class="logo-mark">` and every page's favicon data-URI.
+- **Real logo files** — resolved. `satpak-mark.png` / `satpak-logo.png` are
+  now wired into header, footer and every page's favicon.
+- **Real plant/client photography** — resolved. See "cinematic pass" above.
 - **Product naming — final packaging check**: BIOX / PUREX / Tank Wash and
   all pricing are per the fix list's final catalogue and price table.
   Confirm both match what's actually printed on your bottles before launch.
@@ -219,19 +268,21 @@ comment above the consultation form in `contact.html` marking exactly where
 to paste your Calendly embed `<div>`/`<script>` once you have an account —
 until then, the form itself handles booking requests.
 
-**Map:** the Contact page embeds a **live Google Map** via a plain iframe
-(`https://www.google.com/maps?q=...&output=embed`) — no API key required,
-already pointed at G-1 Samana Pride, Gulshan-e-Iqbal, Karachi. Nothing to configure.
+**Map:** the Contact page embeds a **live Google Map** via a plain iframe,
+pointed at the real "SaT PaK RO Plant Manufacturer & Maintenance" Google
+Maps place listing (G-1 Samana Pride, Gulshan-e-Iqbal, Karachi), with a "Get
+directions" link. No API key required, nothing to configure.
 
-**WhatsApp:** fully wired — floating cluster, mobile CTA bar, cart checkout,
+**WhatsApp:** fully wired — the contact FAB, mobile CTA bar, cart checkout,
 and every "WhatsApp" button deep-link to `wa.me/923181112606` (or
 `923218718722` for Article), with context-aware prefilled messages.
 
-**Analytics:** GA4, GTM, Meta Pixel and LinkedIn Insight Tag are stubbed as
-commented-out blocks in `index.html`'s `<head>` (copy the pattern into every
-page) — add your real IDs and uncomment. Conversion events worth wiring once
-GTM is live: WhatsApp clicks, phone clicks, quote requests, consultation
-bookings, product inquiries, cart checkouts, PDF downloads.
+**Analytics:** no GA4/GTM/Meta Pixel snippet is included. Add your real
+tracking snippet to each page's `<head>` (or better, inject it from
+`partials/header.html` once, like the rest of the shared markup) once you
+have real IDs. Conversion events worth wiring once GTM is live: WhatsApp
+clicks, phone clicks, quote requests, consultation bookings, product
+inquiries, cart checkouts, PDF downloads.
 
 ## Design system
 
@@ -239,9 +290,12 @@ Heritage Teal `#0E4D45` / Ivory `#FAF7F1` / Charcoal `#1E1E1E` / Heritage
 Dark `#0C2B28` / Brass `#9A7B3F`; Fraunces (display serif, headings/heritage)
 + Inter (body/UI), both loaded from Google Fonts; rounded buttons (teal fill
 / teal outline / brass text-link); rounded cards with a thin border; thin
-line-art icons only; subtle fade/rise-on-scroll animation (`[data-reveal]`,
-IntersectionObserver-driven, with a 2.5s safety-net timeout in
-`assets/js/include.js` so content never stays invisible if a script fails).
+line-art icons only; a scroll-choreography layer (`assets/js/motion.js` +
+`assets/css/cinematic.css`) drives reveals, parallax, pinned film heroes and
+the horizontal "water line" process strip, with a 2.5s safety-net timeout in
+`assets/js/include.js` so content never stays invisible if a script fails,
+and a full static fallback (incl. `prefers-reduced-motion`) so nothing
+depends on JavaScript to be readable.
 The CRM (SaT PaK Pipeline) reuses the same palette and type pair, plus five
 stage colors (slate/amber/violet/green/terracotta) kept separate from the
 brand accent so lead status reads at a glance.
@@ -253,7 +307,11 @@ brand accent so lead status reads at a glance.
 - Chemicals & Minerals catalogue with real pricing, filtering, 12 full product pages.
 - Cart with quantities, pack sizes and live pricing, shared across Chemicals,
   Health & Wellness and Home Care, checking out straight to a prefilled WhatsApp message.
-- Animated stat counters and RO process-step animation, both scroll-triggered.
+- Animated stat counters and a horizontal, scroll-pinned "water line" process
+  strip with an animated flow path, both scroll-triggered.
+- Full-bleed video heroes with parallax plant photography, a cursor-following
+  department preview panel, and an auto-scrolling client logo marquee.
+- Article's live bill estimator (bottles/week slider → monthly bill + deposit).
 - Segmented, icon-led enquiry chooser on Contact showing one form at a time.
 - Article subscribe form with real pricing, a working geolocation "Detect My
   Location" button, and real lab-report data.
@@ -263,8 +321,8 @@ brand accent so lead status reads at a glance.
 - A live, shared CRM board (separate artifact — see above) for tracking leads
   through stages with notes and assignment.
 - Cookie consent bar (`localStorage`-based, doesn't block the site).
-- Mobile-first responsive layout, persistent mobile CTA bar (WhatsApp / Call /
-  Consult), tap-to-call links.
+- Mobile-first responsive layout, a collapsible contact FAB (WhatsApp / Call /
+  Instagram / Facebook) on every page, tap-to-call links.
 
 ## Accessibility & performance
 

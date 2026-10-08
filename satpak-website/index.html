@@ -9,255 +9,371 @@
 <meta property="og:title" content="SaT PaK — We did not enter this industry. We built it.">
 <meta property="og:description" content="Pakistan's pioneer water-treatment manufacturer. RO plants, chemicals & minerals, mineralized drinking water, health & wellness, home care. 35+ years, Karachi.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/assets/img/og-cover.jpg">
-<meta name="theme-color" content="#0E4D45">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 4C24 4 34 12 34 24C34 36 24 44 24 44C24 44 30 35 30 24C30 13 24 4 24 4Z' fill='%230E4D45'/%3E%3Cpath d='M24 4C24 4 14 12 14 24C14 36 24 44 24 44C24 44 18 35 18 24C18 13 24 4 24 4Z' fill='%239A7B3F'/%3E%3C/svg%3E">
+<meta property="og:url" content="https://satpak.pk/">
+<meta property="og:image" content="/assets/video/hero-poster.webp">
+<meta name="theme-color" content="#0C2B28">
+<link rel="icon" type="image/png" href="/assets/img/brand/satpak-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/assets/video/hero-poster.webp">
 <link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/cinematic.css">
 <!-- Analytics placeholders — add real IDs before launch (see README "Analytics & tracking") -->
-<!-- Google tag (gtag.js) — GA4
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXX');</script>
--->
-<!-- Meta Pixel + LinkedIn Insight Tag: see README before go-live -->
 </head>
-<body data-page="home" class="home">
+<body data-page="home" class="home has-dark-hero">
 
 <div data-include="/partials/header.html"></div>
 
-<section class="hero">
-  <div class="hero-bg"><div class="ripple"></div></div>
-  <div class="container hero-content">
-    <span class="eyebrow">SHAIKH AL TIJARAT PAKISTAN · 35+ YEARS</span>
-    <h1>We did not enter this industry. We built it.</h1>
-    <p class="lede">Before the filtered water in your building. Before the chemicals that keep your membranes alive. Before the standard even existed, there was SaT PaK.</p>
-    <div class="btn-row">
-      <a href="/contact.html#consultation" class="btn btn-primary">Book a Consultation</a>
-      <a href="#departments" class="btn btn-on-dark btn-outline">Explore our departments</a>
-    </div>
-  </div>
-</section>
+<main>
 
-<section class="strip">
-  <div class="container strip-inner" data-counter-group>
-    <div class="strip-item"><span class="strip-num" data-count-to="35" data-count-suffix="+">0</span><span class="strip-label">Years in operation</span></div>
-    <div class="strip-item"><span class="strip-num" data-count-to="7">0</span><span class="strip-label">Departments</span></div>
-    <div class="strip-item"><span class="strip-num" data-count-to="40" data-count-suffix="+">0</span><span class="strip-label">Product lines</span></div>
-    <div class="strip-item"><span class="strip-num" data-count-to="500" data-count-suffix="+">0</span><span class="strip-label">Clients served</span></div>
-    <div class="strip-item"><span class="strip-num">Karachi</span><span class="strip-label">Manufacturing base</span></div>
-  </div>
-</section>
-
-<section class="section" id="departments">
-  <div class="container">
-    <div data-reveal>
-      <span class="eyebrow">What we do</span>
-      <h2 class="measure">Water is not one problem. It is many. We solve all of them.</h2>
+<!-- ===================================================================
+     1. Film hero — the plant, full-bleed, closing into a frame on scroll
+     =================================================================== -->
+<section class="film-scene" data-scene="pin" aria-label="Introduction">
+  <div class="film-sticky">
+    <div class="film-frame grain">
+      <img class="film-poster" src="/assets/video/hero-poster.webp" alt="" aria-hidden="true">
+      <video data-src-wide="/assets/video/hero-wide.mp4" data-src-tall="/assets/video/hero-tall.mp4" poster="/assets/video/hero-poster.webp" muted loop playsinline preload="metadata" aria-hidden="true"></video>
     </div>
-    <div class="grid grid-3 mt-64">
-      <a href="/ro-plants-services.html" class="dept-card" data-reveal>
-        <span class="dept-index">01</span>
-        <h3>RO Plants &amp; Services</h3>
-        <p>Design, manufacture, install, maintain.</p>
-        <span class="arrow">Explore &rarr;</span>
-      </a>
-      <a href="/chemicals-minerals.html" class="dept-card" data-reveal>
-        <span class="dept-index">02</span>
-        <h3>Chemicals &amp; Minerals</h3>
-        <p>Locally developed water-treatment chemistry.</p>
-        <span class="arrow">Explore &rarr;</span>
-      </a>
-      <a href="/article.html" class="dept-card" data-reveal>
-        <span class="dept-index">03</span>
-        <h3>Article</h3>
-        <p>Mineralized drinking water.</p>
-        <span class="arrow">Explore &rarr;</span>
-      </a>
-      <a href="/health-wellness.html" class="dept-card" data-reveal>
-        <span class="dept-index">04</span>
-        <h3>Health &amp; Wellness</h3>
-        <p>Mineral-based personal care.</p>
-        <span class="arrow">Explore &rarr;</span>
-      </a>
-      <a href="/home-care.html" class="dept-card" data-reveal>
-        <span class="dept-index">05</span>
-        <h3>Home Care</h3>
-        <p>Anti-bacterial home essentials.</p>
-        <span class="arrow">Explore &rarr;</span>
-      </a>
-      <div class="dept-card" style="display:flex;flex-direction:column;justify-content:center;background:var(--teal-100);border-style:dashed;" data-reveal>
-        <h3>Not sure where to start?</h3>
-        <p>Tell us about your water and we'll route you to the right department.</p>
-        <a href="/contact.html" class="btn btn-outline btn-sm mt-16" style="align-self:flex-start;">Talk to us</a>
+
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 120 120">
+        <defs><path id="seal-ring" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0"/></defs>
+        <text><textPath href="#seal-ring">Shaikh al Tijarat Pakistan · Karachi · Since the 1990s ·</textPath></text>
+      </svg>
+      <span class="seal-core"><img src="/assets/img/brand/satpak-mark.png" alt=""></span>
+    </div>
+    <span class="coords" aria-hidden="true">24.9072° N &nbsp;·&nbsp; 67.0865° E &nbsp;·&nbsp; Karachi</span>
+
+    <div class="film-copy">
+      <div class="container">
+        <span class="kicker" data-after-lines style="color:var(--brass-light);">Shaikh al Tijarat Pakistan · 35+ years</span>
+        <h1 class="display mt-24">
+          <span class="cine-line"><span>We did not enter</span></span>
+          <span class="cine-line"><span>this industry.</span></span>
+          <span class="cine-line"><span>We <em>built</em> it.</span></span>
+        </h1>
+        <p class="lede" data-after-lines>Before the filtered water in your building. Before the chemicals that keep your membranes alive. Before the standard even existed, there was SaT PaK.</p>
+        <div class="btn-row" data-after-lines>
+          <a href="/contact.html#consultation" class="btn btn-primary">Book a Consultation</a>
+          <a href="#departments" class="btn btn-on-dark btn-outline">Explore our departments</a>
+        </div>
+        <div class="film-meta" data-after-lines>
+          <span>Est. <b>Karachi</b></span>
+          <span>RO Plants · Chemicals · Minerals</span>
+          <span>Scroll to enter the plant ↓</span>
+        </div>
       </div>
     </div>
+
+    <p class="film-after" aria-hidden="true">Inside one of our plants, Karachi.</p>
   </div>
 </section>
 
-<section class="section--tight section" style="padding-top:0;">
+<!-- ===================================================================
+     2. Numbers
+     =================================================================== -->
+<section class="numbers" aria-label="SaT PaK in numbers">
   <div class="container">
-    <div class="center" data-reveal>
-      <span class="eyebrow">Sectors We Serve</span>
-      <h2 class="measure center">Water runs through every kind of operation. We've engineered for most of them.</h2>
-    </div>
-    <div class="sector-strip mt-64" data-reveal>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M6 10.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/></svg></div><span>Education</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="10" width="14" height="8"/><path d="M15 13h4l3 3v2h-7z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></div><span>Logistics</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4v16M4 4l16 4-16 4M4 12l16 4-16 4"/></svg></div><span>Textile</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v6M8 8h8l2 12H6L8 8z"/></svg></div><span>Food Processing</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div><span>Plastics</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6"/></svg></div><span>Hospitality</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M6 7h12M4 12h16M3 21h18"/></svg></div><span>Religious Institutions</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/></svg></div><span>Defence</span></div>
+    <div class="numbers-grid" data-counter-group data-stagger>
+      <div><span class="n" data-count-to="35" data-count-suffix="+">35+</span><span class="l">Years in operation</span></div>
+      <div><span class="n" data-count-to="7">7</span><span class="l">Departments</span></div>
+      <div><span class="n" data-count-to="40" data-count-suffix="+">40+</span><span class="l">Product lines</span></div>
+      <div><span class="n" data-count-to="500" data-count-suffix="+">500+</span><span class="l">Clients served</span></div>
+      <div><span class="n word">Karachi</span><span class="l">Manufacturing base</span></div>
     </div>
   </div>
 </section>
 
-<section class="section section--ivory-dim">
-  <div class="container row align-center">
-    <div class="col" data-reveal>
-      <span class="eyebrow">The difference</span>
-      <h2>One facility. Every formulation developed in house.</h2>
-      <p class="body-copy mt-24">We are a manufacturer, not an importer or a repacker. Every formula we sell was born in our own facility, tested against the water that really runs through Pakistani pipes, and sharpened over decades on real sites. Seven departments. Forty-plus product lines. All made here.</p>
-    </div>
-    <div class="col" data-reveal>
-      <div class="media ratio-1-1">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2"><path d="M12 2v20M2 12h20M6 6l12 12M18 6L6 18"/><circle cx="12" cy="12" r="8"/></svg>
-        <div class="media-caption">In-house R&amp;D and manufacturing, Karachi</div>
-      </div>
+<!-- ===================================================================
+     3. Departments
+     =================================================================== -->
+<section class="section" id="departments" style="padding-top:40px;">
+  <div class="container">
+    <span class="kicker" data-in="fade">What we do</span>
+    <h2 class="h-xl mt-24" data-in="up">Water is not one problem.<br>It is many. <em>We solve all of them.</em></h2>
+
+    <nav class="dept-list" data-dept-list data-stagger aria-label="Departments">
+      <a href="/ro-plants-services.html" class="dept-row" data-preview="0">
+        <span class="d-index">01</span>
+        <span><span class="d-name">RO Plants &amp; Services</span><span class="d-desc">Designed around your water, built end to end, looked after for years.</span></span>
+        <span class="d-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="d-thumb" style="background-image:url(/assets/img/plant/ro-frame-panel.webp)" aria-hidden="true"></span>
+      </a>
+      <a href="/chemicals-minerals.html" class="dept-row" data-preview="1">
+        <span class="d-index">02</span>
+        <span><span class="d-name">Chemicals &amp; Minerals</span><span class="d-desc">Water-treatment chemistry formulated, compounded and packed in our own facility.</span></span>
+        <span class="d-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="d-thumb" style="background-image:url(/assets/img/plant/media-vessels.webp)" aria-hidden="true"></span>
+      </a>
+      <a href="/article.html" class="dept-row" data-preview="2">
+        <span class="d-index">03</span>
+        <span><span class="d-name">Article</span><span class="d-desc">Mineralized drinking water, delivered in 19-litre bottles across Karachi.</span></span>
+        <span class="d-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="d-thumb" style="background-image:url(/assets/video/article-poster.webp)" aria-hidden="true"></span>
+      </a>
+      <a href="/health-wellness.html" class="dept-row" data-preview="3">
+        <span class="d-index">04</span>
+        <span><span class="d-name">Health &amp; Wellness</span><span class="d-desc">Mineral-based personal care, built on the same chemistry.</span></span>
+        <span class="d-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="d-thumb tone" aria-hidden="true"></span>
+      </a>
+      <a href="/home-care.html" class="dept-row" data-preview="4">
+        <span class="d-index">05</span>
+        <span><span class="d-name">Home Care</span><span class="d-desc">Anti-bacterial essentials from a water-treatment manufacturer.</span></span>
+        <span class="d-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="d-thumb tone-brass" aria-hidden="true"></span>
+      </a>
+    </nav>
+
+    <div class="btn-row mt-48" data-in="fade">
+      <span class="body-copy">Not sure where to start? Tell us about your water.</span>
+      <a href="/contact.html" class="btn-text">Talk to us →</a>
     </div>
   </div>
 </section>
 
+<div class="dept-preview" data-dept-preview aria-hidden="true">
+  <div class="pane-wrap">
+    <div class="pane" style="background-image:url(/assets/img/plant/ro-frame-panel.webp)"><span>RO plant · engineered end to end</span></div>
+    <div class="pane" style="background-image:url(/assets/img/plant/media-vessels.webp)"><span>In-house chemistry</span></div>
+    <div class="pane" style="background-image:url(/assets/video/article-poster.webp)"><span>Article · mineralized water</span></div>
+    <div class="pane tone"><span>Health &amp; wellness</span></div>
+    <div class="pane tone-brass"><span>Home care</span></div>
+  </div>
+</div>
+
+<!-- ===================================================================
+     4. The difference — statement + inside the plant
+     =================================================================== -->
+<section class="section section--ivory-dim statement-scene" data-scene="pass">
+  <div class="container">
+    <span class="kicker">The difference</span>
+    <p class="statement mt-32" data-words>We are a manufacturer, not an importer or a repacker. Every formula we sell was born in our own facility, tested against the water that <em>really</em> runs through Pakistani pipes.</p>
+
+    <div class="plant-mosaic">
+      <figure class="shot" data-in="clip"><img src="/assets/img/plant/plant-wide.webp" alt="A SaT PaK RO plant room with media vessels, cartridge filters and RO frame" loading="lazy" data-parallax="0.12"><figcaption>Complete plant · pretreatment to RO</figcaption></figure>
+      <figure class="shot" data-in="clip"><img src="/assets/img/plant/ro-frame-panel.webp" alt="RO pressure vessels with control panel" loading="lazy" data-parallax="0.08"><figcaption>RO frame &amp; control panel</figcaption></figure>
+      <figure class="shot" data-in="clip"><img src="/assets/img/plant/media-vessels.webp" alt="Blue FRP media vessels" loading="lazy" data-parallax="0.08"><figcaption>Media filtration</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     5. Sectors
+     =================================================================== -->
+<section class="section">
+  <div class="container">
+    <div class="center">
+      <span class="kicker" data-in="fade">Sectors we serve</span>
+      <h2 class="h-xl mt-24 center" style="max-width:18ch;margin-left:auto;margin-right:auto;" data-in="up">Water runs through every kind of operation.</h2>
+    </div>
+    <div class="sector-strip mt-64" data-stagger>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div><span>Education</span></div>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h12v10H2z"/><path d="M14 11h4l4 3v3h-8z"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg></div><span>Logistics</span></div>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 21h12"/><rect x="8" y="5" width="8" height="14" rx="1"/><path d="M8 9l8 2M8 13l8 2"/></svg></div><span>Textile</span></div>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18a9 9 0 0 1-18 0z"/><path d="M8 8c0-1 1-1.4 1-2.5M12 8c0-1 1-1.4 1-2.5M16 8c0-1 1-1.4 1-2.5"/></svg></div><span>Food Processing</span></div>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 3v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l2-3V2z"/><path d="M8 12h8"/></svg></div><span>Plastics</span></div>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 13h18v5M21 13a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="10.2" r="1.8"/></svg></div><span>Hospitality</span></div>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21v-6a7 7 0 0 1 14 0v6"/><path d="M12 8V5"/><path d="M13.4 2.6a1.6 1.6 0 1 1-1.9 1.9 1.3 1.3 0 1 0 1.9-1.9z"/><path d="M10 21v-3a2 2 0 0 1 4 0v3"/></svg></div><span>Religious Institutions</span></div>
+      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg></div><span>Defence</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     6. Mineralized tap water
+     =================================================================== -->
 <section class="section section--teal">
-  <div class="container row align-center">
-    <div class="col" data-reveal>
-      <div class="media ratio-16-9 tone-brass">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2"><path d="M4 12c2-3 4-4 8-4s6 1 8 4M4 16c2-2 4-3 8-3s6 1 8 3"/><path d="M12 4v4"/></svg>
-        <div class="media-caption">Mineralized water, every tap</div>
-      </div>
+  <div class="container split">
+    <div>
+      <span class="kicker" style="color:var(--brass-light);" data-in="fade">For builders &amp; developers</span>
+      <h2 class="h-xl mt-24" style="color:#fff;" data-in="up">Mineralized drinking water from <em>every tap.</em></h2>
+      <p class="lede mt-24" style="color:rgba(255,255,255,0.82);" data-in="up">Picture a building where no one waits for a tanker or lugs a bottle up the stairs. Safe, mineralized water, straight from every tap. We design it into your project from day one.</p>
+      <a href="/contact.html#builder" class="btn btn-on-dark btn-outline mt-32" data-in="fade">Talk to us about your building</a>
     </div>
-    <div class="col" data-reveal>
-      <span class="eyebrow">For Builders &amp; Developers</span>
-      <h2>Mineralized Drinking Water From Every Tap.</h2>
-      <p class="lede mt-16">Picture a building where no one waits for a tanker or lugs a bottle up the stairs. Safe, mineralized water, straight from every tap. We design it into your project from day one.</p>
-      <a href="/contact.html#builder" class="btn btn-on-dark btn-outline mt-32">Talk to us about your building</a>
-    </div>
+    <figure class="shot wide" data-in="clip"><img src="/assets/img/plant/cartridge-filters.webp" alt="Cartridge filter bank on a SaT PaK plant" loading="lazy" data-parallax="0.1"><figcaption>Building-scale filtration</figcaption></figure>
   </div>
 </section>
 
-<section class="section section--dark">
-  <div class="container row align-center">
-    <div class="col" data-reveal>
-      <span class="eyebrow">Heritage</span>
-      <h2>We built the standard others now follow.</h2>
-      <p class="body-copy mt-24">Thirty-five years ago we started with one belief: water is not a commodity to trade, it is a responsibility to engineer. We built Karachi's first one-lac-gallon-per-day RO plant. We still service plants we set up twenty years ago.</p>
-      <div class="btn-row mt-32">
+<!-- ===================================================================
+     7. Heritage
+     =================================================================== -->
+<section class="section section--dark heritage on-dark" data-scene="pass">
+  <span class="ghost" aria-hidden="true">1990s</span>
+  <div class="container split">
+    <div>
+      <span class="kicker" data-in="fade">Heritage</span>
+      <h2 class="h-xl mt-24" data-in="up">We built the standard <em>others now follow.</em></h2>
+      <p class="body-copy mt-24" data-in="up">Thirty five years ago we started with one belief: water is not a commodity to trade, it is a responsibility to engineer. We built Karachi's first one-lac-gallon-per-day RO plant, and we still service plants we set up twenty years ago.</p>
+      <div class="btn-row mt-32" data-in="fade">
         <a href="/our-story.html" class="btn btn-on-dark btn-outline">Our Story</a>
-        <a href="/company-profile.pdf" class="btn-text">Download Company Profile →</a>
+        <a href="/company-profile.pdf" class="btn-text" style="color:var(--brass-light);">Download Company Profile →</a>
       </div>
     </div>
-    <div class="col" data-reveal>
-      <div class="media ratio-4-3 tone-mono">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2"><rect x="3" y="8" width="18" height="12" rx="1"/><path d="M7 8V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3M7 14h.01M12 14h.01M17 14h.01"/></svg>
-        <div class="media-caption">SaT PaK heritage archive</div>
-      </div>
-    </div>
+    <figure class="shot" data-in="clip"><img src="/assets/img/plant/ro-pall-frame.webp" alt="Stainless RO frame with PALL pressure vessels" loading="lazy" data-parallax="0.1"><figcaption>Every joint, every valve, ours</figcaption></figure>
   </div>
 </section>
 
-<section class="section">
-  <div class="container center" data-reveal>
-    <span class="eyebrow">Trusted By</span>
-    <h2>In 35 years, never a rupee on advertising.</h2>
-    <p class="lede center mt-16">In thirty five years we never spent a rupee on advertising. Every client came through a referral. These are the organisations who trusted us with their water.</p>
-    <div class="logo-row mt-64">
-      <span class="logo-chip">Al Asr Group</span>
-      <span class="logo-chip">Roots Millennium</span>
-      <span class="logo-chip">BlueEx</span>
-      <span class="logo-chip">Aziz Sons Textile</span>
-      <span class="logo-chip">Al-Anwar Plastics</span>
-      <span class="logo-chip">Sana Logistics</span>
-      <span class="logo-chip">Masafi</span>
-      <span class="logo-chip">Shandaar Foods</span>
-    </div>
-    <!-- Wordmark-only by design: no logo image files were supplied for these clients, so names are shown as typographic wordmarks rather than fabricated logo graphics. Swap in real vector logos here once received. -->
-  </div>
-</section>
-
-<section class="section section--ivory-dim">
+<!-- ===================================================================
+     8. Clients
+     =================================================================== -->
+<section class="section" aria-labelledby="clients-title">
   <div class="container">
-    <div class="center" data-reveal>
-      <span class="eyebrow">What Our Clients Say</span>
-      <h2 class="measure center">Heard directly from the people we've served.</h2>
+    <div class="split" style="align-items:end;">
+      <div>
+        <span class="kicker" data-in="fade">Trusted by</span>
+        <h2 class="h-xl mt-24" id="clients-title" data-in="up">In 35 years, <em>never a rupee</em> on advertising.</h2>
+      </div>
+      <p class="body-copy" data-in="up">Every client arrived through a referral. Schools, logistics fleets, textile mills, food plants and RO plant operators across Karachi trust us with their water.</p>
     </div>
-    <div class="grid grid-3 mt-64">
-      <div class="testimonial-card" data-reveal>
-        <span class="quote-mark">&ldquo;</span>
-        <p>Humara industrial RO plant SaT PaK ne design se maintenance tak sambhala. TDS consistent, downtime na ke barabar.</p>
-        <cite>— Client name, sector</cite>
-      </div>
-      <div class="testimonial-card" data-reveal>
-        <span class="quote-mark">&ldquo;</span>
-        <p>Doosri company ka lagaya plant chal nahi raha tha. SaT PaK ne rehabilitate kiya aur output pehle se behtar hai.</p>
-        <cite>— Client name, sector</cite>
-      </div>
-      <div class="testimonial-card" data-reveal>
-        <span class="quote-mark">&ldquo;</span>
-        <p>Anti-scalant aur membrane chemicals barson se inhi se lete hain. Local support aur quality dono par bharosa.</p>
-        <cite>— Client name, sector</cite>
-      </div>
+  </div>
+  <div class="client-marquee">
+    <div class="marquee-row">
+      <div class="client-tile"><img src="/assets/img/clients/al-asr-group.webp" alt="Al Asr Group" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/roots-millennium.webp" alt="Roots Millennium Schools" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/bluex.webp" alt="BlueEx" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/aziz-sons.webp" alt="Aziz Sons Textile" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/al-anwar-plastics.webp" alt="Al-Anwar Plastics" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/sana-logistics.webp" alt="Sana Logistics" loading="lazy"></div>
+      <div class="client-tile text">Pakistan<br>Armed Forces</div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/al-asr-group.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/roots-millennium.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/bluex.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/aziz-sons.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/al-anwar-plastics.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/sana-logistics.webp" alt="" loading="lazy"></div>
+      <div class="client-tile text" aria-hidden="true">Pakistan<br>Armed Forces</div>
     </div>
-    <!-- Draft testimonials — replace with named, approved client quotes before launch. Not visible to visitors. -->
+    <div class="marquee-row reverse">
+      <div class="client-tile"><img src="/assets/img/clients/masafi.webp" alt="Masafi" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/shandaar-foods.webp" alt="Shandaar Foods" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/ebrahim-textile.webp" alt="Ebrahim Textile Mills" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/athar-co.webp" alt="Athar &amp; Co" loading="lazy"></div>
+      <div class="client-tile"><img src="/assets/img/clients/madrissah-ibn-e-abbas.webp" alt="Madrissah Ibn-e-Abbas" loading="lazy"></div>
+      <div class="client-tile text">MAP</div>
+      <div class="client-tile text">RO plant<br>operators</div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/masafi.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/shandaar-foods.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/ebrahim-textile.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/athar-co.webp" alt="" loading="lazy"></div>
+      <div class="client-tile" aria-hidden="true"><img src="/assets/img/clients/madrissah-ibn-e-abbas.webp" alt="" loading="lazy"></div>
+      <div class="client-tile text" aria-hidden="true">MAP</div>
+      <div class="client-tile text" aria-hidden="true">RO plant<br>operators</div>
+    </div>
   </div>
 </section>
 
+<!-- ===================================================================
+     9. Testimonials
+     =================================================================== -->
 <section class="section section--ivory-dim">
-  <div class="container row align-center">
-    <div class="col" data-reveal>
-      <div class="media ratio-1-1 tone-brass">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2"><path d="M9 3v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V3"/><path d="M6 15h12"/></svg>
-      </div>
+  <div class="container split" style="align-items:start;">
+    <div>
+      <span class="kicker" data-in="fade">What our clients say</span>
+      <h2 class="h-xl mt-24" data-in="up">Heard from the people who <em>run the plants.</em></h2>
     </div>
-    <div class="col" data-reveal>
-      <span class="eyebrow">R&amp;D</span>
-      <h2>When the standard solution isn't enough.</h2>
-      <p class="body-copy mt-24">Some water problems have no ready-made answer. That is exactly where our chemistry starts: formulas built, tested and refined for Pakistan's water.</p>
+    <!-- Draft testimonials — replace with named, approved client quotes before launch. Not visible to visitors as company names. -->
+    <div class="quotes" data-quotes data-in="fade">
+      <figure class="quote-slide is-active">
+        <blockquote>Scaling used to cost us a membrane every few months. Since we moved to NEORA, the flow holds steady and our operator handles the dosing on his own.</blockquote>
+        <figcaption class="quote-who"><span class="mono">—</span><span><strong>Client name</strong><span>Water plant, Karachi</span></span></figcaption>
+      </figure>
+      <figure class="quote-slide">
+        <blockquote>When your name is printed on the bottle, the taste has to be the same every single day. Their mineral salts give us that, batch after batch.</blockquote>
+        <figcaption class="quote-who"><span class="mono">—</span><span><strong>Client name</strong><span>Bottled water brand, Karachi</span></span></figcaption>
+      </figure>
+      <figure class="quote-slide">
+        <blockquote>We have bought our chemicals from SaT PaK for years. If something goes wrong at the plant, their team is on site, not on hold.</blockquote>
+        <figcaption class="quote-who"><span class="mono">—</span><span><strong>Client name</strong><span>RO water plant, Karachi</span></span></figcaption>
+      </figure>
+      <figure class="quote-slide">
+        <blockquote>Our plant was installed by another company and never ran right. SaT PaK reworked the pretreatment, trained our staff, and now look after it on a yearly contract.</blockquote>
+        <figcaption class="quote-who"><span class="mono">—</span><span><strong>Client name</strong><span>Commercial RO plant</span></span></figcaption>
+      </figure>
+      <div class="quote-nav">
+        <button class="quote-arrow" type="button" data-quote-prev aria-label="Previous testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <div class="quote-ticks">
+          <button class="quote-tick" type="button" aria-label="Testimonial 1"></button>
+          <button class="quote-tick" type="button" aria-label="Testimonial 2"></button>
+          <button class="quote-tick" type="button" aria-label="Testimonial 3"></button>
+          <button class="quote-tick" type="button" aria-label="Testimonial 4"></button>
+        </div>
+        <button class="quote-arrow" type="button" data-quote-next aria-label="Next testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section section--dark">
-  <div class="container">
-    <div class="center" data-reveal>
-      <span class="eyebrow">How we work</span>
-      <h2>From analysis to maintenance, we handle all of it.</h2>
-    </div>
-    <div class="process-track mt-64">
-      <div class="process-strip">
-        <div class="process-step"><span class="num">1</span><span class="process-step-label">Analyse</span></div>
-        <div class="process-step"><span class="num">2</span><span class="process-step-label">Design</span></div>
-        <div class="process-step"><span class="num">3</span><span class="process-step-label">Engineer</span></div>
-        <div class="process-step"><span class="num">4</span><span class="process-step-label">Install</span></div>
-        <div class="process-step"><span class="num">5</span><span class="process-step-label">Commission</span></div>
-        <div class="process-step"><span class="num">6</span><span class="process-step-label">Train</span></div>
-        <div class="process-step"><span class="num">7</span><span class="process-step-label">Maintain</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- ===================================================================
+     10. R&D
+     =================================================================== -->
 <section class="section">
-  <div class="container center" data-reveal>
-    <h2 class="measure center">Talk to the people who understand water, from the plant to the tap.</h2>
-    <a href="/contact.html#consultation" class="btn btn-primary mt-32">Book a Consultation</a>
+  <div class="container split flip">
+    <figure class="shot wide" data-in="clip"><img src="/assets/video/chem-poster.webp" alt="Dosing lines and chemical tanks in a SaT PaK plant" loading="lazy" data-parallax="0.1"><figcaption>Dosing, the way we formulate it</figcaption></figure>
+    <div>
+      <span class="kicker" data-in="fade">R&amp;D</span>
+      <h2 class="h-xl mt-24" data-in="up">When the standard solution <em>isn't enough.</em></h2>
+      <p class="body-copy mt-24" data-in="up">Some water problems have no ready-made answer. That is exactly where our chemistry starts: formulas built, tested and refined for Pakistan's water.</p>
+      <a href="/chemicals-minerals.html" class="btn btn-outline mt-32" data-in="fade">Explore Chemicals &amp; Minerals</a>
+    </div>
   </div>
 </section>
+
+<!-- ===================================================================
+     11. The water line — how we work
+     =================================================================== -->
+<section class="pipeline-scene" data-scene="pin" aria-labelledby="waterline-title">
+  <div class="pipeline-sticky">
+    <div class="container pipeline-head">
+      <div>
+        <span class="kicker" style="color:var(--brass-light);">The water line</span>
+        <h2 class="h-xl mt-24" id="waterline-title">From the first drop we test to the <em>last valve we tighten.</em></h2>
+      </div>
+      <div class="pipeline-count" aria-hidden="true"><span data-pipeline-current>01</span><small> / 07</small></div>
+    </div>
+    <div class="pipeline-viewport">
+      <div class="pipeline-track" data-htrack data-pipeline>
+        <div class="pipe" aria-hidden="true">
+          <svg viewBox="0 0 1000 150" preserveAspectRatio="none">
+            <path class="pipe-base" vector-effect="non-scaling-stroke" d="M0 75 L71.4 75 C122.9 75 134.3 27 142.9 27 C151.4 27 163 75 214.3 75 C265.7 75 277.1 123 285.7 123 C294.3 123 305.7 75 357.1 75 C408.6 75 420 27 428.6 27 C437.1 27 448.6 75 500 75 C551.4 75 562.9 123 571.4 123 C580 123 591.4 75 642.9 75 C694.3 75 705.7 27 714.3 27 C722.9 27 734.3 75 785.7 75 C837.1 75 848.6 123 857.1 123 C865.7 123 877.1 75 928.6 75 L1000 75"/>
+            <path class="pipe-flow" vector-effect="non-scaling-stroke" pathLength="1" d="M0 75 L71.4 75 C122.9 75 134.3 27 142.9 27 C151.4 27 163 75 214.3 75 C265.7 75 277.1 123 285.7 123 C294.3 123 305.7 75 357.1 75 C408.6 75 420 27 428.6 27 C437.1 27 448.6 75 500 75 C551.4 75 562.9 123 571.4 123 C580 123 591.4 75 642.9 75 C694.3 75 705.7 27 714.3 27 C722.9 27 734.3 75 785.7 75 C837.1 75 848.6 123 857.1 123 C865.7 123 877.1 75 928.6 75 L1000 75"/>
+          </svg>
+          <span class="pipe-drop"></span>
+        </div>
+        <ol class="stations">
+          <li class="station"><span class="node"></span><div class="card-body"><span class="num">01</span><h3>Analyse</h3><p>We read your water before we touch it, in our lab and outside ones.</p></div></li>
+          <li class="station"><span class="node"></span><div class="card-body"><span class="num">02</span><h3>Design</h3><p>A plant drawn around your source, not picked from a catalogue.</p></div></li>
+          <li class="station"><span class="node"></span><div class="card-body"><span class="num">03</span><h3>Engineer</h3><p>Every pump, membrane and valve sized on paper before it is ordered.</p></div></li>
+          <li class="station"><span class="node"></span><div class="card-body"><span class="num">04</span><h3>Install</h3><p>Built on site by the same engineers who designed it.</p></div></li>
+          <li class="station"><span class="node"></span><div class="card-body"><span class="num">05</span><h3>Commission</h3><p>We don't leave until the TDS, flow and pressure hold.</p></div></li>
+          <li class="station"><span class="node"></span><div class="card-body"><span class="num">06</span><h3>Train</h3><p>Your operators learn the plant from the people who built it.</p></div></li>
+          <li class="station"><span class="node"></span><div class="card-body"><span class="num">07</span><h3>Maintain</h3><p>Twenty years on, we still pick up the phone.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     12. Closing
+     =================================================================== -->
+<section class="section center">
+  <div class="container">
+    <h2 class="h-xl center" style="max-width:20ch;margin-left:auto;margin-right:auto;" data-in="up">Talk to the people who understand water, <em>from the plant to the tap.</em></h2>
+    <div class="btn-row mt-32" style="justify-content:center;" data-in="fade">
+      <a href="/contact.html#consultation" class="btn btn-primary">Book a Consultation</a>
+      <a href="https://wa.me/923181112606" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp 0318-1112606</a>
+    </div>
+  </div>
+</section>
+
+</main>
 
 <div data-include="/partials/footer.html"></div>
 <script src="/assets/js/include.js"></script>
 <script src="/assets/js/main.js"></script>
+<script src="/assets/js/motion.js"></script>
 </body>
 </html>
