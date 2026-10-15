@@ -1,5 +1,53 @@
 // Unify Club — shared site behavior (no build step, no dependencies)
 document.addEventListener('DOMContentLoaded', () => {
+  /* Dark / light theme toggle. The initial theme is already applied by a
+     tiny inline script in <head> (before CSS loads) to avoid a flash of
+     the wrong theme — this just wires up the button and keeps it in sync. */
+  const themeToggle = document.querySelector('[data-theme-toggle]');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        try { localStorage.setItem('unify-theme', 'light'); } catch (e) {}
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        try { localStorage.setItem('unify-theme', 'dark'); } catch (e) {}
+      }
+    });
+  }
+
+  /* English / Urdu toggle — see assets/js/i18n.js for the dictionary and
+     coverage notes. Swaps data-i18n element text and flips <html lang>. */
+  const langToggle = document.querySelector('[data-lang-toggle]');
+  const dict = window.UNIFY_I18N || { en: {}, ur: {} };
+  function applyLanguage(lang) {
+    const strings = dict[lang] || dict.en;
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.dataset.i18n;
+      if (strings[key]) el.textContent = strings[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.dataset.i18nPlaceholder;
+      if (strings[key]) el.setAttribute('placeholder', strings[key]);
+    });
+    document.querySelectorAll('[data-lang-label]').forEach((el) => {
+      el.textContent = lang === 'ur' ? 'EN' : 'UR';
+    });
+    document.body.classList.toggle('lang-ur', lang === 'ur');
+  }
+  let currentLang = 'en';
+  try { currentLang = localStorage.getItem('unify-lang') || 'en'; } catch (e) {}
+  if (currentLang === 'ur') applyLanguage('ur');
+  if (langToggle) {
+    langToggle.addEventListener('click', () => {
+      currentLang = currentLang === 'ur' ? 'en' : 'ur';
+      applyLanguage(currentLang);
+      try { localStorage.setItem('unify-lang', currentLang); } catch (e) {}
+    });
+  }
+
   /* Mobile nav toggle */
   const navToggle = document.querySelector('[data-nav-toggle]');
   if (navToggle) {
@@ -101,17 +149,125 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* Demo forms: booking / contact — no backend wired up yet, so we
-     confirm locally and let visitors know we'll follow up by phone/email. */
-  document.querySelectorAll('[data-demo-form]').forEach((form) => {
-    form.addEventListener('submit', (event) => {
+  /* Lead forms (Book a Trial / Contact / Volunteer) — submit into the CRM's
+     Leads module via POST /public/leads, then show a real 3-step tracker
+     driven by the lead's actual stage, not a static "thank you" message.
+     See website/docs/SECURITY.md §API Security and ARCHITECTURE.md §6. */
+  const API_BASE_URL = (window.UNIFY_API_BASE_URL || '').replace(/\/+$/, '');
+  const TRACKER_STEPS = [
+    { n: 1, label: 'Submitted' },
+    { n: 2, label: 'Our team reviews' },
+    { n: 3, label: 'Confirmed & scheduled' },
+  ];
+
+  function buildLeadPayload(form) {
+    const data = Object.fromEntries(new FormData(form).entries());
+    const formType = form.dataset.formType;
+    const payload = { formType, website: data.website || '' };
+    if (formType === 'trial') {
+      Object.assign(payload, {
+        parentName: data.parent, phone: data.phone, email: data.email,
+        childName: data.child, childAge: data.age, program: data.program,
+        preferredDay: data.day, preferredTime: data.time, message: data.notes,
+      });
+    } else if (formType === 'contact') {
+      Object.assign(payload, {
+        parentName: data.name, email: data.email, phone: data.phone,
+        subject: data.subject, message: data.message,
+      });
+    } else if (formType === 'volunteer') {
+      Object.assign(payload, {
+        parentName: data.name, email: data.email, phone: data.phone,
+        interestArea: data.interest, availability: data.availability, message: data.message,
+      });
+    }
+    return payload;
+  }
+
+  function renderTracker(container, result) {
+    if (!container) return;
+    if (result.errorMessage) {
+      container.innerHTML =
+        '<div class="lead-tracker lead-tracker--error">' +
+        '<svg><use href="#i-close"/></svg>' +
+        '<div><strong>We couldn’t submit this right now.</strong>' +
+        '<p>' + result.errorMessage + ' Please call <a href="tel:+923141123441">+92 314 1123 441</a> or email ' +
+        '<a href="mailto:Info@unifyclub.org">Info@unifyclub.org</a> directly and we’ll take it from there.</p></div></div>';
+      container.classList.add('show');
+      return;
+    }
+    const stepsHtml = TRACKER_STEPS.map((s) => {
+      const state = s.n < result.step ? 'is-done' : s.n === result.step ? 'is-current' : '';
+      const dot = s.n < result.step ? '<svg><use href="#i-check"/></svg>' : String(s.n);
+      return '<div class="lead-tracker-step ' + state + '"><span class="lead-tracker-dot">' + dot +
+        '</span><span class="lead-tracker-label">' + s.label + '</span></div>';
+    }).join('');
+    container.innerHTML =
+      '<div class="lead-tracker"><div class="lead-tracker-steps">' + stepsHtml + '</div>' +
+      '<p class="lead-tracker-note">Current status: <strong>' + result.stepLabel + '</strong>. Reference: <code>' +
+      result.id + '</code> — save this to check your status anytime.</p></div>';
+    container.classList.add('show');
+  }
+
+  function rememberSubmission(id, formType) {
+    try {
+      const saved = JSON.parse(localStorage.getItem('unify-submissions') || '[]');
+      saved.push({ id, formType, at: Date.now() });
+      localStorage.setItem('unify-submissions', JSON.stringify(saved.slice(-10)));
+    } catch (e) { /* localStorage unavailable — non-fatal, reference still shown on screen */ }
+  }
+
+  document.querySelectorAll('[data-lead-form]').forEach((form) => {
+    const tracker = form.parentElement.querySelector('[data-lead-tracker]');
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const success = form.parentElement.querySelector('.form-success');
-      if (success) {
-        success.classList.add('show');
-        success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!API_BASE_URL) {
+        renderTracker(tracker, { errorMessage: 'This site isn’t connected to our booking system yet.' });
+        return;
       }
-      form.reset();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+      try {
+        const res = await fetch(API_BASE_URL + '/public/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(buildLeadPayload(form)),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(body.message || ('Server returned ' + res.status));
+        rememberSubmission(body.id, form.dataset.formType);
+        form.hidden = true;
+        renderTracker(tracker, body);
+        tracker?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch (err) {
+        renderTracker(tracker, { errorMessage: err.message || 'Something went wrong.' });
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  });
+
+  /* Status lookup widget (e.g. on contact.html) — lets a returning visitor
+     check progress on a submission by its reference code. */
+  document.querySelectorAll('[data-status-form]').forEach((form) => {
+    const input = form.querySelector('input[name="reference"]');
+    const result = document.querySelector(form.dataset.statusForm);
+    try {
+      const saved = JSON.parse(localStorage.getItem('unify-submissions') || '[]');
+      if (input && !input.value && saved.length) input.value = saved[saved.length - 1].id;
+    } catch (e) { /* no saved reference available — leave input blank */ }
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const id = input?.value.trim();
+      if (!id || !API_BASE_URL) return;
+      try {
+        const res = await fetch(API_BASE_URL + '/public/leads/' + encodeURIComponent(id) + '/status');
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(body.message || 'We couldn’t find that reference.');
+        renderTracker(result, body);
+      } catch (err) {
+        renderTracker(result, { errorMessage: err.message || 'We couldn’t find that reference.' });
+      }
     });
   });
 

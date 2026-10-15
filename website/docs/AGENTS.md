@@ -16,7 +16,7 @@ Core documentation:
 - DESIGN_SYSTEM.md — the real color/type/spacing/component tokens in use, and the specific rule against blending amber into the teal/blue gradient
 - ARCHITECTURE.md — why this is a static zero-build-step site kept separate from the CRM, the project structure, and documented failure scenarios
 - DATABASE.md — confirms there is no database today, and what a future one would look like if the open question in its §4 is ever resolved
-- SECURITY.md — confirms forms do not currently send data anywhere, and what must be true before that changes
+- SECURITY.md — the three lead-capture forms now submit for real into the CRM's Leads module; this documents the public API contract, what it does and doesn't expose, and what's still open (deployment config, CORS origin)
 - CODE_STYLE.md — naming conventions, the regeneration workflow for the duplicated nav/footer/sprite shell, and the deliberately-not-renamed `--violet-*` CSS variables
 - TESTING.md — the structural/visual checks to run and the two real bugs they previously caught
 
@@ -28,7 +28,7 @@ Do not contradict these documents without first identifying the conflict (e.g., 
 - Reuse existing components and utilities (CODE_STYLE.md §1, §5) — check `assets/css/style.css` for an existing class before writing new CSS.
 - Follow the design system (DESIGN_SYSTEM.md) — especially the amber/gradient rule in §3; it's there because an earlier version of this exact mistake was caught and fixed.
 - Follow the architecture (ARCHITECTURE.md) — do not introduce a build step, framework, or new runtime dependency without flagging it as a decision to revisit, not a silent change.
-- Follow database conventions — there is no database; do not invent one or start persisting form data as a "helpful" side effect of an unrelated task (see DATABASE.md §0, SECURITY.md §6 — this is explicitly called out because it would mean collecting children's personal data without an agreed data-handling policy).
+- Follow database conventions — the website has no database of its own; its three forms write into the CRM's existing Postgres database through the public Leads API, and nowhere else (see DATABASE.md §0). Don't add a second persistence path (a new database, a spreadsheet integration, a third-party form service) as a "helpful" side effect of an unrelated task — that would mean collecting children's personal data through an un-reviewed path (see SECURITY.md §6).
 - Follow security requirements — in particular, never present a form as "wired up" or "sending to the team" unless it actually is; SECURITY.md §8 exists because overstating this would create a real operational risk for a children's-services organization.
 - Do not invent business requirements — placeholder content (board names, bank details, bracketed text) must stay visibly placeholder; do not quietly firm them up into realistic-looking fake specifics.
 - Do not expose secrets — N/A today (none exist), stays true going forward (SECURITY.md §3).
@@ -74,7 +74,7 @@ Update `website/docs/` when implementation changes:
 ## 8. Conflict Handling
 
 If a request conflicts with something documented here (e.g., "add a build step," "store form submissions in a new database," "rename the CSS variables") — do not guess silently. Name the conflict explicitly, point to the specific document/section it conflicts with, and get a decision before proceeding. Three examples already anticipated in these docs, so they don't need re-litigating from scratch:
-- A real form backend is **expected eventually** (DATABASE.md §4, SECURITY.md §8) — the open question is *where* (new minimal DB vs. the existing CRM's Leads/Trials modules), not *whether*. Surface that specific choice rather than picking one silently.
+- The form backend question is **resolved**: submissions go into the existing CRM's Leads module via the public API (DATABASE.md §0, SECURITY.md §8). Don't reopen it or add a second persistence path — if a genuinely new need arises (e.g. a 4th form type), extend `PublicLeadsService`, don't invent a parallel mechanism.
 - Renaming the `--violet-*` CSS variables is a known, deferred cleanup (CODE_STYLE.md §2) — fine to do if asked, but should be its own isolated, fully-verified change, never bundled into an unrelated edit.
 - "Make it more like kdsp.org.pk" cannot be verified against the real site from inside this environment (the domain is network-blocked) — confirm with the client whether they can supply screenshots/specifics before assuming a redesign direction; see DESIGN_SYSTEM.md §0 for how this was handled previously.
 

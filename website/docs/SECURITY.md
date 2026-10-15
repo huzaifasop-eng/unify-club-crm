@@ -2,7 +2,7 @@
 
 ## 0. Current State Summary
 
-This is a static, unauthenticated, backend-free public website. There are no user accounts, no secrets, no server, and no stored data today — which eliminates most traditional attack surface, but it also means the "security" posture of this product is really about (a) not misleading visitors about what happens to the information they submit, and (b) doing the groundwork now so that whenever a real backend is added, it isn't bolted on carelessly. Read this document together with DATABASE.md §0 and ARCHITECTURE.md §12.
+**Updated:** the three forms now submit for real. `POST /api/v1/public/leads` (unauthenticated, in `apps/api/src/modules/leads/public-leads.controller.ts`) creates a record in the CRM's existing `Lead` model and returns a status the website renders as a 3-step tracker. The frontend/website itself is still static and account-free (no visitor logs in to anything) — what changed is that it now talks to a real backend instead of pretending locally. See DATABASE.md §0 and ARCHITECTURE.md §6/§9 for the full picture, and Section 8 below for exactly what the public endpoint does and doesn't expose.
 
 ## 1. Authentication
 
@@ -29,19 +29,21 @@ Private: None currently.
 
 ## 5. API Security
 
-There is no API today. Input validation, rate limiting, CORS, authentication, and authorization for Section 8's proposed form-handling backend are all **undesigned and undecided** — do not assume any particular approach (serverless function, third-party form service like Formspree, or routing into the CRM's existing API) until the client decides, per DATABASE.md §4. Whichever is chosen, the minimum bar before going live:
-- Server-side validation of every field (the current client-side `required`/`type=` attributes are not validation — see Data Protection below).
-- Rate limiting / basic bot protection (honeypot field or similar) on all three forms, since a public, unauthenticated form endpoint is a predictable spam target.
-- CORS locked to the site's real deployed origin(s) once a domain is known.
+The client decided (per DATABASE.md §4): submissions route into the existing CRM's Leads module via a new, deliberately separate public surface — `PublicLeadsController`/`PublicLeadsService` in `apps/api/src/modules/leads/`, never the authenticated `LeadsController`. What's actually in place:
+- **Server-side validation**: `CreatePublicLeadDto` (`class-validator`) enforces types/lengths on every field; the client-side `required`/`type=` attributes are UX only, not the real validation.
+- **Rate limiting**: a minimal in-memory sliding-window limiter (5 submissions / 10 minutes / IP) in `PublicLeadsService`. Deliberately simple — no new dependency — and resets on API restart; acceptable for a low-traffic nonprofit intake form, revisit if abuse is observed.
+- **Bot protection**: a honeypot field (`website`) on all three forms, visually hidden via `.hp-field` CSS, not `display:none` (so simple bots that skip hidden fields still fill it). A non-empty value makes the service silently return a fake success rather than erroring, so the bot doesn't learn to adapt.
+- **CORS**: `CORS_ORIGIN` in `apps/api/.env` now accepts a comma-separated list (`main.ts`) so both the CRM frontend and the public website's real origin can be allowed once the website has a deployed domain. **Open item:** the website isn't deployed yet, so this still needs the real production origin added before launch — `localhost` alone won't work from a live site.
+- **No admin surface is exposed publicly**: `PublicLeadsController` only has `POST /` (create) and `GET /:id/status` (a deliberately narrow status lookup, see §6) — nothing else from the Leads module is reachable without the existing JWT auth.
 
 ## 6. Data Protection
 
-Sensitive data collected by the site's forms, once (if) a backend exists: child's name and age, parent/guardian name, phone, email, free-text notes which may describe a child's diagnosis or needs. This is sensitive personal data about a minor and should be handled with real care:
-- Encryption: data in transit must be HTTPS-only (the deploy targets referenced in ARCHITECTURE.md — Netlify/Vercel/most modern shared hosts — provide this by default; confirm it explicitly for whatever host is actually chosen, since "my hosting" was never specified).
-- Retention: not yet decided — flag to the client: how long should booking/contact/volunteer records be kept, and who has access?
-- Deletion: not yet decided — flag to the client: does a parent have a way to request their child's information be deleted?
-
-Until these decisions are made, **do not silently build a form backend as a side effect of an unrelated task.** This is explicitly called out because it's the kind of thing an AI coding agent might "helpfully" add without realizing it's collecting data about children without an agreed data-handling policy.
+Sensitive data now actually collected: child's name and age, parent/guardian name, phone, email, and free-text notes that may describe a child's diagnosis or needs — stored as a real `Lead` row (plus form-specific extras folded into `notes`, see DATABASE.md §3). This is sensitive personal data about a minor:
+- **Encryption in transit**: HTTPS depends on wherever the website ends up hosted — not yet deployed, so not yet verified. Confirm explicitly once a real host/domain is chosen.
+- **Who can see it**: the same CRM staff who already have `leads:read` permission on the authenticated Leads module — no new audience was created. The public endpoint only ever *writes*; it has no read access to lead data beyond the single caller's own 3-step status (see §8).
+- **What the public status lookup deliberately does NOT expose**: `GET /public/leads/:id/status` returns only `{ id, step, stepLabel }` — never the parent's name, child's details, internal `LeadStage` value, or `LOST`/`DUPLICATE`/`JUNK` classifications (those map back to a generic "Submitted" so a parent is never shown something that reads as a rejection). See `public-leads.service.ts`'s `STEP_BY_STAGE` mapping.
+- **Enumeration risk**: lead IDs are UUIDs (not sequential), so guessing another family's reference code to probe their status is impractical — acceptable for now given the status endpoint reveals almost nothing anyway.
+- Retention / deletion policy: still **not decided** — flag to the client: how long should booking/contact/volunteer records be kept, and does a parent have a way to request their child's information be deleted? This governs the CRM's Leads data generally, not just website-sourced leads, so it's a product decision beyond this document set's scope.
 
 ## 7. Logging
 
@@ -49,26 +51,32 @@ There is no server, so there is no server-side logging today. The only "logging"
 Never log: passwords (N/A, no auth), API keys/tokens, full form submissions containing a child's personal details (log IDs/status transitions instead, not raw payloads).
 Log: submission received (by ID, not full content), status transitions, errors.
 
-## 8. Form / "API" Handling (website-specific, in place of a generic endpoint list)
+## 8. Form / API Handling
 
-This section replaces a conventional endpoint-by-endpoint API log, since none exists. The three client-side-only forms and what they currently do:
-
-| Form | Page | Current behavior | Real submission wired up? |
+| Form | Page | Behavior | Real submission wired up? |
 |---|---|---|---|
-| Book a Trial | `book.html` | Shows local success message, resets form | **No** |
-| Contact | `contact.html` | Shows local success message, resets form | **No** |
-| Volunteer | `get-involved.html` | Shows local success message, resets form | **No** |
+| Book a Trial | `book.html` | POSTs to `/public/leads`, renders 3-step tracker | **Yes** |
+| Contact | `contact.html` | POSTs to `/public/leads`, renders 3-step tracker | **Yes** |
+| Volunteer | `get-involved.html` | POSTs to `/public/leads`, renders 3-step tracker | **Yes** |
 
-**This must be communicated to the client plainly, not just buried in docs:** as deployed today, submitting any of these forms does not notify Unify Club staff in any way. If the client believes these forms are "live," that is a real operational risk (a parent books a trial and no one ever sees it). This was flagged in the PRD (§12) and should be resolved — at minimum with a `mailto:` fallback, more robustly with a real backend per DATABASE.md §4 — before the site is promoted as the primary booking channel.
+Endpoints (`apps/api/src/modules/leads/public-leads.controller.ts`, no auth guard by design):
+- `POST /api/v1/public/leads` — body validated by `CreatePublicLeadDto`; creates a `Lead` (source `WEBSITE`, stage `NEW_LEAD`) on the branch named by `PUBLIC_INTAKE_BRANCH_CODE` (defaults to `NNAZ`); logs a `LeadActivity` with `userId: null`. Returns `{ id, step, stepLabel }`.
+- `GET /api/v1/public/leads/:id/status` — returns the same shape for a returning visitor checking progress (the website's `contact.html` has a "Check your status" widget for this).
+
+**Still open before this is production-safe:**
+- The website itself isn't deployed, so `assets/js/config.js`'s `window.UNIFY_API_BASE_URL` is still an empty string — forms correctly show a "not connected yet" error with a phone/email fallback until someone sets this to the real deployed API URL (see ARCHITECTURE.md §3 and `config.js`'s own comment).
+- `CORS_ORIGIN` on the API needs the website's real production origin added (see §5) once it has one.
+- `PUBLIC_INTAKE_BRANCH_CODE` must match a seeded `Branch.code` in whatever database the API runs against — it fails loudly with a clear error if not, rather than silently dropping the submission, but someone needs to confirm this before launch.
 
 ## 9. Security Checklist
 
-- [x] Authentication implemented — N/A, correctly not implemented (no accounts on a public marketing site)
-- [x] Authorization implemented — N/A, correctly not implemented
-- [ ] Server-side validation — not applicable yet (no server); required before any backend ships
-- [x] Secrets protected — none exist in the codebase; verified no API keys are embedded anywhere in `website/`
-- [ ] Sensitive data protected — undecided, see Section 6; must be resolved before a form backend collects real children's data
-- [ ] Rate limiting considered — not applicable yet; required before any backend ships
-- [x] File uploads validated — N/A, this site has no file upload feature anywhere
-- [x] Errors do not expose sensitive details — N/A, no server-side errors exist to expose
-- [x] Dependencies reviewed — the site has **zero** npm/CDN JS dependencies by design (see ARCHITECTURE.md §3); only third-party requests are Google Fonts and a keyless Google Maps embed, both reviewed above
+- [x] Authentication implemented — N/A, correctly not implemented (no accounts on a public marketing site; the new endpoints are intentionally unauthenticated, see §5)
+- [x] Authorization implemented — N/A for the website; the public endpoints correctly cannot reach any authenticated Leads functionality
+- [x] Server-side validation — `CreatePublicLeadDto` (class-validator), see §5
+- [x] Secrets protected — no API keys/credentials anywhere in `website/`; the API's secrets live in its own `.env`, unchanged
+- [ ] Sensitive data protected — retention/deletion policy still undecided, see §6; everything else (encryption in transit, access scope, status-endpoint minimal exposure) is addressed
+- [x] Rate limiting considered — simple in-memory limiter, see §5 (flagged there as intentionally basic)
+- [x] File uploads validated — N/A, still no file upload feature anywhere
+- [x] Errors do not expose sensitive details — the public status endpoint never returns parent/child details or raw internal stage names, see §6
+- [x] Dependencies reviewed — the website frontend still has **zero** JS dependencies; the backend change added zero new npm packages (reused `class-validator`, already a dependency)
+- [ ] **CORS origin for the live website domain** — not yet added (website isn't deployed), see §5 and §8

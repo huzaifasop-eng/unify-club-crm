@@ -17,13 +17,13 @@ Trade-off accepted: shared markup (icon sprite, nav, footer) is **duplicated** i
 ## 3. Technology Stack
 
 Frontend: Plain HTML5, CSS3 (custom properties, Grid, Flexbox), vanilla ES6 JavaScript (no bundler, no npm dependency)
-Backend: None
-Database: None
-Authentication: None (public site, no accounts)
+Backend: Not part of this product — but the three lead-capture forms now call the separate CRM's NestJS API (`apps/api`) for real, via a public, unauthenticated endpoint. See §9's "Key Technical Decision" on why this integration exists without collapsing the two products into one.
+Database: None of the website's own — form submissions land in the CRM's existing Postgres/Prisma database via its API. See DATABASE.md §0.
+Authentication: None (public site, no accounts; the API endpoints it calls are deliberately unauthenticated too — see SECURITY.md §5)
 Storage: None (no file uploads)
 Hosting: Host-agnostic by design — `netlify.toml` and `vercel.json` are included for one-click deploys to those two, but the output is a plain static folder that also works on any shared host.
 Payments: None (donations are bank-transfer instructions only — see PRD.md §12)
-Email: None wired up (forms do not send email — see SECURITY.md)
+Email: None wired up (lead submissions reach staff through the CRM's existing Leads module UI, not email — see SECURITY.md)
 Analytics: None installed
 Other Services: Google Fonts (`fonts.googleapis.com`, via `<link>`), Google Maps embed (`google.com/maps?...&output=embed` iframe, no API key required) — both are third-party requests made by the **visitor's** browser at runtime, not by any build process.
 
@@ -41,13 +41,21 @@ Responsibilities: Brand blurb, three link columns (Explore / Get Involved / Visi
 ### `assets/css/style.css`
 Responsibilities: All design tokens (CSS custom properties — see DESIGN_SYSTEM.md) and every component class used across all 13 pages. Single file, no splitting, since there's no build step to code-split or purge unused CSS.
 
+### `assets/js/config.js`
+Responsibilities: The single place deployment configures `window.UNIFY_API_BASE_URL`, the CRM API's base URL. Ships empty by default so forms honestly report "not connected yet" rather than silently failing — see SECURITY.md §8.
+
+### `assets/js/i18n.js`
+Responsibilities: The English/Urdu dictionary (`window.UNIFY_I18N`) consumed by `main.js`'s language toggle. Coverage today is the shared nav/footer plus the full Home page — see DESIGN_SYSTEM.md §16 and the file's own header comment for how to extend it.
+
 ### `assets/js/main.js`
 Responsibilities (all vanilla, no dependencies):
+- Dark/light theme toggle (`[data-theme-toggle]`) and English/Urdu toggle (`[data-lang-toggle]`), both persisted to `localStorage`; the initial theme is set by a tiny inline script in `<head>` (before CSS loads) to avoid a flash of the wrong theme.
 - Mobile nav toggle + dropdown tap-to-expand.
 - Active-nav-link detection by comparing `location.pathname` to each link's `data-page`.
 - IntersectionObserver-driven scroll reveals (`[data-reveal]`) and animated stat counters (`[data-count]`), with graceful no-op fallback if `IntersectionObserver` is unsupported.
 - FAQ accordion expand/collapse.
-- Demo form submit handlers (`[data-demo-form]`) — prevents default, shows `.form-success`, resets the form. **Does not send data anywhere** (see SECURITY.md).
+- Lead form submit handlers (`[data-lead-form]`) — POSTs to the CRM API's public Leads endpoint and renders a 3-step tracker from the real response, or an honest error state on failure. **Does send real data now** (see SECURITY.md §8 — this replaced the old no-op "demo form" behavior).
+- Status-lookup widget (`[data-status-form]`) — lets a returning visitor re-check a saved reference code's status.
 - Gallery lightbox open/close.
 - Simple testimonial slide show/hide.
 - Footer year.
@@ -63,22 +71,31 @@ Visitor's browser
    ├─▶ GET /index.html (or any of the 13 pages) ──▶ static file, served as-is
    │        │
    │        ├─▶ GET /assets/css/style.css
-   │        ├─▶ GET /assets/js/main.js
+   │        ├─▶ GET /assets/js/{config,i18n,main}.js
    │        ├─▶ GET https://fonts.googleapis.com/... (Google Fonts, third party)
    │        └─▶ GET https://www.google.com/maps?...&output=embed (on Contact/Locations)
    │
    └─▶ Form submit (Contact / Book a Trial / Volunteer)
-            └─▶ handled entirely client-side by main.js — no network request is made
+            └─▶ POST {UNIFY_API_BASE_URL}/public/leads  ──▶  apps/api (NestJS)
+                     │                                          │
+                     │◀── { id, step, stepLabel } ───────────── PublicLeadsService
+                     │                                          │ creates Lead + LeadActivity
+                     ▼                                          ▼
+            renders a 3-step tracker                     Postgres (same DB the CRM uses)
+            (assets/js/main.js renderTracker)
+
+       Returning visitor can also:
+       GET {UNIFY_API_BASE_URL}/public/leads/:id/status  ──▶  same tracker, live status
 ```
 
-There is no application server, no API, and no database in this product's request path. Every "backend" word in this document set (SECURITY.md, DATABASE.md) describes what would need to be **added** if a real form pipeline is built — it does not describe anything that exists today.
+**Updated:** the static-site-with-no-backend description below this diagram in earlier revisions of this document is no longer accurate for the three lead-capture forms — see SECURITY.md §5/§8 and DATABASE.md §0 for the full implementation. Everything else about this product (no accounts, no database of its own, no build step) is unchanged: the website is a pure static client of the CRM's API, not a backend itself.
 
 ## 6. Data Flow
 
 1. Visitor requests a page → static host returns the `.html` file unmodified.
-2. Browser parses HTML, fetches `style.css`, `main.js`, Google Fonts, and (on Contact/Locations) the Maps iframe.
-3. `main.js` runs on `DOMContentLoaded`: wires up nav, reveals, counters, accordions, lightbox, and form handlers.
-4. If the visitor submits a form, `main.js` intercepts the submit event, shows a local success message, and resets the form. No request leaves the browser. (This is the single biggest functional gap in the product — tracked in PRD.md §12 and SECURITY.md.)
+2. Browser parses HTML, fetches `style.css`, `config.js`, `i18n.js`, `main.js`, Google Fonts, and (on Contact/Locations) the Maps iframe.
+3. `main.js` runs on `DOMContentLoaded`: wires up nav, dark/light and EN/UR toggles, reveals, counters, accordions, lightbox, and form handlers.
+4. If the visitor submits the Contact, Book a Trial, or Volunteer form, `main.js` POSTs to `${UNIFY_API_BASE_URL}/public/leads` (see `assets/js/config.js` — this must be set to the CRM API's real deployed URL before forms work). On success, the form is hidden and replaced with a 3-step progress tracker reflecting the lead's real stage; the reference ID is saved to `localStorage` so the visitor can check back later via the status-lookup widget on `contact.html`. On any network/API failure, the form stays visible and a clear error message with phone/email fallback is shown — it never silently pretends to succeed. See SECURITY.md §8 for the endpoint contract.
 
 ## 7. Project Structure
 
@@ -104,7 +121,9 @@ website/
   vercel.json            Zero-config Vercel deploy
   docs/                 This document set
   assets/
-    css/style.css       All design tokens + components
+    css/style.css       All design tokens + components (incl. dark theme)
+    js/config.js        Deployment config (CRM API base URL)
+    js/i18n.js           English/Urdu dictionary
     js/main.js          All site behavior
     img/                (currently empty — no raster assets are used; all visuals are CSS gradients + inline SVG)
 ```
@@ -151,4 +170,4 @@ What happens if:
 - **Google Fonts is blocked/unreachable** (ad blocker, restrictive network, or — as in this dev sandbox — a proxy policy)? Headings/body text fall back to the `ui-sans-serif, system-ui, sans-serif` stack declared in the CSS. Layout does not break.
 - **Google Maps iframe is blocked**? The iframe renders empty/blank inside its rounded container; the rest of the Locations/Contact page is unaffected. No JS depends on the map loading.
 - **JavaScript fails to load or is disabled**? Scroll-reveal content is forced visible via a `<noscript>` override (see DESIGN_SYSTEM.md §15); nav still works via plain anchor links; forms fall back to native browser submit behavior (which, since there's no `action`/`method` set, will reload the current page — **open item**: decide what should actually happen here once a real backend exists, e.g. a `mailto:` fallback).
-- **A visitor submits the Contact, Book a Trial, or Volunteer form**? Nothing is sent anywhere. A success message appears locally and the form resets. This is a known, documented gap (see PRD.md §12, SECURITY.md) — the client should be made aware before relying on any of these forms operationally.
+- **A visitor submits the Contact, Book a Trial, or Volunteer form**? It POSTs to the CRM's API and creates a real `Lead` (see §6, DATABASE.md §0). If `UNIFY_API_BASE_URL` isn't configured yet, or the API is unreachable, or it returns an error — the form stays visible (never hidden/reset) and a clear error message with a phone/email fallback is shown. The one remaining real gap: the website isn't deployed yet, so `config.js` still ships with an empty `UNIFY_API_BASE_URL` — every submission will show that fallback error until someone sets it. See SECURITY.md §8.

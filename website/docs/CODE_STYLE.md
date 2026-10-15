@@ -86,10 +86,11 @@ Type Checking: N/A (plain JavaScript, no TypeScript/build step — consistent wi
 
 ## 11. Do
 
-- Reuse existing patterns (component classes, the icon sprite, the `[data-demo-form]`/`[data-reveal]`/`[data-count]` attribute hooks).
+- Reuse existing patterns (component classes, the icon sprite, the `[data-lead-form]`/`[data-reveal]`/`[data-count]`/`[data-i18n]` attribute hooks).
 - Keep changes focused — a content edit to one page should touch one `.html` file, not ripple into the shared shell unless the shell itself is genuinely changing.
 - Follow project conventions documented here and in DESIGN_SYSTEM.md.
 - Remove dead code — if a page section is deleted, also remove any now-unused CSS class or icon symbol it alone depended on (verify with a repo-wide grep first).
+- When writing an inline `style="..."` that mixes a literal color with a `var(--ink-*)`/`var(--surface*)` value, check whether that element sits on a background that changes with the site's dark/light theme — if it does, both colors need to be variables (or both literal), never one of each. This exact mismatch shipped once (see DESIGN_SYSTEM.md §16) and silently made CTA button text unreadable in dark mode.
 - Run the validation steps in TESTING.md before considering any change done.
 
 ## 12. Don't
