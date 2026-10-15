@@ -41,6 +41,16 @@
   --radius-lg: 1.75rem;
   --radius-xl: 2.5rem;
 
+  /* Fixed-dark token for bands that are always a dark ink color regardless of
+     site theme (the footer) — deliberately NOT one of the --ink-* tokens,
+     since those intentionally flip in dark mode (see the dark-theme override
+     block below). Reusing --ink-950 for a footer that's meant to always read
+     as a dark band was the root cause of the dark-mode footer bug documented
+     in DESIGN_SYSTEM.md §16: --footer-bg never flips, so the footer stays a
+     dark band with light text in both themes, matching --gradient-hero's
+     existing "stays fixed regardless of theme" pattern above. */
+  --footer-bg:#0f172a;
+
   --container: 1240px;
   --nav-h: 78px;
   --ease: cubic-bezier(.22,1,.36,1);
@@ -491,7 +501,7 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 .accordion-panel-inner{ padding:0 4px 22px; font-size:.94rem; color:var(--ink-600); }
 
 /* ---------- Footer ---------- */
-.footer{ background:var(--ink-950); color:rgba(255,255,255,.68); padding:76px 0 28px; }
+.footer{ background:var(--footer-bg); color:rgba(255,255,255,.68); padding:76px 0 28px; }
 .footer h4{ color:#fff; font-size:.95rem; margin-bottom:18px; }
 .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,.1); }
 @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
