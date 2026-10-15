@@ -17,6 +17,8 @@ Variables (CSS custom properties): kebab-case with a color-family prefix, e.g. `
 Constants: Not applicable — no JS constants module exists; the few "constant-like" values (breakpoints, durations) live directly in the CSS/JS where used.
 Files: kebab-case matching the page's URL slug exactly (`success-stories.html`, `get-involved.html`), so nav hrefs and `data-page` attributes are always a 1:1 string match with the filename — this is load-bearing (see §4).
 Image files (`assets/img/*.jpg`): kebab-case, descriptive of the photo's actual content (`kicking-drill-action.jpg`, `balance-board-confidence.jpg`), never the source filename from the Drive export (`IMG-20260805-WA0019.jpg`) or a crop-ratio/page suffix. When the same source photo is cropped for two different `.photo-tile` slots, each crop is its own file with its own content-descriptive name (e.g. `hero-balance-board-boy.jpg` and `balance-board-boy-square.jpg` are two different crops of the same original) — see DESIGN_SYSTEM.md §18 for the full curation/crop pipeline.
+Video files (`assets/video/video-*.{mp4,webm}`): same kebab-case, content-descriptive convention as images, with a `video-` prefix (e.g. `video-tire-flip-drill.mp4`/`.webm`) so the two asset types are easy to tell apart at a glance. Each clip ships both formats (`.webm`/VP9 listed first, `.mp4`/H.264 as the fallback `<source>`) under the same base name. Its poster frame lives in `assets/img/` (not `assets/video/`, since it's a still image like everything else there) as `video-<same-name>-poster.jpg` — see DESIGN_SYSTEM.md §20 for the full curation/cut pipeline.
+i18n dictionary keys (`assets/js/i18n.js`): dot-separated, lowercase, hierarchical — `<namespace>.<key>` or `<namespace>.<subsection>.<key>`, e.g. `about.story.title`, `faqs.getting.q1.answer`, `programs.therapy.f1.title`. The namespace is usually the page slug without its extension (`about`, `programs`, `faqs`); a few namespaces are deliberately shared across pages where the exact same English string is reused verbatim rather than retranslated — `nav.*`/`footer.*` (shared shell), `common.*` (short reused UI strings like "Learn more"), `form.*` (reused field labels like "Full name"), `people.*` (leadership names/roles, reused by about.html and team.html), `stories.*` (the three testimonial quotes and Success Story profiles, reused by index.html, success-stories.html, and about.html's pull-quote), and `tracker.*` (the JS-rendered lead-tracker/status-widget strings looked up via `main.js`'s `t(key, fallback)` helper, not a `data-i18n` HTML attribute). Reuse an existing key via its namespace before adding a near-duplicate — check `assets/js/i18n.js` first, the same principle as §5's component reuse rule.
 Database fields: N/A today — see DATABASE.md for naming conventions to use **if** a schema is eventually added.
 API routes: N/A today — see SECURITY.md §8.
 
@@ -27,7 +29,8 @@ website/
   *.html          One file per page, flat (no subfolders) — keeps every internal link a simple relative filename with no path math.
   assets/css/     Single stylesheet, no per-page CSS files.
   assets/js/      Single script, no per-page JS files.
-  assets/img/     Reserved for future real photography; currently empty by design (see ARCHITECTURE.md §9).
+  assets/img/     Real photography (curated, color-graded) and video poster frames — see DESIGN_SYSTEM.md §18/§20.
+  assets/video/   Short, muted, looping video clips (.mp4 + .webm per clip) — see DESIGN_SYSTEM.md §20.
   docs/           This document set.
 ```
 

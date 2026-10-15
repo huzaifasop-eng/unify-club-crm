@@ -50,6 +50,7 @@
 <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6.5" y1="12" x2="17.5" y2="12"/><rect x="3" y="9.5" width="3" height="5" rx="1"/><rect x="18" y="9.5" width="3" height="5" rx="1"/><rect x="6.2" y="8" width="2" height="8" rx="1"/><rect x="15.8" y="8" width="2" height="8" rx="1"/></symbol>
 <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="3" x2="10.5" y2="13.5"/><polygon points="21 3 14.5 21 10.5 13.5 3 9.5 21 3"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7-11-7Z"/></symbol>
 </svg>
 
 <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
@@ -121,8 +122,8 @@
 
   <div class="container stat-bar-overlap">
     <div class="hook-stat" data-reveal style="margin-bottom:0;">
-      <strong>13</strong>
-      <span data-i18n="gallery.hook.text">Real photos from real sessions &mdash; tap any tile for a closer look.</span>
+      <strong>13 + 2</strong>
+      <span data-i18n="gallery.hook.text">Real photos and two video clips from real sessions &mdash; tap any tile for a closer look.</span>
     </div>
   </div>
 
@@ -180,6 +181,24 @@
         <div class="photo-tile alt-1 square" data-gallery-item data-title-key="gallery.t13.title" data-title="Equipment of Play" data-tag-key="gallery.t13.tag" data-tag="Confidence in motion" data-tone="alt-1" style="cursor:pointer;">
           <img src="assets/img/colorful-tires-detail.jpg" alt="Three hand-painted, rainbow-colored tires used as agility equipment on the turf" data-i18n-alt="gallery.t13.title" loading="lazy">
           <div class="tile-caption" data-i18n="gallery.t13.title">Equipment of Play</div>
+        </div>
+        <div class="photo-tile video-tile alt-3 square" data-gallery-item data-title-key="gallery.v1.title" data-title="Tire Flip Drill" data-tag-key="gallery.v1.tag" data-tag="Physical fitness, on video" data-tone="alt-3" style="cursor:pointer;">
+          <video autoplay muted loop playsinline poster="assets/img/video-tire-flip-drill-poster.jpg" data-auto-video>
+            <source src="assets/video/video-tire-flip-drill.webm" type="video/webm">
+            <source src="assets/video/video-tire-flip-drill.mp4" type="video/mp4">
+          </video>
+          <img class="video-fallback-poster" src="assets/img/video-tire-flip-drill-poster.jpg" alt="A teen flipping a large tire on the turf, coached through the drill" data-i18n-alt="gallery.v1.title" loading="lazy">
+          <span class="video-badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+          <div class="tile-caption" data-i18n="gallery.v1.title">Tire Flip Drill</div>
+        </div>
+        <div class="photo-tile video-tile alt-2 statement" data-gallery-item data-title-key="gallery.v2.title" data-title="Cone &amp; Ladder Circuit" data-tag-key="gallery.v2.tag" data-tag="Adaptive movement circuits, on video" data-tone="alt-2" style="cursor:pointer; grid-column:span 2; grid-row:span 2;">
+          <video autoplay muted loop playsinline poster="assets/img/video-cone-ladder-circuit-poster.jpg" data-auto-video>
+            <source src="assets/video/video-cone-ladder-circuit.webm" type="video/webm">
+            <source src="assets/video/video-cone-ladder-circuit.mp4" type="video/mp4">
+          </video>
+          <img class="video-fallback-poster" src="assets/img/video-cone-ladder-circuit-poster.jpg" alt="A child running a cone, ladder, and hoop circuit coached by a staff member, mural wall behind" data-i18n-alt="gallery.v2.title" loading="lazy">
+          <span class="video-badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+          <div class="tile-caption" data-i18n="gallery.v2.title">Cone &amp; Ladder Circuit</div>
         </div>
       </div>
     </div>

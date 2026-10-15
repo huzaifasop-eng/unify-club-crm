@@ -113,7 +113,7 @@ Acceptance Criteria: Each post is self-contained on the listing page (title, dat
 ### Feature 8 - Gallery
 Purpose: Convey the feel of the studio and sessions visually.
 Acceptance Criteria: Grid of labeled tiles; clicking a tile opens a lightbox with the caption.
-**Resolved** — the 13 tiles now show real photos from the Pechs branch (sourced from the client's Google Drive, curated and color-graded; see ARCHITECTURE.md §9 and DESIGN_SYSTEM.md §18), with two of them shown as larger "statement" tiles. The lightbox opens the real photo, not an illustrated placeholder.
+**Resolved** — the grid now shows 13 real photos plus 2 short muted video clips from the Pechs branch (sourced from the client's Google Drive, curated and color-graded; see ARCHITECTURE.md §9 and DESIGN_SYSTEM.md §18/§20), with two of the photos and one of the videos shown as larger "statement" tiles. The lightbox opens the real photo (or, for a video tile, its poster frame), not an illustrated placeholder.
 
 ### Feature 9 - Locations
 Purpose: Give a real, verifiable address, hours, and an embedded map; present planned future branches.
@@ -145,7 +145,7 @@ Purpose: Accessibility and reach — let visitors read in their preferred theme 
 Acceptance Criteria:
 - A theme toggle in the nav switches the whole site between light and dark, persists via `localStorage`, and respects the OS preference (`prefers-color-scheme`) on first visit; no flash of the wrong theme on load.
 - A language toggle switches translated elements to Urdu (Noto Nastaliq Urdu, right-aligned) and back; persists via `localStorage`.
-Open item: Urdu coverage is **partial** — the shared nav/footer and the full Home page are translated; deeper pages (Programs, Success Stories, etc.) still render in English when Urdu is selected. The dictionary (`assets/js/i18n.js`) and toggle mechanism are built to extend page-by-page without new infrastructure — this is a scoping decision made to ship the toggle now rather than block it on translating all 13 pages' full body copy, not a technical limitation.
+**Resolved** (was an open item): Urdu coverage is now **complete** across all 14 pages — every heading, paragraph, card, form label/placeholder/option, image alt text, FAQ, testimonial, and the JS-rendered lead-tracker/status-widget text (`assets/js/main.js`'s `t()` helper) is in the dictionary (`assets/js/i18n.js`, 511 keys). Strict language exclusivity (no English visible in Urdu mode and vice versa) was verified by an automated page-text scan across all 14 pages × both languages, plus visual screenshots. One known, deliberate exception: a Lead's `stepLabel` text in the tracker comes from the CRM's Leads API response and stays English regardless of site language, since translating API-sourced data is outside this change's scope (the Leads API backend wasn't touched).
 
 ## 7. Non-Goals
 
@@ -153,8 +153,8 @@ The following are intentionally NOT part of this version:
 - A real payment gateway or online donation checkout (bank transfer only, for now).
 - A CMS or admin panel for editing content — all content is hand-edited HTML. (Lead submissions are the one exception that now has a real "backend" — they're triaged through the CRM's existing Leads module UI, not a new admin panel built for the website.)
 - A blog/news system with individual article pages, comments, or an RSS feed.
-- Full bilingual (English/Urdu) coverage of every page's body content — the toggle and infrastructure exist site-wide, but translated coverage today is the shared chrome plus the Home page only; see Feature 13.
-- A full RTL (right-to-left) layout mirror — Urdu text renders right-aligned where translated, but the page's overall layout direction stays LTR; see DESIGN_SYSTEM.md §16.
+- ~~Full bilingual (English/Urdu) coverage of every page's body content~~ — **done**, see Feature 13.
+- A full RTL (right-to-left) layout mirror — Urdu text renders right-aligned where translated (now across a broader set of element types — see DESIGN_SYSTEM.md §16), but the page's overall layout direction, nav, and flex/grid structure stay LTR.
 - Any *architectural merge* of the website and the internal ERP/CRM — they remain two separate codebases (see ARCHITECTURE.md §9). The website now *calls* the CRM's API for lead capture, which is a deliberate, narrow integration, not a merge: the website still has no accounts, no CRM UI, and cannot read any CRM data beyond a single lead's own 3-step status.
 
 ## 8. MVP Scope
@@ -166,13 +166,15 @@ Must Have:
 Nice to Have:
 - Animated counters and scroll reveals (implemented, degrade gracefully without JS).
 - Dropdown nav grouping (implemented, since the full page set no longer fits a flat bar).
-- Dark/light and English/Urdu toggles (implemented site-wide; Urdu content coverage is partial, see Feature 13).
+- Dark/light and English/Urdu toggles (implemented site-wide; Urdu content coverage is now complete across all 14 pages, see Feature 13).
 Done (moved out of Future since the last revision):
 - A real form backend — Book a Trial, Contact, and Volunteer now create real Leads in the CRM (see Feature 11a). What's left is deployment configuration (API URL, CORS origin), not more building.
 Done (moved out of Future since the last revision):
 - Real photography replacing the illustrated gallery/hero/about/success-story tiles — see Feature 8 and Section 12.
-Future:
-- Extend Urdu translation coverage beyond Home + chrome to the remaining pages.
+Done (moved out of Future since the last revision):
+- Extend Urdu translation coverage beyond Home + chrome to the remaining pages — see Feature 13.
+Done (moved out of Future since the last revision):
+- A structural redesign of the 12 non-Home pages (dogstudio/greta/sadapay-inspired) and a handful of real video clips — see Section 12.
 
 ## 9. Success Metrics
 
@@ -204,6 +206,6 @@ Timeline: No fixed launch date communicated; treated as "ready to deploy now, re
 - What are the real bank name / account number / IBAN for donations? (Account title is now correct; the rest are still bracketed placeholders on get-involved.html — cannot be filled without the client's real banking details.)
 - ~~Should form submissions go to email, a spreadsheet, or the CRM's Leads module?~~ **Resolved** — the CRM's existing Leads module; see Feature 11a, DATABASE.md §0.
 - When will the website actually be deployed, and to what URL? This is now a real blocker for Feature 11a working end-to-end (see `assets/js/config.js` and SECURITY.md §8) — not a documentation gap, a deployment task.
-- ~~Will real photography/video replace the current illustrated/gradient placeholder tiles (hero collage, Gallery, Success Stories)?~~ **Resolved** — real photos from the client's Google Drive ("unify club pechs branch" folder) now populate the Home hero collage, the About snapshot, the Success Stories cards (home preview + full page), and all 13 Gallery tiles; see Feature 8, ARCHITECTURE.md §9, DESIGN_SYSTEM.md §18. Video was evaluated but not used — the available clips didn't yield a clean, short, web-weight result worth the added maintenance surface for this pass; the sampled clip library is noted below for a future attempt.
-- Should Urdu translation coverage be extended beyond Home + the shared chrome to the remaining 11 pages?
-- What should the visual/animation redesign referencing dogstudio.co / theyearofgreta.com / sadapay.pk actually change — just motion/interaction polish on the existing layout, or a structural redesign? **Partially resolved** — the Home hero now carries a dogstudio/greta-style entrance (line-reveal headline, staggered block cascade, scroll parallax, magnetic CTA hover) and a sadapay-style bold photo treatment (large "statement" tiles with punchy shadow/frame, used on the hero collage and two Gallery standouts), with lighter hover/stagger/easing polish applied site-wide; see DESIGN_SYSTEM.md §17–18. Whether this should extend into a full structural redesign of the other 12 pages is still open.
+- ~~Will real photography/video replace the current illustrated/gradient placeholder tiles (hero collage, Gallery, Success Stories)?~~ **Resolved** — real photos from the client's Google Drive ("unify club pechs branch" folder) populate the Home hero collage, the About snapshot, the Success Stories cards (home preview + full page), and all 13 Gallery tiles; see Feature 8, ARCHITECTURE.md §9, DESIGN_SYSTEM.md §18. **Video is now also in use** — 4 short (6–7s), muted, looping clips cut from real Pechs-branch session footage (the dated-event `PXL_`/`VID_` folders this document previously said weren't sampled — they were this time, and yielded usable material) are embedded on the Home About snapshot, two Gallery tiles, and the Programs page's Physical Fitness section. See DESIGN_SYSTEM.md §20 and ARCHITECTURE.md §9 for the format/delivery details.
+- ~~Should Urdu translation coverage be extended beyond Home + the shared chrome to the remaining 11 pages?~~ **Resolved** — Urdu coverage is now complete across all 14 pages (every heading, paragraph, card, form, FAQ, and the dynamically-rendered lead-tracker/status-widget text), with strict language exclusivity verified: switching to Urdu shows zero English, switching back shows zero Urdu, checked both by an automated page-text scan and by screenshotting every page in both languages. See DESIGN_SYSTEM.md §16, Feature 13, and CODE_STYLE.md §2 for the i18n key-naming convention this introduced.
+- ~~What should the visual/animation redesign referencing dogstudio.co / theyearofgreta.com / sadapay.pk actually change — just motion/interaction polish on the existing layout, or a structural redesign?~~ **Resolved** — the other 12 pages (everything but Home, which already had this treatment, and the minimal 404 page) now carry a genuine structural redesign: a real-number "hook stat" or pull-quote opens most sections instead of a paragraph wall, long copy blocks were split into shorter scannable chunks, the curated photo (and now video) library is reused across pages in the existing `.photo-tile.statement` bold treatment, and `[data-reveal]`/`[data-reveal-group]` coverage was made consistent throughout. See DESIGN_SYSTEM.md §19 for the pattern catalogue this introduced (`.hook-stat`, `.pull-quote`). No new facts, stats, or claims were introduced — this was a restructure/visual-hierarchy pass over existing content only.

@@ -125,7 +125,8 @@ website/
     js/config.js        Deployment config (CRM API base URL)
     js/i18n.js           English/Urdu dictionary
     js/main.js          All site behavior
-    img/                21 real JPEGs from the Pechs branch (hero collage, About, Gallery, Success Stories — see §9 "Real photography")
+    img/                21 real JPEGs from the Pechs branch (hero collage, About, Gallery, Success Stories, Programs, Locations, News, Events — see §9 "Real photography") + 4 video poster frames
+    video/              4 short muted looping video clips, .mp4 + .webm each (see DESIGN_SYSTEM.md §20)
 ```
 
 ## 8. Dependency Rules
@@ -154,12 +155,18 @@ Reason: Rejected — an unverifiable hotlinked image risks shipping a broken `<i
 
 **Superseded**: the client connected their Google Drive with real photos from the Pechs branch. Those were downloaded (via the Drive MCP connector, not a hotlink — see §9 note below), curated down to the strongest ~20 action/therapy shots, color-graded for a consistent look with ImageMagick, cropped to each `.photo-tile` slot's aspect ratio, and saved locally into `assets/img/` — so every image is a real local file the build can verify exists, same reliability guarantee as the old gradient tiles, now with real content. The `.photo-tile` CSS gradients/icons remain in place as the loading-state background and as the fallback for any tile that doesn't (yet) have a photo (e.g. if a future page adds one before an image is supplied). See DESIGN_SYSTEM.md §18 for the curation/grading approach.
 
+Decision: Ship video as a local static asset (`assets/video/`, two formats per clip) rather than embedding a third-party player (YouTube/Vimeo iframe) or hotlinking.
+Context: The client asked for real video clips from the same Drive source as the photos, cut short and used on a few pages (DESIGN_SYSTEM.md §20).
+Alternatives: (a) upload the clips to YouTube/Vimeo unlisted and embed via iframe; (b) hotlink a Drive-hosted video URL directly.
+Reason: (a) would add a third-party request/cookie surface and an external dependency for content the client already owns outright, plus an iframe embed doesn't integrate with the site's own `prefers-reduced-motion` handling or dark theme as cleanly as a native `<video>` element; (b) Google Drive file URLs aren't a stable, direct-streamable asset host and risk breaking without warning. A downloaded, locally-hosted, re-encoded clip is the same reliability trade-off already made for photography (§9 above) — a verifiable local file, not a hotlink — extended to video. This keeps the zero-third-party-dependency property (ARCHITECTURE.md §8) intact: no new external request was added.
+
 ## 10. Performance Considerations
 
 - Zero JS dependencies and a single ~27KB CSS file keep first paint fast on any connection.
 - All icons are inline SVG (no icon-font request, no extra round trip).
 - Google Fonts is the only render-blocking external request; `rel="preconnect"` hints are set for both font origins to shave connection setup time.
-- `assets/img/` now holds 21 real JPEGs (hero collage, About, Gallery, Success Stories), each cropped to one of three fixed aspect ratios (1:1, 16:10, 4:5) per its `.photo-tile` slot and compressed to roughly 150–450KB (quality 82, max 1200px on the long edge) — no single file exceeds ~450KB, so the heaviest page (Gallery, 13 photos) is still a few MB total, reasonable for a static site with no image CDN. `loading="lazy"` is set on every tile image except the hero's first (`loading="eager"`, since it's above the fold). Revisit true next-gen formats (AVIF/WebP with a JPEG fallback) or an actual CDN only if this becomes a measured problem — not done here, to avoid adding a build step for conditional `<picture>` markup.
+- `assets/img/` now holds 21 real JPEGs (hero collage, About, Gallery, Success Stories, Programs, Locations, News, Events) plus 4 video poster frames, each cropped to one of three fixed aspect ratios (1:1, 16:10, 4:5) per its `.photo-tile` slot and compressed to roughly 150–450KB (quality 82, max 1200px on the long edge) — no single file exceeds ~450KB, so the heaviest page (Gallery, 13 photos + 2 videos) is still a few MB total, reasonable for a static site with no image CDN. `loading="lazy"` is set on every tile image except the hero's first (`loading="eager"`, since it's above the fold). Revisit true next-gen formats (AVIF/WebP with a JPEG fallback) or an actual CDN only if this becomes a measured problem — not done here, to avoid adding a build step for conditional `<picture>` markup.
+- `assets/video/` holds 4 short (6–7s), muted, silent (`-an`) clips in two formats each (webm/VP9 + mp4/H.264 fallback), 7.8MB total for all 4 clips × both formats combined — a given browser only ever downloads one format per clip (whichever `<source>` it supports), so actual per-visitor payload is roughly half that, and no single page embeds more than 2 clips. `autoplay muted loop playsinline` with a `poster` frame avoids a layout shift before the video is ready; `prefers-reduced-motion: reduce` hides the `<video>` via a pure CSS media query, falling back to the static poster `<img>` underneath — no JS required to honor the setting. See DESIGN_SYSTEM.md §20.
 
 ## 11. Scalability Considerations
 

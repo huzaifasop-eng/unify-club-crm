@@ -50,6 +50,7 @@
 <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6.5" y1="12" x2="17.5" y2="12"/><rect x="3" y="9.5" width="3" height="5" rx="1"/><rect x="18" y="9.5" width="3" height="5" rx="1"/><rect x="6.2" y="8" width="2" height="8" rx="1"/><rect x="15.8" y="8" width="2" height="8" rx="1"/></symbol>
 <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="3" x2="10.5" y2="13.5"/><polygon points="21 3 14.5 21 10.5 13.5 3 9.5 21 3"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7-11-7Z"/></symbol>
 </svg>
 
 <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
@@ -227,9 +228,14 @@
           <a class="btn btn-dark" href="about.html"><span data-i18n="home.about.cta">Our full story</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
         <div class="grid" style="grid-template-columns:1fr 1fr; gap:16px;" data-reveal>
-          <div class="photo-tile alt-4" style="grid-column:1/-1;">
-            <img src="assets/img/group-field-session.jpg" alt="Wide view of the turf during a group training session, cones and ladders set out" data-i18n-alt="home.about.img1.alt" loading="lazy">
-            <div class="tile-caption" data-i18n="home.about.img1.caption">A community that shows up for every child</div>
+          <div class="photo-tile video-tile alt-4" style="grid-column:1/-1;">
+            <video autoplay muted loop playsinline poster="assets/img/video-basketball-passing-drill-poster.jpg" data-auto-video>
+              <source src="assets/video/video-basketball-passing-drill.webm" type="video/webm">
+            <source src="assets/video/video-basketball-passing-drill.mp4" type="video/mp4">
+            </video>
+            <img class="video-fallback-poster" src="assets/img/video-basketball-passing-drill-poster.jpg" alt="A coach passing a basketball back and forth with two children during a coached drill" data-i18n-alt="home.about.video1.alt" loading="lazy">
+            <span class="video-badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+            <div class="tile-caption" data-i18n="home.about.video1.caption">A real session, in motion</div>
           </div>
           <div class="photo-tile alt-1 square">
             <img src="assets/img/clear-goals-coaching.jpg" alt="A coach helping a child line up a field hockey swing toward the goal" data-i18n-alt="home.about.img2.alt" loading="lazy">

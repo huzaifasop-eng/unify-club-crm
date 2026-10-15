@@ -412,6 +412,32 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 .photo-tile:hover img, .photo-tile:focus-within img{ transform:scale(1.045); }
 @media (prefers-reduced-motion: reduce){ .photo-tile img{ transition:none; } .photo-tile:hover img{ transform:none; } }
 
+/* ---------- Video tiles (short muted clips, dropped into the same
+   .photo-tile component used for photography — DESIGN_SYSTEM.md §20) ----------
+   Markup is a <video autoplay muted loop playsinline poster="..."> stacked
+   over a plain <img> of that same poster frame (assets/img/*-poster.jpg).
+   The <video> covers the tile exactly like .photo-tile img above; the <img>
+   underneath is the reduced-motion/no-JS fallback — prefers-reduced-motion
+   hides the <video> with a pure CSS media query (no JS required to honor
+   it, and it re-evaluates live if the OS setting changes mid-session),
+   leaving the static poster frame visible instead. */
+.photo-tile video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+}
+.photo-tile .video-fallback-poster{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+@media (prefers-reduced-motion: reduce){
+  .photo-tile video{ display:none; }
+}
+@media (prefers-reduced-motion: no-preference){
+  .photo-tile .video-fallback-poster{ display:none; }
+}
+.video-badge{
+  position:absolute; top:14px; right:14px; z-index:1; width:30px; height:30px; border-radius:50%;
+  background:rgba(15,23,42,.55); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.video-badge svg{ width:12px; height:12px; color:#fff; margin-left:2px; }
+
 /* "Statement" photo tiles — a sadapay.pk-style bold, large-format photo
    treatment used sparingly (home hero collage, a couple of gallery
    standouts) instead of the uniform small-tile grid: a punchier shadow, a
