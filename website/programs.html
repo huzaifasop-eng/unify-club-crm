@@ -52,13 +52,13 @@
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
 </svg>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
 <header class="nav">
   <div class="container">
     <a class="brand" href="index.html">
       <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-      <span class="brand-text"><strong>Unify Club</strong><span>Movement Studio</span></span>
+      <span class="brand-text"><strong>Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html" data-i18n="nav.home">Home</a>
@@ -112,28 +112,38 @@
 
   <section class="page-hero">
     <div class="container">
-      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);">Home</a><svg><use href="#i-chevron-right"/></svg><span>Programs</span></div>
-      <span class="eyebrow on-dark"><span class="dot"></span> Detailed programs</span>
-      <h1>Our Programs</h1>
-      <p class="lead">Group training and private 1-on-1 training, shaped for progress, play, and a warm sense of belonging.</p>
+      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);" data-i18n="nav.home">Home</a><svg><use href="#i-chevron-right"/></svg><span data-i18n="nav.programs">Programs</span></div>
+      <span class="eyebrow on-dark"><span class="dot"></span> <span data-i18n="programs.hero.eyebrow">Detailed programs</span></span>
+      <h1 data-i18n="programs.hero.title">Our Programs</h1>
+      <p class="lead" data-i18n="programs.hero.lead">Group training and private 1-on-1 training, shaped for progress, play, and a warm sense of belonging.</p>
     </div>
   </section>
+
+  <div class="container stat-bar-overlap">
+    <div class="hook-stat" data-reveal style="margin-bottom:0;">
+      <strong>3</strong>
+      <span data-i18n="programs.hook.text">One team guiding every child across therapy, fitness, and rehabilitation &mdash; pick a starting point below, or let us recommend one.</span>
+    </div>
+  </div>
 
   <section class="section" id="therapy">
     <div class="container">
       <div class="split" data-reveal>
         <div>
-          <span class="eyebrow"><span class="dot"></span> Therapy-Led Sessions</span>
-          <h2>Movement that feels encouraging, not overwhelming</h2>
-          <p>Guided activities help every child build strength at the pace that feels right, with therapists trained to read cues and adjust in real time.</p>
+          <span class="eyebrow"><span class="dot"></span> <span data-i18n="programs.therapy.title">Therapy-Led Sessions</span></span>
+          <h2 data-i18n="programs.therapy.full.title">Movement that feels encouraging, not overwhelming</h2>
+          <p data-i18n="programs.therapy.full.body">Guided activities help every child build strength at the pace that feels right, with therapists trained to read cues and adjust in real time.</p>
           <ul class="feature-list">
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Balance &amp; coordination routines</strong><p>Structured drills that build stability without pressure.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Supportive play-based coaching</strong><p>Every exercise is framed as a game your child wants to play again.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Visible weekly progress tracking</strong><p>Parents get a clear picture of what changed and why.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.therapy.f1.title">Balance &amp; coordination routines</strong><p data-i18n="programs.therapy.f1.body">Structured drills that build stability without pressure.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.therapy.f2.title">Supportive play-based coaching</strong><p data-i18n="programs.therapy.f2.body">Every exercise is framed as a game your child wants to play again.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.therapy.f3.title">Visible weekly progress tracking</strong><p data-i18n="programs.therapy.f3.body">Parents get a clear picture of what changed and why.</p></div></li>
           </ul>
-          <a class="btn btn-dark" href="book.html">Book this program <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn btn-dark" href="book.html"><span data-i18n="common.bookthis">Book this program</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
-        <div class="photo-tile alt-1 wide"><div class="tile-icon"><svg><use href="#i-activity"/></svg></div><div class="tile-caption">Balance &amp; coordination routines</div></div>
+        <div class="photo-tile alt-1 wide statement">
+          <img src="assets/img/balance-board-confidence.jpg" alt="A child standing confidently on a balance board during a coordination exercise" data-i18n-alt="programs.therapy.img.alt" loading="lazy">
+          <div class="tile-caption" data-i18n="programs.therapy.f1.title">Balance &amp; coordination routines</div>
+        </div>
       </div>
     </div>
   </section>
@@ -142,17 +152,20 @@
     <div class="container">
       <div class="split rev" data-reveal>
         <div>
-          <span class="eyebrow"><span class="dot"></span> Physical Fitness</span>
-          <h2>Strength, endurance, and posture</h2>
-          <p>Adaptive games and movement circuits build stamina and confidence through active achievement, not comparison.</p>
+          <span class="eyebrow"><span class="dot"></span> <span data-i18n="programs.fitness.title">Physical Fitness</span></span>
+          <h2 data-i18n="programs.fitness.full.title">Strength, endurance, and posture</h2>
+          <p data-i18n="programs.fitness.full.body">Adaptive games and movement circuits build stamina and confidence through active achievement, not comparison.</p>
           <ul class="feature-list">
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Adaptive games &amp; movement circuits</strong><p>Rotating stations keep energy high and attention engaged.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Confidence through active achievement</strong><p>Every small win is celebrated in the moment.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Group training or private 1-on-1 training</strong><p>Choose the format that fits your child best.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.fitness.f1.title">Adaptive games &amp; movement circuits</strong><p data-i18n="programs.fitness.f1.body">Rotating stations keep energy high and attention engaged.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.fitness.f2.title">Confidence through active achievement</strong><p data-i18n="programs.fitness.f2.body">Every small win is celebrated in the moment.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.fitness.f3.title">Group training or private 1-on-1 training</strong><p data-i18n="programs.fitness.f3.body">Choose the format that fits your child best.</p></div></li>
           </ul>
-          <a class="btn btn-dark" href="book.html">Book this program <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn btn-dark" href="book.html"><span data-i18n="common.bookthis">Book this program</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
-        <div class="photo-tile alt-3 wide"><div class="tile-icon"><svg><use href="#i-dumbbell"/></svg></div><div class="tile-caption">Adaptive games &amp; movement circuits</div></div>
+        <div class="photo-tile alt-3 wide statement">
+          <img src="assets/img/basketball-agility-focus.jpg" alt="A child concentrating while holding a basketball beside the agility ladder" data-i18n-alt="programs.fitness.img.alt" loading="lazy">
+          <div class="tile-caption" data-i18n="programs.fitness.f1.title">Adaptive games &amp; movement circuits</div>
+        </div>
       </div>
     </div>
   </section>
@@ -161,17 +174,20 @@
     <div class="container">
       <div class="split" data-reveal>
         <div>
-          <span class="eyebrow"><span class="dot"></span> Rehabilitation</span>
-          <h2>Rehabilitation with care and structure</h2>
-          <p>Progress feels better when families can see it &mdash; small wins, measurable milestones, and a gentle plan that builds trust.</p>
+          <span class="eyebrow"><span class="dot"></span> <span data-i18n="programs.rehab.title">Rehabilitation</span></span>
+          <h2 data-i18n="programs.rehab.full.title">Rehabilitation with care and structure</h2>
+          <p data-i18n="programs.rehab.full.body">Progress feels better when families can see it &mdash; small wins, measurable milestones, and a gentle plan that builds trust.</p>
           <ul class="feature-list">
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Goal-based recovery plans</strong><p>Every plan is built around what matters most to your family.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Safe, guided therapeutic progress</strong><p>Clinically informed pacing, never rushed.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Family-friendly feedback sessions</strong><p>Plain-language updates you can act on at home.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.rehab.f1.title">Goal-based recovery plans</strong><p data-i18n="programs.rehab.f1.body">Every plan is built around what matters most to your family.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.rehab.f2.title">Safe, guided therapeutic progress</strong><p data-i18n="programs.rehab.f2.body">Clinically informed pacing, never rushed.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="programs.rehab.f3.title">Family-friendly feedback sessions</strong><p data-i18n="programs.rehab.f3.body">Plain-language updates you can act on at home.</p></div></li>
           </ul>
-          <a class="btn btn-dark" href="book.html">Book this program <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn btn-dark" href="book.html"><span data-i18n="common.bookthis">Book this program</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
-        <div class="photo-tile alt-2 wide"><div class="tile-icon"><svg><use href="#i-shield"/></svg></div><div class="tile-caption">Goal-based recovery plans</div></div>
+        <div class="photo-tile alt-2 wide statement">
+          <img src="assets/img/field-hockey-swing-action.jpg" alt="A coach guiding a child's hands through a field hockey swing, ball in motion" data-i18n-alt="programs.rehab.img.alt" loading="lazy">
+          <div class="tile-caption" data-i18n="programs.rehab.f1.title">Goal-based recovery plans</div>
+        </div>
       </div>
     </div>
   </section>
@@ -179,14 +195,14 @@
   <section class="section band-tint">
     <div class="container">
       <div class="section-head center">
-        <span class="eyebrow"><span class="dot"></span> How it works</span>
-        <h2>From first hello to weekly progress</h2>
+        <span class="eyebrow"><span class="dot"></span> <span data-i18n="programs.how.eyebrow">How it works</span></span>
+        <h2 data-i18n="programs.how.title">From first hello to weekly progress</h2>
       </div>
       <div class="timeline" data-reveal-group>
-        <div class="timeline-step"><h3>Assessment</h3><p>We get to know your child&rsquo;s pace, personality, and goals.</p></div>
-        <div class="timeline-step"><h3>Personalized Plan</h3><p>A therapist builds a program around those specific needs.</p></div>
-        <div class="timeline-step"><h3>Guided Sessions</h3><p>Weekly sessions blend therapy, fitness, and encouragement.</p></div>
-        <div class="timeline-step"><h3>Progress Reviews</h3><p>Regular, easy-to-understand updates for the whole family.</p></div>
+        <div class="timeline-step"><h3 data-i18n="programs.how.s1.title">Assessment</h3><p data-i18n="programs.how.s1.body">We get to know your child&rsquo;s pace, personality, and goals.</p></div>
+        <div class="timeline-step"><h3 data-i18n="programs.how.s2.title">Personalized Plan</h3><p data-i18n="programs.how.s2.body">A therapist builds a program around those specific needs.</p></div>
+        <div class="timeline-step"><h3 data-i18n="programs.how.s3.title">Guided Sessions</h3><p data-i18n="programs.how.s3.body">Weekly sessions blend therapy, fitness, and encouragement.</p></div>
+        <div class="timeline-step"><h3 data-i18n="programs.how.s4.title">Progress Reviews</h3><p data-i18n="programs.how.s4.body">Regular, easy-to-understand updates for the whole family.</p></div>
       </div>
     </div>
   </section>
@@ -195,13 +211,13 @@
     <div class="container">
       <div class="cta-banner" data-reveal>
         <div>
-          <span class="pill on-dark"><svg><use href="#i-sparkles"/></svg> Start today</span>
-          <h2>Not sure which program fits?</h2>
-          <p>Tell us about your child and we&rsquo;ll recommend the right starting point.</p>
+          <span class="pill on-dark"><svg><use href="#i-sparkles"/></svg> <span data-i18n="programs.cta.pill">Start today</span></span>
+          <h2 data-i18n="programs.cta.title">Not sure which program fits?</h2>
+          <p data-i18n="programs.cta.lead">Tell us about your child and we&rsquo;ll recommend the right starting point.</p>
         </div>
         <div class="cta-actions">
-          <a class="btn" style="background:#fff;color:#0f172a;" href="book.html">Book a Free Trial <svg><use href="#i-arrow-right"/></svg></a>
-          <a class="btn btn-outline" href="contact.html">Ask a question</a>
+          <a class="btn" style="background:#fff;color:#0f172a;" href="book.html"><span data-i18n="home.cta.book">Book a Free Trial</span> <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn btn-outline" href="contact.html"><span data-i18n="programs.cta.ask">Ask a question</span></a>
         </div>
       </div>
     </div>
@@ -214,10 +230,10 @@
       <div class="footer-brand">
         <a class="brand" href="index.html">
           <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span>Movement Studio</span></span>
+          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
         </a>
         <p data-i18n="footer.tagline">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-        <p class="footer-urdu">ہر صلاحیت کے لیے حرکت &mdash; Unify Club</p>
+        <p class="footer-urdu" data-i18n="footer.slogan">Movement for every ability.</p>
         <div class="social-row">
           <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
@@ -246,7 +262,7 @@
       </div>
       <div>
         <h4 data-i18n="footer.visit">Visit / Contact</h4>
-        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
+        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span data-i18n="footer.address">North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
         <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;" data-i18n="footer.faqs">Frequently Asked Questions</a></span></div>

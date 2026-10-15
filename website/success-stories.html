@@ -52,13 +52,13 @@
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
 </svg>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
 <header class="nav">
   <div class="container">
     <a class="brand" href="index.html">
       <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-      <span class="brand-text"><strong>Unify Club</strong><span>Movement Studio</span></span>
+      <span class="brand-text"><strong>Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html" data-i18n="nav.home">Home</a>
@@ -112,49 +112,56 @@
 
   <section class="page-hero">
     <div class="container">
-      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);">Home</a><svg><use href="#i-chevron-right"/></svg><span>Success Stories</span></div>
-      <span class="eyebrow on-dark"><span class="dot"></span> Children progress</span>
-      <h1>Every Step Is a Story</h1>
-      <p class="lead">Families share the moments that matter most: the first balanced step, the first confident smile, and the first time movement felt fun again.</p>
+      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);" data-i18n="nav.home">Home</a><svg><use href="#i-chevron-right"/></svg><span data-i18n="nav.stories">Success Stories</span></div>
+      <span class="eyebrow on-dark"><span class="dot"></span> <span data-i18n="home.stories.eyebrow">Children progress</span></span>
+      <h1 data-i18n="stories.hero.title">Every Step Is a Story</h1>
+      <p class="lead" data-i18n="home.stories.lead">Families share the moments that matter most: the first balanced step, the first confident smile, and the first time movement felt fun again.</p>
     </div>
   </section>
 
-  <section class="section">
+  <div class="container stat-bar-overlap">
+    <div class="hook-stat" data-reveal style="margin-bottom:0;">
+      <strong>88%</strong>
+      <span data-i18n="stories.hook.text">Amina&rsquo;s current visible progress score &mdash; one of three real, ongoing profiles tracked week over week below.</span>
+    </div>
+  </div>
+
+  <section class="section section--tight">
     <div class="container">
       <div class="grid grid-3" data-reveal-group>
         <div class="card">
-          <div class="photo-tile alt-1 wide" style="margin-bottom:20px;"><img src="assets/img/success-amina-basketball.jpg" alt="A child focused mid-session, holding a basketball on the turf" loading="lazy"></div>
-          <span class="pill">Current profile</span>
-          <h3>Amina</h3>
-          <p>Amina responds beautifully to rhythm-based activities and clear visual cues.</p>
+          <div class="photo-tile alt-1 wide statement" style="margin-bottom:20px;"><img src="assets/img/success-amina-basketball.jpg" alt="A child focused mid-session, holding a basketball on the turf" data-i18n-alt="stories.amina.img.alt" loading="lazy"></div>
+          <span class="pill" data-i18n="stories.card.label">Current profile</span>
+          <h3 data-i18n="stories.amina.name">Amina</h3>
+          <p data-i18n="stories.amina.full.body">Amina responds beautifully to rhythm-based activities and clear visual cues.</p>
           <div class="progress-track" style="margin-bottom:16px;"><div class="progress-fill" style="width:88%"></div></div>
           <ul class="feature-list">
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Steps onto platforms with confidence</strong></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Enjoys group games with peers</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.amina.f1">Steps onto platforms with confidence</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.amina.f2">Enjoys group games with peers</strong></div></li>
           </ul>
         </div>
         <div class="card">
-          <div class="photo-tile alt-3 wide" style="margin-bottom:20px;"><img src="assets/img/success-zayn-hockey-action.jpg" alt="A coach guiding a child's hands through a field hockey swing, ball in motion" loading="lazy"></div>
-          <span class="pill">Current profile</span>
-          <h3>Zayn</h3>
-          <p>Zayn thrives when goals are broken into short, achievable steps.</p>
+          <div class="photo-tile alt-3 wide" style="margin-bottom:20px;"><img src="assets/img/success-zayn-hockey-action.jpg" alt="A coach guiding a child's hands through a field hockey swing, ball in motion" data-i18n-alt="stories.zayn.img.alt" loading="lazy"></div>
+          <span class="pill" data-i18n="stories.card.label">Current profile</span>
+          <h3 data-i18n="stories.zayn.name">Zayn</h3>
+          <p data-i18n="stories.zayn.full.body">Zayn thrives when goals are broken into short, achievable steps.</p>
           <div class="progress-track" style="margin-bottom:16px;"><div class="progress-fill" style="width:74%"></div></div>
           <ul class="feature-list">
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Improved stride consistency</strong></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Transitions between tasks are smoother</strong></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Parents report better home mobility</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.zayn.f1">Improved stride consistency</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.zayn.f2">Transitions between tasks are smoother</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.zayn.f3">Parents report better home mobility</strong></div></li>
           </ul>
         </div>
         <div class="card">
-          <div class="photo-tile alt-2 wide" style="margin-bottom:20px;"><img src="assets/img/success-noor-outdoors.jpg" alt="A child candidly peeking around a palm tree on the turf, mid-play" loading="lazy"></div>
-          <span class="pill">Current profile</span>
-          <h3>Noor</h3>
-          <p>Noor benefits from positive reinforcement and visually structured routines.</p>
+          <div class="photo-tile alt-2 wide" style="margin-bottom:20px;"><img src="assets/img/success-noor-outdoors.jpg" alt="A child candidly peeking around a palm tree on the turf, mid-play" data-i18n-alt="stories.noor.img.alt" loading="lazy"></div>
+          <span class="pill" data-i18n="stories.card.label">Current profile</span>
+          <h3 data-i18n="stories.noor.name">Noor</h3>
+          <p data-i18n="stories.noor.full.body">Noor benefits from positive reinforcement and visually structured routines.</p>
           <div class="progress-track" style="margin-bottom:16px;"><div class="progress-fill" style="width:81%"></div></div>
           <ul class="feature-list">
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Maintains posture for longer stretches</strong></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Smiles during active challenges</strong></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Comfortably uses adaptive cones and hoops</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.noor.f1">Maintains posture for longer stretches</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.noor.f2">Smiles during active challenges</strong></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="stories.noor.f3">Comfortably uses adaptive cones and hoops</strong></div></li>
           </ul>
         </div>
       </div>
@@ -164,24 +171,24 @@
   <section class="section band-tint">
     <div class="container">
       <div class="section-head center">
-        <span class="eyebrow"><span class="dot"></span> In their own words</span>
-        <h2>Improved balance, calmer transitions, stronger routines</h2>
+        <span class="eyebrow"><span class="dot"></span> <span data-i18n="stories.quotes.eyebrow">In their own words</span></span>
+        <h2 data-i18n="stories.quotes.title">Improved balance, calmer transitions, stronger routines</h2>
       </div>
       <div class="grid grid-3" data-reveal-group>
         <div class="quote-card">
           <div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
-          <p class="quote">&ldquo;The team understood our child first, then built the program around those needs.&rdquo;</p>
-          <div class="quote-who"><span class="avatar">A</span><div><strong>Amina&rsquo;s mother</strong><span>Mother of a rehabilitation client</span></div></div>
+          <p class="quote" data-i18n="stories.q1.quote">&ldquo;The team understood our child first, then built the program around those needs.&rdquo;</p>
+          <div class="quote-who"><span class="avatar">A</span><div><strong data-i18n="stories.q1.name">Amina&rsquo;s mother</strong><span data-i18n="stories.q1.role">Mother of a rehabilitation client</span></div></div>
         </div>
         <div class="quote-card">
           <div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
-          <p class="quote">&ldquo;We finally found a place that feels professional to us and joyful to our daughter.&rdquo;</p>
-          <div class="quote-who"><span class="avatar">Z</span><div><strong>Zayn&rsquo;s family</strong><span>A family joining fitness sessions</span></div></div>
+          <p class="quote" data-i18n="stories.q2.quote">&ldquo;We finally found a place that feels professional to us and joyful to our daughter.&rdquo;</p>
+          <div class="quote-who"><span class="avatar">Z</span><div><strong data-i18n="stories.q2.name">Zayn&rsquo;s family</strong><span data-i18n="stories.q2.role">A family joining fitness sessions</span></div></div>
         </div>
         <div class="quote-card">
           <div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
-          <p class="quote">&ldquo;Better stamina, brighter mood, and more excitement to move at home.&rdquo;</p>
-          <div class="quote-who"><span class="avatar">N</span><div><strong>Noor&rsquo;s parents</strong><span>Steady mobility gains and visible confidence</span></div></div>
+          <p class="quote" data-i18n="stories.q3.quote">&ldquo;Better stamina, brighter mood, and more excitement to move at home.&rdquo;</p>
+          <div class="quote-who"><span class="avatar">N</span><div><strong data-i18n="stories.q3.name">Noor&rsquo;s parents</strong><span data-i18n="stories.q3.role">Steady mobility gains and visible confidence</span></div></div>
         </div>
       </div>
     </div>
@@ -191,12 +198,12 @@
     <div class="container">
       <div class="cta-banner" data-reveal>
         <div>
-          <span class="pill on-dark"><svg><use href="#i-heart"/></svg> Your story starts here</span>
-          <h2>Ready to write your child&rsquo;s next chapter?</h2>
-          <p>Book a free trial session and take the first step together.</p>
+          <span class="pill on-dark"><svg><use href="#i-heart"/></svg> <span data-i18n="stories.cta.pill">Your story starts here</span></span>
+          <h2 data-i18n="stories.cta.title">Ready to write your child&rsquo;s next chapter?</h2>
+          <p data-i18n="stories.cta.lead">Book a free trial session and take the first step together.</p>
         </div>
         <div class="cta-actions">
-          <a class="btn" style="background:#fff;color:#0f172a;" href="book.html">Book a Free Trial <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn" style="background:#fff;color:#0f172a;" href="book.html"><span data-i18n="home.cta.book">Book a Free Trial</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
       </div>
     </div>
@@ -209,10 +216,10 @@
       <div class="footer-brand">
         <a class="brand" href="index.html">
           <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span>Movement Studio</span></span>
+          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
         </a>
         <p data-i18n="footer.tagline">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-        <p class="footer-urdu">ہر صلاحیت کے لیے حرکت &mdash; Unify Club</p>
+        <p class="footer-urdu" data-i18n="footer.slogan">Movement for every ability.</p>
         <div class="social-row">
           <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
@@ -241,7 +248,7 @@
       </div>
       <div>
         <h4 data-i18n="footer.visit">Visit / Contact</h4>
-        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
+        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span data-i18n="footer.address">North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
         <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;" data-i18n="footer.faqs">Frequently Asked Questions</a></span></div>

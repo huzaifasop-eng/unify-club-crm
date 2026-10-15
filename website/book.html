@@ -52,13 +52,13 @@
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
 </svg>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
 <header class="nav">
   <div class="container">
     <a class="brand" href="index.html">
       <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-      <span class="brand-text"><strong>Unify Club</strong><span>Movement Studio</span></span>
+      <span class="brand-text"><strong>Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html" data-i18n="nav.home">Home</a>
@@ -112,42 +112,42 @@
 
   <section class="page-hero">
     <div class="container">
-      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);">Home</a><svg><use href="#i-chevron-right"/></svg><span>Book a Trial</span></div>
-      <span class="eyebrow on-dark"><span class="dot"></span> Reserve a therapy slot</span>
-      <h1>Reserve a Free Trial Session</h1>
-      <p class="lead">Choose a preferred day and time, then we will confirm the best fit for your child.</p>
+      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);" data-i18n="nav.home">Home</a><svg><use href="#i-chevron-right"/></svg><span data-i18n="nav.cta.mobile">Book a Trial</span></div>
+      <span class="eyebrow on-dark"><span class="dot"></span> <span data-i18n="book.hero.eyebrow">Reserve a therapy slot</span></span>
+      <h1 data-i18n="book.hero.title">Reserve a Free Trial Session</h1>
+      <p class="lead" data-i18n="book.hero.lead">Choose a preferred day and time, then we will confirm the best fit for your child.</p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--tight">
     <div class="container">
       <div class="split" data-reveal>
         <div class="card">
-          <h3>Confirm booking</h3>
-          <p>Complete the form and our care coordinator will call to confirm within one business day.</p>
+          <h3 data-i18n="book.form.title">Confirm booking</h3>
+          <p data-i18n="book.form.lead">Complete the form and our care coordinator will call to confirm within one business day.</p>
           <form data-lead-form data-form-type="trial">
-            <div class="hp-field" aria-hidden="true"><label for="b-website">Leave this field empty</label><input id="b-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+            <div class="hp-field" aria-hidden="true"><label for="b-website" data-i18n="form.honeypot">Leave this field empty</label><input id="b-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
             <div class="form-grid">
-              <div class="field"><label for="b-child">Child&rsquo;s name</label><input id="b-child" name="child" type="text" required /></div>
-              <div class="field"><label for="b-age">Child&rsquo;s age</label><input id="b-age" name="age" type="number" min="1" max="18" required /></div>
-              <div class="field"><label for="b-parent">Parent / guardian name</label><input id="b-parent" name="parent" type="text" required /></div>
-              <div class="field"><label for="b-phone">Phone number</label><input id="b-phone" name="phone" type="tel" required /></div>
-              <div class="field"><label for="b-email">Email</label><input id="b-email" name="email" type="email" required /></div>
+              <div class="field"><label for="b-child" data-i18n="book.field.child">Child&rsquo;s name</label><input id="b-child" name="child" type="text" required /></div>
+              <div class="field"><label for="b-age" data-i18n="book.field.age">Child&rsquo;s age</label><input id="b-age" name="age" type="number" min="1" max="18" required /></div>
+              <div class="field"><label for="b-parent" data-i18n="book.field.parent">Parent / guardian name</label><input id="b-parent" name="parent" type="text" required /></div>
+              <div class="field"><label for="b-phone" data-i18n="book.field.phone">Phone number</label><input id="b-phone" name="phone" type="tel" required /></div>
+              <div class="field"><label for="b-email" data-i18n="form.field.email">Email</label><input id="b-email" name="email" type="email" required /></div>
               <div class="field">
-                <label for="b-program">Preferred program</label>
+                <label for="b-program" data-i18n="book.field.program">Preferred program</label>
                 <select id="b-program" name="program" required>
-                  <option value="">Select a program</option>
-                  <option>Therapy-Led Sessions</option>
-                  <option>Physical Fitness</option>
-                  <option>Rehabilitation</option>
-                  <option>Not sure yet</option>
+                  <option value="" data-i18n="book.field.program.placeholder">Select a program</option>
+                  <option data-i18n="programs.therapy.title">Therapy-Led Sessions</option>
+                  <option data-i18n="programs.fitness.title">Physical Fitness</option>
+                  <option data-i18n="programs.rehab.title">Rehabilitation</option>
+                  <option data-i18n="book.field.program.unsure">Not sure yet</option>
                 </select>
               </div>
-              <div class="field"><label for="b-day">Preferred day</label><input id="b-day" name="day" type="date" required /></div>
-              <div class="field"><label for="b-time">Preferred time</label><input id="b-time" name="time" type="time" required /></div>
-              <div class="field full"><label for="b-notes">Anything we should know?</label><textarea id="b-notes" name="notes" placeholder="Diagnosis, current therapies, goals for this trial session..."></textarea></div>
+              <div class="field"><label for="b-day" data-i18n="book.field.day">Preferred day</label><input id="b-day" name="day" type="date" required /></div>
+              <div class="field"><label for="b-time" data-i18n="book.field.time">Preferred time</label><input id="b-time" name="time" type="time" required /></div>
+              <div class="field full"><label for="b-notes" data-i18n="book.field.notes">Anything we should know?</label><textarea id="b-notes" name="notes" placeholder="Diagnosis, current therapies, goals for this trial session..." data-i18n-placeholder="book.field.notes.placeholder"></textarea></div>
               <div class="field full">
-                <button class="btn btn-primary btn-block" type="submit">Confirm Booking <svg><use href="#i-check"/></svg></button>
+                <button class="btn btn-primary btn-block" type="submit"><span data-i18n="book.form.submit">Confirm Booking</span> <svg><use href="#i-check"/></svg></button>
               </div>
             </div>
           </form>
@@ -155,16 +155,16 @@
         </div>
         <div>
           <div class="card" style="margin-bottom:20px;">
-            <span class="pill">What happens next</span>
+            <span class="pill" data-i18n="book.next.pill">What happens next</span>
             <ul class="feature-list" style="margin-top:14px;">
-              <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>We review your goals</strong><p>Our team reads your notes before you even arrive.</p></div></li>
-              <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>We match you with a therapist or coach</strong><p>Based on your child&rsquo;s age, needs, and preferred program.</p></div></li>
-              <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>You meet the team for a free trial</strong><p>No pressure, no commitment &mdash; just a first, honest session.</p></div></li>
+              <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="book.next.f1.title">We review your goals</strong><p data-i18n="book.next.f1.body">Our team reads your notes before you even arrive.</p></div></li>
+              <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="book.next.f2.title">We match you with a therapist or coach</strong><p data-i18n="book.next.f2.body">Based on your child&rsquo;s age, needs, and preferred program.</p></div></li>
+              <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="book.next.f3.title">You meet the team for a free trial</strong><p data-i18n="book.next.f3.body">No pressure, no commitment &mdash; just a first, honest session.</p></div></li>
             </ul>
           </div>
           <div class="card">
-            <h3 style="margin-bottom:6px;">Prefer to talk first?</h3>
-            <p>Call or message us directly and our care coordinator will help you choose the right program.</p>
+            <h3 style="margin-bottom:6px;" data-i18n="book.talk.title">Prefer to talk first?</h3>
+            <p data-i18n="book.talk.lead">Call or message us directly and our care coordinator will help you choose the right program.</p>
             <div class="contact-line" style="color:var(--ink-800);"><svg style="color:var(--violet-600);"><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
             <div class="contact-line" style="color:var(--ink-800); margin-bottom:0;"><svg style="color:var(--violet-600);"><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
           </div>
@@ -180,10 +180,10 @@
       <div class="footer-brand">
         <a class="brand" href="index.html">
           <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span>Movement Studio</span></span>
+          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
         </a>
         <p data-i18n="footer.tagline">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-        <p class="footer-urdu">ہر صلاحیت کے لیے حرکت &mdash; Unify Club</p>
+        <p class="footer-urdu" data-i18n="footer.slogan">Movement for every ability.</p>
         <div class="social-row">
           <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
@@ -212,7 +212,7 @@
       </div>
       <div>
         <h4 data-i18n="footer.visit">Visit / Contact</h4>
-        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
+        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span data-i18n="footer.address">North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
         <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;" data-i18n="footer.faqs">Frequently Asked Questions</a></span></div>

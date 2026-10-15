@@ -52,13 +52,13 @@
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
 </svg>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
 <header class="nav">
   <div class="container">
     <a class="brand" href="index.html">
       <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-      <span class="brand-text"><strong>Unify Club</strong><span>Movement Studio</span></span>
+      <span class="brand-text"><strong>Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html" data-i18n="nav.home">Home</a>
@@ -111,37 +111,44 @@
 
   <section class="page-hero">
     <div class="container">
-      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);">Home</a><svg><use href="#i-chevron-right"/></svg><span>Get Involved</span></div>
-      <span class="eyebrow on-dark"><span class="dot"></span> Be part of the story</span>
-      <h1>Get Involved</h1>
-      <p class="lead">However you choose to help, you become part of the reason a child took their first confident step.</p>
+      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);" data-i18n="nav.home">Home</a><svg><use href="#i-chevron-right"/></svg><span data-i18n="nav.getinvolved">Get Involved</span></div>
+      <span class="eyebrow on-dark"><span class="dot"></span> <span data-i18n="gi.hero.eyebrow">Be part of the story</span></span>
+      <h1 data-i18n="gi.hero.title">Get Involved</h1>
+      <p class="lead" data-i18n="gi.hero.lead">However you choose to help, you become part of the reason a child took their first confident step.</p>
     </div>
   </section>
 
-  <section class="section">
+  <div class="container stat-bar-overlap">
+    <div class="hook-stat" data-reveal style="margin-bottom:0;">
+      <strong>3</strong>
+      <span data-i18n="gi.hook.text">Donate, volunteer, or partner with us &mdash; every path helps a child take their first confident step.</span>
+    </div>
+  </div>
+
+  <section class="section section--tight">
     <div class="container">
       <div class="section-head center">
-        <span class="eyebrow"><span class="dot"></span> Ways to help</span>
-        <h2>Choose the way you want to support us</h2>
+        <span class="eyebrow"><span class="dot"></span> <span data-i18n="gi.ways.eyebrow">Ways to help</span></span>
+        <h2 data-i18n="gi.ways.title">Choose the way you want to support us</h2>
       </div>
       <div class="grid grid-3" data-reveal-group>
         <div class="card">
           <span class="card-icon"><svg><use href="#i-gift"/></svg></span>
-          <h3>Donate</h3>
-          <p>Every contribution goes directly toward therapy equipment, subsidized sessions, and community events.</p>
-          <a class="card-link" href="#donate">Ways to donate <svg><use href="#i-arrow-right"/></svg></a>
+          <h3 data-i18n="gi.ways.donate.title">Donate</h3>
+          <p data-i18n="gi.ways.donate.body">Every contribution goes directly toward therapy equipment, subsidized sessions, and community events.</p>
+          <a class="card-link" href="#donate"><span data-i18n="gi.ways.donate.cta">Ways to donate</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
         <div class="card">
           <span class="card-icon"><svg><use href="#i-users"/></svg></span>
-          <h3>Volunteer</h3>
-          <p>Join us as a session assistant, event volunteer, or skills-based supporter in marketing, fundraising, or admin.</p>
-          <a class="card-link" href="#volunteer">Apply to volunteer <svg><use href="#i-arrow-right"/></svg></a>
+          <h3 data-i18n="gi.ways.volunteer.title">Volunteer</h3>
+          <p data-i18n="gi.ways.volunteer.body">Join us as a session assistant, event volunteer, or skills-based supporter in marketing, fundraising, or admin.</p>
+          <a class="card-link" href="#volunteer"><span data-i18n="gi.ways.volunteer.cta">Apply to volunteer</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
         <div class="card">
           <span class="card-icon"><svg><use href="#i-handshake"/></svg></span>
-          <h3>Corporate Partnerships</h3>
-          <p>Partner with Unify Club for CSR programs, sponsorships, in-kind support, or employee volunteering days.</p>
-          <a class="card-link" href="contact.html">Partner with us <svg><use href="#i-arrow-right"/></svg></a>
+          <h3 data-i18n="gi.ways.corporate.title">Corporate Partnerships</h3>
+          <p data-i18n="gi.ways.corporate.body">Partner with Unify Club for CSR programs, sponsorships, in-kind support, or employee volunteering days.</p>
+          <a class="card-link" href="contact.html"><span data-i18n="gi.ways.corporate.cta">Partner with us</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
       </div>
     </div>
@@ -150,37 +157,37 @@
   <section class="section band-tint" id="donate">
     <div class="container">
       <div class="section-head center">
-        <span class="eyebrow"><span class="dot"></span> Donate</span>
-        <h2>Sponsor a child&rsquo;s journey</h2>
-        <p class="mx-auto">Choose a monthly level of support, or reach out for a one-time gift.</p>
+        <span class="eyebrow"><span class="dot"></span> <span data-i18n="gi.donate.eyebrow">Donate</span></span>
+        <h2 data-i18n="gi.donate.title">Sponsor a child&rsquo;s journey</h2>
+        <p class="mx-auto" data-i18n="gi.donate.lead">Choose a monthly level of support, or reach out for a one-time gift.</p>
       </div>
       <div class="grid grid-3" data-reveal-group>
         <div class="card text-center">
-          <span class="pill mx-auto" style="justify-content:center;">PKR 5,000 / month</span>
-          <h3 style="margin-top:16px;">Sponsor a Session Series</h3>
-          <p>Covers a block of therapy-led sessions for a child on our subsidized-fee waitlist.</p>
+          <span class="pill mx-auto" style="justify-content:center;" data-i18n="gi.donate.t1.amount">PKR 5,000 / month</span>
+          <h3 style="margin-top:16px;" data-i18n="gi.donate.t1.title">Sponsor a Session Series</h3>
+          <p data-i18n="gi.donate.t1.body">Covers a block of therapy-led sessions for a child on our subsidized-fee waitlist.</p>
         </div>
         <div class="card text-center" style="border-color:var(--violet-100); box-shadow:var(--shadow-md);">
-          <span class="pill mx-auto" style="justify-content:center;">PKR 15,000 / month</span>
-          <h3 style="margin-top:16px;">Sponsor a Full Program</h3>
-          <p>Funds one child&rsquo;s complete monthly program across therapy, fitness, and rehabilitation.</p>
+          <span class="pill mx-auto" style="justify-content:center;" data-i18n="gi.donate.t2.amount">PKR 15,000 / month</span>
+          <h3 style="margin-top:16px;" data-i18n="gi.donate.t2.title">Sponsor a Full Program</h3>
+          <p data-i18n="gi.donate.t2.body">Funds one child&rsquo;s complete monthly program across therapy, fitness, and rehabilitation.</p>
         </div>
         <div class="card text-center">
-          <span class="pill mx-auto" style="justify-content:center;">PKR 30,000 / month</span>
-          <h3 style="margin-top:16px;">Sponsor a Family&rsquo;s Journey</h3>
-          <p>Supports a full family&rsquo;s program fees, assessments, and workshop access for a month.</p>
+          <span class="pill mx-auto" style="justify-content:center;" data-i18n="gi.donate.t3.amount">PKR 30,000 / month</span>
+          <h3 style="margin-top:16px;" data-i18n="gi.donate.t3.title">Sponsor a Family&rsquo;s Journey</h3>
+          <p data-i18n="gi.donate.t3.body">Supports a full family&rsquo;s program fees, assessments, and workshop access for a month.</p>
         </div>
       </div>
       <div class="card" style="max-width:620px; margin:40px auto 0;" data-reveal>
-        <h3>Bank Transfer Details</h3>
-        <p>For direct transfers, use the details below and email your receipt to <a href="mailto:Info@unifyclub.org" style="color:var(--violet-600); font-weight:600;">Info@unifyclub.org</a> so we can send a confirmation.</p>
+        <h3 data-i18n="gi.bank.title">Bank Transfer Details</h3>
+        <p><span data-i18n="gi.bank.lead1">For direct transfers, use the details below and email your receipt to</span> <a href="mailto:Info@unifyclub.org" style="color:var(--violet-600); font-weight:600;">Info@unifyclub.org</a> <span data-i18n="gi.bank.lead2">so we can send a confirmation.</span></p>
         <div class="meta-row" style="flex-direction:column; align-items:flex-start; gap:8px;">
-          <span class="meta-item"><strong style="color:var(--ink-950);">Account Title:</strong>&nbsp;Unify Club</span>
-          <span class="meta-item"><strong style="color:var(--ink-950);">Bank:</strong>&nbsp;[Add your bank name]</span>
-          <span class="meta-item"><strong style="color:var(--ink-950);">Account Number:</strong>&nbsp;[Add account number]</span>
-          <span class="meta-item"><strong style="color:var(--ink-950);">IBAN:</strong>&nbsp;[Add IBAN]</span>
+          <span class="meta-item"><strong style="color:var(--ink-950);" data-i18n="gi.bank.title_label">Account Title:</strong>&nbsp;Unify Club</span>
+          <span class="meta-item"><strong style="color:var(--ink-950);" data-i18n="gi.bank.bank_label">Bank:</strong>&nbsp;<span data-i18n="gi.bank.bank_value">[Add your bank name]</span></span>
+          <span class="meta-item"><strong style="color:var(--ink-950);" data-i18n="gi.bank.acct_label">Account Number:</strong>&nbsp;<span data-i18n="gi.bank.acct_value">[Add account number]</span></span>
+          <span class="meta-item"><strong style="color:var(--ink-950);" data-i18n="gi.bank.iban_label">IBAN:</strong>&nbsp;<span data-i18n="gi.bank.iban_value">[Add IBAN]</span></span>
         </div>
-        <p class="form-note" style="margin-top:14px;">Replace the bracketed placeholders above with your real banking details before this page goes live.</p>
+        <p class="form-note" style="margin-top:14px;" data-i18n="gi.bank.note">Replace the bracketed placeholders above with your real banking details before this page goes live.</p>
       </div>
     </div>
   </section>
@@ -189,36 +196,36 @@
     <div class="container">
       <div class="split" data-reveal>
         <div>
-          <span class="eyebrow"><span class="dot"></span> Volunteer</span>
-          <h2>Bring your time and skills</h2>
-          <p>Tell us a little about yourself and where you&rsquo;d like to help &mdash; our team will reach out about current openings.</p>
+          <span class="eyebrow"><span class="dot"></span> <span data-i18n="gi.volunteer.eyebrow">Volunteer</span></span>
+          <h2 data-i18n="gi.volunteer.title">Bring your time and skills</h2>
+          <p data-i18n="gi.volunteer.lead">Tell us a little about yourself and where you&rsquo;d like to help &mdash; our team will reach out about current openings.</p>
           <ul class="feature-list">
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Session &amp; event volunteers</strong><p>Assist therapists and coaches during sessions or community events.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Skills-based volunteering</strong><p>Marketing, fundraising, design, or admin support from wherever you are.</p></div></li>
-            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong>Corporate volunteer days</strong><p>Bring your team for a hands-on day supporting an event or facility project.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="gi.volunteer.f1.title">Session &amp; event volunteers</strong><p data-i18n="gi.volunteer.f1.body">Assist therapists and coaches during sessions or community events.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="gi.volunteer.f2.title">Skills-based volunteering</strong><p data-i18n="gi.volunteer.f2.body">Marketing, fundraising, design, or admin support from wherever you are.</p></div></li>
+            <li><span class="tick"><svg><use href="#i-check"/></svg></span><div><strong data-i18n="gi.volunteer.f3.title">Corporate volunteer days</strong><p data-i18n="gi.volunteer.f3.body">Bring your team for a hands-on day supporting an event or facility project.</p></div></li>
           </ul>
         </div>
         <div class="card">
           <form data-lead-form data-form-type="volunteer">
-            <div class="hp-field" aria-hidden="true"><label for="v-website">Leave this field empty</label><input id="v-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+            <div class="hp-field" aria-hidden="true"><label for="v-website" data-i18n="form.honeypot">Leave this field empty</label><input id="v-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
             <div class="form-grid">
-              <div class="field"><label for="v-name">Full name</label><input id="v-name" name="name" type="text" required /></div>
-              <div class="field"><label for="v-email">Email</label><input id="v-email" name="email" type="email" required /></div>
-              <div class="field"><label for="v-phone">Phone</label><input id="v-phone" name="phone" type="tel" required /></div>
+              <div class="field"><label for="v-name" data-i18n="form.field.fullname">Full name</label><input id="v-name" name="name" type="text" required /></div>
+              <div class="field"><label for="v-email" data-i18n="form.field.email">Email</label><input id="v-email" name="email" type="email" required /></div>
+              <div class="field"><label for="v-phone" data-i18n="form.field.phone">Phone</label><input id="v-phone" name="phone" type="tel" required /></div>
               <div class="field">
-                <label for="v-interest">Area of interest</label>
+                <label for="v-interest" data-i18n="gi.form.interest.label">Area of interest</label>
                 <select id="v-interest" name="interest" required>
-                  <option value="">Select an option</option>
-                  <option>Session &amp; event support</option>
-                  <option>Marketing &amp; fundraising</option>
-                  <option>Admin &amp; operations</option>
-                  <option>Corporate volunteering</option>
+                  <option value="" data-i18n="gi.form.interest.placeholder">Select an option</option>
+                  <option data-i18n="gi.form.interest.opt1">Session &amp; event support</option>
+                  <option data-i18n="gi.form.interest.opt2">Marketing &amp; fundraising</option>
+                  <option data-i18n="gi.form.interest.opt3">Admin &amp; operations</option>
+                  <option data-i18n="gi.form.interest.opt4">Corporate volunteering</option>
                 </select>
               </div>
-              <div class="field full"><label for="v-availability">Availability</label><input id="v-availability" name="availability" type="text" placeholder="e.g. Weekday afternoons" /></div>
-              <div class="field full"><label for="v-message">Anything else we should know?</label><textarea id="v-message" name="message"></textarea></div>
+              <div class="field full"><label for="v-availability" data-i18n="gi.form.availability.label">Availability</label><input id="v-availability" name="availability" type="text" placeholder="e.g. Weekday afternoons" data-i18n-placeholder="gi.form.availability.placeholder" /></div>
+              <div class="field full"><label for="v-message" data-i18n="gi.form.message.label">Anything else we should know?</label><textarea id="v-message" name="message"></textarea></div>
               <div class="field full">
-                <button class="btn btn-primary btn-block" type="submit">Submit Interest <svg><use href="#i-send"/></svg></button>
+                <button class="btn btn-primary btn-block" type="submit"><span data-i18n="gi.form.submit">Submit Interest</span> <svg><use href="#i-send"/></svg></button>
               </div>
             </div>
           </form>
@@ -232,12 +239,12 @@
     <div class="container">
       <div class="cta-banner" data-reveal>
         <div>
-          <span class="pill on-dark"><svg><use href="#i-heart"/></svg> Every bit helps</span>
-          <h2>Not sure where to start?</h2>
-          <p>Reach out and we&rsquo;ll help you find the way to get involved that fits you best.</p>
+          <span class="pill on-dark"><svg><use href="#i-heart"/></svg> <span data-i18n="gi.cta.pill">Every bit helps</span></span>
+          <h2 data-i18n="gi.cta.title">Not sure where to start?</h2>
+          <p data-i18n="gi.cta.lead">Reach out and we&rsquo;ll help you find the way to get involved that fits you best.</p>
         </div>
         <div class="cta-actions">
-          <a class="btn" style="background:#fff;color:#0f172a;" href="contact.html">Contact Us <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn" style="background:#fff;color:#0f172a;" href="contact.html"><span data-i18n="nav.contact.us">Contact Us</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
       </div>
     </div>
@@ -250,10 +257,10 @@
       <div class="footer-brand">
         <a class="brand" href="index.html">
           <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span>Movement Studio</span></span>
+          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
         </a>
         <p data-i18n="footer.tagline">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-        <p class="footer-urdu">ہر صلاحیت کے لیے حرکت &mdash; Unify Club</p>
+        <p class="footer-urdu" data-i18n="footer.slogan">Movement for every ability.</p>
         <div class="social-row">
           <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
@@ -282,7 +289,7 @@
       </div>
       <div>
         <h4 data-i18n="footer.visit">Visit / Contact</h4>
-        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
+        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span data-i18n="footer.address">North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
         <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;" data-i18n="footer.faqs">Frequently Asked Questions</a></span></div>

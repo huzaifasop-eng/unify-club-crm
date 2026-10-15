@@ -32,6 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const key = el.dataset.i18nPlaceholder;
       if (strings[key]) el.setAttribute('placeholder', strings[key]);
     });
+    // Image alt text is real accessibility content, not decorative — it
+    // localizes the same way text/placeholders do, via a dedicated
+    // attribute (alt can't carry a data-i18n child the way text can).
+    document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
+      const key = el.dataset.i18nAlt;
+      if (strings[key]) el.setAttribute('alt', strings[key]);
+    });
+    // aria-label is screen-reader-only text (e.g. icon-only buttons) — same
+    // treatment as alt text, so assistive tech also gets the right language.
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      const key = el.dataset.i18nAria;
+      if (strings[key]) el.setAttribute('aria-label', strings[key]);
+    });
     document.querySelectorAll('[data-lang-label]').forEach((el) => {
       el.textContent = lang === 'ur' ? 'EN' : 'UR';
     });
@@ -154,11 +167,23 @@ document.addEventListener('DOMContentLoaded', () => {
      driven by the lead's actual stage, not a static "thank you" message.
      See website/docs/SECURITY.md §API Security and ARCHITECTURE.md §6. */
   const API_BASE_URL = (window.UNIFY_API_BASE_URL || '').replace(/\/+$/, '');
-  const TRACKER_STEPS = [
-    { n: 1, label: 'Submitted' },
-    { n: 2, label: 'Our team reviews' },
-    { n: 3, label: 'Confirmed & scheduled' },
-  ];
+  // Dictionary lookup for JS-rendered strings (tracker steps, status/error
+  // text) so they honor the current language exactly like data-i18n markup
+  // does — these are built at render time from `t()`, never hardcoded
+  // English, so switching to Urdu never leaves English text behind in
+  // dynamically-generated content. Falls back to the English literal passed
+  // as `fallback` if a key is somehow missing from the dictionary.
+  function t(key, fallback) {
+    const strings = dict[currentLang] || dict.en;
+    return strings[key] || fallback;
+  }
+  function trackerSteps() {
+    return [
+      { n: 1, label: t('tracker.step1', 'Submitted') },
+      { n: 2, label: t('tracker.step2', 'Our team reviews') },
+      { n: 3, label: t('tracker.step3', 'Confirmed & scheduled') },
+    ];
+  }
 
   function buildLeadPayload(form) {
     const data = Object.fromEntries(new FormData(form).entries());
@@ -190,13 +215,13 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML =
         '<div class="lead-tracker lead-tracker--error">' +
         '<svg><use href="#i-close"/></svg>' +
-        '<div><strong>We couldn’t submit this right now.</strong>' +
-        '<p>' + result.errorMessage + ' Please call <a href="tel:+923141123441">+92 314 1123 441</a> or email ' +
-        '<a href="mailto:Info@unifyclub.org">Info@unifyclub.org</a> directly and we’ll take it from there.</p></div></div>';
+        '<div><strong>' + t('tracker.error.title', 'We couldn’t submit this right now.') + '</strong>' +
+        '<p>' + result.errorMessage + ' ' + t('tracker.error.fallback', 'Please call') + ' <a href="tel:+923141123441">+92 314 1123 441</a> ' + t('tracker.error.or', 'or email') + ' ' +
+        '<a href="mailto:Info@unifyclub.org">Info@unifyclub.org</a> ' + t('tracker.error.directly', 'directly and we’ll take it from there.') + '</p></div></div>';
       container.classList.add('show');
       return;
     }
-    const stepsHtml = TRACKER_STEPS.map((s) => {
+    const stepsHtml = trackerSteps().map((s) => {
       const state = s.n < result.step ? 'is-done' : s.n === result.step ? 'is-current' : '';
       const dot = s.n < result.step ? '<svg><use href="#i-check"/></svg>' : String(s.n);
       return '<div class="lead-tracker-step ' + state + '"><span class="lead-tracker-dot">' + dot +
@@ -204,8 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
     container.innerHTML =
       '<div class="lead-tracker"><div class="lead-tracker-steps">' + stepsHtml + '</div>' +
-      '<p class="lead-tracker-note">Current status: <strong>' + result.stepLabel + '</strong>. Reference: <code>' +
-      result.id + '</code> — save this to check your status anytime.</p></div>';
+      '<p class="lead-tracker-note">' + t('tracker.status', 'Current status:') + ' <strong>' + result.stepLabel + '</strong>. ' + t('tracker.reference', 'Reference:') + ' <code>' +
+      result.id + '</code> — ' + t('tracker.save', 'save this to check your status anytime.') + '</p></div>';
     container.classList.add('show');
   }
 
@@ -222,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!API_BASE_URL) {
-        renderTracker(tracker, { errorMessage: 'This site isn’t connected to our booking system yet.' });
+        renderTracker(tracker, { errorMessage: t('tracker.not_connected', 'This site isn’t connected to our booking system yet.') });
         return;
       }
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -263,10 +288,10 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res = await fetch(API_BASE_URL + '/public/leads/' + encodeURIComponent(id) + '/status');
         const body = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(body.message || 'We couldn’t find that reference.');
+        if (!res.ok) throw new Error(body.message || t('tracker.not_found', 'We couldn’t find that reference.'));
         renderTracker(result, body);
       } catch (err) {
-        renderTracker(result, { errorMessage: err.message || 'We couldn’t find that reference.' });
+        renderTracker(result, { errorMessage: err.message || t('tracker.not_found', 'We couldn’t find that reference.') });
       }
     });
   });
@@ -279,8 +304,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const lbTile = lightbox.querySelector('[data-lightbox-tile]');
     document.querySelectorAll('[data-gallery-item]').forEach((item) => {
       item.addEventListener('click', () => {
-        lbTitle.textContent = item.dataset.title || '';
-        lbTag.textContent = item.dataset.tag || '';
+        // Prefer a dictionary lookup (data-title-key/data-tag-key) so the
+        // lightbox honors the current language exactly like the tile
+        // caption beside it; data-title/data-tag stay as the English
+        // fallback for any tile that doesn't carry a key.
+        lbTitle.textContent = t(item.dataset.titleKey, item.dataset.title) || '';
+        lbTag.textContent = t(item.dataset.tagKey, item.dataset.tag) || '';
         lbTile.className = 'photo-tile ' + (item.dataset.tone || '');
         // Prefer the tile's real photo (assets/img/) if it has one; fall
         // back to the illustrated tile-icon for any tile that doesn't.

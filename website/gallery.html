@@ -52,13 +52,13 @@
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
 </svg>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
 <header class="nav">
   <div class="container">
     <a class="brand" href="index.html">
       <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-      <span class="brand-text"><strong>Unify Club</strong><span>Movement Studio</span></span>
+      <span class="brand-text"><strong>Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html" data-i18n="nav.home">Home</a>
@@ -112,67 +112,74 @@
 
   <section class="page-hero">
     <div class="container">
-      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);">Home</a><svg><use href="#i-chevron-right"/></svg><span>Gallery</span></div>
-      <span class="eyebrow on-dark"><span class="dot"></span> Images and videos</span>
-      <h1>Moments of Progress</h1>
-      <p class="lead">A look inside our sessions, workshops, and the small wins we celebrate every day.</p>
+      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);" data-i18n="nav.home">Home</a><svg><use href="#i-chevron-right"/></svg><span data-i18n="nav.gallery">Gallery</span></div>
+      <span class="eyebrow on-dark"><span class="dot"></span> <span data-i18n="gallery.hero.eyebrow">Images and videos</span></span>
+      <h1 data-i18n="gallery.hero.title">Moments of Progress</h1>
+      <p class="lead" data-i18n="gallery.hero.lead">A look inside our sessions, workshops, and the small wins we celebrate every day.</p>
     </div>
   </section>
 
-  <section class="section">
+  <div class="container stat-bar-overlap">
+    <div class="hook-stat" data-reveal style="margin-bottom:0;">
+      <strong>13</strong>
+      <span data-i18n="gallery.hook.text">Real photos from real sessions &mdash; tap any tile for a closer look.</span>
+    </div>
+  </div>
+
+  <section class="section section--tight">
     <div class="container">
       <div class="grid grid-4" data-reveal-group>
-        <div class="photo-tile alt-1 square" data-gallery-item data-title="Coaching One-on-One" data-tag="Getting to know your child" data-tone="alt-1" style="cursor:pointer;">
-          <img src="assets/img/coach-guiding-session.jpg" alt="A coach jogging alongside a child on the turf, mid-session" loading="lazy">
-          <div class="tile-caption">Coaching One-on-One</div>
+        <div class="photo-tile alt-1 square" data-gallery-item data-title-key="gallery.t1.title" data-title="Coaching One-on-One" data-tag-key="gallery.t1.tag" data-tag="Getting to know your child" data-tone="alt-1" style="cursor:pointer;">
+          <img src="assets/img/coach-guiding-session.jpg" alt="A coach jogging alongside a child on the turf, mid-session" data-i18n-alt="gallery.t1.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t1.title">Coaching One-on-One</div>
         </div>
-        <div class="photo-tile alt-2 statement" data-gallery-item data-title="Kicking Drill" data-tag="Therapy-led sessions" data-tone="alt-2" style="cursor:pointer; grid-column:span 2; grid-row:span 2;">
-          <img src="assets/img/kicking-drill-action.jpg" alt="A coach passing a ball to a teen mid-kick during a cone drill on the turf" loading="lazy">
-          <div class="tile-caption">Kicking Drill</div>
+        <div class="photo-tile alt-2 statement" data-gallery-item data-title-key="gallery.t2.title" data-title="Kicking Drill" data-tag-key="gallery.t2.tag" data-tag="Therapy-led sessions" data-tone="alt-2" style="cursor:pointer; grid-column:span 2; grid-row:span 2;">
+          <img src="assets/img/kicking-drill-action.jpg" alt="A coach passing a ball to a teen mid-kick during a cone drill on the turf" data-i18n-alt="gallery.t2.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t2.title">Kicking Drill</div>
         </div>
-        <div class="photo-tile alt-3 square" data-gallery-item data-title="Running Together" data-tag="Physical fitness" data-tone="alt-3" style="cursor:pointer;">
-          <img src="assets/img/running-with-coach.jpg" alt="A child running hand-in-hand with a coach across the field" loading="lazy">
-          <div class="tile-caption">Running Together</div>
+        <div class="photo-tile alt-3 square" data-gallery-item data-title-key="gallery.t3.title" data-title="Running Together" data-tag-key="gallery.t3.tag" data-tag="Physical fitness" data-tone="alt-3" style="cursor:pointer;">
+          <img src="assets/img/running-with-coach.jpg" alt="A child running hand-in-hand with a coach across the field" data-i18n-alt="gallery.t3.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t3.title">Running Together</div>
         </div>
-        <div class="photo-tile alt-4 square" data-gallery-item data-title="Field Hockey Swing" data-tag="Rehabilitation" data-tone="alt-4" style="cursor:pointer;">
-          <img src="assets/img/field-hockey-swing-action.jpg" alt="A coach guiding a child's hands through a field hockey swing, ball in motion" loading="lazy">
-          <div class="tile-caption">Field Hockey Swing</div>
+        <div class="photo-tile alt-4 square" data-gallery-item data-title-key="gallery.t4.title" data-title="Field Hockey Swing" data-tag-key="gallery.t4.tag" data-tag="Rehabilitation" data-tone="alt-4" style="cursor:pointer;">
+          <img src="assets/img/field-hockey-swing-action.jpg" alt="A coach guiding a child's hands through a field hockey swing, ball in motion" data-i18n-alt="gallery.t4.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t4.title">Field Hockey Swing</div>
         </div>
-        <div class="photo-tile alt-1 statement" data-gallery-item data-title="Clear Goals" data-tag="Joyful progress" data-tone="alt-1" style="cursor:pointer; grid-column:span 2; grid-row:span 2;">
-          <img src="assets/img/clear-goals-coaching.jpg" alt="A coach helping a child line up a field hockey swing toward the goal" loading="lazy">
-          <div class="tile-caption">Clear Goals</div>
+        <div class="photo-tile alt-1 statement" data-gallery-item data-title-key="gallery.t5.title" data-title="Clear Goals" data-tag-key="gallery.t5.tag" data-tag="Joyful progress" data-tone="alt-1" style="cursor:pointer; grid-column:span 2; grid-row:span 2;">
+          <img src="assets/img/clear-goals-coaching.jpg" alt="A coach helping a child line up a field hockey swing toward the goal" data-i18n-alt="gallery.t5.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t5.title">Clear Goals</div>
         </div>
-        <div class="photo-tile alt-2 square" data-gallery-item data-title="Hockey Coaching" data-tag="Weekly milestones" data-tone="alt-2" style="cursor:pointer;">
-          <img src="assets/img/field-hockey-coaching-wide.jpg" alt="A coach standing behind a child, guiding a field hockey stick together" loading="lazy">
-          <div class="tile-caption">Hockey Coaching</div>
+        <div class="photo-tile alt-2 square" data-gallery-item data-title-key="gallery.t6.title" data-title="Hockey Coaching" data-tag-key="gallery.t6.tag" data-tag="Weekly milestones" data-tone="alt-2" style="cursor:pointer;">
+          <img src="assets/img/field-hockey-coaching-wide.jpg" alt="A coach standing behind a child, guiding a field hockey stick together" data-i18n-alt="gallery.t6.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t6.title">Hockey Coaching</div>
         </div>
-        <div class="photo-tile alt-3 square" data-gallery-item data-title="Balance Board Focus" data-tag="Balance &amp; coordination" data-tone="alt-3" style="cursor:pointer;">
-          <img src="assets/img/balance-board-confidence.jpg" alt="A child standing confidently on a balance board during a coordination exercise" loading="lazy">
-          <div class="tile-caption">Balance Board Focus</div>
+        <div class="photo-tile alt-3 square" data-gallery-item data-title-key="gallery.t7.title" data-title="Balance Board Focus" data-tag-key="gallery.t7.tag" data-tag="Balance &amp; coordination" data-tone="alt-3" style="cursor:pointer;">
+          <img src="assets/img/balance-board-confidence.jpg" alt="A child standing confidently on a balance board during a coordination exercise" data-i18n-alt="gallery.t7.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t7.title">Balance Board Focus</div>
         </div>
-        <div class="photo-tile alt-4 square" data-gallery-item data-title="Balance &amp; Reach" data-tag="Adaptive movement circuits" data-tone="alt-4" style="cursor:pointer;">
-          <img src="assets/img/balance-board-boy-square.jpg" alt="A child balancing on a wobble board with arms outstretched, coach holding his hands" loading="lazy">
-          <div class="tile-caption">Balance &amp; Reach</div>
+        <div class="photo-tile alt-4 square" data-gallery-item data-title-key="gallery.t8.title" data-title="Balance &amp; Reach" data-tag-key="gallery.t8.tag" data-tag="Adaptive movement circuits" data-tone="alt-4" style="cursor:pointer;">
+          <img src="assets/img/balance-board-boy-square.jpg" alt="A child balancing on a wobble board with arms outstretched, coach holding his hands" data-i18n-alt="gallery.t8.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t8.title">Balance &amp; Reach</div>
         </div>
-        <div class="photo-tile alt-1 square" data-gallery-item data-title="Balance Meets Basketball" data-tag="Celebrating small wins" data-tone="alt-1" style="cursor:pointer;">
-          <img src="assets/img/balance-basketball-combo.jpg" alt="A child steadily holding a basketball while balancing on a wobble board" loading="lazy">
-          <div class="tile-caption">Balance Meets Basketball</div>
+        <div class="photo-tile alt-1 square" data-gallery-item data-title-key="gallery.t9.title" data-title="Balance Meets Basketball" data-tag-key="gallery.t9.tag" data-tag="Celebrating small wins" data-tone="alt-1" style="cursor:pointer;">
+          <img src="assets/img/balance-basketball-combo.jpg" alt="A child steadily holding a basketball while balancing on a wobble board" data-i18n-alt="gallery.t9.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t9.title">Balance Meets Basketball</div>
         </div>
-        <div class="photo-tile alt-2 square" data-gallery-item data-title="Full-Field Drills" data-tag="Social, motivating play" data-tone="alt-2" style="cursor:pointer;">
-          <img src="assets/img/group-field-session.jpg" alt="Wide view of the turf during a group training session, cones and ladders set out" loading="lazy">
-          <div class="tile-caption">Full-Field Drills</div>
+        <div class="photo-tile alt-2 square" data-gallery-item data-title-key="gallery.t10.title" data-title="Full-Field Drills" data-tag-key="gallery.t10.tag" data-tag="Social, motivating play" data-tone="alt-2" style="cursor:pointer;">
+          <img src="assets/img/group-field-session.jpg" alt="Wide view of the turf during a group training session, cones and ladders set out" data-i18n-alt="gallery.t10.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t10.title">Full-Field Drills</div>
         </div>
-        <div class="photo-tile alt-3 square" data-gallery-item data-title="Stretch &amp; Reset" data-tag="Peer group games" data-tone="alt-3" style="cursor:pointer;">
-          <img src="assets/img/basketball-dynamic-stretch.jpg" alt="A child holding a basketball while a peer stretches nearby during a session" loading="lazy">
-          <div class="tile-caption">Stretch &amp; Reset</div>
+        <div class="photo-tile alt-3 square" data-gallery-item data-title-key="gallery.t11.title" data-title="Stretch &amp; Reset" data-tag-key="gallery.t11.tag" data-tag="Peer group games" data-tone="alt-3" style="cursor:pointer;">
+          <img src="assets/img/basketball-dynamic-stretch.jpg" alt="A child holding a basketball while a peer stretches nearby during a session" data-i18n-alt="gallery.t11.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t11.title">Stretch &amp; Reset</div>
         </div>
-        <div class="photo-tile alt-4 square" data-gallery-item data-title="Dribbling Focus" data-tag="Family cheer" data-tone="alt-4" style="cursor:pointer;">
-          <img src="assets/img/basketball-agility-focus.jpg" alt="A child concentrating while holding a basketball beside the agility ladder" loading="lazy">
-          <div class="tile-caption">Dribbling Focus</div>
+        <div class="photo-tile alt-4 square" data-gallery-item data-title-key="gallery.t12.title" data-title="Dribbling Focus" data-tag-key="gallery.t12.tag" data-tag="Family cheer" data-tone="alt-4" style="cursor:pointer;">
+          <img src="assets/img/basketball-agility-focus.jpg" alt="A child concentrating while holding a basketball beside the agility ladder" data-i18n-alt="gallery.t12.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t12.title">Dribbling Focus</div>
         </div>
-        <div class="photo-tile alt-1 square" data-gallery-item data-title="Equipment of Play" data-tag="Confidence in motion" data-tone="alt-1" style="cursor:pointer;">
-          <img src="assets/img/colorful-tires-detail.jpg" alt="Three hand-painted, rainbow-colored tires used as agility equipment on the turf" loading="lazy">
-          <div class="tile-caption">Equipment of Play</div>
+        <div class="photo-tile alt-1 square" data-gallery-item data-title-key="gallery.t13.title" data-title="Equipment of Play" data-tag-key="gallery.t13.tag" data-tag="Confidence in motion" data-tone="alt-1" style="cursor:pointer;">
+          <img src="assets/img/colorful-tires-detail.jpg" alt="Three hand-painted, rainbow-colored tires used as agility equipment on the turf" data-i18n-alt="gallery.t13.title" loading="lazy">
+          <div class="tile-caption" data-i18n="gallery.t13.title">Equipment of Play</div>
         </div>
       </div>
     </div>
@@ -182,12 +189,12 @@
     <div class="container">
       <div class="cta-banner" data-reveal>
         <div>
-          <span class="pill on-dark"><svg><use href="#i-image"/></svg> See it for yourself</span>
-          <h2>Come visit a session in person.</h2>
-          <p>Book a free trial and experience the studio firsthand.</p>
+          <span class="pill on-dark"><svg><use href="#i-image"/></svg> <span data-i18n="gallery.cta.pill">See it for yourself</span></span>
+          <h2 data-i18n="gallery.cta.title">Come visit a session in person.</h2>
+          <p data-i18n="gallery.cta.lead">Book a free trial and experience the studio firsthand.</p>
         </div>
         <div class="cta-actions">
-          <a class="btn" style="background:#fff;color:#0f172a;" href="book.html">Book a Free Trial <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn" style="background:#fff;color:#0f172a;" href="book.html"><span data-i18n="home.cta.book">Book a Free Trial</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
       </div>
     </div>
@@ -198,7 +205,7 @@
       <div class="photo-tile" data-lightbox-tile></div>
       <div class="lightbox-body">
         <div><strong data-lightbox-title></strong><span data-lightbox-tag></span></div>
-        <button class="lightbox-close" data-lightbox-close aria-label="Close"><svg><use href="#i-close"/></svg></button>
+        <button class="lightbox-close" data-lightbox-close aria-label="Close" data-i18n-aria="common.close"><svg><use href="#i-close"/></svg></button>
       </div>
     </div>
   </div>
@@ -210,10 +217,10 @@
       <div class="footer-brand">
         <a class="brand" href="index.html">
           <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span>Movement Studio</span></span>
+          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
         </a>
         <p data-i18n="footer.tagline">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-        <p class="footer-urdu">ہر صلاحیت کے لیے حرکت &mdash; Unify Club</p>
+        <p class="footer-urdu" data-i18n="footer.slogan">Movement for every ability.</p>
         <div class="social-row">
           <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
@@ -242,7 +249,7 @@
       </div>
       <div>
         <h4 data-i18n="footer.visit">Visit / Contact</h4>
-        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
+        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span data-i18n="footer.address">North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
         <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;" data-i18n="footer.faqs">Frequently Asked Questions</a></span></div>

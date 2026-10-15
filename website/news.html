@@ -52,13 +52,13 @@
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
 </svg>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
 <header class="nav">
   <div class="container">
     <a class="brand" href="index.html">
       <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-      <span class="brand-text"><strong>Unify Club</strong><span>Movement Studio</span></span>
+      <span class="brand-text"><strong>Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html" data-i18n="nav.home">Home</a>
@@ -111,51 +111,66 @@
 
   <section class="page-hero">
     <div class="container">
-      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);">Home</a><svg><use href="#i-chevron-right"/></svg><span>News &amp; Stories</span></div>
-      <span class="eyebrow on-dark"><span class="dot"></span> From the studio</span>
-      <h1>News &amp; Stories</h1>
-      <p class="lead">Updates, milestones, and reflections from the Unify Club community.</p>
+      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);" data-i18n="nav.home">Home</a><svg><use href="#i-chevron-right"/></svg><span data-i18n="nav.news">News &amp; Stories</span></div>
+      <span class="eyebrow on-dark"><span class="dot"></span> <span data-i18n="news.hero.eyebrow">From the studio</span></span>
+      <h1 data-i18n="news.hero.title">News &amp; Stories</h1>
+      <p class="lead" data-i18n="news.hero.lead">Updates, milestones, and reflections from the Unify Club community.</p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--tight">
     <div class="container">
+      <div class="split" data-reveal>
+        <div>
+          <span class="pill" data-i18n="news.n1.tag">Milestone</span>
+          <h2 style="margin-top:16px;" data-i18n="news.n1.title">Unify Club Marks 9 Years of Movement-First Therapy</h2>
+          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> <span data-i18n="news.n1.date">September 2026</span></span></div>
+          <p data-i18n="news.n1.body">Nine years ago, Unify Club began with a handful of one-on-one sessions. Today the studio supports hundreds of families across therapy, fitness, and rehabilitation &mdash; and the mission hasn&rsquo;t changed: confidence, one safe step at a time.</p>
+        </div>
+        <div class="photo-tile alt-3 wide statement">
+          <img src="assets/img/coach-guiding-session.jpg" alt="A coach jogging alongside a child on the turf, mid-session" data-i18n-alt="about.story.img3.alt" loading="lazy">
+          <div class="tile-caption" data-i18n="about.story.img3.caption">Nine years of guiding families, one session at a time</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-tint">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow"><span class="dot"></span> <span data-i18n="news.more.eyebrow">More from the community</span></span>
+        <h2 data-i18n="news.more.title">Five more updates worth a scan</h2>
+      </div>
       <div class="grid grid-3" data-reveal-group>
         <div class="card">
-          <span class="pill">Milestone</span>
-          <h3 style="margin-top:16px;">Unify Club Marks 9 Years of Movement-First Therapy</h3>
-          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> September 2026</span></div>
-          <p style="margin:0;">Nine years ago, Unify Club began with a handful of one-on-one sessions. Today the studio supports hundreds of families across therapy, fitness, and rehabilitation &mdash; and the mission hasn&rsquo;t changed: confidence, one safe step at a time.</p>
+          <span class="pill" data-i18n="news.n2.tag">Event Recap</span>
+          <h3 style="margin-top:16px;" data-i18n="news.n2.title">Adaptive Sports Day Draws Record Turnout</h3>
+          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> <span data-i18n="news.n2.date">August 2026</span></span></div>
+          <p style="margin:0;" data-i18n="news.n2.body">Families filled the studio for a morning of adaptive games, group challenges, and plenty of cheering. Thank you to every parent, sibling, and volunteer who made the day joyful and safe.</p>
         </div>
         <div class="card">
-          <span class="pill">Event Recap</span>
-          <h3 style="margin-top:16px;">Adaptive Sports Day Draws Record Turnout</h3>
-          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> August 2026</span></div>
-          <p style="margin:0;">Families filled the studio for a morning of adaptive games, group challenges, and plenty of cheering. Thank you to every parent, sibling, and volunteer who made the day joyful and safe.</p>
+          <span class="pill" data-i18n="news.n3.tag">Facility Update</span>
+          <h3 style="margin-top:16px;" data-i18n="news.n3.title">New Sensory-Friendly Assessment Room Now Open</h3>
+          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> <span data-i18n="news.n3.date">July 2026</span></span></div>
+          <p style="margin:0;" data-i18n="news.n3.body">Our newly renovated assessment room features adjustable lighting, quiet acoustic panels, and a calm layout designed to make a child&rsquo;s very first visit feel welcoming rather than clinical.</p>
         </div>
         <div class="card">
-          <span class="pill">Facility Update</span>
-          <h3 style="margin-top:16px;">New Sensory-Friendly Assessment Room Now Open</h3>
-          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> July 2026</span></div>
-          <p style="margin:0;">Our newly renovated assessment room features adjustable lighting, quiet acoustic panels, and a calm layout designed to make a child&rsquo;s very first visit feel welcoming rather than clinical.</p>
+          <span class="pill" data-i18n="news.n4.tag">Community</span>
+          <h3 style="margin-top:16px;" data-i18n="news.n4.title">Parent Workshop Series: What We Learned</h3>
+          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> <span data-i18n="news.n4.date">June 2026</span></span></div>
+          <p style="margin:0;" data-i18n="news.n4.body">Our latest Parent Workshop focused on home routines and safe exercises. Parents left with practical tools &mdash; and a reminder that consistency matters more than intensity.</p>
         </div>
         <div class="card">
-          <span class="pill">Community</span>
-          <h3 style="margin-top:16px;">Parent Workshop Series: What We Learned</h3>
-          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> June 2026</span></div>
-          <p style="margin:0;">Our latest Parent Workshop focused on home routines and safe exercises. Parents left with practical tools &mdash; and a reminder that consistency matters more than intensity.</p>
+          <span class="pill" data-i18n="news.n5.tag">Success Story</span>
+          <h3 style="margin-top:16px;" data-i18n="news.n5.title">Meet Noor: A Family&rsquo;s Journey in Her Own Words</h3>
+          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> <span data-i18n="news.n5.date">May 2026</span></span></div>
+          <p style="margin:0;" data-i18n="news.n5.body">Noor&rsquo;s parents share how positive reinforcement and visually structured routines helped her build posture, confidence, and joy in movement over the past year.</p>
         </div>
         <div class="card">
-          <span class="pill">Success Story</span>
-          <h3 style="margin-top:16px;">Meet Noor: A Family&rsquo;s Journey in Her Own Words</h3>
-          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> May 2026</span></div>
-          <p style="margin:0;">Noor&rsquo;s parents share how positive reinforcement and visually structured routines helped her build posture, confidence, and joy in movement over the past year.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Partnership</span>
-          <h3 style="margin-top:16px;">Unify Club Partners with Local Schools for Inclusion Training</h3>
-          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> April 2026</span></div>
-          <p style="margin:0;">We&rsquo;re working with local schools to train staff on inclusive movement activities, extending the benefits of adaptive play beyond our own studio walls.</p>
+          <span class="pill" data-i18n="news.n6.tag">Partnership</span>
+          <h3 style="margin-top:16px;" data-i18n="news.n6.title">Unify Club Partners with Local Schools for Inclusion Training</h3>
+          <div class="meta-row" style="margin:6px 0 14px;"><span class="meta-item"><svg><use href="#i-calendar"/></svg> <span data-i18n="news.n6.date">April 2026</span></span></div>
+          <p style="margin:0;" data-i18n="news.n6.body">We&rsquo;re working with local schools to train staff on inclusive movement activities, extending the benefits of adaptive play beyond our own studio walls.</p>
         </div>
       </div>
     </div>
@@ -165,12 +180,12 @@
     <div class="container">
       <div class="cta-banner" data-reveal>
         <div>
-          <span class="pill on-dark"><svg><use href="#i-newspaper"/></svg> Stay updated</span>
-          <h2>Never miss an update.</h2>
-          <p>Join our newsletter in the footer, or follow us on social media for the latest news.</p>
+          <span class="pill on-dark"><svg><use href="#i-newspaper"/></svg> <span data-i18n="news.cta.pill">Stay updated</span></span>
+          <h2 data-i18n="news.cta.title">Never miss an update.</h2>
+          <p data-i18n="news.cta.lead">Join our newsletter in the footer, or follow us on social media for the latest news.</p>
         </div>
         <div class="cta-actions">
-          <a class="btn" style="background:#fff;color:#0f172a;" href="contact.html">Contact Us <svg><use href="#i-arrow-right"/></svg></a>
+          <a class="btn" style="background:#fff;color:#0f172a;" href="contact.html"><span data-i18n="nav.contact.us">Contact Us</span> <svg><use href="#i-arrow-right"/></svg></a>
         </div>
       </div>
     </div>
@@ -183,10 +198,10 @@
       <div class="footer-brand">
         <a class="brand" href="index.html">
           <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span>Movement Studio</span></span>
+          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
         </a>
         <p data-i18n="footer.tagline">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-        <p class="footer-urdu">ہر صلاحیت کے لیے حرکت &mdash; Unify Club</p>
+        <p class="footer-urdu" data-i18n="footer.slogan">Movement for every ability.</p>
         <div class="social-row">
           <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
@@ -215,7 +230,7 @@
       </div>
       <div>
         <h4 data-i18n="footer.visit">Visit / Contact</h4>
-        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
+        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span data-i18n="footer.address">North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
         <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;" data-i18n="footer.faqs">Frequently Asked Questions</a></span></div>

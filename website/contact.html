@@ -52,13 +52,13 @@
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></symbol>\n<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
 </svg>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
 <header class="nav">
   <div class="container">
     <a class="brand" href="index.html">
       <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-      <span class="brand-text"><strong>Unify Club</strong><span>Movement Studio</span></span>
+      <span class="brand-text"><strong>Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html" data-page="index.html" data-i18n="nav.home">Home</a>
@@ -112,29 +112,29 @@
 
   <section class="page-hero">
     <div class="container">
-      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);">Home</a><svg><use href="#i-chevron-right"/></svg><span>Contact</span></div>
-      <span class="eyebrow on-dark"><span class="dot"></span> We&rsquo;d love to hear from you</span>
-      <h1>Get in Touch</h1>
-      <p class="lead">Thanks for reaching out. We will reply shortly.</p>
+      <div class="crumb"><a href="index.html" style="color:rgba(255,255,255,.7);" data-i18n="nav.home">Home</a><svg><use href="#i-chevron-right"/></svg><span data-i18n="nav.contact">Contact</span></div>
+      <span class="eyebrow on-dark"><span class="dot"></span> <span data-i18n="contact.hero.eyebrow">We&rsquo;d love to hear from you</span></span>
+      <h1 data-i18n="contact.hero.title">Get in Touch</h1>
+      <p class="lead" data-i18n="contact.hero.lead">Thanks for reaching out. We will reply shortly.</p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--tight">
     <div class="container">
       <div class="split" data-reveal>
         <div class="card">
-          <h3>Send us a message</h3>
-          <p>We will keep your message ready to review and reply within one business day.</p>
+          <h3 data-i18n="contact.form.title">Send us a message</h3>
+          <p data-i18n="contact.form.lead">We will keep your message ready to review and reply within one business day.</p>
           <form data-lead-form data-form-type="contact">
-            <div class="hp-field" aria-hidden="true"><label for="c-website">Leave this field empty</label><input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+            <div class="hp-field" aria-hidden="true"><label for="c-website" data-i18n="form.honeypot">Leave this field empty</label><input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
             <div class="form-grid">
-              <div class="field"><label for="c-name">Full name</label><input id="c-name" name="name" type="text" required /></div>
-              <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" required /></div>
-              <div class="field full"><label for="c-subject">Subject</label><input id="c-subject" name="subject" type="text" required /></div>
-              <div class="field full"><label for="c-message">Message</label><textarea id="c-message" name="message" required></textarea></div>
+              <div class="field"><label for="c-name" data-i18n="form.field.fullname">Full name</label><input id="c-name" name="name" type="text" required /></div>
+              <div class="field"><label for="c-email" data-i18n="form.field.email">Email</label><input id="c-email" name="email" type="email" required /></div>
+              <div class="field full"><label for="c-subject" data-i18n="contact.form.subject">Subject</label><input id="c-subject" name="subject" type="text" required /></div>
+              <div class="field full"><label for="c-message" data-i18n="contact.form.message">Message</label><textarea id="c-message" name="message" required></textarea></div>
               <div class="field full">
-                <button class="btn btn-primary btn-block" type="submit">Send Message <svg><use href="#i-send"/></svg></button>
-                <p class="form-note">Booking a session instead? <a href="book.html" style="color:var(--violet-600); font-weight:600;">Use our booking form</a>.</p>
+                <button class="btn btn-primary btn-block" type="submit"><span data-i18n="contact.form.submit">Send Message</span> <svg><use href="#i-send"/></svg></button>
+                <p class="form-note"><span data-i18n="contact.form.note1">Booking a session instead?</span> <a href="book.html" style="color:var(--violet-600); font-weight:600;" data-i18n="contact.form.note2">Use our booking form</a>.</p>
               </div>
             </div>
           </form>
@@ -142,10 +142,10 @@
         </div>
         <div>
           <div class="card" style="margin-bottom:20px;">
-            <div class="contact-line" style="color:var(--ink-800);"><svg style="color:var(--violet-600);"><use href="#i-map-pin"/></svg><span>Block H, North Nazimabad, Karachi, Pakistan</span></div>
+            <div class="contact-line" style="color:var(--ink-800);"><svg style="color:var(--violet-600);"><use href="#i-map-pin"/></svg><span data-i18n="locations.open.address">Block H, North Nazimabad, Karachi, Pakistan</span></div>
             <div class="contact-line" style="color:var(--ink-800);"><svg style="color:var(--violet-600);"><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
             <div class="contact-line" style="color:var(--ink-800);"><svg style="color:var(--violet-600);"><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
-            <div class="contact-line" style="color:var(--ink-800); margin-bottom:0;"><svg style="color:var(--violet-600);"><use href="#i-clock"/></svg><span>Mon &ndash; Sat, 9:00 AM &ndash; 6:00 PM</span></div>
+            <div class="contact-line" style="color:var(--ink-800); margin-bottom:0;"><svg style="color:var(--violet-600);"><use href="#i-clock"/></svg><span data-i18n="locations.open.hours">Mon &ndash; Sat, 9:00 AM &ndash; 6:00 PM</span></div>
           </div>
           <div class="map-wrap"><iframe src="https://www.google.com/maps?q=North+Nazimabad,+Karachi,+Pakistan&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Unify Club - North Nazimabad branch map"></iframe></div>
         </div>
@@ -156,13 +156,13 @@
   <section class="section--tight">
     <div class="container">
       <div class="section-head center">
-        <span class="eyebrow"><span class="dot"></span> Already submitted a form?</span>
-        <h2>Check your status</h2>
-        <p class="mx-auto">Enter the reference code you were given after booking, messaging, or volunteering with us.</p>
+        <span class="eyebrow"><span class="dot"></span> <span data-i18n="contact.status.eyebrow">Already submitted a form?</span></span>
+        <h2 data-i18n="contact.status.title">Check your status</h2>
+        <p class="mx-auto" data-i18n="contact.status.lead">Enter the reference code you were given after booking, messaging, or volunteering with us.</p>
       </div>
       <form class="status-check" data-status-form="#status-result">
-        <input type="text" name="reference" placeholder="e.g. 3f9a2c1e-..." aria-label="Submission reference code" required />
-        <button class="btn btn-dark" type="submit">Check Status</button>
+        <input type="text" name="reference" placeholder="e.g. 3f9a2c1e-..." aria-label="Submission reference code" data-i18n-placeholder="contact.status.placeholder" required />
+        <button class="btn btn-dark" type="submit"><span data-i18n="contact.status.cta">Check Status</span></button>
       </form>
       <div class="lead-tracker-wrap" id="status-result" style="max-width:520px; margin:20px auto 0;"></div>
     </div>
@@ -171,29 +171,29 @@
   <section class="section band-tint">
     <div class="container">
       <div class="section-head center">
-        <span class="eyebrow"><span class="dot"></span> Frequently asked</span>
-        <h2>Questions families often ask</h2>
+        <span class="eyebrow"><span class="dot"></span> <span data-i18n="contact.faqteaser.eyebrow">Frequently asked</span></span>
+        <h2 data-i18n="contact.faqteaser.title">Questions families often ask</h2>
       </div>
       <div style="max-width:760px; margin-inline:auto;" data-reveal>
         <div class="accordion-item">
-          <button class="accordion-trigger">What ages do you work with?<svg><use href="#i-plus"/></svg></button>
-          <div class="accordion-panel"><div class="accordion-panel-inner">We welcome children across a wide age range, from early childhood through the teenage years. Every program is tailored individually, so age is just one part of the picture.</div></div>
+          <button class="accordion-trigger"><span data-i18n="faqs.getting.q1.q">What ages do you work with?</span><svg><use href="#i-plus"/></svg></button>
+          <div class="accordion-panel"><div class="accordion-panel-inner" data-i18n="faqs.getting.q1.a">We welcome children across a wide age range, from early childhood through the teenage years. Every program is tailored individually, so age is just one part of the picture.</div></div>
         </div>
         <div class="accordion-item">
-          <button class="accordion-trigger">Do I need a diagnosis before booking?<svg><use href="#i-plus"/></svg></button>
-          <div class="accordion-panel"><div class="accordion-panel-inner">No formal diagnosis is required to book a free trial. Our team will get to know your child during the assessment and recommend the right program together with you.</div></div>
+          <button class="accordion-trigger"><span data-i18n="faqs.getting.q2.q">Do I need a diagnosis before booking?</span><svg><use href="#i-plus"/></svg></button>
+          <div class="accordion-panel"><div class="accordion-panel-inner" data-i18n="faqs.getting.q2.a">No formal diagnosis is required to book a free trial. Our team will get to know your child during the assessment and recommend the right program together with you.</div></div>
         </div>
         <div class="accordion-item">
-          <button class="accordion-trigger">What should we bring to the first session?<svg><use href="#i-plus"/></svg></button>
-          <div class="accordion-panel"><div class="accordion-panel-inner">Comfortable clothing, a water bottle, and any recent therapy or medical notes you&rsquo;re comfortable sharing. Everything else is provided on-site.</div></div>
+          <button class="accordion-trigger"><span data-i18n="faqs.sessions.q1.q">What should we bring to the first session?</span><svg><use href="#i-plus"/></svg></button>
+          <div class="accordion-panel"><div class="accordion-panel-inner" data-i18n="faqs.sessions.q1.a">Comfortable clothing, a water bottle, and any recent therapy or medical notes you&rsquo;re comfortable sharing. Everything else is provided on-site.</div></div>
         </div>
         <div class="accordion-item">
-          <button class="accordion-trigger">Do you offer sibling or group sessions?<svg><use href="#i-plus"/></svg></button>
-          <div class="accordion-panel"><div class="accordion-panel-inner">Yes &mdash; our monthly Sibling &amp; Family Fun Circle and select group training sessions are open to the whole family. See the Events page for upcoming dates.</div></div>
+          <button class="accordion-trigger"><span data-i18n="faqs.sessions.q3.q">Do you offer sibling or group sessions?</span><svg><use href="#i-plus"/></svg></button>
+          <div class="accordion-panel"><div class="accordion-panel-inner" data-i18n="faqs.sessions.q3.a">Yes &mdash; our monthly Sibling &amp; Family Fun Circle and select group training sessions are open to the whole family. See the Events page for upcoming dates.</div></div>
         </div>
       </div>
       <div class="text-center" style="margin-top:32px;">
-        <a class="btn btn-ghost" href="faqs.html">See all FAQs <svg><use href="#i-arrow-right"/></svg></a>
+        <a class="btn btn-ghost" href="faqs.html"><span data-i18n="contact.faqteaser.cta">See all FAQs</span> <svg><use href="#i-arrow-right"/></svg></a>
       </div>
     </div>
   </section>
@@ -205,10 +205,10 @@
       <div class="footer-brand">
         <a class="brand" href="index.html">
           <span class="brand-mark"><svg><use href="#i-heart"/></svg></span>
-          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span>Movement Studio</span></span>
+          <span class="brand-text"><strong style="color:#fff;">Unify Club</strong><span data-i18n="brand.subtitle">Movement Studio</span></span>
         </a>
         <p data-i18n="footer.tagline">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-        <p class="footer-urdu">ہر صلاحیت کے لیے حرکت &mdash; Unify Club</p>
+        <p class="footer-urdu" data-i18n="footer.slogan">Movement for every ability.</p>
         <div class="social-row">
           <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
@@ -237,7 +237,7 @@
       </div>
       <div>
         <h4 data-i18n="footer.visit">Visit / Contact</h4>
-        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span>North Nazimabad, Karachi, Pakistan</span></div>
+        <div class="contact-line"><svg><use href="#i-map-pin"/></svg><span data-i18n="footer.address">North Nazimabad, Karachi, Pakistan</span></div>
         <div class="contact-line"><svg><use href="#i-phone"/></svg><span><a href="tel:+923141123441" style="color:inherit;">+92 314 1123 441</a></span></div>
         <div class="contact-line"><svg><use href="#i-mail"/></svg><span><a href="mailto:Info@unifyclub.org" style="color:inherit;">Info@unifyclub.org</a></span></div>
         <div class="contact-line"><svg><use href="#i-help-circle"/></svg><span><a href="faqs.html" style="color:inherit;" data-i18n="footer.faqs">Frequently Asked Questions</a></span></div>

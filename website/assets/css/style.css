@@ -310,6 +310,32 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 .stat.on-dark strong{ color:#fff; }
 .stat.on-dark span{ color:rgba(255,255,255,.65); }
 
+/* ---------- Hook stat / pull-quote (redesign components) ----------
+   Reusable "scroll hook" blocks used to lead a section with a real number
+   or a short, bold line instead of a wall of paragraph text — the
+   dogstudio/greta-style "hierarchy first" pattern applied to the 12
+   restructured pages (DESIGN_SYSTEM.md §19). Every number shown in a
+   .hook-stat is pulled from real page content (a stat already stated
+   elsewhere, a count of real items on that page) — never invented. */
+.hook-stat{
+  display:flex; align-items:center; gap:22px; padding:26px 30px; border-radius:var(--radius-lg);
+  background:var(--surface-tint); border:1px solid var(--border); margin-bottom:30px;
+}
+.hook-stat strong{
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:clamp(2.1rem,5vw,3rem); line-height:1; flex-shrink:0;
+  background:var(--gradient-brand); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hook-stat span{ font-size:.98rem; color:var(--ink-600); max-width:420px; }
+@media (max-width:560px){ .hook-stat{ flex-direction:column; align-items:flex-start; gap:8px; } }
+
+.pull-quote{
+  position:relative; padding:34px 38px 34px 56px; border-radius:var(--radius-lg); background:var(--surface);
+  border:1px solid var(--border); box-shadow:var(--shadow-sm); margin-bottom:30px;
+}
+.pull-quote svg{ position:absolute; left:20px; top:28px; width:26px; height:26px; color:var(--violet-200,#99f6e4); opacity:.8; }
+.pull-quote p{ font-size:1.18rem; font-weight:600; font-family:'Plus Jakarta Sans',sans-serif; color:var(--ink-950); line-height:1.4; margin:0; }
+.pull-quote cite{ display:block; margin-top:12px; font-style:normal; font-size:.86rem; color:var(--ink-600); font-weight:500; }
+
 /* ---------- Badges / pills ---------- */
 .pill{
   display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:999px;
@@ -715,8 +741,26 @@ body.lang-ur [data-i18n-placeholder]::placeholder{
 }
 body.lang-ur h1[data-i18n],
 body.lang-ur h2[data-i18n],
-body.lang-ur p[data-i18n]{
+body.lang-ur h3[data-i18n],
+body.lang-ur h4[data-i18n],
+body.lang-ur p[data-i18n],
+body.lang-ur li[data-i18n],
+body.lang-ur strong[data-i18n],
+body.lang-ur blockquote[data-i18n],
+body.lang-ur .accordion-panel-inner[data-i18n],
+body.lang-ur .pull-quote p[data-i18n],
+body.lang-ur .pull-quote cite[data-i18n],
+body.lang-ur .tile-caption[data-i18n],
+body.lang-ur .footer-urdu[data-i18n]{
   direction:rtl; text-align:right; line-height:2;
 }
 body.lang-ur .hero-title .reveal-line[data-i18n],
 body.lang-ur .hero-lead[data-i18n]{ direction:rtl; text-align:right; line-height:1.9; }
+/* Redesigned pages (part 3) introduced a few more block-text components
+   (.hook-stat span, .quote-who strong/span) that need the same RTL/Nastaliq
+   treatment as the patterns above — extending, not replacing, the mechanism. */
+body.lang-ur .hook-stat span[data-i18n],
+body.lang-ur .quote-who strong[data-i18n],
+body.lang-ur .quote-who span[data-i18n]{
+  direction:rtl; text-align:right;
+}
