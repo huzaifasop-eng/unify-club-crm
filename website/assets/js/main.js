@@ -362,10 +362,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const rect = heroSection.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > window.innerHeight) return;
       const progress = Math.min(Math.max(-rect.top / Math.max(rect.height, 1), 0), 1);
-      heroVisual.style.setProperty('--parallax-y', (progress * -36) + 'px');
+      heroVisual.style.setProperty('--parallax-y', (progress * -72) + 'px');
       heroSection.querySelectorAll('.blob').forEach((blob, i) => {
-        blob.style.setProperty('--blob-y', (progress * (i === 0 ? 50 : 70)) + 'px');
+        blob.style.setProperty('--blob-y', (progress * (i === 0 ? 80 : 110)) + 'px');
       });
+      const orb = heroSection.querySelector('.hero-orb');
+      if (orb) orb.style.setProperty('--orb-shift', (progress * -60) + 'px');
     };
     updateParallax();
     window.addEventListener('scroll', () => {
