@@ -7,8 +7,16 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // CORS_ORIGIN accepts one origin or a comma-separated list, since this API
+  // now serves two separate frontends: the authenticated CRM (apps/web) and
+  // the public marketing website (website/) — see website/docs/ARCHITECTURE.md.
+  const corsOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: corsOrigins,
     credentials: true,
   });
 
