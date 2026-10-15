@@ -25,6 +25,10 @@
   --border:#e2e8f0;
   --success:#059669;
   --success-bg:#ecfdf5;
+  /* Fixed-dark, same rationale as --gradient-hero below: the footer always
+     sits on a dark background regardless of site theme, so it can't use
+     --ink-950, which dark mode intentionally flips to a light value. */
+  --footer-bg:#0f172a;
 
   --gradient-brand: linear-gradient(120deg, var(--violet-600), var(--fuchsia-600) 120%);
   --gradient-hero: linear-gradient(160deg, #042f2e 0%, #0f766e 48%, #0369a1 100%);
@@ -491,7 +495,7 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 .accordion-panel-inner{ padding:0 4px 22px; font-size:.94rem; color:var(--ink-600); }
 
 /* ---------- Footer ---------- */
-.footer{ background:var(--ink-950); color:rgba(255,255,255,.68); padding:76px 0 28px; }
+.footer{ background:var(--footer-bg); color:rgba(255,255,255,.68); padding:76px 0 28px; }
 .footer h4{ color:#fff; font-size:.95rem; margin-bottom:18px; }
 .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,.1); }
 @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
