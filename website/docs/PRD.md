@@ -113,7 +113,7 @@ Acceptance Criteria: Each post is self-contained on the listing page (title, dat
 ### Feature 8 - Gallery
 Purpose: Convey the feel of the studio and sessions visually.
 Acceptance Criteria: Grid of labeled tiles; clicking a tile opens a lightbox with the caption.
-Open item: tiles are illustrated/gradient placeholders, not real photography — see Section 12.
+**Resolved** — the 13 tiles now show real photos from the Pechs branch (sourced from the client's Google Drive, curated and color-graded; see ARCHITECTURE.md §9 and DESIGN_SYSTEM.md §18), with two of them shown as larger "statement" tiles. The lightbox opens the real photo, not an illustrated placeholder.
 
 ### Feature 9 - Locations
 Purpose: Give a real, verifiable address, hours, and an embedded map; present planned future branches.
@@ -169,8 +169,9 @@ Nice to Have:
 - Dark/light and English/Urdu toggles (implemented site-wide; Urdu content coverage is partial, see Feature 13).
 Done (moved out of Future since the last revision):
 - A real form backend — Book a Trial, Contact, and Volunteer now create real Leads in the CRM (see Feature 11a). What's left is deployment configuration (API URL, CORS origin), not more building.
+Done (moved out of Future since the last revision):
+- Real photography replacing the illustrated gallery/hero/about/success-story tiles — see Feature 8 and Section 12.
 Future:
-- Real photography to replace illustrated gallery/hero tiles.
 - Extend Urdu translation coverage beyond Home + chrome to the remaining pages.
 
 ## 9. Success Metrics
@@ -203,6 +204,6 @@ Timeline: No fixed launch date communicated; treated as "ready to deploy now, re
 - What are the real bank name / account number / IBAN for donations? (Account title is now correct; the rest are still bracketed placeholders on get-involved.html — cannot be filled without the client's real banking details.)
 - ~~Should form submissions go to email, a spreadsheet, or the CRM's Leads module?~~ **Resolved** — the CRM's existing Leads module; see Feature 11a, DATABASE.md §0.
 - When will the website actually be deployed, and to what URL? This is now a real blocker for Feature 11a working end-to-end (see `assets/js/config.js` and SECURITY.md §8) — not a documentation gap, a deployment task.
-- Will real photography/video replace the current illustrated/gradient placeholder tiles (hero collage, Gallery, Success Stories)? The client confirmed they'll provide real media; it hasn't been supplied to this session yet, so the illustrated placeholders are still in place.
+- ~~Will real photography/video replace the current illustrated/gradient placeholder tiles (hero collage, Gallery, Success Stories)?~~ **Resolved** — real photos from the client's Google Drive ("unify club pechs branch" folder) now populate the Home hero collage, the About snapshot, the Success Stories cards (home preview + full page), and all 13 Gallery tiles; see Feature 8, ARCHITECTURE.md §9, DESIGN_SYSTEM.md §18. Video was evaluated but not used — the available clips didn't yield a clean, short, web-weight result worth the added maintenance surface for this pass; the sampled clip library is noted below for a future attempt.
 - Should Urdu translation coverage be extended beyond Home + the shared chrome to the remaining 11 pages?
-- What should the visual/animation redesign referencing dogstudio.co / theyearofgreta.com / sadapay.pk actually change — just motion/interaction polish on the existing layout, or a structural redesign? Given these sites couldn't be inspected directly (see Section 11), confirming specific liked elements (or sharing screenshots) would sharpen this significantly before a full 13-page redesign is attempted.
+- What should the visual/animation redesign referencing dogstudio.co / theyearofgreta.com / sadapay.pk actually change — just motion/interaction polish on the existing layout, or a structural redesign? **Partially resolved** — the Home hero now carries a dogstudio/greta-style entrance (line-reveal headline, staggered block cascade, scroll parallax, magnetic CTA hover) and a sadapay-style bold photo treatment (large "statement" tiles with punchy shadow/frame, used on the hero collage and two Gallery standouts), with lighter hover/stagger/easing polish applied site-wide; see DESIGN_SYSTEM.md §17–18. Whether this should extend into a full structural redesign of the other 12 pages is still open.

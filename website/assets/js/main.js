@@ -282,7 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lbTitle.textContent = item.dataset.title || '';
         lbTag.textContent = item.dataset.tag || '';
         lbTile.className = 'photo-tile ' + (item.dataset.tone || '');
-        lbTile.innerHTML = item.querySelector('.tile-icon')?.outerHTML || '';
+        // Prefer the tile's real photo (assets/img/) if it has one; fall
+        // back to the illustrated tile-icon for any tile that doesn't.
+        lbTile.innerHTML = item.querySelector('img')?.outerHTML || item.querySelector('.tile-icon')?.outerHTML || '';
         lightbox.classList.add('show');
         document.body.style.overflow = 'hidden';
       });
@@ -311,4 +313,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Footer year */
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
+
+  /* Home hero: scroll-linked parallax on the photo collage and decorative
+     blobs (index.html only — these selectors simply find nothing on every
+     other page). A plain rAF-throttled scroll listener sets the CSS custom
+     properties --parallax-y/--blob-y that style.css reads; see the "Home
+     hero entrance choreography" comment there for the rest of this moment.
+     No listener is attached at all if the hero isn't on the page, and the
+     listener stops doing work (but isn't removed) once the hero has
+     scrolled well out of view, since it's cheap and the user may scroll
+     back up. prefers-reduced-motion skips the effect entirely. */
+  const heroSection = document.querySelector('.home-hero');
+  const heroVisual = heroSection?.querySelector('[data-parallax]');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (heroSection && heroVisual && !prefersReducedMotion) {
+    let parallaxTicking = false;
+    const updateParallax = () => {
+      parallaxTicking = false;
+      const rect = heroSection.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      const progress = Math.min(Math.max(-rect.top / Math.max(rect.height, 1), 0), 1);
+      heroVisual.style.setProperty('--parallax-y', (progress * -36) + 'px');
+      heroSection.querySelectorAll('.blob').forEach((blob, i) => {
+        blob.style.setProperty('--blob-y', (progress * (i === 0 ? 50 : 70)) + 'px');
+      });
+    };
+    updateParallax();
+    window.addEventListener('scroll', () => {
+      if (!parallaxTicking) { parallaxTicking = true; requestAnimationFrame(updateParallax); }
+    }, { passive: true });
+  }
+
+  /* Home hero: magnetic hover on the two primary CTAs — on pointer devices
+     with real hover (not touch), the button drifts a few px toward the
+     cursor while hovered and eases back to rest on mouseleave. Bounded to a
+     small max offset so it reads as a gentle pull, never a jump. */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReducedMotion) {
+    document.querySelectorAll('[data-magnetic]').forEach((btn) => {
+      const maxOffset = 10;
+      btn.addEventListener('mousemove', (event) => {
+        const rect = btn.getBoundingClientRect();
+        const relX = (event.clientX - rect.left) / rect.width - 0.5;
+        const relY = (event.clientY - rect.top) / rect.height - 0.5;
+        btn.style.transform = 'translate(' + (relX * maxOffset * 2).toFixed(1) + 'px,' + (relY * maxOffset).toFixed(1) + 'px)';
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+  }
 });

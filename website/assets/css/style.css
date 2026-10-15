@@ -44,6 +44,10 @@
   --container: 1240px;
   --nav-h: 78px;
   --ease: cubic-bezier(.22,1,.36,1);
+  /* Motion: a steeper, more confident curve for the homepage hero's larger
+     choreography (word/line reveals, parallax) — see DESIGN_SYSTEM.md §17.
+     --ease stays the default for everyday hovers/reveals site-wide. */
+  --ease-expo: cubic-bezier(.16,1,.3,1);
 }
 
 /* ---------- Dark theme ---------- */
@@ -129,6 +133,7 @@ svg{ display:block; flex-shrink:0; }
   background-size:160% 160%; background-position:0% 50%;
 }
 .btn-primary:hover{ transform:translateY(-2px) scale(1.015); box-shadow:0 26px 60px -16px rgba(217,70,239,.5); background-position:100% 50%; }
+.btn:active{ transform:translateY(0) scale(.975); transition-duration:.12s; }
 .btn-dark{ background:var(--ink-950); color:#fff; }
 .btn-dark:hover{ transform:translateY(-2px); background:#000; }
 .btn-outline{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.35); color:#fff; }
@@ -359,6 +364,34 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 .photo-tile.alt-3{ background:var(--gradient-accent); }
 .photo-tile.alt-4{ background:linear-gradient(135deg,#0891b2,var(--violet-700)); }
 
+/* Real photography inside a .photo-tile (assets/img/ — see ARCHITECTURE.md §9).
+   The img sits behind ::before's vignette and any .tile-icon/.tile-caption,
+   simply by coming first in source order within the tile. A slow, confident
+   zoom on hover/focus is the tile's one micro-interaction. */
+.photo-tile img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform:scale(1.001); /* avoids a 1px seam on some engines */
+  transition:transform .6s var(--ease);
+}
+.photo-tile:hover img, .photo-tile:focus-within img{ transform:scale(1.045); }
+@media (prefers-reduced-motion: reduce){ .photo-tile img{ transition:none; } .photo-tile:hover img{ transform:none; } }
+
+/* "Statement" photo tiles — a sadapay.pk-style bold, large-format photo
+   treatment used sparingly (home hero collage, a couple of gallery
+   standouts) instead of the uniform small-tile grid: a punchier shadow, a
+   thin brand-colored inset frame standing in for color-blocking, and a
+   slightly larger lift on hover. Reserve this for the handful of images
+   meant to read as a statement visual, not every tile. */
+.photo-tile.statement{
+  box-shadow:0 36px 80px -24px rgba(15,118,110,.4), inset 0 0 0 1px rgba(255,255,255,.14);
+  transition:box-shadow .4s var(--ease), transform .4s var(--ease);
+}
+.photo-tile.statement::after{
+  content:''; position:absolute; inset:10px; border-radius:calc(var(--radius-lg) - 8px);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.22); pointer-events:none;
+}
+.photo-tile.statement:hover{ transform:translateY(-4px); box-shadow:0 44px 96px -22px rgba(2,132,199,.42), inset 0 0 0 1px rgba(255,255,255,.18); }
+
 /* ---------- Progress ---------- */
 .progress-track{ height:10px; border-radius:999px; background:var(--surface-alt); overflow:hidden; }
 .progress-fill{ height:100%; border-radius:999px; background:var(--gradient-brand); }
@@ -487,10 +520,22 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 [data-reveal].in{ opacity:1; transform:translateY(0); }
 [data-reveal-group] > *{ opacity:0; transform:translateY(24px); transition:opacity .6s var(--ease), transform .6s var(--ease); }
 [data-reveal-group].in > *{ opacity:1; transform:translateY(0); }
+/* Cascading stagger, up to 13 items (the Gallery grid, our largest group) —
+   each item's reveal starts a beat after the previous one so a grid fills
+   in as a cascade instead of popping in all at once. */
 [data-reveal-group].in > *:nth-child(1){ transition-delay:.02s; }
-[data-reveal-group].in > *:nth-child(2){ transition-delay:.1s; }
-[data-reveal-group].in > *:nth-child(3){ transition-delay:.18s; }
-[data-reveal-group].in > *:nth-child(4){ transition-delay:.26s; }
+[data-reveal-group].in > *:nth-child(2){ transition-delay:.08s; }
+[data-reveal-group].in > *:nth-child(3){ transition-delay:.14s; }
+[data-reveal-group].in > *:nth-child(4){ transition-delay:.2s; }
+[data-reveal-group].in > *:nth-child(5){ transition-delay:.26s; }
+[data-reveal-group].in > *:nth-child(6){ transition-delay:.32s; }
+[data-reveal-group].in > *:nth-child(7){ transition-delay:.38s; }
+[data-reveal-group].in > *:nth-child(8){ transition-delay:.44s; }
+[data-reveal-group].in > *:nth-child(9){ transition-delay:.5s; }
+[data-reveal-group].in > *:nth-child(10){ transition-delay:.56s; }
+[data-reveal-group].in > *:nth-child(11){ transition-delay:.62s; }
+[data-reveal-group].in > *:nth-child(12){ transition-delay:.68s; }
+[data-reveal-group].in > *:nth-child(13){ transition-delay:.74s; }
 
 /* Section alt background bands */
 .band-tint{ background:var(--gradient-soft); }
@@ -541,6 +586,56 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 .hero-float-card span{ font-size:.78rem; color:var(--ink-400); }
 @media (max-width:980px){ .hero-float-card{ position:static; margin-top:16px; max-width:none; } }
 
+/* ---------- Home hero entrance choreography ----------
+   A deliberately bigger motion moment than the rest of the site (see
+   DESIGN_SYSTEM.md §17): the headline reveals as a sliding line inside a
+   clipping mask, then each hero block (eyebrow → lead → CTAs → trust row →
+   photo collage) cascades in via [data-hero-reveal="n"], using the steeper
+   --ease-expo curve. This runs as plain CSS @keyframes (animation-fill-mode
+   both) rather than a JS-toggled class, so it needs no JavaScript at all —
+   nothing to gate behind a <noscript> override, unlike the scroll-triggered
+   [data-reveal] system elsewhere, which does need JS to ever add .in. The
+   mask only wraps the data-i18n text node (not the h1 itself), so the EN/UR
+   toggle can keep replacing that node's textContent without breaking this
+   markup. */
+.hero-title .reveal-mask{ display:block; overflow:hidden; }
+.hero-title .reveal-line{
+  display:block;
+  animation:hero-line-in 1.05s var(--ease-expo) .1s both;
+}
+@keyframes hero-line-in{
+  from{ transform:translateY(115%); opacity:0; }
+  to{ transform:translateY(0); opacity:1; }
+}
+
+.home-hero [data-hero-reveal]{ animation:hero-rise .9s var(--ease-expo) both; }
+.home-hero [data-hero-reveal="1"]{ animation-delay:.02s; }
+.home-hero [data-hero-reveal="2"]{ animation-delay:.1s; }
+.home-hero [data-hero-reveal="3"]{ animation-delay:.42s; }
+.home-hero [data-hero-reveal="4"]{ animation-delay:.56s; }
+.home-hero [data-hero-reveal="5"]{ animation-delay:.68s; }
+@keyframes hero-rise{
+  from{ opacity:0; transform:translateY(30px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-title .reveal-line, .home-hero [data-hero-reveal]{ animation:none; opacity:1; transform:none; }
+}
+
+/* Scroll-linked parallax on the hero photo collage and decorative blobs —
+   main.js sets --parallax-y / --blob-y as the hero scrolls out of view (a
+   plain rAF-throttled scroll listener, no library). Feature-detected: if
+   main.js doesn't run, these custom properties stay unset and the elements
+   simply sit still, which is a fine, fully-usable fallback. */
+.home-hero [data-parallax]{ transform:translateY(var(--parallax-y, 0px)); }
+.home-hero .blob{ transform:translateY(var(--blob-y, 0px)); }
+
+/* Magnetic hover on the hero's two primary CTAs (main.js moves them a few
+   px toward the cursor within their own bounds, dogstudio/greta-style) —
+   the transform origin stays centered so it reads as a subtle pull, not a
+   jump; main.js only wires this up for fine/hover-capable pointers. */
+[data-magnetic]{ will-change:transform; }
+
 .stat-bar-overlap{ margin-top:-72px; position:relative; z-index:2; }
 
 /* ---------- People / team ---------- */
@@ -570,10 +665,15 @@ body.nav-open .nav-toggle .i-close{ display:block; }
 /* ---------- Lightbox ---------- */
 .lightbox{
   position:fixed; inset:0; background:rgba(15,23,42,.72); backdrop-filter:blur(6px);
-  display:flex; align-items:center; justify-content:center; padding:24px; z-index:200; opacity:0; pointer-events:none; transition:opacity .3s;
+  display:flex; align-items:center; justify-content:center; padding:24px; z-index:200; opacity:0; pointer-events:none; transition:opacity .35s var(--ease);
 }
 .lightbox.show{ opacity:1; pointer-events:auto; }
-.lightbox-inner{ background:var(--surface); border-radius:24px; overflow:hidden; max-width:520px; width:100%; }
+.lightbox-inner{
+  background:var(--surface); border-radius:24px; overflow:hidden; max-width:520px; width:100%;
+  transform:scale(.94) translateY(10px); transition:transform .4s var(--ease);
+}
+.lightbox.show .lightbox-inner{ transform:scale(1) translateY(0); }
+@media (prefers-reduced-motion: reduce){ .lightbox, .lightbox-inner{ transition:none; } }
 .lightbox-inner .photo-tile{ border-radius:0; aspect-ratio:16/10; }
 .lightbox-body{ padding:20px 26px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .lightbox-body strong{ display:block; color:var(--ink-950); }
@@ -608,5 +708,5 @@ body.lang-ur h2[data-i18n],
 body.lang-ur p[data-i18n]{
   direction:rtl; text-align:right; line-height:2;
 }
-body.lang-ur .hero-title[data-i18n],
+body.lang-ur .hero-title .reveal-line[data-i18n],
 body.lang-ur .hero-lead[data-i18n]{ direction:rtl; text-align:right; line-height:1.9; }

@@ -125,7 +125,7 @@ website/
     js/config.js        Deployment config (CRM API base URL)
     js/i18n.js           English/Urdu dictionary
     js/main.js          All site behavior
-    img/                (currently empty — no raster assets are used; all visuals are CSS gradients + inline SVG)
+    img/                21 real JPEGs from the Pechs branch (hero collage, About, Gallery, Success Stories — see §9 "Real photography")
 ```
 
 ## 8. Dependency Rules
@@ -147,17 +147,19 @@ Context: No build step exists by design (see above). Browser-native includes (`<
 Alternatives: Add a minimal build step (e.g., a tiny Node script or Eleventy) purely for templating.
 Reason: Rejected for now to keep the "zero build step, upload as-is" property, which was explicitly valuable to the client. The duplication is made safe by a documented regeneration workflow (CODE_STYLE.md §3) rather than manual per-file editing whenever the shell changes.
 
-Decision: No real images — hero/gallery/success-story visuals are CSS-gradient tiles with an inline SVG icon and caption, not photographs.
-Context: This environment cannot fetch external images reliably to verify they load (outbound network is blocked for the agent, though not for end users), and no real photography was supplied by the client.
+Decision (superseded, kept for history): No real images — hero/gallery/success-story visuals were CSS-gradient tiles with an inline SVG icon and caption, not photographs.
+Context: At the time, this environment couldn't fetch external images reliably to verify they load (outbound network is blocked for the agent, though not for end users), and no real photography had been supplied by the client.
 Alternatives: Hotlink stock photography from an external CDN.
-Reason: Rejected — an unverifiable hotlinked image risks shipping a broken `<img>` with no way to catch it before the client sees it live. Illustrated gradient tiles are a deliberate, reliable placeholder, clearly swappable for real photography later (see PRD.md Open Questions).
+Reason: Rejected — an unverifiable hotlinked image risks shipping a broken `<img>` with no way to catch it before the client sees it live. Illustrated gradient tiles were a deliberate, reliable placeholder, clearly swappable for real photography later.
+
+**Superseded**: the client connected their Google Drive with real photos from the Pechs branch. Those were downloaded (via the Drive MCP connector, not a hotlink — see §9 note below), curated down to the strongest ~20 action/therapy shots, color-graded for a consistent look with ImageMagick, cropped to each `.photo-tile` slot's aspect ratio, and saved locally into `assets/img/` — so every image is a real local file the build can verify exists, same reliability guarantee as the old gradient tiles, now with real content. The `.photo-tile` CSS gradients/icons remain in place as the loading-state background and as the fallback for any tile that doesn't (yet) have a photo (e.g. if a future page adds one before an image is supplied). See DESIGN_SYSTEM.md §18 for the curation/grading approach.
 
 ## 10. Performance Considerations
 
 - Zero JS dependencies and a single ~27KB CSS file keep first paint fast on any connection.
 - All icons are inline SVG (no icon-font request, no extra round trip).
 - Google Fonts is the only render-blocking external request; `rel="preconnect"` hints are set for both font origins to shave connection setup time.
-- No images are loaded today, so there are currently no image-optimization concerns — revisit this once real photography is added (use modern formats + explicit width/height to avoid layout shift).
+- `assets/img/` now holds 21 real JPEGs (hero collage, About, Gallery, Success Stories), each cropped to one of three fixed aspect ratios (1:1, 16:10, 4:5) per its `.photo-tile` slot and compressed to roughly 150–450KB (quality 82, max 1200px on the long edge) — no single file exceeds ~450KB, so the heaviest page (Gallery, 13 photos) is still a few MB total, reasonable for a static site with no image CDN. `loading="lazy"` is set on every tile image except the hero's first (`loading="eager"`, since it's above the fold). Revisit true next-gen formats (AVIF/WebP with a JPEG fallback) or an actual CDN only if this becomes a measured problem — not done here, to avoid adding a build step for conditional `<picture>` markup.
 
 ## 11. Scalability Considerations
 

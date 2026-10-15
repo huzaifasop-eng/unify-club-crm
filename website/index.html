@@ -115,31 +115,34 @@
     <span class="blob b2"></span>
     <div class="container">
       <div class="hero-grid">
-        <div data-reveal>
-          <span class="pill on-dark"><svg><use href="#i-sparkles"/></svg> <span data-i18n="home.hero.eyebrow">Inclusive sports therapy &amp; adaptive movement</span></span>
-          <h1 class="hero-title" data-i18n="home.hero.title">Empowering Every Ability Through Movement</h1>
-          <p class="hero-lead" data-i18n="home.hero.lead">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
-          <div class="hero-cta-row">
-            <a class="btn btn-primary" href="book.html"><span data-i18n="home.hero.cta1">Book a Free Trial</span> <svg><use href="#i-arrow-right"/></svg></a>
-            <a class="btn btn-outline" href="programs.html" data-i18n="home.hero.cta2">Explore Programs</a>
+        <div>
+          <span class="pill on-dark" data-hero-reveal="1"><svg><use href="#i-sparkles"/></svg> <span data-i18n="home.hero.eyebrow">Inclusive sports therapy &amp; adaptive movement</span></span>
+          <!-- The line-reveal mask wraps only the text node that data-i18n swaps,
+               so the English→Urdu toggle (main.js applyLanguage) can keep replacing
+               its textContent without disturbing the mask markup around it. -->
+          <h1 class="hero-title" data-hero-reveal="2"><span class="reveal-mask"><span class="reveal-line" data-i18n="home.hero.title">Empowering Every Ability Through Movement</span></span></h1>
+          <p class="hero-lead" data-i18n="home.hero.lead" data-hero-reveal="3">A premium, child-friendly environment where therapy, rehabilitation, and fitness are designed to feel hopeful, safe, and joyful for every family.</p>
+          <div class="hero-cta-row" data-hero-reveal="4">
+            <a class="btn btn-primary" href="book.html" data-magnetic><span data-i18n="home.hero.cta1">Book a Free Trial</span> <svg><use href="#i-arrow-right"/></svg></a>
+            <a class="btn btn-outline" href="programs.html" data-i18n="home.hero.cta2" data-magnetic>Explore Programs</a>
           </div>
-          <div class="hero-trust">
+          <div class="hero-trust" data-hero-reveal="5">
             <span class="avatars"><span>A</span><span>Z</span><span>N</span></span>
             <span data-i18n="home.hero.trust">Trusted by families across Karachi for therapy-first, joyful progress.</span>
           </div>
         </div>
-        <div class="hero-visual" data-reveal>
+        <div class="hero-visual" data-parallax>
           <div class="hero-collage">
-            <div class="photo-tile alt-1">
-              <div class="tile-icon"><svg><use href="#i-activity"/></svg></div>
+            <div class="photo-tile alt-1 statement">
+              <img src="assets/img/hero-balance-board-boy.jpg" alt="A coach holding a child's hands as he balances on a wobble board during a therapy session" loading="eager">
               <div class="tile-caption">Therapy-led sessions</div>
             </div>
             <div class="photo-tile alt-4">
-              <div class="tile-icon"><svg><use href="#i-dumbbell"/></svg></div>
+              <img src="assets/img/hero-running-action.jpg" alt="A child running on the turf hand-in-hand with a coach during an adaptive fitness drill" loading="lazy">
               <div class="tile-caption">Adaptive fitness</div>
             </div>
             <div class="photo-tile alt-2">
-              <div class="tile-icon"><svg><use href="#i-smile"/></svg></div>
+              <img src="assets/img/hero-joyful-basketball.jpg" alt="A coach and a child sharing a joyful moment with a basketball in front of the studio's mural wall" loading="lazy">
               <div class="tile-caption">Joyful group play</div>
             </div>
           </div>
@@ -225,15 +228,15 @@
         </div>
         <div class="grid" style="grid-template-columns:1fr 1fr; gap:16px;" data-reveal>
           <div class="photo-tile alt-4" style="grid-column:1/-1;">
-            <div class="tile-icon"><svg><use href="#i-users"/></svg></div>
+            <img src="assets/img/group-field-session.jpg" alt="Wide view of the turf during a group training session, cones and ladders set out" loading="lazy">
             <div class="tile-caption">A community that shows up for every child</div>
           </div>
           <div class="photo-tile alt-1 square">
-            <div class="tile-icon"><svg><use href="#i-target"/></svg></div>
+            <img src="assets/img/clear-goals-coaching.jpg" alt="A coach helping a child line up a field hockey swing toward the goal" loading="lazy">
             <div class="tile-caption">Clear goals</div>
           </div>
           <div class="photo-tile alt-2 square">
-            <div class="tile-icon"><svg><use href="#i-smile"/></svg></div>
+            <img src="assets/img/balance-board-support.jpg" alt="A coach assisting a child as she balances on a wobble board, mid-motion" loading="lazy">
             <div class="tile-caption">Joyful pace</div>
           </div>
         </div>
@@ -252,7 +255,7 @@
       <div class="grid grid-3" data-reveal-group>
         <div class="card">
           <div class="photo-tile alt-1 wide" style="margin-bottom:20px;">
-            <div class="tile-icon"><svg><use href="#i-activity"/></svg></div>
+            <img src="assets/img/success-amina-basketball.jpg" alt="A child focused mid-session, holding a basketball on the turf" loading="lazy">
           </div>
           <span class="pill">Current profile</span>
           <h3>Amina</h3>
@@ -261,7 +264,7 @@
         </div>
         <div class="card">
           <div class="photo-tile alt-3 wide" style="margin-bottom:20px;">
-            <div class="tile-icon"><svg><use href="#i-trending-up"/></svg></div>
+            <img src="assets/img/success-zayn-hockey-action.jpg" alt="A coach guiding a child's hands through a field hockey swing, ball in motion" loading="lazy">
           </div>
           <span class="pill">Current profile</span>
           <h3>Zayn</h3>
@@ -270,7 +273,7 @@
         </div>
         <div class="card">
           <div class="photo-tile alt-2 wide" style="margin-bottom:20px;">
-            <div class="tile-icon"><svg><use href="#i-smile"/></svg></div>
+            <img src="assets/img/success-noor-outdoors.jpg" alt="A child candidly peeking around a palm tree on the turf, mid-play" loading="lazy">
           </div>
           <span class="pill">Current profile</span>
           <h3>Noor</h3>
