@@ -5,99 +5,120 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bint e Safia</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="BINT E SAFIA — ready to wear, unstitched and festive womenswear from Pakistan. Block prints, khaddar, karandi and formals.">
-<meta name="theme-color" content="#FBFAF7">
+<meta name="description" content="BINT E SAFIA — ready to wear, unstitched and formal womenswear from Pakistan. Timeless traditions for modern women.">
+<meta name="theme-color" content="#6B2A45">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@300..600&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A8%D9%86%D8%AA%D9%90%20%D8%B5%D9%81%DB%8C%DB%81&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <a class="skip" href="#app">Skip to content</a>
 
-<div class="announce" role="region" aria-label="Announcements">
-  <div class="wrap announce-inner">
-    <p class="announce-msg is-active">Free delivery across Pakistan on orders over PKR 5,000</p>
-    <p class="announce-msg">Use code <b>SAFIA10</b> for 10% off your first order</p>
-    <p class="announce-msg">Cash on delivery available nationwide · 30-day exchange</p>
+<div class="topbar" role="region" aria-label="Announcements">
+  <div class="wrap topbar-inner">
+    <p class="topbar-msg is-active"><span data-icon="sprig" aria-hidden="true"></span>Free Shipping on Orders over Rs. 10,000<span data-icon="sprig" class="flip" aria-hidden="true"></span></p>
+    <span class="topbar-sep" aria-hidden="true"></span>
+    <p class="topbar-msg">10% Off on Your First Order with <b>SAFIA10</b></p>
+    <span class="topbar-sep" aria-hidden="true"></span>
+    <p class="topbar-msg"><span data-icon="sprig" aria-hidden="true"></span>A More Graceful You, Always<span data-icon="sprig" class="flip" aria-hidden="true"></span></p>
   </div>
 </div>
 
 <header class="header" id="header">
+  <img class="header-floral header-floral--l" src="assets/img/floral-tl.png" alt="" aria-hidden="true">
+  <img class="header-floral header-floral--r" src="assets/img/floral-tr.png" alt="" aria-hidden="true">
   <div class="wrap header-inner">
-    <button class="icon-btn menu-btn" data-action="open-menu" aria-label="Open menu" aria-controls="menu"></button>
-    <a class="logo" href="#/" aria-label="Bint e Safia home">
-      <span class="logo-en">BINT E SAFIA</span>
-      <span class="logo-ur" lang="ur" dir="rtl">بنتِ صفیہ</span>
-    </a>
-    <nav class="nav" id="nav" aria-label="Main"></nav>
-    <div class="header-actions">
-      <button class="icon-btn" data-action="open-search" aria-label="Search" aria-controls="search" data-icon="search"></button>
-      <a class="icon-btn hide-sm" href="#/wishlist" aria-label="Wishlist" data-icon="heart"><span class="count" data-count="wish" hidden>0</span></a>
-      <button class="icon-btn" data-action="open-cart" aria-label="Shopping bag" aria-controls="cart" data-icon="bag"><span class="count" data-count="cart" hidden>0</span></button>
+    <button class="icon-btn menu-btn" data-action="open-menu" aria-label="Open menu" aria-controls="menu" data-icon="menu"></button>
+    <nav class="nav nav--left" id="nav-left" aria-label="Shop"></nav>
+    <a class="logo" href="#/" aria-label="Bint e Safia home"><img src="assets/img/logo.png" alt="Bint e Safia" width="148" height="57"></a>
+    <div class="header-right">
+      <nav class="nav nav--right" id="nav-right" aria-label="More"></nav>
+      <div class="header-actions">
+        <button class="icon-btn" data-action="open-search" aria-label="Search" aria-controls="search" data-icon="search"></button>
+        <a class="icon-btn hide-sm" href="#/wishlist" aria-label="Wishlist" data-icon="heart"><span class="count" data-count="wish" hidden>0</span></a>
+        <a class="icon-btn hide-sm" href="#/page/account" aria-label="Account" data-icon="user"></a>
+        <button class="icon-btn" data-action="open-cart" aria-label="Shopping bag" aria-controls="cart" data-icon="bag"><span class="count" data-count="cart" hidden>0</span></button>
+      </div>
     </div>
   </div>
 </header>
 
 <main id="app" tabindex="-1"></main>
 
+<section class="newsletter" aria-labelledby="news-h">
+  <img class="newsletter-floral newsletter-floral--l" src="assets/img/floral-bl.png" alt="" aria-hidden="true">
+  <img class="newsletter-floral newsletter-floral--r" src="assets/img/floral-br.png" alt="" aria-hidden="true">
+  <div class="wrap newsletter-inner">
+    <div>
+      <h2 id="news-h" class="h2">Join Our Inner Circle</h2>
+      <p>Be the first to know about new arrivals, exclusive offers and style inspiration.</p>
+    </div>
+    <form class="news-form" data-form="newsletter" novalidate>
+      <label class="sr" for="news-email">Email address</label>
+      <input id="news-email" type="email" name="email" placeholder="Your email address" autocomplete="email" required>
+      <button class="btn btn--plum" type="submit">Subscribe <span data-icon="arrow" aria-hidden="true"></span></button>
+      <p class="field-error" data-error="email" hidden></p>
+    </form>
+  </div>
+</section>
+
 <footer class="footer">
+  <img class="footer-floral" src="assets/img/floral-footer.png" alt="" aria-hidden="true">
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-brand">
-        <a class="logo logo--footer" href="#/"><span class="logo-en">BINT E SAFIA</span><span class="logo-ur" lang="ur" dir="rtl">بنتِ صفیہ</span></a>
-        <p>Womenswear made in Pakistan. Block prints, honest fabrics and festive pieces made to be worn often.</p>
-        <div class="socials" aria-label="Social media">
+      <a class="footer-logo" href="#/" aria-label="Bint e Safia home"><img src="assets/img/logo-light.png" alt="Bint e Safia" width="100" height="63"></a>
+      <p class="footer-tag"><span data-icon="sprig" aria-hidden="true"></span>Graceful pieces for every chapter of you.</p>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h2>Shop</h2>
+          <ul>
+            <li><a href="#/shop/new">New In</a></li>
+            <li><a href="#/shop/ready-to-wear">Ready to Wear</a></li>
+            <li><a href="#/shop/unstitched">Unstitched</a></li>
+            <li><a href="#/shop/formal">Formal Wear</a></li>
+            <li><a href="#/shop/accessories">Accessories</a></li>
+            <li><a href="#/shop/sale">Sale</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>About</h2>
+          <ul>
+            <li><a href="#/page/about">Our Story</a></li>
+            <li><a href="#/page/stores">Store Locator</a></li>
+            <li><button class="linklike" data-action="size-guide">Size Guide</button></li>
+            <li><a href="#/page/care">Care Guide</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Help</h2>
+          <ul>
+            <li><a href="#/page/faqs">FAQs</a></li>
+            <li><a href="#/page/shipping">Shipping &amp; Delivery</a></li>
+            <li><a href="#/page/returns">Returns &amp; Exchanges</a></li>
+            <li><a href="#/page/contact">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-social">
+        <h2>Stay Connected</h2>
+        <div class="socials">
           <a href="#" class="icon-btn" aria-label="Instagram" data-icon="instagram"></a>
           <a href="#" class="icon-btn" aria-label="Facebook" data-icon="facebook"></a>
           <a href="#" class="icon-btn" aria-label="TikTok" data-icon="tiktok"></a>
+          <a href="#" class="icon-btn" aria-label="YouTube" data-icon="youtube"></a>
+          <a href="#" class="icon-btn" aria-label="Pinterest" data-icon="pinterest"></a>
         </div>
       </div>
-      <div class="footer-col">
-        <h2>Shop</h2>
-        <ul>
-          <li><a href="#/shop/new">New In</a></li>
-          <li><a href="#/shop/ready-to-wear">Ready to Wear</a></li>
-          <li><a href="#/shop/unstitched">Unstitched</a></li>
-          <li><a href="#/shop/festive">Festive</a></li>
-          <li><a href="#/shop/accessories">Accessories</a></li>
-          <li><a href="#/shop/sale">Sale</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h2>Help</h2>
-        <ul>
-          <li><a href="#/page/contact">Contact us</a></li>
-          <li><a href="#/page/faqs">FAQs</a></li>
-          <li><a href="#/page/shipping">Shipping &amp; delivery</a></li>
-          <li><a href="#/page/returns">Returns &amp; exchange</a></li>
-          <li><button class="linklike" data-action="size-guide">Size guide</button></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h2>About</h2>
-        <ul>
-          <li><a href="#/page/about">Our story</a></li>
-          <li><a href="#/page/stores">Store locator</a></li>
-          <li><a href="#/wishlist">Wishlist</a></li>
-        </ul>
-      </div>
-      <form class="footer-news" data-form="newsletter" novalidate>
-        <h2>Join the list</h2>
-        <p>New drops, restocks and sale previews. No spam.</p>
-        <div class="field-inline">
-          <label class="sr" for="news-email">Email address</label>
-          <input id="news-email" type="email" name="email" placeholder="Email address" autocomplete="email" required>
-          <button class="btn btn--dark" type="submit">Subscribe</button>
-        </div>
-        <p class="field-error" data-error="email" hidden></p>
-      </form>
     </div>
     <div class="footer-bottom">
       <p>© <span data-year></span> Bint e Safia. All rights reserved.</p>
       <ul class="pay" aria-label="Payment methods">
-        <li>Cash on delivery</li><li>Visa</li><li>Mastercard</li><li>JazzCash</li><li>Easypaisa</li>
+        <li class="pay-visa">VISA</li>
+        <li class="pay-mc" aria-label="Mastercard"><span></span><span></span></li>
+        <li>Cash on Delivery</li>
+        <li>easypaisa</li>
+        <li>JazzCash</li>
       </ul>
     </div>
   </div>
@@ -108,7 +129,7 @@
 
 <aside class="drawer drawer--left layer" id="menu" aria-label="Menu" data-layer="hide" hidden>
   <div class="drawer-head">
-    <span class="drawer-title">Menu</span>
+    <img src="assets/img/logo.png" alt="Bint e Safia" width="110" height="42">
     <button class="icon-btn" data-action="close" aria-label="Close menu" data-icon="close"></button>
   </div>
   <div class="drawer-body" id="menu-body"></div>
@@ -116,7 +137,7 @@
 
 <aside class="drawer drawer--right layer" id="cart" aria-label="Shopping bag" data-layer="hide" hidden>
   <div class="drawer-head">
-    <span class="drawer-title">Your bag <span class="muted" id="cart-count-label"></span></span>
+    <span class="drawer-title">Your Bag <span class="muted" id="cart-count-label"></span></span>
     <button class="icon-btn" data-action="close" aria-label="Close bag" data-icon="close"></button>
   </div>
   <div class="drawer-body" id="cart-body"></div>
@@ -128,7 +149,7 @@
     <form class="search-bar" data-form="search" role="search">
       <span data-icon="search" aria-hidden="true"></span>
       <label class="sr" for="search-input">Search products</label>
-      <input id="search-input" type="search" placeholder="Search kurtas, khaddar, dupattas…" autocomplete="off">
+      <input id="search-input" type="search" placeholder="Search suits, organza, lawn…" autocomplete="off">
       <button type="button" class="icon-btn" data-action="close" aria-label="Close search" data-icon="close"></button>
     </form>
     <div class="search-body" id="search-body"></div>

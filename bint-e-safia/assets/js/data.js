@@ -1,32 +1,31 @@
-/* BINT E SAFIA — catalogue data.
- * Edit this file to change products, prices and categories.
- * Each product's artwork is drawn from its colours + motif (see art.js section in app.js).
- * To use real photography instead, add `images: ['path/front.jpg', 'path/detail.jpg']`. */
+/* BINT E SAFIA — catalogue and site content.
+ * Edit this file to change products, prices, categories and copy.
+ * Images live in assets/img/. The current photos are placeholders cut from the approved mockup
+ * (see tools/extract_mockup_images.py); swap in shoot photography with the same file names or new paths. */
 window.BES_DATA = (() => {
+  const IMG = 'assets/img/';
+
   const CATEGORIES = [
-    { slug: 'ready-to-wear', name: 'Ready to Wear', blurb: 'Stitched kurtas, co-ords and suits, ready the day they arrive.', motif: 'buti', base: '#6B1E2A', ink: '#E8C27A' },
-    { slug: 'unstitched', name: 'Unstitched', blurb: 'Two and three-piece fabric sets for your own tailor.', motif: 'ajrak', base: '#1F4E55', ink: '#D9B26A' },
-    { slug: 'festive', name: 'Festive', blurb: 'Organza, chiffon and velvet for mehndi, baraat and walima.', motif: 'floral', base: '#5E0F1E', ink: '#D4AF6A' },
-    { slug: 'accessories', name: 'Accessories', blurb: 'Dupattas, shawls and stoles to finish the look.', motif: 'jaal', base: '#5E6236', ink: '#E4D3A3' }
+    { slug: 'ready-to-wear', name: 'Ready to Wear', tagline: 'Effortless Elegance', blurb: 'Stitched suits and kurtas, ready the day they arrive.', image: IMG + 'cat-ready-to-wear.jpg' },
+    { slug: 'unstitched', name: 'Unstitched', tagline: 'Design Your Story', blurb: 'Embroidered fabric sets for your own tailor’s cut.', image: IMG + 'cat-unstitched.jpg' },
+    { slug: 'formal', name: 'Formal Wear', tagline: 'For Special Moments', blurb: 'Organza, chiffon and silk for mehndi, baraat and walima.', image: IMG + 'cat-formal.jpg' },
+    { slug: 'casual', name: 'Casual Wear', tagline: 'Everyday Grace', blurb: 'Printed lawn and soft cottons for every day of the week.', image: IMG + 'cat-casual.jpg' },
+    { slug: 'accessories', name: 'Accessories', tagline: 'The Finishing Touch', blurb: 'Clutches and dupattas to complete the look.', image: IMG + 'cat-accessories.jpg' }
   ];
+  const SALE_TILE = { slug: 'sale', name: 'Sale', tagline: 'Loved Styles for Less', image: IMG + 'cat-sale.jpg' };
 
   const COLORS = {
-    Maroon: '#6B1E2A', Ivory: '#EFE6D6', Teal: '#1F4E55', Blush: '#E9C3C0', Black: '#1D1B1C', Mustard: '#C8962E',
-    Sage: '#9BAA8E', Navy: '#1E2A47', Grey: '#8D8A86', Rust: '#8E3B1F', Olive: '#5E6236', Plum: '#4A1F3D'
+    Pink: '#D9AFAA', Plum: '#5E1F3D', Ivory: '#F1E6D8', Sage: '#9DAA92', Red: '#9E1B2E', Lilac: '#C8B0D6',
+    Green: '#6F7F4F', Navy: '#1F2B4D', Black: '#1E1A1C', Gold: '#C9A866'
   };
 
   const FABRIC_NOTES = {
-    Khaddar: 'Hand-feel cotton with a slubby, warm weave made for cooler days. Softens with every wash.',
-    Karandi: 'A crisp, textured blend with a fine cross-weave. Holds its shape and keeps the chill out.',
+    Lawn: 'Fine, breathable cotton lawn with a soft drape. Light enough for warm afternoons.',
     Cambric: 'Smooth, mid-weight cotton that sits between lawn and khaddar. An all-season staple.',
-    Lawn: 'Fine, breathable cotton with a soft drape. Light enough for warm afternoons.',
-    Linen: 'Airy linen blend with a natural slub and a relaxed, lived-in fall.',
-    Velvet: 'Dense micro-velvet with a deep pile and a rich, low sheen.',
     Organza: 'Sheer, crisp organza that holds embroidery beautifully. Lined where needed.',
     Chiffon: 'Weightless chiffon with a fluid drape, finished with a matching inner slip.',
     'Raw Silk': 'Raw silk with a subtle nub and a soft lustre. Structured yet comfortable.',
-    Cotton: 'Pure cotton, block-printed and softened for everyday wear.',
-    Pashmina: 'A warm pashmina-wool blend, finely brushed for a soft hand.'
+    Embellished: 'Hand-finished beadwork and pearls on a structured frame.'
   };
 
   const CARE = {
@@ -34,47 +33,50 @@ window.BES_DATA = (() => {
     delicate: ['Dry clean only', 'Store folded in a muslin bag', 'Steam on low; keep iron off embroidery']
   };
 
-  const P = (o) => ({ sale: null, isNew: false, best: false, pieces: 1, ...o });
+  const P = (o) => ({ sale: null, isNew: false, best: false, pieces: 1, ...o, images: o.images.map((f) => IMG + f) });
 
   const PRODUCTS = [
-    // Ready to Wear
-    P({ id: 'bs-101', name: 'Noor Block-Print Kurta', cat: 'ready-to-wear', sub: '1 Piece', fabric: 'Khaddar', price: 4490, color: 'Maroon', base: '#6B1E2A', ink: '#E8C27A', accent: '#E8C27A', motif: 'buti', isNew: true, best: true, collection: "Winter Khaddar '26", desc: 'A straight-cut kurta block-printed with small gold butis, finished with a contrast hem band and a dotted placket.' }),
-    P({ id: 'bs-102', name: 'Zarnish Embroidered Shirt', cat: 'ready-to-wear', sub: '1 Piece', fabric: 'Karandi', price: 5990, color: 'Ivory', base: '#EFE6D6', ink: '#7A2E3A', accent: '#7A2E3A', motif: 'floral', isNew: true, collection: "Winter Khaddar '26", desc: 'Ivory karandi shirt scattered with thread-embroidered blooms in deep wine, with a self-piped neckline.' }),
-    P({ id: 'bs-103', name: 'Mehrunisa 2-Piece Suit', cat: 'ready-to-wear', sub: '2 Piece', pieces: 2, fabric: 'Khaddar', price: 7490, color: 'Teal', base: '#1F4E55', ink: '#D9B26A', accent: '#0F2E33', motif: 'ajrak', best: true, collection: "Winter Khaddar '26", desc: 'Ajrak-inspired printed kurta paired with solid straight trousers. A modern take on a Sindhi classic.' }),
-    P({ id: 'bs-104', name: 'Gul Bahar 3-Piece Suit', cat: 'ready-to-wear', sub: '3 Piece', pieces: 3, fabric: 'Cambric', price: 8990, sale: 6290, color: 'Blush', base: '#E9C3C0', ink: '#8C3B4A', accent: '#8C3B4A', motif: 'floral', collection: 'Essentials', desc: 'Soft blush kurta with a printed floral repeat, matching trousers and a lightweight voile dupatta.' }),
-    P({ id: 'bs-105', name: 'Sitara Straight Kurta', cat: 'ready-to-wear', sub: '1 Piece', fabric: 'Cambric', price: 3990, color: 'Black', base: '#1D1B1C', ink: '#C9A25E', accent: '#C9A25E', motif: 'chevron', best: true, collection: 'Essentials', desc: 'An everyday black kurta with a fine gold chevron print and side slits for easy movement.' }),
-    P({ id: 'bs-106', name: 'Rangeen Stripe Kurta', cat: 'ready-to-wear', sub: '1 Piece', fabric: 'Linen', price: 4290, sale: 2990, color: 'Mustard', base: '#C8962E', ink: '#6B3E12', accent: '#6B3E12', motif: 'stripe', collection: 'Essentials', desc: 'Mustard linen kurta with bias stripes and a relaxed, boxy fit.' }),
-    P({ id: 'bs-107', name: 'Fiza 2-Piece Co-ord', cat: 'ready-to-wear', sub: '2 Piece', pieces: 2, fabric: 'Linen', price: 6990, color: 'Sage', base: '#9BAA8E', ink: '#F2EEE3', accent: '#4F5E45', motif: 'jaal', isNew: true, collection: 'Essentials', desc: 'A sage co-ord set with a white jaal lattice print, short kurta and wide-leg trousers.' }),
-    P({ id: 'bs-108', name: 'Afsana 3-Piece Suit', cat: 'ready-to-wear', sub: '3 Piece', pieces: 3, fabric: 'Khaddar', price: 9490, color: 'Navy', base: '#1E2A47', ink: '#C9894B', accent: '#B8893E', motif: 'ajrak', isNew: true, best: true, collection: "Winter Khaddar '26", desc: 'Deep navy khaddar suit with copper ajrak blocks, matching trousers and a printed shawl-weight dupatta.' }),
-    P({ id: 'bs-109', name: 'Shirin Printed Kurta', cat: 'ready-to-wear', sub: '1 Piece', fabric: 'Lawn', price: 3490, sale: 2440, color: 'Grey', base: '#8D8A86', ink: '#F1ECE4', accent: '#3C3A38', motif: 'buti', collection: 'Essentials', desc: 'A light lawn kurta in dove grey with tiny white florets. Ideal for layering into the season.' }),
-    P({ id: 'bs-110', name: 'Marvi Ajrak Kurta', cat: 'ready-to-wear', sub: '1 Piece', fabric: 'Khaddar', price: 4790, color: 'Rust', base: '#8E3B1F', ink: '#1B1714', accent: '#1B1714', motif: 'ajrak', isNew: true, collection: "Winter Khaddar '26", desc: 'Rust-red khaddar printed with a bold indigo-black ajrak grid. Cut long with a straight hem.' }),
-
-    // Unstitched
-    P({ id: 'bs-201', name: 'Winter Khaddar 3-Piece', cat: 'unstitched', sub: '3 Piece', pieces: 3, fabric: 'Khaddar', price: 6490, color: 'Olive', base: '#5E6236', ink: '#E4D3A3', accent: '#3A3C20', motif: 'buti', isNew: true, best: true, collection: "Winter Khaddar '26", desc: 'Printed khaddar shirt (3 m), dyed khaddar trousers (2.5 m) and a printed khaddar dupatta (2.5 m).' }),
-    P({ id: 'bs-202', name: 'Karandi Jaal 3-Piece', cat: 'unstitched', sub: '3 Piece', pieces: 3, fabric: 'Karandi', price: 7990, color: 'Plum', base: '#4A1F3D', ink: '#D9B8C9', accent: '#2C1024', motif: 'jaal', isNew: true, collection: "Winter Khaddar '26", desc: 'Printed karandi shirt (3 m), dyed trousers (2.5 m) and a woven karandi dupatta (2.5 m) in deep plum.' }),
-    P({ id: 'bs-203', name: 'Printed Cambric 2-Piece', cat: 'unstitched', sub: '2 Piece', pieces: 2, fabric: 'Cambric', price: 4990, sale: 3490, color: 'Teal', base: '#1F4E55', ink: '#E7D9B5', accent: '#123236', motif: 'chevron', collection: 'Essentials', desc: 'Printed cambric shirt (3 m) with dyed cambric trousers (2.5 m).' }),
-    P({ id: 'bs-204', name: 'Ajrak Heritage 3-Piece', cat: 'unstitched', sub: '3 Piece', pieces: 3, fabric: 'Khaddar', price: 6990, color: 'Maroon', base: '#5C1A1F', ink: '#1A1A2E', accent: '#1A1A2E', motif: 'ajrak', best: true, collection: "Winter Khaddar '26", desc: 'Ajrak-printed shirt (3 m), dyed trousers (2.5 m) and a full ajrak dupatta (2.5 m) in madder red and indigo.' }),
-    P({ id: 'bs-205', name: 'Lawn Essentials 2-Piece', cat: 'unstitched', sub: '2 Piece', pieces: 2, fabric: 'Lawn', price: 3990, color: 'Ivory', base: '#F1EADB', ink: '#3E5C76', accent: '#3E5C76', motif: 'stripe', collection: 'Essentials', desc: 'Striped lawn shirt (3 m) with dyed lawn trousers (2.5 m) in soft ivory and blue.' }),
-    P({ id: 'bs-206', name: 'Velvet Shawl Suit 3-Piece', cat: 'unstitched', sub: '3 Piece', pieces: 3, fabric: 'Velvet', price: 12990, color: 'Black', base: '#121012', ink: '#B88A44', accent: '#2A2224', motif: 'floral', isNew: true, collection: 'Festive Edit', desc: 'Embroidered velvet shirt front (1.25 m), plain velvet back and sleeves, raw silk trousers and an embroidered velvet shawl.' }),
-
-    // Festive
-    P({ id: 'bs-301', name: 'Shehnai Organza Formal', cat: 'festive', sub: '3 Piece', pieces: 3, fabric: 'Organza', price: 18500, color: 'Ivory', base: '#F3EBDD', ink: '#B08D57', accent: '#B08D57', motif: 'floral', best: true, collection: 'Festive Edit', desc: 'Ivory organza kalidar with antique gold tilla blooms, raw silk trousers and an organza dupatta with scalloped edges.' }),
-    P({ id: 'bs-302', name: 'Rukhsaar Chiffon Formal', cat: 'festive', sub: '3 Piece', pieces: 3, fabric: 'Chiffon', price: 16900, color: 'Maroon', base: '#5E0F1E', ink: '#D4AF6A', accent: '#D4AF6A', motif: 'floral', isNew: true, collection: 'Festive Edit', desc: 'Deep maroon chiffon with zari floral embroidery, a lined slip, straight trousers and a heavily bordered dupatta.' }),
-    P({ id: 'bs-303', name: 'Mahtab Velvet Kurta', cat: 'festive', sub: '1 Piece', fabric: 'Velvet', price: 11500, color: 'Navy', base: '#16203A', ink: '#C9A45C', accent: '#C9A45C', motif: 'jaal', collection: 'Festive Edit', desc: 'Midnight velvet kurta with a gold jaal of zardozi work across the yoke and sleeves.' }),
-    P({ id: 'bs-304', name: 'Dilkash Silk 2-Piece', cat: 'festive', sub: '2 Piece', pieces: 2, fabric: 'Raw Silk', price: 13900, sale: 9730, color: 'Teal', base: '#0E4B4F', ink: '#E3C27D', accent: '#E3C27D', motif: 'buti', collection: 'Festive Edit', desc: 'Raw silk kurta in peacock teal with gold buti embroidery and matching cigarette pants.' }),
-
-    // Accessories
-    P({ id: 'bs-401', name: 'Ajrak Printed Dupatta', cat: 'accessories', sub: 'Dupatta', fabric: 'Cotton', price: 2490, color: 'Maroon', base: '#6B1E2A', ink: '#1A1A2E', accent: '#1A1A2E', motif: 'ajrak', best: true, collection: 'Essentials', desc: 'A full-length cotton dupatta in classic ajrak blocks. 2.5 m.' }),
-    P({ id: 'bs-402', name: 'Karandi Winter Shawl', cat: 'accessories', sub: 'Shawl', fabric: 'Karandi', price: 3990, color: 'Mustard', base: '#B98A2E', ink: '#5B3510', accent: '#5B3510', motif: 'jaal', isNew: true, collection: "Winter Khaddar '26", desc: 'A warm karandi shawl with a woven jaal pattern and twisted fringe. 2.5 m.' }),
-    P({ id: 'bs-403', name: 'Chiffon Embroidered Dupatta', cat: 'accessories', sub: 'Dupatta', fabric: 'Chiffon', price: 3290, sale: 2290, color: 'Blush', base: '#E9C3C0', ink: '#9A5A62', accent: '#9A5A62', motif: 'floral', collection: 'Festive Edit', desc: 'Sheer blush chiffon with an embroidered floral border on all four sides. 2.5 m.' }),
-    P({ id: 'bs-404', name: 'Pashmina Blend Stole', cat: 'accessories', sub: 'Stole', fabric: 'Pashmina', price: 4990, color: 'Grey', base: '#8D8A86', ink: '#E9E4DC', accent: '#4A4744', motif: 'stripe', collection: "Winter Khaddar '26", desc: 'A brushed pashmina-blend stole in heather grey with fine woven stripes. 2 m.' }),
-    P({ id: 'bs-405', name: 'Block-Print Cotton Stole', cat: 'accessories', sub: 'Stole', fabric: 'Cotton', price: 1990, color: 'Black', base: '#1D1B1C', ink: '#E8C27A', accent: '#E8C27A', motif: 'buti', collection: 'Essentials', desc: 'A soft cotton stole hand block-printed with gold butis. 2 m.' })
+    P({ id: 'bs-101', name: 'Rosé Whisper', type: 'Embroidered Lawn Suit', cat: 'ready-to-wear', sub: '3 Piece', pieces: 3, fabric: 'Lawn', price: 8500, color: 'Pink', swatches: ['#C9A3A0', '#5B1830', '#E3B9A8'], isNew: true, collection: 'Summer Bloom', images: ['rose-whisper.jpg', 'cat-ready-to-wear.jpg'], desc: 'Blush lawn shirt with tonal thread embroidery down the front, paired with straight trousers and a sheer printed dupatta.' }),
+    P({ id: 'bs-102', name: 'Plum Aura', type: 'Embroidered Silk Suit', cat: 'formal', sub: '3 Piece', pieces: 3, fabric: 'Raw Silk', price: 12500, color: 'Plum', swatches: ['#7A4466', '#3B1530', '#F1E3D6'], isNew: true, collection: 'The Festive Edit', images: ['plum-aura.jpg', 'look-1.jpg'], desc: 'Deep plum raw silk with antique-gold zari on the neckline and a scattered motif dupatta.' }),
+    P({ id: 'bs-103', name: 'Ivory Bloom', type: 'Printed Lawn Suit', cat: 'casual', sub: '3 Piece', pieces: 3, fabric: 'Lawn', price: 6950, color: 'Ivory', swatches: ['#BFA79A', '#8E1E2A', '#F3EADF'], isNew: true, collection: 'Summer Bloom', images: ['ivory-bloom.jpg', 'look-3.jpg'], desc: 'Soft ivory lawn with a delicate gold floral print and a matching printed dupatta.' }),
+    P({ id: 'bs-104', name: 'Sage Noori', type: 'Embroidered Organza Suit', cat: 'formal', sub: '3 Piece', pieces: 3, fabric: 'Organza', price: 14500, color: 'Sage', swatches: ['#A9B19C', '#7E8E78', '#EDE0D2'], isNew: true, collection: 'The Festive Edit', images: ['sage-noori.jpg', 'look-4.jpg', 'cat-casual.jpg'], desc: 'Sage organza with pastel floral embroidery, a lined slip and an organza dupatta with an embroidered border.' }),
+    P({ id: 'bs-105', name: 'Rubi Grace', type: 'Embroidered Chiffon Suit', cat: 'formal', sub: '3 Piece', pieces: 3, fabric: 'Chiffon', price: 13000, color: 'Red', swatches: ['#D7B8B4', '#4C4E57', '#9E1B2E'], best: true, collection: 'The Festive Edit', images: ['rubi-grace.jpg'], desc: 'Ruby chiffon with gold zari embroidery and a heavily bordered dupatta, made for the wedding season.' }),
+    P({ id: 'bs-106', name: 'Lilac Dreams', type: 'Embroidered Lawn Suit', cat: 'ready-to-wear', sub: '3 Piece', pieces: 3, fabric: 'Lawn', price: 8500, color: 'Lilac', swatches: ['#E2CBD6', '#1C1530', '#E8C1B8'], isNew: true, collection: 'Summer Bloom', images: ['lilac-dreams.jpg'], desc: 'Lilac lawn with gold-thread sprigs, straight trousers and a sheer, lightly embroidered dupatta.' }),
+    P({ id: 'bs-107', name: 'Mehfil', type: 'Embroidered Lawn Suit', cat: 'unstitched', sub: '3 Piece', pieces: 3, fabric: 'Lawn', price: 8500, color: 'Plum', swatches: ['#6B2B4A', '#8E6A5A', '#EFD9CC'], best: true, collection: 'Summer Bloom', images: ['mehfil.jpg', 'cat-unstitched.jpg'], desc: 'Unstitched: embroidered lawn front (1.25 m), dyed back and sleeves, cambric trousers (2.5 m) and a printed chiffon dupatta (2.5 m).' }),
+    P({ id: 'bs-108', name: 'Zarreen', type: 'Embroidered Shirt & Dupatta', cat: 'unstitched', sub: '2 Piece', pieces: 2, fabric: 'Cambric', price: 11000, color: 'Green', swatches: ['#5E6B3E', '#A57E9A', '#E9D3C3'], best: true, collection: 'The Festive Edit', images: ['zarreen.jpg'], desc: 'Unstitched: olive cambric shirt with gold embroidery (3 m) and a printed organza dupatta (2.5 m).' }),
+    P({ id: 'bs-109', name: 'Gulbahar', type: 'Printed Lawn Suit', cat: 'casual', sub: '3 Piece', pieces: 3, fabric: 'Lawn', price: 6950, sale: 5560, color: 'Ivory', swatches: ['#E1CDBA', '#B5574E', '#EFE3D7'], best: true, collection: 'Summer Bloom', images: ['gulbahar.jpg', 'cat-formal.jpg'], desc: 'Ivory lawn with a red and green floral print border, matching trousers and a printed dupatta.' }),
+    P({ id: 'bs-110', name: 'Sahar', type: 'Embroidered Silk Suit', cat: 'formal', sub: '3 Piece', pieces: 3, fabric: 'Raw Silk', price: 12500, color: 'Navy', swatches: ['#1F2B4D', '#3C2230', '#D9C3AF'], best: true, collection: 'The Festive Edit', images: ['sahar.jpg'], desc: 'Midnight navy raw silk with a gold zardozi yoke and matching straight trousers.' }),
+    P({ id: 'bs-111', name: 'Noir', type: 'Embroidered Lawn Suit', cat: 'ready-to-wear', sub: '3 Piece', pieces: 3, fabric: 'Lawn', price: 9500, sale: 7600, color: 'Black', swatches: ['#1E1A1C', '#3E3A3C', '#8E1E2A'], best: true, collection: 'Summer Bloom', images: ['noir.jpg'], desc: 'Black lawn with gold embroidery down the placket and a black chiffon dupatta flecked with gold.' }),
+    P({ id: 'bs-112', name: 'Fiza', type: 'Embroidered Organza Suit', cat: 'formal', sub: '3 Piece', pieces: 3, fabric: 'Organza', price: 14000, color: 'Pink', swatches: ['#E4C5C2', '#1E1A1C', '#9C4A54'], best: true, collection: 'The Festive Edit', images: ['fiza.jpg'], desc: 'Powder pink organza with tonal floral embroidery and a sheer embroidered dupatta.' }),
+    P({ id: 'bs-201', name: 'Zeenat Pearl Clutch', type: 'Embellished Clutch', cat: 'accessories', sub: 'Clutch', fabric: 'Embellished', price: 5950, color: 'Gold', swatches: ['#C9A866', '#F1E6D8'], isNew: true, collection: 'The Festive Edit', images: ['cat-accessories.jpg'], desc: 'A gold-frame clutch covered in hand-set pearls and crystals, with a detachable chain.' }),
+    P({ id: 'bs-202', name: 'Shehnaz Embroidered Dupatta', type: 'Embroidered Dupatta', cat: 'accessories', sub: 'Dupatta', fabric: 'Chiffon', price: 4500, sale: 3150, color: 'Plum', swatches: ['#5E1F3D', '#C9A866'], collection: 'The Festive Edit', images: ['cat-sale.jpg'], desc: 'A plum chiffon dupatta with gold zari borders and scattered buti. 2.5 m.' })
   ];
 
-  const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
+  const HERO = [
+    { eyebrow: 'Timeless Traditions', title: ['Modern', 'Women'], text: 'Graceful silhouettes, intricate details and colors that tell your story.', cta: ['Explore Collections', '#/shop/all'], image: IMG + 'hero-modern-women.jpg', tint: '#EBD8D3' },
+    { eyebrow: 'The Festive Edit', title: ['Moments', 'in Bloom'], text: 'For the celebrations, the gatherings and everything in between.', cta: ['Explore the Edit', '#/shop/formal'], image: IMG + 'festive-moments.jpg', tint: '#F1DEDC', focus: '30% 40%' },
+    { eyebrow: 'Unstitched', title: ['Design', 'Your Story'], text: 'Embroidered fabric sets, cut to your own measurements by your own tailor.', cta: ['Shop Unstitched', '#/shop/unstitched'], image: IMG + 'look-2.jpg', tint: '#EADADB' }
+  ];
 
+  const LOOKBOOK = ['look-1.jpg', 'look-2.jpg', 'look-3.jpg', 'look-4.jpg'].map((f, i) => ({
+    image: IMG + f,
+    alt: ['Everyday Elegance', 'Modern Traditions', 'For Your Special Days', 'Grace in Every Detail'][i],
+    href: ['#/product/bs-102', '#/shop/unstitched', '#/product/bs-103', '#/product/bs-104'][i]
+  }));
+
+  // Sample copy for layout only. Replace with real, verified customer reviews before launch.
+  const REVIEWS = {
+    sample: true,
+    items: [
+      { name: 'Areeba K.', city: 'Lahore', rating: 5, text: 'Absolutely in love with the quality and details. Bint e Safia never disappoints!' },
+      { name: 'Sana M.', city: 'Karachi', rating: 5, text: 'The fabric, the fit, the packaging — everything felt so premium. Highly recommended!' },
+      { name: 'Zainab R.', city: 'Islamabad', rating: 5, text: 'Such elegant designs! Finally a brand that truly understands modern women.' },
+      { name: 'Hira A.', city: 'Faisalabad', rating: 5, text: 'Ordered for my sister’s mehndi and got compliments all night. Delivered in three days.' }
+    ]
+  };
+
+  const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
   const SIZE_CHART = [
-    // size, chest, length, shoulder, sleeve (inches)
     ['XS', 36, 40, 13.5, 21],
     ['S', 38, 41, 14, 21.5],
     ['M', 40, 42, 14.5, 22],
@@ -90,7 +92,7 @@ window.BES_DATA = (() => {
     { city: 'Islamabad', name: 'F-7 Markaz', address: 'Jinnah Super Market, F-7', hours: '11 am – 9 pm' }
   ];
 
-  const SHIPPING = { freeOver: 5000, standard: 250, express: 450, promo: { code: 'SAFIA10', pct: 10 } };
+  const SHIPPING = { freeOver: 10000, standard: 250, express: 450, promo: { code: 'SAFIA10', pct: 10 } };
 
-  return { CATEGORIES, COLORS, FABRIC_NOTES, CARE, PRODUCTS, SIZES, SIZE_CHART, CITIES, STORES, SHIPPING };
+  return { IMG, CATEGORIES, SALE_TILE, COLORS, FABRIC_NOTES, CARE, PRODUCTS, HERO, LOOKBOOK, REVIEWS, SIZES, SIZE_CHART, CITIES, STORES, SHIPPING };
 })();
