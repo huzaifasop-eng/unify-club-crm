@@ -150,13 +150,27 @@
 }
 .page-film::before{
   content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,rgba(8,26,24,0.62) 0%,rgba(8,26,24,0.2) 38%,rgba(8,26,24,0.9) 100%);
+  background:linear-gradient(180deg,rgba(8,26,24,0.32) 0%,rgba(8,26,24,0.06) 38%,rgba(8,26,24,0.55) 100%);
 }
 .page-film .container{position:relative;z-index:3;width:100%;}
 .page-film .display{font-size:clamp(2.8rem,7vw,6.6rem);max-width:14ch;}
 .page-film .lede{color:rgba(255,255,255,0.84);margin-top:24px;max-width:560px;}
 .page-film .btn-row{margin-top:32px;}
 .page-film .film-meta{margin-top:40px;}
+
+/* Glassmorphism panel over the looping video — the kicker through film-meta
+   sit inside one frosted card instead of directly on a full-bleed darkener,
+   so more of the moving footage stays visible around the edges. */
+.film-glass{
+  display:inline-block;max-width:min(100%,720px);padding:clamp(28px,4vw,48px);
+  background:rgba(8,26,24,0.38);
+  -webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%);
+  border:1px solid rgba(255,255,255,0.14);border-radius:var(--radius-lg);
+  box-shadow:0 30px 70px rgba(2,7,10,0.4);
+}
+@media (max-width:640px){
+  .film-glass{padding:24px 20px;border-radius:16px;}
+}
 
 /* --------------------------------------------------------------------------
    Numbers strip
