@@ -43,14 +43,23 @@
 .js-motion [data-after-lines]{opacity:0;transform:translateY(18px);transition:opacity 1s var(--cine-ease) .7s,transform 1s var(--cine-ease) .7s;}
 .js-motion .is-ready [data-after-lines]{opacity:1;transform:none;}
 
-/* shared display type */
+/* shared display type — bold condensed caps for short headlines (Anton);
+   an <em> accent word breaks back out to the serif logo face in italic,
+   since Anton has no italic of its own. .statement stays full serif: it
+   carries whole sentences, and bold caps stop being readable past ~4 words. */
 .display{
-  font-family:var(--font-display);font-weight:340;letter-spacing:-0.03em;line-height:0.96;
+  font-family:var(--font-headline);font-weight:400;letter-spacing:-0.01em;line-height:0.92;
+  text-transform:uppercase;
   font-size:clamp(3rem,8.4vw,8.2rem);color:#fff;font-optical-sizing:auto;
 }
-.display em,.h-xl em,.statement em{font-style:italic;font-weight:330;color:var(--brass-light);}
+.display em,.h-xl em{
+  font-family:var(--font-display);font-style:italic;font-weight:400;
+  text-transform:none;letter-spacing:0;color:var(--brass-light);
+}
+.statement em{font-style:italic;font-weight:330;color:var(--brass-light);}
 .h-xl{
-  font-family:var(--font-display);font-weight:360;letter-spacing:-0.025em;line-height:1;
+  font-family:var(--font-headline);font-weight:400;letter-spacing:-0.01em;line-height:0.96;
+  text-transform:uppercase;
   font-size:clamp(2.4rem,5.6vw,5rem);color:var(--teal);
 }
 .section--dark .h-xl,.on-dark .h-xl{color:#fff;}
@@ -178,7 +187,7 @@
 }
 .dept-row .d-index{font-family:var(--font-display);font-size:1rem;color:var(--brass);letter-spacing:0.06em;}
 .dept-row .d-name{
-  display:block;font-family:var(--font-display);font-weight:340;letter-spacing:-0.025em;line-height:1;
+  display:block;font-family:var(--font-headline);font-weight:400;letter-spacing:-0.01em;line-height:0.96;text-transform:uppercase;
   font-size:clamp(1.9rem,4.4vw,3.6rem);color:var(--teal);transition:color .45s var(--cine-ease);
 }
 .dept-row .d-desc{display:block;font-size:0.94rem;color:rgba(30,30,30,0.6);margin-top:10px;max-width:440px;transition:color .45s;}
@@ -264,7 +273,7 @@
 .plant-lightbox.is-open .plant-lightbox-panel{transform:translateY(0) scale(1);}
 .plant-lightbox-panel img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
 .plant-lightbox-body{padding:28px 30px 32px;}
-.plant-lightbox-body h3{font-family:var(--font-display);font-weight:450;font-size:1.4rem;color:var(--teal);}
+.plant-lightbox-body h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:1.4rem;color:var(--teal);}
 .plant-lightbox-body p{margin-top:12px;color:rgba(30,30,30,0.68);line-height:1.65;}
 .plant-lightbox-close{
   position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;
@@ -396,7 +405,7 @@
 .station:nth-child(odd) .card-body{bottom:calc(50% + 46px);}
 .station:nth-child(even) .card-body{top:calc(50% + 46px);}
 .station .num{font-family:var(--font-display);font-style:italic;font-size:1rem;color:var(--brass-light);}
-.station h3{font-family:var(--font-display);font-weight:400;color:#fff;font-size:clamp(1.5rem,2.2vw,2rem);margin:8px 0 10px;}
+.station h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;color:#fff;font-size:clamp(1.5rem,2.2vw,2rem);margin:8px 0 10px;}
 .station p{font-size:0.92rem;line-height:1.55;color:rgba(250,247,241,0.66);}
 .station.is-lit .card-body{opacity:1;}
 .station.is-lit .node{background:var(--brass-light);border-color:var(--brass-light);box-shadow:0 0 0 8px rgba(194,160,106,0.16);}
@@ -404,15 +413,37 @@
 /* --------------------------------------------------------------------------
    Product art (Chemicals) — drawn containers with the product's label
    -------------------------------------------------------------------------- */
-.product-thumb.has-art{background:radial-gradient(90% 80% at 50% 30%,#fff 0%,var(--ivory-dim) 70%);overflow:hidden;}
-.product-thumb .can{width:46%;height:auto;opacity:1;color:var(--can,var(--teal));filter:drop-shadow(0 18px 18px rgba(12,43,40,0.16));transition:transform .7s var(--cine-ease);}
-.can text{font-family:var(--font-display);fill:var(--charcoal);}
-.can .can-name{font-size:10.5px;font-weight:600;letter-spacing:0.02em;}
-.can .can-name.sm{font-size:8.4px;}
-.can .can-sub{font-family:var(--font-sans);font-size:5.2px;letter-spacing:0.08em;text-transform:uppercase;fill:rgba(30,30,30,0.55);}
+/* Same signature flow as the city cards and .section--teal: Midnight Black
+   base, one glow (this product's own --can accent) riding a fixed focal
+   point, thin stripe texture masked to the same point. Per-product color
+   lives only in the glow + icon, never as a flat painted block. */
+.product-thumb.has-art{
+  background:
+    radial-gradient(100% 90% at 28% 22%,
+      color-mix(in srgb,var(--can,var(--teal)) 70%,transparent) 0%,
+      transparent 68%),
+    var(--heritage-dark);
+  overflow:hidden;
+}
+.product-thumb.has-art::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:repeating-linear-gradient(108deg,rgba(255,255,255,0.12) 0,rgba(255,255,255,0.12) 1px,transparent 1px,transparent 13px);
+  mix-blend-mode:overlay;
+  -webkit-mask-image:radial-gradient(100% 90% at 28% 22%,#000 0%,#000 40%,transparent 72%);
+  mask-image:radial-gradient(100% 90% at 28% 22%,#000 0%,#000 40%,transparent 72%);
+}
+.product-thumb .can{
+  width:46%;height:auto;opacity:1;color:#fff;position:relative;z-index:1;
+  padding:0;border-radius:0;background:none;box-shadow:none;
+  filter:drop-shadow(0 18px 18px rgba(2,7,10,0.45));transition:transform .7s var(--cine-ease);
+}
+.can text{font-family:var(--font-headline);fill:var(--can,var(--heritage-dark));}
+.can .can-name{font-size:11px;font-weight:400;letter-spacing:0.01em;}
+.can .can-name.sm{font-size:9px;}
+.can .can-sub{font-family:var(--font-sans);font-size:5.2px;letter-spacing:0.08em;text-transform:uppercase;fill:rgba(2,7,10,0.56);}
 .product-thumb::after{
-  content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,0.65),transparent);transform:skewX(-18deg);
+  content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;z-index:1;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,0.35),transparent);transform:skewX(-18deg);
 }
 .product-card:hover .product-thumb .can{transform:translateY(-8px) rotate(-3deg);}
 .product-card:hover .product-thumb::after{left:130%;transition:left 1s var(--cine-ease);}
@@ -445,7 +476,7 @@
 }
 .on-dark .step-line .dot{background:var(--heritage-dark);color:var(--brass-light);border-color:var(--brass-light);}
 .step-line .dot svg{width:22px;height:22px;}
-.step-line h3{font-family:var(--font-display);font-weight:400;font-size:1.35rem;color:var(--teal);margin-bottom:8px;}
+.step-line h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:1.35rem;color:var(--teal);margin-bottom:8px;}
 .on-dark .step-line h3{color:#fff;}
 .step-line p{font-size:0.9rem;color:rgba(30,30,30,0.62);}
 .on-dark .step-line p{color:rgba(250,247,241,0.66);}
@@ -513,7 +544,7 @@
 }
 .lab-cert-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line);}
 .lab-cert-head .lab{font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--brass);font-weight:700;}
-.lab-cert-head h3{font-family:var(--font-display);font-weight:400;font-size:1.55rem;color:var(--teal);margin-top:6px;}
+.lab-cert-head h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:1.55rem;color:var(--teal);margin-top:6px;}
 .lab-cert-head .date{text-align:right;font-size:0.82rem;color:rgba(30,30,30,0.55);}
 .lab-cert-head .date b{display:block;font-size:1rem;color:var(--charcoal);}
 .lab-rows{margin-top:10px;}
@@ -538,7 +569,7 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
   background:var(--heritage-dark);color:var(--ink-on-dark);border-radius:24px;padding:clamp(28px,4vw,48px);
   position:relative;overflow:hidden;
 }
-.calc h3{font-family:var(--font-display);font-weight:400;color:#fff;font-size:1.6rem;}
+.calc h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;color:#fff;font-size:1.6rem;}
 .calc .row-l{display:flex;justify-content:space-between;align-items:baseline;margin-top:30px;}
 .calc .row-l label{font-size:0.88rem;color:rgba(250,247,241,0.7);}
 .calc .row-l output{font-family:var(--font-display);font-size:1.5rem;color:#fff;}
@@ -677,7 +708,7 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
 }
 .spec-list li:hover::before{transform:scaleX(1);}
 .spec-num{font-family:var(--font-display);font-style:italic;font-size:1.1rem;color:var(--brass);}
-.spec-list h3{margin:0;font-family:var(--font-display);font-weight:360;letter-spacing:-0.02em;font-size:clamp(1.6rem,3.2vw,2.6rem);color:var(--teal);line-height:1.1;}
+.spec-list h3{margin:0;font-family:var(--font-headline);font-weight:400;text-transform:uppercase;letter-spacing:-0.01em;font-size:clamp(1.6rem,3.2vw,2.6rem);color:var(--teal);line-height:1;}
 .spec-list p{margin:0;color:rgba(30,30,30,0.66);font-size:1rem;max-width:420px;}
 
 /* oversized running list of components */
@@ -751,7 +782,7 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
 }
 .chronicle .era{font-family:var(--font-display);font-style:italic;font-size:clamp(1.05rem,1.6vw,1.35rem);color:var(--brass);padding-right:40px;line-height:1.3;}
 .chronicle li > div{padding-left:48px;}
-.chronicle h3{margin:0;font-family:var(--font-display);font-weight:380;font-size:clamp(1.5rem,2.6vw,2.2rem);letter-spacing:-0.02em;line-height:1.15;color:var(--teal);}
+.chronicle h3{margin:0;font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:clamp(1.5rem,2.6vw,2.2rem);letter-spacing:-0.01em;line-height:1;color:var(--teal);}
 .chronicle p{margin:12px 0 0;max-width:520px;color:rgba(30,30,30,0.66);}
 
 .numbers-grid.three{grid-template-columns:repeat(3,1fr);}
