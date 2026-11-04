@@ -1,110 +1,17 @@
-/* SaT PaK — shared site behaviour. Runs once header/footer partials are injected. */
+/* SaT PaK — shared site behaviour. Runs once header/footer partials are injected.
+   Each feature below runs inside safe(), so one broken block (a selector that
+   doesn't match on a given page, a third-party API hiccup) logs to the
+   console and stops there — it never takes the rest of the page's behaviour
+   down with it. */
 function satpakInit(){
   "use strict";
 
-  /* ---------- header condense on scroll ---------- */
-  var header = document.querySelector(".site-header");
-  function onScroll(){
-    if(!header) return;
-    if(window.scrollY > 40){ header.classList.add("is-solid"); }
-    else { header.classList.remove("is-solid"); }
-  }
-  document.addEventListener("scroll", onScroll, {passive:true});
-  onScroll();
-
-  /* ---------- mobile menu ---------- */
-  var burger = document.querySelector(".header-burger");
-  var mobileMenu = document.querySelector(".mobile-menu");
-  var mobileClose = document.querySelector(".mobile-menu-close");
-  function toggleMenu(open){
-    if(!mobileMenu) return;
-    mobileMenu.classList.toggle("is-open", open);
-    document.body.style.overflow = open ? "hidden" : "";
-  }
-  if(burger) burger.addEventListener("click", function(){ toggleMenu(true); });
-  if(mobileClose) mobileClose.addEventListener("click", function(){ toggleMenu(false); });
-  document.querySelectorAll(".mobile-menu .navlink").forEach(function(a){
-    a.addEventListener("click", function(){ toggleMenu(false); });
-  });
-
-  /* ---------- search panel ---------- */
-  var searchBtns = document.querySelectorAll(".header-search-btn");
-  var searchPanel = document.querySelector(".search-panel");
-  var searchClose = document.querySelector(".search-panel-close");
-  searchBtns.forEach(function(btn){
-    btn.addEventListener("click", function(){
-      if(searchPanel){
-        searchPanel.classList.add("is-open");
-        var input = searchPanel.querySelector("input");
-        if(input) setTimeout(function(){ input.focus(); }, 150);
-      }
-    });
-  });
-  if(searchClose) searchClose.addEventListener("click", function(){ searchPanel.classList.remove("is-open"); });
-  if(searchPanel) searchPanel.addEventListener("click", function(e){
-    if(e.target === searchPanel) searchPanel.classList.remove("is-open");
-  });
-  document.addEventListener("keydown", function(e){
-    if(e.key === "Escape"){
-      if(searchPanel) searchPanel.classList.remove("is-open");
-      toggleMenu(false);
-    }
-  });
-
-  /* ---------- scroll reveal ---------- */
-  var revealEls = document.querySelectorAll("[data-reveal]");
-  if("IntersectionObserver" in window && revealEls.length){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
-        }
-      });
-    }, {threshold:0.12, rootMargin:"0px 0px -60px 0px"});
-    revealEls.forEach(function(el){ io.observe(el); });
-  } else {
-    revealEls.forEach(function(el){ el.classList.add("is-visible"); });
+  function safe(name, fn){
+    try{ fn(); }
+    catch(e){ if(window.console && console.error) console.error("[SaT PaK] \"" + name + "\" block failed:", e); }
   }
 
-  /* ---------- accordion ---------- */
-  document.querySelectorAll(".accordion-item").forEach(function(item){
-    var trigger = item.querySelector(".accordion-trigger");
-    var panel = item.querySelector(".accordion-panel");
-    if(!trigger || !panel) return;
-    trigger.addEventListener("click", function(){
-      var isOpen = item.classList.contains("is-open");
-      item.parentElement.querySelectorAll(".accordion-item").forEach(function(other){
-        other.classList.remove("is-open");
-        other.querySelector(".accordion-panel").style.maxHeight = null;
-      });
-      if(!isOpen){
-        item.classList.add("is-open");
-        panel.style.maxHeight = panel.scrollHeight + "px";
-      }
-    });
-  });
-
-  /* ---------- product / catalogue filters ---------- */
-  document.querySelectorAll("[data-filter-group]").forEach(function(group){
-    var chips = group.querySelectorAll(".filter-chip");
-    var targetSelector = group.getAttribute("data-filter-group");
-    var items = document.querySelectorAll(targetSelector);
-    chips.forEach(function(chip){
-      chip.addEventListener("click", function(){
-        chips.forEach(function(c){ c.classList.remove("is-active"); });
-        chip.classList.add("is-active");
-        var val = chip.getAttribute("data-filter");
-        items.forEach(function(item){
-          var cats = (item.getAttribute("data-cats") || "").split(",");
-          var show = val === "all" || cats.indexOf(val) !== -1;
-          item.style.display = show ? "" : "none";
-        });
-      });
-    });
-  });
-
-  /* ---------- toast ---------- */
+  /* ---------- shared: toast (used by the cart block below) ---------- */
   var toastEl = document.querySelector(".toast");
   var toastTimer = null;
   function showToast(msg){
@@ -115,166 +22,341 @@ function satpakInit(){
     toastTimer = setTimeout(function(){ toastEl.classList.remove("is-visible"); }, 2200);
   }
 
-  /* ---------- cart (quantity + pack size, WhatsApp checkout) ---------- */
-  var CART_KEY = "satpak_cart";
-  function getCart(){
-    try{ return JSON.parse(localStorage.getItem(CART_KEY)) || []; }catch(e){ return []; }
-  }
-  function saveCart(items){
-    localStorage.setItem(CART_KEY, JSON.stringify(items));
-    renderCart();
-  }
-  function findLine(cart, name, pack){
-    for(var i=0;i<cart.length;i++){ if(cart[i].name===name && cart[i].pack===pack) return i; }
-    return -1;
-  }
-  function addToCart(name, pack, qty){
-    var cart = getCart();
-    var idx = findLine(cart, name, pack);
-    if(idx > -1){ cart[idx].qty += qty; }
-    else { cart.push({ name: name, pack: pack, qty: qty }); }
-    saveCart(cart);
-    showToast(name + " added to cart");
-  }
-  function updateCartQty(index, qty){
-    var cart = getCart();
-    if(!cart[index]) return;
-    if(qty <= 0){ cart.splice(index, 1); }
-    else { cart[index].qty = qty; }
-    saveCart(cart);
-  }
-  function removeFromCart(index){
-    var cart = getCart();
-    cart.splice(index, 1);
-    saveCart(cart);
-  }
-
-  var cartPanel = document.querySelector(".cart-panel");
-  var cartOverlay = document.querySelector(".cart-overlay");
-  var cartBody = document.querySelector(".cart-panel-body");
-
-  function renderCart(){
-    var cart = getCart();
-    var count = cart.reduce(function(sum, l){ return sum + l.qty; }, 0);
-    document.querySelectorAll("[data-cart-count]").forEach(function(el){
-      el.textContent = count;
-      el.style.display = count > 0 ? "flex" : "none";
-    });
-    syncCartSummaryFields();
-    if(!cartBody) return;
-    cartBody.innerHTML = "";
-    if(cart.length === 0){
-      cartBody.innerHTML = '<div class="cart-empty">Your cart is empty. Browse Chemicals &amp; Minerals, Health &amp; Wellness or Home Care and add products.</div>';
-      return;
+  /* ---------- header condense on scroll ---------- */
+  safe("header condense", function(){
+    var header = document.querySelector(".site-header");
+    function onScroll(){
+      if(!header) return;
+      if(window.scrollY > 40){ header.classList.add("is-solid"); }
+      else { header.classList.remove("is-solid"); }
     }
-    cart.forEach(function(line, index){
-      var row = document.createElement("div");
-      row.className = "cart-item";
-      row.innerHTML =
-        '<div class="cart-item-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h5v3h3l2 3v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9l2-3V3z"/><path d="M6 13h12"/></svg></div>' +
-        '<div class="cart-item-info">' +
-          '<h4>' + line.name + '</h4>' +
-          '<div class="cart-item-pack">' + (line.pack || "Standard pack") + '</div>' +
-          '<div class="cart-item-row">' +
-            '<div class="qty-selector">' +
-              '<button type="button" data-cart-dec aria-label="Decrease quantity">−</button>' +
-              '<input type="text" readonly value="' + line.qty + '">' +
-              '<button type="button" data-cart-inc aria-label="Increase quantity">+</button>' +
-            '</div>' +
-            '<button type="button" class="cart-item-remove" data-cart-remove>Remove</button>' +
-          '</div>' +
-        '</div>';
-      row.querySelector("[data-cart-dec]").addEventListener("click", function(){ updateCartQty(index, line.qty - 1); });
-      row.querySelector("[data-cart-inc]").addEventListener("click", function(){ updateCartQty(index, line.qty + 1); });
-      row.querySelector("[data-cart-remove]").addEventListener("click", function(){ removeFromCart(index); });
-      cartBody.appendChild(row);
-    });
-  }
-
-  function syncCartSummaryFields(){
-    var names = getCart().map(function(l){ return l.name + (l.pack ? " (" + l.pack + ")" : ""); }).join(", ");
-    document.querySelectorAll("[data-cart-summary-field]").forEach(function(field){
-      field.value = names;
-    });
-  }
-
-  function toggleCart(open){
-    if(!cartPanel) return;
-    cartPanel.classList.toggle("is-open", open);
-    if(cartOverlay) cartOverlay.classList.toggle("is-open", open);
-    document.body.style.overflow = open ? "hidden" : "";
-  }
-  document.querySelectorAll("[data-cart-open]").forEach(function(btn){
-    btn.addEventListener("click", function(){ toggleCart(true); });
-  });
-  document.querySelectorAll("[data-cart-close]").forEach(function(btn){
-    btn.addEventListener("click", function(){ toggleCart(false); });
+    document.addEventListener("scroll", onScroll, {passive:true});
+    onScroll();
   });
 
-  var cartCheckoutBtn = document.querySelector("[data-cart-checkout]");
-  if(cartCheckoutBtn) cartCheckoutBtn.addEventListener("click", function(){
-    var cart = getCart();
-    if(cart.length === 0) return;
-    var lines = cart.map(function(l, i){
-      return (i+1) + ") " + l.name + " × " + l.qty + " " + (l.qty === 1 ? "can" : "cans") + (l.pack ? " (" + l.pack + ")" : "");
+  /* ---------- mobile menu + search panel (share Escape-to-close) ---------- */
+  safe("mobile menu + search", function(){
+    var burger = document.querySelector(".header-burger");
+    var mobileMenu = document.querySelector(".mobile-menu");
+    var mobileClose = document.querySelector(".mobile-menu-close");
+    function toggleMenu(open){
+      if(!mobileMenu) return;
+      mobileMenu.classList.toggle("is-open", open);
+      document.body.style.overflow = open ? "hidden" : "";
+    }
+    if(burger) burger.addEventListener("click", function(){ toggleMenu(true); });
+    if(mobileClose) mobileClose.addEventListener("click", function(){ toggleMenu(false); });
+    document.querySelectorAll(".mobile-menu .navlink").forEach(function(a){
+      a.addEventListener("click", function(){ toggleMenu(false); });
     });
-    var msg = "Assalam o Alaikum, mujhe ye chahiye:\n" + lines.join("\n") + "\n\nBaraye meherbani rate aur availability bata dein.";
-    window.open("https://wa.me/923181112606?text=" + encodeURIComponent(msg), "_blank", "noopener");
-  });
 
-  /* product cards: qty selector + pack select + Add to Cart + live price */
-  document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
-    var name = ctrl.getAttribute("data-product-name") || "Product";
-    var qtyInput = ctrl.querySelector("[data-qty-input]");
-    var packSelect = ctrl.querySelector("[data-pack-select]");
-    var dec = ctrl.querySelector("[data-qty-dec]");
-    var inc = ctrl.querySelector("[data-qty-inc]");
-    var addBtn = ctrl.querySelector("[data-add-to-cart]");
-    var priceOut = ctrl.parentElement.querySelector("[data-price-display]");
-
-    function refreshPrice(){
-      if(!priceOut) return;
-      var opt = packSelect ? packSelect.options[packSelect.selectedIndex] : null;
-      var unitPrice = opt ? parseFloat(opt.getAttribute("data-price")) : NaN;
-      var qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
-      if(isNaN(unitPrice)){
-        priceOut.textContent = "Price on inquiry";
-      } else {
-        priceOut.textContent = "Rs " + (unitPrice * qty).toLocaleString("en-PK");
+    var searchBtns = document.querySelectorAll(".header-search-btn");
+    var searchPanel = document.querySelector(".search-panel");
+    var searchClose = document.querySelector(".search-panel-close");
+    searchBtns.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        if(searchPanel){
+          searchPanel.classList.add("is-open");
+          var input = searchPanel.querySelector("input");
+          if(input) setTimeout(function(){ input.focus(); }, 150);
+        }
+      });
+    });
+    if(searchClose) searchClose.addEventListener("click", function(){ searchPanel.classList.remove("is-open"); });
+    if(searchPanel) searchPanel.addEventListener("click", function(e){
+      if(e.target === searchPanel) searchPanel.classList.remove("is-open");
+    });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape"){
+        if(searchPanel) searchPanel.classList.remove("is-open");
+        toggleMenu(false);
       }
-    }
-
-    if(dec) dec.addEventListener("click", function(){
-      var v = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
-      qtyInput.value = v;
-      refreshPrice();
     });
-    if(inc) inc.addEventListener("click", function(){
-      var v = (parseInt(qtyInput.value, 10) || 1) + 1;
-      qtyInput.value = v;
-      refreshPrice();
-    });
-    if(packSelect) packSelect.addEventListener("change", refreshPrice);
-    if(addBtn) addBtn.addEventListener("click", function(){
-      var qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
-      var pack = packSelect ? packSelect.value : "";
-      addToCart(name, pack, qty);
-      if(qtyInput) qtyInput.value = 1;
-      refreshPrice();
-    });
-    refreshPrice();
   });
 
-  renderCart();
+  /* ---------- scroll reveal ---------- */
+  safe("scroll reveal", function(){
+    var revealEls = document.querySelectorAll("[data-reveal]");
+    if("IntersectionObserver" in window && revealEls.length){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      }, {threshold:0.12, rootMargin:"0px 0px -60px 0px"});
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add("is-visible"); });
+    }
+  });
 
-  /* ---------- reference number ---------- */
-  function makeReference(prefix){
-    var d = new Date();
-    var stamp = d.getFullYear().toString().slice(2) +
-      ("0"+(d.getMonth()+1)).slice(-2) + ("0"+d.getDate()).slice(-2);
-    var rand = Math.floor(1000 + Math.random()*9000);
-    return (prefix || "SATPAK") + "-" + stamp + "-" + rand;
-  }
+  /* ---------- accordion ---------- */
+  safe("accordion", function(){
+    document.querySelectorAll(".accordion-item").forEach(function(item){
+      var trigger = item.querySelector(".accordion-trigger");
+      var panel = item.querySelector(".accordion-panel");
+      if(!trigger || !panel) return;
+      trigger.addEventListener("click", function(){
+        var isOpen = item.classList.contains("is-open");
+        item.parentElement.querySelectorAll(".accordion-item").forEach(function(other){
+          other.classList.remove("is-open");
+          other.querySelector(".accordion-panel").style.maxHeight = null;
+        });
+        if(!isOpen){
+          item.classList.add("is-open");
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+      });
+    });
+  });
+
+  /* ---------- step-line (R&D): click a step for more detail ---------- */
+  safe("step-line", function(){
+    document.querySelectorAll("[data-step-toggle]").forEach(function(step){
+      var more = step.querySelector(".step-more");
+      if(!more) return;
+      step.addEventListener("click", function(){
+        var isOpen = step.classList.contains("is-open");
+        step.classList.toggle("is-open", !isOpen);
+        step.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+        more.style.maxHeight = !isOpen ? more.scrollHeight + "px" : null;
+      });
+    });
+  });
+
+  /* ---------- product / catalogue filters ---------- */
+  safe("catalogue filters", function(){
+    document.querySelectorAll("[data-filter-group]").forEach(function(group){
+      var chips = group.querySelectorAll(".filter-chip");
+      var targetSelector = group.getAttribute("data-filter-group");
+      var items = document.querySelectorAll(targetSelector);
+      chips.forEach(function(chip){
+        chip.addEventListener("click", function(){
+          chips.forEach(function(c){ c.classList.remove("is-active"); });
+          chip.classList.add("is-active");
+          var val = chip.getAttribute("data-filter");
+          items.forEach(function(item){
+            var cats = (item.getAttribute("data-cats") || "").split(",");
+            var show = val === "all" || cats.indexOf(val) !== -1;
+            item.style.display = show ? "" : "none";
+          });
+        });
+      });
+    });
+  });
+
+  /* ---------- cart (quantity + pack size, WhatsApp checkout, product controls) ---------- */
+  safe("cart", function(){
+    var CART_KEY = "satpak_cart";
+    function getCart(){
+      try{ return JSON.parse(localStorage.getItem(CART_KEY)) || []; }catch(e){ return []; }
+    }
+    function saveCart(items){
+      localStorage.setItem(CART_KEY, JSON.stringify(items));
+      renderCart();
+    }
+    function findLine(cart, name, pack){
+      for(var i=0;i<cart.length;i++){ if(cart[i].name===name && cart[i].pack===pack) return i; }
+      return -1;
+    }
+    function addToCart(name, pack, qty){
+      var cart = getCart();
+      var idx = findLine(cart, name, pack);
+      if(idx > -1){ cart[idx].qty += qty; }
+      else { cart.push({ name: name, pack: pack, qty: qty }); }
+      saveCart(cart);
+      showToast(name + " added to cart");
+    }
+    function updateCartQty(index, qty){
+      var cart = getCart();
+      if(!cart[index]) return;
+      if(qty <= 0){ cart.splice(index, 1); }
+      else { cart[index].qty = qty; }
+      saveCart(cart);
+    }
+    function removeFromCart(index){
+      var cart = getCart();
+      cart.splice(index, 1);
+      saveCart(cart);
+    }
+
+    var cartPanel = document.querySelector(".cart-panel");
+    var cartOverlay = document.querySelector(".cart-overlay");
+    var cartBody = document.querySelector(".cart-panel-body");
+
+    function renderCart(){
+      var cart = getCart();
+      var count = cart.reduce(function(sum, l){ return sum + l.qty; }, 0);
+      document.querySelectorAll("[data-cart-count]").forEach(function(el){
+        el.textContent = count;
+        el.style.display = count > 0 ? "flex" : "none";
+      });
+      syncCartSummaryFields();
+      if(!cartBody) return;
+      cartBody.innerHTML = "";
+      if(cart.length === 0){
+        cartBody.innerHTML = '<div class="cart-empty">Your cart is empty. Browse Chemicals &amp; Minerals, Health &amp; Wellness or Home Care and add products.</div>';
+        return;
+      }
+      cart.forEach(function(line, index){
+        var row = document.createElement("div");
+        row.className = "cart-item";
+        row.innerHTML =
+          '<div class="cart-item-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h5v3h3l2 3v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9l2-3V3z"/><path d="M6 13h12"/></svg></div>' +
+          '<div class="cart-item-info">' +
+            '<h4>' + line.name + '</h4>' +
+            '<div class="cart-item-pack">' + (line.pack || "Standard pack") + '</div>' +
+            '<div class="cart-item-row">' +
+              '<div class="qty-selector">' +
+                '<button type="button" data-cart-dec aria-label="Decrease quantity">−</button>' +
+                '<input type="text" readonly value="' + line.qty + '">' +
+                '<button type="button" data-cart-inc aria-label="Increase quantity">+</button>' +
+              '</div>' +
+              '<button type="button" class="cart-item-remove" data-cart-remove>Remove</button>' +
+            '</div>' +
+          '</div>';
+        row.querySelector("[data-cart-dec]").addEventListener("click", function(){ updateCartQty(index, line.qty - 1); });
+        row.querySelector("[data-cart-inc]").addEventListener("click", function(){ updateCartQty(index, line.qty + 1); });
+        row.querySelector("[data-cart-remove]").addEventListener("click", function(){ removeFromCart(index); });
+        cartBody.appendChild(row);
+      });
+    }
+
+    function syncCartSummaryFields(){
+      var names = getCart().map(function(l){ return l.name + (l.pack ? " (" + l.pack + ")" : ""); }).join(", ");
+      document.querySelectorAll("[data-cart-summary-field]").forEach(function(field){
+        field.value = names;
+      });
+    }
+
+    function toggleCart(open){
+      if(!cartPanel) return;
+      cartPanel.classList.toggle("is-open", open);
+      if(cartOverlay) cartOverlay.classList.toggle("is-open", open);
+      document.body.style.overflow = open ? "hidden" : "";
+    }
+    document.querySelectorAll("[data-cart-open]").forEach(function(btn){
+      btn.addEventListener("click", function(){ toggleCart(true); });
+    });
+    document.querySelectorAll("[data-cart-close]").forEach(function(btn){
+      btn.addEventListener("click", function(){ toggleCart(false); });
+    });
+
+    var cartCheckoutBtn = document.querySelector("[data-cart-checkout]");
+    if(cartCheckoutBtn) cartCheckoutBtn.addEventListener("click", function(){
+      var cart = getCart();
+      if(cart.length === 0) return;
+      var lines = cart.map(function(l, i){
+        return (i+1) + ") " + l.name + " × " + l.qty + " " + (l.qty === 1 ? "can" : "cans") + (l.pack ? " (" + l.pack + ")" : "");
+      });
+      var msg = "Assalam o Alaikum, mujhe ye chahiye:\n" + lines.join("\n") + "\n\nBaraye meherbani rate aur availability bata dein.";
+      window.open("https://wa.me/923181112606?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    });
+
+    /* product cards: qty selector + pack select + Add to Cart + live price */
+    document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
+      var name = ctrl.getAttribute("data-product-name") || "Product";
+      var qtyInput = ctrl.querySelector("[data-qty-input]");
+      var packSelect = ctrl.querySelector("[data-pack-select]");
+      var dec = ctrl.querySelector("[data-qty-dec]");
+      var inc = ctrl.querySelector("[data-qty-inc]");
+      var addBtn = ctrl.querySelector("[data-add-to-cart]");
+      var priceOut = ctrl.parentElement.querySelector("[data-price-display]");
+
+      function refreshPrice(){
+        if(!priceOut) return;
+        var opt = packSelect ? packSelect.options[packSelect.selectedIndex] : null;
+        var unitPrice = opt ? parseFloat(opt.getAttribute("data-price")) : NaN;
+        var qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
+        if(isNaN(unitPrice)){
+          priceOut.textContent = "Price on inquiry";
+        } else {
+          priceOut.textContent = "Rs " + (unitPrice * qty).toLocaleString("en-PK");
+        }
+      }
+
+      if(dec) dec.addEventListener("click", function(){
+        var v = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
+        qtyInput.value = v;
+        refreshPrice();
+      });
+      if(inc) inc.addEventListener("click", function(){
+        var v = (parseInt(qtyInput.value, 10) || 1) + 1;
+        qtyInput.value = v;
+        refreshPrice();
+      });
+      if(packSelect) packSelect.addEventListener("change", refreshPrice);
+      if(addBtn) addBtn.addEventListener("click", function(){
+        var qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
+        var pack = packSelect ? packSelect.value : "";
+        addToCart(name, pack, qty);
+        if(qtyInput) qtyInput.value = 1;
+        refreshPrice();
+      });
+      refreshPrice();
+    });
+
+    renderCart();
+  });
+
+  /* ---------- clickable product cards (catalogue -> detail page) ----------
+     The card itself opens the product page; clicks on the pack selector,
+     quantity stepper, Add to Cart, or the View Details link keep their own
+     behaviour instead of also triggering navigation. */
+  safe("clickable product cards", function(){
+    document.querySelectorAll(".product-card[data-product]").forEach(function(card){
+      var link = card.querySelector(".product-actions a");
+      if(!link) return;
+      card.classList.add("is-clickable");
+      card.addEventListener("click", function(e){
+        if(e.target.closest("select, input, button, a")) return;
+        window.location.href = link.href;
+      });
+    });
+  });
+
+  /* ---------- plant-floor shots: click for detail (lightbox) ---------- */
+  safe("plant-floor lightbox", function(){
+    var plantShots = document.querySelectorAll("[data-plant-shot]");
+    var lightbox = document.querySelector("[data-plant-lightbox]");
+    if(!plantShots.length || !lightbox) return;
+    var lbImg = lightbox.querySelector("[data-plant-lightbox-img]");
+    var lbTitle = lightbox.querySelector("[data-plant-lightbox-title]");
+    var lbDetail = lightbox.querySelector("[data-plant-lightbox-detail]");
+    var lastFocused = null;
+    function openLightbox(shot){
+      var img = shot.querySelector("img");
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbTitle.textContent = shot.querySelector("figcaption").textContent;
+      lbDetail.textContent = shot.getAttribute("data-detail") || "";
+      lastFocused = document.activeElement;
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      lightbox.querySelector(".plant-lightbox-close").focus();
+    }
+    function closeLightbox(){
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      if(lastFocused) lastFocused.focus();
+    }
+    plantShots.forEach(function(shot){
+      shot.addEventListener("click", function(){ openLightbox(shot); });
+      shot.addEventListener("keydown", function(e){
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); openLightbox(shot); }
+      });
+    });
+    lightbox.querySelectorAll("[data-plant-lightbox-close]").forEach(function(btn){
+      btn.addEventListener("click", closeLightbox);
+    });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
+    });
+  });
 
   /* ---------- generic form handling ----------
      Every form POSTs to Web3Forms (free, no server needed) when a real access
@@ -283,122 +365,140 @@ function satpakInit(){
      it in place of the placeholder — see README "Forms & integrations". Until
      then, forms still confirm submission locally with a reference number so
      nothing looks broken to a visitor. */
-  var WEB3FORMS_ACCESS_KEY = "YOUR-WEB3FORMS-ACCESS-KEY";
-  var web3formsReady = WEB3FORMS_ACCESS_KEY.indexOf("YOUR-") !== 0;
+  safe("forms", function(){
+    function makeReference(prefix){
+      var d = new Date();
+      var stamp = d.getFullYear().toString().slice(2) +
+        ("0"+(d.getMonth()+1)).slice(-2) + ("0"+d.getDate()).slice(-2);
+      var rand = Math.floor(1000 + Math.random()*9000);
+      return (prefix || "SATPAK") + "-" + stamp + "-" + rand;
+    }
 
-  document.querySelectorAll("form[data-satpak-form]").forEach(function(form){
-    form.addEventListener("submit", function(e){
-      e.preventDefault();
-      var statusEl = form.querySelector(".form-status");
-      var requiredOk = true;
-      form.querySelectorAll("[required]").forEach(function(field){
-        if(!field.value){ requiredOk = false; field.style.borderColor = "#c94b4b"; }
-        else { field.style.borderColor = ""; }
+    var WEB3FORMS_ACCESS_KEY = "YOUR-WEB3FORMS-ACCESS-KEY";
+    var web3formsReady = WEB3FORMS_ACCESS_KEY.indexOf("YOUR-") !== 0;
+
+    document.querySelectorAll("form[data-satpak-form]").forEach(function(form){
+      form.addEventListener("submit", function(e){
+        e.preventDefault();
+        var statusEl = form.querySelector(".form-status");
+        var requiredOk = true;
+        form.querySelectorAll("[required]").forEach(function(field){
+          if(!field.value){ requiredOk = false; field.style.borderColor = "#c94b4b"; }
+          else { field.style.borderColor = ""; }
+        });
+        if(!requiredOk){
+          if(statusEl){
+            statusEl.className = "form-status is-visible error";
+            statusEl.textContent = "Please fill in the required fields highlighted above.";
+          }
+          return;
+        }
+        var ref = makeReference(form.getAttribute("data-ref-prefix"));
+        var submitBtn = form.querySelector('button[type="submit"]');
+
+        function showSuccess(){
+          if(statusEl){
+            statusEl.className = "form-status is-visible success";
+            statusEl.textContent = "Thank you — your request has been received. Reference number " + ref + ". Our team will contact you shortly.";
+          }
+          var refOut = form.querySelector("[data-ref-output]");
+          if(refOut) refOut.textContent = ref;
+          form.reset();
+          if(submitBtn) submitBtn.disabled = false;
+        }
+
+        if(web3formsReady){
+          if(submitBtn) submitBtn.disabled = true;
+          var data = new FormData(form);
+          data.append("access_key", WEB3FORMS_ACCESS_KEY);
+          var deptField = form.querySelector('[name="department"]');
+          var deptLabel = deptField ? deptField.value : (form.getAttribute("data-ref-prefix") || "Enquiry");
+          data.append("subject", "SaT PaK website — " + deptLabel + " (Ref " + ref + ")");
+          data.append("reference_number", ref);
+          fetch("https://api.web3forms.com/submit", { method: "POST", body: data, headers: { Accept: "application/json" } })
+            .then(function(res){ return res.json(); })
+            .then(function(){ showSuccess(); })
+            .catch(function(){ showSuccess(); });
+        } else {
+          showSuccess();
+        }
       });
-      if(!requiredOk){
-        if(statusEl){
-          statusEl.className = "form-status is-visible error";
-          statusEl.textContent = "Please fill in the required fields highlighted above.";
-        }
-        return;
-      }
-      var ref = makeReference(form.getAttribute("data-ref-prefix"));
-      var submitBtn = form.querySelector('button[type="submit"]');
-
-      function showSuccess(){
-        if(statusEl){
-          statusEl.className = "form-status is-visible success";
-          statusEl.textContent = "Thank you — your request has been received. Reference number " + ref + ". Our team will contact you shortly.";
-        }
-        var refOut = form.querySelector("[data-ref-output]");
-        if(refOut) refOut.textContent = ref;
-        form.reset();
-        if(submitBtn) submitBtn.disabled = false;
-      }
-
-      if(web3formsReady){
-        if(submitBtn) submitBtn.disabled = true;
-        var data = new FormData(form);
-        data.append("access_key", WEB3FORMS_ACCESS_KEY);
-        var deptField = form.querySelector('[name="department"]');
-        var deptLabel = deptField ? deptField.value : (form.getAttribute("data-ref-prefix") || "Enquiry");
-        data.append("subject", "SaT PaK website — " + deptLabel + " (Ref " + ref + ")");
-        data.append("reference_number", ref);
-        fetch("https://api.web3forms.com/submit", { method: "POST", body: data, headers: { Accept: "application/json" } })
-          .then(function(res){ return res.json(); })
-          .then(function(){ showSuccess(); })
-          .catch(function(){ showSuccess(); });
-      } else {
-        showSuccess();
-      }
     });
   });
 
   /* ---------- detect location (Article subscribe form) ---------- */
-  document.querySelectorAll("[data-detect-location]").forEach(function(btn){
-    var out = btn.parentElement.querySelector("[data-location-output]");
-    var status = btn.parentElement.querySelector("[data-location-status]");
-    btn.addEventListener("click", function(){
-      if(!("geolocation" in navigator)){
-        if(status) status.textContent = "Location detection isn't available in this browser.";
-        return;
-      }
-      if(status) status.textContent = "Detecting…";
-      navigator.geolocation.getCurrentPosition(function(pos){
-        var coords = pos.coords.latitude.toFixed(5) + ", " + pos.coords.longitude.toFixed(5);
-        if(out) out.value = coords;
-        if(status) status.textContent = "Location captured: " + coords;
-      }, function(){
-        if(status) status.textContent = "Couldn't detect location — you can skip this.";
+  safe("detect location", function(){
+    document.querySelectorAll("[data-detect-location]").forEach(function(btn){
+      var out = btn.parentElement.querySelector("[data-location-output]");
+      var status = btn.parentElement.querySelector("[data-location-status]");
+      btn.addEventListener("click", function(){
+        if(!("geolocation" in navigator)){
+          if(status) status.textContent = "Location detection isn't available in this browser.";
+          return;
+        }
+        if(status) status.textContent = "Detecting…";
+        navigator.geolocation.getCurrentPosition(function(pos){
+          var coords = pos.coords.latitude.toFixed(5) + ", " + pos.coords.longitude.toFixed(5);
+          if(out) out.value = coords;
+          if(status) status.textContent = "Location captured: " + coords;
+        }, function(){
+          if(status) status.textContent = "Couldn't detect location — you can skip this.";
+        });
       });
     });
   });
 
   /* ---------- footer year ---------- */
-  document.querySelectorAll("[data-year]").forEach(function(el){
-    el.textContent = new Date().getFullYear();
+  safe("footer year", function(){
+    document.querySelectorAll("[data-year]").forEach(function(el){
+      el.textContent = new Date().getFullYear();
+    });
   });
 
   /* ---------- cookie consent ---------- */
-  var COOKIE_KEY = "satpak_cookie_consent";
-  var consentBar = document.querySelector(".cookie-consent");
-  if(consentBar){
-    if(!localStorage.getItem(COOKIE_KEY)){
-      consentBar.classList.add("is-visible");
+  safe("cookie consent", function(){
+    var COOKIE_KEY = "satpak_cookie_consent";
+    var consentBar = document.querySelector(".cookie-consent");
+    if(consentBar){
+      if(!localStorage.getItem(COOKIE_KEY)){
+        consentBar.classList.add("is-visible");
+      }
+      var acceptBtn = consentBar.querySelector("[data-cookie-accept]");
+      if(acceptBtn) acceptBtn.addEventListener("click", function(){
+        localStorage.setItem(COOKIE_KEY, "accepted");
+        consentBar.classList.remove("is-visible");
+      });
     }
-    var acceptBtn = consentBar.querySelector("[data-cookie-accept]");
-    if(acceptBtn) acceptBtn.addEventListener("click", function(){
-      localStorage.setItem(COOKIE_KEY, "accepted");
-      consentBar.classList.remove("is-visible");
-    });
-  }
+  });
 
   /* Stat counters are animated by assets/js/motion.js (data-counter-group). */
 
   /* ---------- theme switcher (light/dark — shades of the brand palette only) ---------- */
-  var THEME_KEY = "satpak_theme";
-  var themeToggle = document.querySelector("[data-theme-toggle]");
-  function applyTheme(theme){
-    if(theme === "dark"){
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
+  safe("theme switcher", function(){
+    var THEME_KEY = "satpak_theme";
+    var themeToggle = document.querySelector("[data-theme-toggle]");
+    function applyTheme(theme){
+      if(theme === "dark"){
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+      }
+      if(themeToggle){
+        themeToggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+        themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+      }
     }
-    if(themeToggle){
-      themeToggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
-      themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+    var savedTheme = null;
+    try{ savedTheme = localStorage.getItem(THEME_KEY); }catch(e){}
+    if(!savedTheme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches){
+      savedTheme = "dark";
     }
-  }
-  var savedTheme = null;
-  try{ savedTheme = localStorage.getItem(THEME_KEY); }catch(e){}
-  if(!savedTheme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches){
-    savedTheme = "dark";
-  }
-  applyTheme(savedTheme);
-  if(themeToggle) themeToggle.addEventListener("click", function(){
-    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    applyTheme(next);
-    try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+    applyTheme(savedTheme);
+    if(themeToggle) themeToggle.addEventListener("click", function(){
+      var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      applyTheme(next);
+      try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+    });
   });
 
   /* ---------- language switcher (English / Urdu) ----------
@@ -406,72 +506,78 @@ function satpakInit(){
      SATPAK_I18N dictionary (assets/js/i18n.js). Elements opt in with
      data-i18n="key" (textContent) or data-i18n-placeholder="key". Untagged
      pages/elements simply stay in English until translated. */
-  var LANG_KEY = "satpak_lang";
-  var langToggle = document.querySelector("[data-lang-toggle]");
-  function applyLang(lang){
-    var dict = (window.SATPAK_I18N && window.SATPAK_I18N[lang]) || null;
-    document.documentElement.lang = lang === "ur" ? "ur" : "en";
-    document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
-    document.querySelectorAll("[data-lang-label]").forEach(function(el){
-      el.textContent = lang === "ur" ? "English" : "اردو";
+  safe("language switcher", function(){
+    var LANG_KEY = "satpak_lang";
+    var langToggle = document.querySelector("[data-lang-toggle]");
+    function applyLang(lang){
+      var dict = (window.SATPAK_I18N && window.SATPAK_I18N[lang]) || null;
+      document.documentElement.lang = lang === "ur" ? "ur" : "en";
+      document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
+      document.querySelectorAll("[data-lang-label]").forEach(function(el){
+        el.textContent = lang === "ur" ? "English" : "اردو";
+      });
+      if(!dict) return; /* English source text is already in the markup */
+      document.querySelectorAll("[data-i18n]").forEach(function(el){
+        var key = el.getAttribute("data-i18n");
+        if(dict[key]) el.textContent = dict[key];
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+        var key = el.getAttribute("data-i18n-placeholder");
+        if(dict[key]) el.setAttribute("placeholder", dict[key]);
+      });
+    }
+    var savedLang = null;
+    try{ savedLang = localStorage.getItem(LANG_KEY); }catch(e){}
+    applyLang(savedLang === "ur" ? "ur" : "en");
+    if(langToggle) langToggle.addEventListener("click", function(){
+      var next = document.documentElement.lang === "ur" ? "en" : "ur";
+      applyLang(next);
+      try{ localStorage.setItem(LANG_KEY, next); }catch(e){}
     });
-    if(!dict) return; /* English source text is already in the markup */
-    document.querySelectorAll("[data-i18n]").forEach(function(el){
-      var key = el.getAttribute("data-i18n");
-      if(dict[key]) el.textContent = dict[key];
-    });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
-      var key = el.getAttribute("data-i18n-placeholder");
-      if(dict[key]) el.setAttribute("placeholder", dict[key]);
-    });
-  }
-  var savedLang = null;
-  try{ savedLang = localStorage.getItem(LANG_KEY); }catch(e){}
-  applyLang(savedLang === "ur" ? "ur" : "en");
-  if(langToggle) langToggle.addEventListener("click", function(){
-    var next = document.documentElement.lang === "ur" ? "en" : "ur";
-    applyLang(next);
-    try{ localStorage.setItem(LANG_KEY, next); }catch(e){}
   });
 
   /* ---------- process step animation (line draw + sequential nodes) ---------- */
-  document.querySelectorAll(".process-track").forEach(function(track){
-    if(!("IntersectionObserver" in window)){
-      track.classList.add("is-drawn");
-      track.querySelectorAll(".process-step").forEach(function(s){ s.classList.add("is-shown"); });
-      return;
-    }
-    var procIo = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(!entry.isIntersecting) return;
-        procIo.unobserve(entry.target);
+  safe("process track", function(){
+    document.querySelectorAll(".process-track").forEach(function(track){
+      if(!("IntersectionObserver" in window)){
         track.classList.add("is-drawn");
-        var steps = track.querySelectorAll(".process-step");
-        steps.forEach(function(step, i){
-          setTimeout(function(){ step.classList.add("is-shown"); }, 120 + i * 140);
+        track.querySelectorAll(".process-step").forEach(function(s){ s.classList.add("is-shown"); });
+        return;
+      }
+      var procIo = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(!entry.isIntersecting) return;
+          procIo.unobserve(entry.target);
+          track.classList.add("is-drawn");
+          var steps = track.querySelectorAll(".process-step");
+          steps.forEach(function(step, i){
+            setTimeout(function(){ step.classList.add("is-shown"); }, 120 + i * 140);
+          });
         });
-      });
-    }, {threshold:0.3});
-    procIo.observe(track);
+      }, {threshold:0.3});
+      procIo.observe(track);
+    });
   });
 
   /* ---------- segmented chooser (Contact) ---------- */
-  var segGroup = document.querySelector("[data-segmented]");
-  if(segGroup){
-    var segBtns = segGroup.querySelectorAll(".segment-btn");
-    var segPanels = document.querySelectorAll("[data-segment-panel]");
-    function activateSegment(target){
-      segBtns.forEach(function(b){ b.classList.toggle("is-active", b.getAttribute("data-segment-target") === target); });
-      segPanels.forEach(function(p){ p.classList.toggle("is-active", p.getAttribute("data-segment-panel") === target); });
+  safe("segmented chooser", function(){
+    var segGroup = document.querySelector("[data-segmented]");
+    if(segGroup){
+      var segBtns = segGroup.querySelectorAll(".segment-btn");
+      var segPanels = document.querySelectorAll("[data-segment-panel]");
+      function activateSegment(target){
+        segBtns.forEach(function(b){ b.classList.toggle("is-active", b.getAttribute("data-segment-target") === target); });
+        segPanels.forEach(function(p){ p.classList.toggle("is-active", p.getAttribute("data-segment-panel") === target); });
+      }
+      segBtns.forEach(function(btn){
+        btn.addEventListener("click", function(){ activateSegment(btn.getAttribute("data-segment-target")); });
+      });
+      var initialHash = window.location.hash ? window.location.hash.slice(1) : "";
+      var initialBtn = initialHash && segGroup.querySelector('.segment-btn[data-segment-target="' + initialHash + '"]');
+      activateSegment(initialBtn ? initialHash : segBtns[0].getAttribute("data-segment-target"));
+      if(initialBtn) setTimeout(function(){ segGroup.scrollIntoView({behavior:"smooth", block:"start"}); }, 150);
     }
-    segBtns.forEach(function(btn){
-      btn.addEventListener("click", function(){ activateSegment(btn.getAttribute("data-segment-target")); });
-    });
-    var initialHash = window.location.hash ? window.location.hash.slice(1) : "";
-    var initialBtn = initialHash && segGroup.querySelector('.segment-btn[data-segment-target="' + initialHash + '"]');
-    activateSegment(initialBtn ? initialHash : segBtns[0].getAttribute("data-segment-target"));
-    if(initialBtn) setTimeout(function(){ segGroup.scrollIntoView({behavior:"smooth", block:"start"}); }, 150);
-  }
+  });
 }
 
 document.addEventListener("partials:loaded", satpakInit);

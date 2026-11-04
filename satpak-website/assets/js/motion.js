@@ -100,16 +100,43 @@
   });
   var pipelines = toArray(document.querySelectorAll("[data-pipeline]")).map(function(el){
     var scene = el.closest("[data-scene]") || el;
+    var stations = toArray(el.querySelectorAll(".station"));
     return {
       el:el,
       scene:scene,
-      stations:toArray(el.querySelectorAll(".station")),
+      stations:stations,
+      nodes:stations.map(function(st){ return st.querySelector(".node"); }),
       current:scene.querySelector("[data-pipeline-current]"),
       path:el.querySelector(".pipe-flow"),
       drop:el.querySelector(".pipe-drop"),
       lastIndex:-1
     };
   });
+
+  /* Station dots are pinned exactly onto the curve (same math as the
+     travelling drop) instead of sitting at a plain CSS-grid x position, so
+     the marker actually lands on each dot as it arrives. Each node lives
+     inside its own .station (a different positioning context than the
+     <svg>), so rather than fight nested coordinate spaces this measures
+     both in viewport space and nudges the node by the difference. */
+  function placeNodes(line){
+    if(!line.path || !line.path.getTotalLength || !desktop.matches) return;
+    var svg = line.path.ownerSVGElement;
+    var svgRect = svg.getBoundingClientRect();
+    var box = svg.viewBox.baseVal;
+    var len = line.path.getTotalLength();
+    var n = line.nodes.length;
+    var sx = svgRect.width / box.width, sy = svgRect.height / box.height;
+    line.nodes.forEach(function(node, i){
+      if(!node) return;
+      node.style.transform = "";
+      var pt = line.path.getPointAtLength(len * ((i + 0.5) / n));
+      var targetX = svgRect.left + pt.x * sx, targetY = svgRect.top + pt.y * sy;
+      var rect = node.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      node.style.transform = "translate(" + (targetX - cx).toFixed(1) + "px," + (targetY - cy).toFixed(1) + "px)";
+    });
+  }
 
   function sceneProgress(scene, vh){
     var rect = scene.el.getBoundingClientRect();
@@ -191,9 +218,10 @@
 
   if(!reduceMotion){
     window.addEventListener("scroll", requestUpdate, { passive:true });
-    window.addEventListener("resize", function(){ measureTracks(); requestUpdate(); });
-    window.addEventListener("load", function(){ measureTracks(); requestUpdate(); });
+    window.addEventListener("resize", function(){ measureTracks(); pipelines.forEach(placeNodes); requestUpdate(); });
+    window.addEventListener("load", function(){ measureTracks(); pipelines.forEach(placeNodes); requestUpdate(); });
     measureTracks();
+    pipelines.forEach(placeNodes);
     requestUpdate();
   } else {
     scenes.forEach(function(scene){ scene.el.style.setProperty("--p", "1"); });

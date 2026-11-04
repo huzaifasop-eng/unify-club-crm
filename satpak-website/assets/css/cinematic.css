@@ -238,6 +238,39 @@
 }
 .shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,26,24,0.6));}
 
+/* ---------- clickable plant-floor shots + lightbox ---------- */
+[data-plant-shot]{cursor:pointer;}
+[data-plant-shot] .shot-zoom{
+  position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;
+  background:rgba(8,26,24,0.55);backdrop-filter:blur(6px);color:#fff;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(.8);transition:opacity .25s var(--ease),transform .25s var(--ease);
+}
+[data-plant-shot] .shot-zoom svg{width:17px;height:17px;}
+[data-plant-shot]:hover .shot-zoom,[data-plant-shot]:focus-visible .shot-zoom{opacity:1;transform:scale(1);}
+[data-plant-shot]:hover img,[data-plant-shot]:focus-visible img{transform:translateY(var(--py,0)) scale(1.22);}
+[data-plant-shot] img{transition:transform .5s var(--cine-ease);}
+
+.plant-lightbox{
+  position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:28px;
+  opacity:0;pointer-events:none;transition:opacity .3s var(--ease);
+}
+.plant-lightbox.is-open{opacity:1;pointer-events:auto;}
+.plant-lightbox-backdrop{position:absolute;inset:0;background:rgba(2,7,10,0.86);backdrop-filter:blur(3px);}
+.plant-lightbox-panel{
+  position:relative;z-index:1;width:min(720px,100%);max-height:88vh;overflow:auto;background:var(--white);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+  transform:translateY(16px) scale(.98);transition:transform .3s var(--ease);
+}
+.plant-lightbox.is-open .plant-lightbox-panel{transform:translateY(0) scale(1);}
+.plant-lightbox-panel img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
+.plant-lightbox-body{padding:28px 30px 32px;}
+.plant-lightbox-body h3{font-family:var(--font-display);font-weight:450;font-size:1.4rem;color:var(--teal);}
+.plant-lightbox-body p{margin-top:12px;color:rgba(30,30,30,0.68);line-height:1.65;}
+.plant-lightbox-close{
+  position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;
+  background:rgba(8,26,24,0.55);backdrop-filter:blur(6px);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+
 .plant-mosaic{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:auto auto;gap:22px;margin-top:64px;}
 .plant-mosaic .shot:nth-child(1){grid-row:span 2;aspect-ratio:4/5;}
 .plant-mosaic .shot:nth-child(2),.plant-mosaic .shot:nth-child(3){aspect-ratio:4/3;}
@@ -325,7 +358,7 @@
 /* --------------------------------------------------------------------------
    The water line — seven stages along a pipe that fills as you scroll
    -------------------------------------------------------------------------- */
-.pipeline-scene{position:relative;height:420vh;background:var(--heritage-dark);color:var(--ink-on-dark);}
+.pipeline-scene{position:relative;height:260vh;background:var(--heritage-dark);color:var(--ink-on-dark);}
 .pipeline-sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;}
 .pipeline-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;}
 .pipeline-head h2{color:#fff;max-width:16ch;}
@@ -393,7 +426,19 @@
 .step-line::before{background:var(--line);}
 .step-line::after{background:var(--brass);transform-origin:left;transform:scaleX(var(--p,1));}
 .on-dark .step-line::before{background:var(--line-light);}
-.step-line .step{position:relative;z-index:1;}
+.step-line .step{
+  position:relative;z-index:1;display:block;width:100%;text-align:left;background:none;border:0;padding:0;
+  font-family:inherit;cursor:pointer;
+}
+.step-line h3{display:flex;align-items:center;gap:8px;}
+.step-plus{
+  font-family:var(--font-sans);font-weight:400;font-size:1.1rem;color:var(--brass);line-height:1;
+  transition:transform .3s var(--ease);
+}
+.step.is-open .step-plus{transform:rotate(45deg);}
+.step-more{max-height:0;overflow:hidden;transition:max-height .35s var(--ease);}
+.step-more-inner{padding-top:12px;font-size:0.88rem;line-height:1.6;color:rgba(30,30,30,0.6);}
+.on-dark .step-more-inner{color:rgba(250,247,241,0.62);}
 .step-line .dot{
   width:56px;height:56px;border-radius:50%;background:var(--ivory);border:1.3px solid var(--brass);color:var(--brass);
   display:flex;align-items:center;justify-content:center;margin-bottom:20px;
@@ -811,8 +856,14 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
 .type-hero{
   position:relative;overflow:hidden;color:#fff;display:flex;align-items:flex-end;
   min-height:78vh;min-height:78svh;padding:150px 0 clamp(56px,9vh,96px);
-  background:radial-gradient(110% 80% at 85% 20%,#174d46 0%,var(--heritage-dark) 52%,#081c1a 100%);
+  background:radial-gradient(110% 80% at 85% 20%,var(--hero-tint,#0A3B52) 0%,var(--heritage-dark) 52%,#040D10 100%);
 }
+/* Health & Wellness / Home Care get their own mood instead of reusing the
+   same industrial dark-teal hero as every other inner page. */
+body[data-page="health"] .type-hero{--hero-tint:#0E4D5E;}
+body[data-page="homecare"] .type-hero{--hero-tint:#5C2E16;}
+body[data-page="health"]{--ivory-dim:#F0F7FA;}
+body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .type-hero .container{position:relative;z-index:2;width:100%;}
 .type-hero .display{font-size:clamp(2.8rem,7vw,6.4rem);max-width:16ch;}
 .type-hero .lede{color:rgba(255,255,255,0.82);margin-top:24px;max-width:560px;}
@@ -849,3 +900,52 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
 }
 .type-hero--short{min-height:64vh;min-height:64svh;}
 .type-hero .film-meta{margin-top:40px;}
+
+/* --------------------------------------------------------------------------
+   Before/after scroll-wipe (structure ready now; placeholder-art blocks
+   swap for real <img>/<video> once supplied — see HTML comment above).
+   -------------------------------------------------------------------------- */
+.wipe-scene{position:relative;}
+.wipe-media{
+  position:relative;width:100%;aspect-ratio:16/8;overflow:hidden;border-radius:var(--radius-lg);
+  background:var(--heritage-dark);
+}
+.wipe-layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.wipe-layer--before{clip-path:inset(0 calc((1 - var(--p,0.5)) * 100%) 0 0);transition:clip-path .05s linear;}
+.wipe-media::after{
+  content:"";position:absolute;top:0;bottom:0;z-index:2;width:3px;background:#fff;
+  left:calc(var(--p,0.5) * 100%);box-shadow:0 0 16px 2px rgba(255,255,255,0.6);
+  transition:left .05s linear;
+}
+.placeholder-art{
+  color:rgba(255,255,255,0.3);flex-direction:column;gap:14px;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,0.05) 0 18px,rgba(255,255,255,0.02) 18px 36px);
+}
+.placeholder-art svg{width:56px;height:56px;}
+.placeholder-art--dull{filter:grayscale(1) brightness(.65);}
+.placeholder-tag{
+  font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.45);
+  border:1px dashed rgba(255,255,255,0.3);padding:6px 14px;border-radius:30px;
+}
+.wipe-hint{text-align:center;margin-top:18px;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(30,30,30,0.4);}
+.on-dark .wipe-hint{color:rgba(250,247,241,0.45);}
+
+/* --------------------------------------------------------------------------
+   Trust / handshake testimonial (placeholder — see HTML comment above)
+   -------------------------------------------------------------------------- */
+.handshake-scene{position:relative;min-height:64vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--heritage-dark);}
+.handshake-media{position:absolute;inset:0;z-index:0;}
+.handshake-media svg{width:64px;height:64px;}
+.handshake-scene::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(0deg,rgba(2,7,10,0.92) 10%,rgba(2,7,10,0.5) 55%,rgba(2,7,10,0.75) 100%);
+}
+.handshake-quote{position:relative;z-index:2;width:100%;padding:clamp(40px,7vh,72px) 0;}
+.handshake-quote blockquote{
+  max-width:720px;margin:0 auto;padding:0 24px;font-family:var(--font-display);font-style:italic;font-weight:340;
+  font-size:clamp(1.3rem,2.6vw,2.1rem);line-height:1.3;color:#fff;text-align:center;
+}
+.handshake-quote blockquote::before{content:"\201C";}
+.handshake-quote blockquote::after{content:"\201D";}
+.handshake-quote cite{display:block;text-align:center;margin-top:20px;font-style:normal;font-size:0.9rem;color:rgba(250,247,241,0.7);}
+.handshake-quote .draft-flag{color:var(--brass-light);font-size:0.78rem;}
