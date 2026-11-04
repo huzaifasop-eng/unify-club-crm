@@ -165,7 +165,7 @@
   position:relative;overflow:hidden;padding:clamp(56px,9vh,96px) 0;
   background:
     repeating-linear-gradient(108deg,rgba(255,255,255,0.07) 0,rgba(255,255,255,0.07) 1px,transparent 1px,transparent 13px),
-    radial-gradient(100% 90% at 20% 115%,rgba(252,115,77,0.3) 0%,rgba(2,151,222,0.26) 42%,rgba(2,7,10,0) 74%),
+    radial-gradient(100% 90% at 20% 115%,rgba(var(--core-rgb),0.3) 0%,rgba(var(--accent-rgb),0.26) 42%,rgba(2,7,10,0) 74%),
     var(--heritage-dark);
   background-blend-mode:overlay,normal,normal;
 }
@@ -1024,18 +1024,18 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 }
 .city-card--lg{grid-column:span 2;grid-row:span 2;}
 .city-card:hover,.city-card:focus-visible{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
-/* One signature gradient flow — Cantaloupe Orange light source bleeding out
-   into Electric Blue then fading to Midnight Black, same direction/order on
-   every card, only the --flow-x/--flow-y origin moves. Thin diagonal
-   "god-ray" stripes ride the same origin via a matching mask, so the
-   streaks fade out exactly where the glow does. */
+/* One signature gradient flow — the constant warm gold core bleeding out
+   into this page's own department accent, fading to Midnight Black, same
+   direction/order on every card, only the --flow-x/--flow-y origin moves.
+   Thin diagonal "god-ray" stripes ride the same origin via a matching
+   mask, so the streaks fade out exactly where the glow does. */
 .city-card::before{
   content:"";position:absolute;inset:0;z-index:0;
   background:
     linear-gradient(180deg,transparent 40%,rgba(2,7,10,0.58) 100%),
     radial-gradient(135% 115% at var(--flow-x,50%) var(--flow-y,120%),
-      rgba(252,115,77,0.8) 0%,
-      rgba(2,151,222,0.68) 36%,
+      rgba(var(--core-rgb),0.8) 0%,
+      rgba(var(--accent-rgb),0.68) 36%,
       rgba(2,7,10,0) 72%),
     var(--heritage-dark);
 }
