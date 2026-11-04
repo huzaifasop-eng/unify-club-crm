@@ -1240,3 +1240,19 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 }
 .donate-select option{color:#111;}
 .donate-note{margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.5);max-width:440px;}
+
+/* --------------------------------------------------------------------------
+   Documentary chapter marker — threads a running chapter number through a
+   page's spine sections (used first on RO Plants & Services).
+   -------------------------------------------------------------------------- */
+.doc-chapter{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  font-family:var(--font-sans);font-size:0.74rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);
+}
+.doc-chapter::before{content:"";width:22px;height:1px;background:rgba(255,255,255,0.3);}
+.doc-chapter b{color:var(--brass-light);font-weight:700;}
+
+/* Expanded before/after documentary moment */
+.wipe-intro{max-width:62ch;}
+.wipe-scene.is-lead .wipe-media{aspect-ratio:16/7.2;}
