@@ -373,27 +373,66 @@ function satpakInit(){
     });
   }
 
-  /* ---------- contact button ---------- */
-  var fab = document.querySelector("[data-fab]");
-  if(fab){
-    var fabToggle = fab.querySelector(".contact-fab-toggle");
-    function setFab(open){
-      fab.classList.toggle("is-open", open);
-      fabToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  /* Stat counters are animated by assets/js/motion.js (data-counter-group). */
+
+  /* ---------- theme switcher (light/dark — shades of the brand palette only) ---------- */
+  var THEME_KEY = "satpak_theme";
+  var themeToggle = document.querySelector("[data-theme-toggle]");
+  function applyTheme(theme){
+    if(theme === "dark"){
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
     }
-    fabToggle.addEventListener("click", function(e){
-      e.stopPropagation();
-      setFab(!fab.classList.contains("is-open"));
+    if(themeToggle){
+      themeToggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+      themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+    }
+  }
+  var savedTheme = null;
+  try{ savedTheme = localStorage.getItem(THEME_KEY); }catch(e){}
+  if(!savedTheme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches){
+    savedTheme = "dark";
+  }
+  applyTheme(savedTheme);
+  if(themeToggle) themeToggle.addEventListener("click", function(){
+    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+  });
+
+  /* ---------- language switcher (English / Urdu) ----------
+     Proof-of-concept scope: header, footer and Home are translated via the
+     SATPAK_I18N dictionary (assets/js/i18n.js). Elements opt in with
+     data-i18n="key" (textContent) or data-i18n-placeholder="key". Untagged
+     pages/elements simply stay in English until translated. */
+  var LANG_KEY = "satpak_lang";
+  var langToggle = document.querySelector("[data-lang-toggle]");
+  function applyLang(lang){
+    var dict = (window.SATPAK_I18N && window.SATPAK_I18N[lang]) || null;
+    document.documentElement.lang = lang === "ur" ? "ur" : "en";
+    document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
+    document.querySelectorAll("[data-lang-label]").forEach(function(el){
+      el.textContent = lang === "ur" ? "English" : "اردو";
     });
-    document.addEventListener("click", function(e){
-      if(!fab.contains(e.target)) setFab(false);
+    if(!dict) return; /* English source text is already in the markup */
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var key = el.getAttribute("data-i18n");
+      if(dict[key]) el.textContent = dict[key];
     });
-    document.addEventListener("keydown", function(e){
-      if(e.key === "Escape") setFab(false);
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+      var key = el.getAttribute("data-i18n-placeholder");
+      if(dict[key]) el.setAttribute("placeholder", dict[key]);
     });
   }
-
-  /* Stat counters are animated by assets/js/motion.js (data-counter-group). */
+  var savedLang = null;
+  try{ savedLang = localStorage.getItem(LANG_KEY); }catch(e){}
+  applyLang(savedLang === "ur" ? "ur" : "en");
+  if(langToggle) langToggle.addEventListener("click", function(){
+    var next = document.documentElement.lang === "ur" ? "en" : "ur";
+    applyLang(next);
+    try{ localStorage.setItem(LANG_KEY, next); }catch(e){}
+  });
 
   /* ---------- process step animation (line draw + sequential nodes) ---------- */
   document.querySelectorAll(".process-track").forEach(function(track){

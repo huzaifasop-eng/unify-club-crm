@@ -3,19 +3,30 @@
    Quiet Industrial Luxury design system
    ========================================================================== */
 
+/* ==========================================================================
+   Brand palette — Midnight Black #02070A / Electric Blue #0297DE /
+   Cantaloupe Orange #FC734D. Every token below is a tint or shade of one of
+   these three colors, in both themes — switching theme must never fall back
+   to a generic black/white page. Variable NAMES are kept from the original
+   Heritage palette (--teal/--ivory/--charcoal/--brass/--heritage-dark) so
+   every existing rule across the site repoints automatically; only the
+   values change. --teal* now carries Electric Blue, --brass* now carries
+   Cantaloupe Orange, --heritage-dark* and --ivory* now carry shades of
+   Midnight Black.
+   ========================================================================== */
 :root{
-  --teal:#0E4D45;
-  --teal-700:#0a3a33;
-  --teal-100:#e6efed;
-  --ivory:#FAF7F1;
-  --ivory-dim:#F2ECE1;
-  --charcoal:#1E1E1E;
-  --heritage-dark:#0C2B28;
-  --heritage-dark-2:#0a2320;
-  --brass:#9A7B3F;
-  --brass-light:#c2a06a;
+  --teal:#045E86;        /* Electric Blue, deepened for AA text contrast on light */
+  --teal-700:#023A54;
+  --teal-100:#E3F3FB;
+  --ivory:#FAFCFE;
+  --ivory-dim:#F0F5F9;
+  --charcoal:#0B1016;
+  --heritage-dark:#02070A;
+  --heritage-dark-2:#060D12;
+  --brass:#C94A24;        /* Cantaloupe Orange, deepened for AA text contrast on light */
+  --brass-light:#FC734D;
   --white:#ffffff;
-  --line:rgba(30,30,30,0.12);
+  --line:rgba(2,7,10,0.12);
   --line-light:rgba(255,255,255,0.16);
 
   --font-display:'Fraunces', Georgia, 'Times New Roman', serif;
@@ -25,15 +36,38 @@
   --radius:12px;
   --radius-lg:22px;
 
-  --shadow-sm:0 1px 3px rgba(12,43,40,0.06), 0 1px 2px rgba(12,43,40,0.08);
-  --shadow-md:0 8px 30px rgba(12,43,40,0.10);
-  --shadow-lg:0 20px 60px rgba(12,43,40,0.16);
+  --shadow-sm:0 1px 3px rgba(2,7,10,0.07), 0 1px 2px rgba(2,7,10,0.09);
+  --shadow-md:0 8px 30px rgba(2,7,10,0.12);
+  --shadow-lg:0 20px 60px rgba(2,7,10,0.18);
 
   --container:1240px;
   --header-h:88px;
   --header-h-condensed:68px;
 
   --ease:cubic-bezier(.4,0,.2,1);
+
+  color-scheme:light;
+}
+
+/* Dark theme — same three brand colors, shades swap direction. The two
+   accents (Electric Blue / Cantaloupe Orange) stay vivid and present in
+   both themes; only black/white roles (backgrounds, body text) invert. */
+:root[data-theme="dark"]{
+  --teal:#5CC2EE;
+  --teal-700:#0297DE;
+  --teal-100:#0B2A38;
+  --ivory:#070C10;
+  --ivory-dim:#0C141A;
+  --charcoal:#EAF2F7;
+  --heritage-dark:#02070A;
+  --heritage-dark-2:#000000;
+  --brass:#FF8F66;
+  --brass-light:#FFB49C;
+  --white:#0B121A;
+  --line:rgba(255,255,255,0.14);
+  --line-light:rgba(255,255,255,0.22);
+
+  color-scheme:dark;
 }
 
 /* ---------- reset ---------- */
@@ -173,7 +207,9 @@ p.lede{
   box-shadow:var(--shadow-sm);
 }
 .home .site-header:not(.is-solid) .navlink,
-.home .site-header:not(.is-solid) .header-search-btn{color:rgba(255,255,255,0.92);}
+.home .site-header:not(.is-solid) .header-search-btn,
+.home .site-header:not(.is-solid) .header-lang-btn,
+.home .site-header:not(.is-solid) .header-theme-btn{color:rgba(255,255,255,0.92);border-color:rgba(255,255,255,0.3);}
 .home .site-header:not(.is-solid) .logo-word{color:#fff;}
 .home .site-header:not(.is-solid) .logo-sub{color:rgba(255,255,255,0.72);}
 .home .site-header:not(.is-solid) .btn-outline.header-cta{border-color:rgba(255,255,255,0.7);color:#fff;}
@@ -181,9 +217,9 @@ p.lede{
 .header-inner{
   width:100%;
   display:flex;align-items:center;justify-content:space-between;
-  gap:28px;
+  gap:16px;
 }
-.logo{display:flex;align-items:center;gap:12px;}
+.logo{display:flex;align-items:center;gap:12px;flex:none;}
 .logo-mark{width:40px;height:40px;flex:none;}
 .logo-word{
   font-family:var(--font-display);
@@ -191,6 +227,7 @@ p.lede{
   font-weight:600;
   color:var(--teal);
   line-height:1;
+  white-space:nowrap;
 }
 .logo-sub{
   display:block;
@@ -202,7 +239,7 @@ p.lede{
   font-weight:600;
 }
 
-.main-nav{display:flex;align-items:center;gap:34px;}
+.main-nav{display:flex;align-items:center;gap:22px;}
 .navlink{
   font-size:0.92rem;font-weight:500;color:var(--charcoal);
   position:relative;padding:6px 0;transition:color .2s;
@@ -214,13 +251,26 @@ p.lede{
 .navlink:hover::after,.navlink.active::after{right:0;}
 .navlink.active{color:var(--brass);}
 
-.header-actions{display:flex;align-items:center;gap:18px;}
+.header-actions{display:flex;align-items:center;gap:14px;}
 .header-search-btn,.header-burger{
   background:none;border:0;color:var(--charcoal);display:flex;align-items:center;justify-content:center;
   width:38px;height:38px;border-radius:50%;transition:background .2s;
 }
 .header-search-btn:hover{background:rgba(30,30,30,0.06);}
 .header-burger{display:none;}
+
+.header-lang-btn,.header-theme-btn{
+  background:none;border:1px solid var(--line);color:var(--charcoal);display:flex;align-items:center;justify-content:center;
+  border-radius:20px;transition:background .2s,border-color .2s;cursor:pointer;
+}
+.header-lang-btn{height:34px;padding:0 13px;font-family:var(--font-sans);font-size:0.82rem;font-weight:600;}
+.header-lang-btn:hover,.header-theme-btn:hover{background:rgba(2,7,10,0.06);}
+.header-theme-btn{width:34px;height:34px;border-radius:50%;position:relative;}
+.theme-icon{position:absolute;transition:opacity .2s,transform .3s;}
+.theme-icon-moon{opacity:0;transform:scale(.6) rotate(-40deg);}
+[data-theme="dark"] .theme-icon-sun{opacity:0;transform:scale(.6) rotate(40deg);}
+[data-theme="dark"] .theme-icon-moon{opacity:1;transform:scale(1) rotate(0);}
+.theme-icon-sun{opacity:1;transform:scale(1) rotate(0);}
 
 .search-panel{
   position:fixed;inset:0;background:rgba(12,43,40,0.6);backdrop-filter:blur(4px);
@@ -735,7 +785,11 @@ p.lede{
   .main-nav{display:none;}
   .header-burger{display:flex;flex:none;}
   .header-cta{display:none;}
-  .header-actions{gap:8px;}
+  .header-actions{gap:6px;}
+  .header-lang-btn{height:32px;padding:0 10px;font-size:0.76rem;}
+}
+@media (max-width:420px){
+  .header-search-btn{display:none;}
   .row{flex-direction:column;gap:32px;}
   .grid-3{grid-template-columns:repeat(2,1fr);}
   .form-grid{grid-template-columns:1fr;}
