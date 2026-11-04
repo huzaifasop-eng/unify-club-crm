@@ -1254,6 +1254,16 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 }
 .donate-select option{color:#111;}
 .donate-note{margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.5);max-width:440px;}
+.donate-logo-strip-label{display:block;font-size:0.76rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:18px;}
+.donate-logo-grid{display:flex;flex-wrap:wrap;gap:12px;}
+.donate-logo-grid a{
+  display:flex;align-items:center;justify-content:center;width:112px;height:64px;padding:10px 14px;
+  background:#fff;border-radius:10px;transition:transform .2s var(--ease);
+}
+.donate-logo-grid a:hover{transform:translateY(-2px);}
+.donate-logo-grid img{max-width:100%;max-height:36px;width:auto;height:auto;}
+.donate-logo-strip-note{margin-top:18px;font-size:0.76rem;color:rgba(255,255,255,0.4);max-width:620px;}
+@media (max-width:640px){.donate-logo-grid a{width:96px;height:56px;padding:8px 10px;}}
 
 /* --------------------------------------------------------------------------
    Documentary chapter marker — threads a running chapter number through a
