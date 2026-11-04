@@ -23,26 +23,25 @@
   }
 
   document.body.style.overflow = "hidden";
-  var pctEl = loader.querySelector("[data-loader-pct]");
   var skipBtn = loader.querySelector("[data-loader-skip]");
   var done = false;
+  var timers = [];
 
   function finish(){
     if(done) return;
     done = true;
+    timers.forEach(clearTimeout);
     try{ sessionStorage.setItem(KEY, "1"); }catch(e){}
-    loader.classList.add("is-hidden");
-    setTimeout(remove, 550);
+    loader.classList.add("is-descending");
+    timers.push(setTimeout(function(){
+      loader.classList.add("is-hidden");
+      setTimeout(remove, 650);
+    }, 650));
   }
 
-  var duration = 1100, start = null;
-  function frame(ts){
-    if(start === null) start = ts;
-    var progress = Math.min((ts - start) / duration, 1);
-    if(pctEl) pctEl.textContent = Math.round(progress * 100) + "%";
-    if(progress < 1 && !done){ requestAnimationFrame(frame); }
-    else if(!done){ setTimeout(finish, 200); }
-  }
-  requestAnimationFrame(frame);
+  /* brand mark fades in over the sky, holds, then descends to reveal the
+     real hero footage already playing behind the overlay */
+  requestAnimationFrame(function(){ loader.classList.add("is-ready"); });
+  timers.push(setTimeout(finish, 1900));
   if(skipBtn) skipBtn.addEventListener("click", finish);
 })();
