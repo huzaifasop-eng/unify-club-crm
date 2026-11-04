@@ -720,6 +720,49 @@ function satpakInit(){
     });
   });
 
+  /* ---------- stock + next-batch strip (product cards & detail pages) ----------
+     Placeholder inventory/production data, authorized as self-assumed
+     placeholders. Deterministic per product name (stable across reloads,
+     not randomized), and the batch date is computed from today against a
+     fixed cycle, so it rolls forward on its own once the date is reached —
+     no stored state, no manual updates needed. */
+  safe("stock and batch strip", function(){
+    function hashStr(s){
+      var h = 0;
+      for(var i = 0; i < s.length; i++){ h = (h * 31 + s.charCodeAt(i)) >>> 0; }
+      return h;
+    }
+    var DAY = 86400000;
+    var ANCHOR = Date.UTC(2026, 0, 5);
+    var dateFmt = { day: "numeric", month: "short" };
+
+    document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
+      var name = ctrl.getAttribute("data-product-name");
+      var parent = ctrl.parentElement;
+      if(!name || !parent) return;
+
+      var priceTag = parent.querySelector("[data-price-display]");
+      var anchorEl = priceTag || ctrl;
+      if(anchorEl.nextElementSibling && anchorEl.nextElementSibling.classList.contains("stock-strip")) return;
+
+      var h = hashStr(name);
+      var stock = 40 + (h % 220);
+      var cycleDays = 12 + (h % 24);
+      var elapsedDays = Math.floor((Date.now() - ANCHOR) / DAY);
+      var cyclesElapsed = Math.floor(elapsedDays / cycleDays);
+      var nextBatch = new Date(ANCHOR + (cyclesElapsed + 1) * cycleDays * DAY);
+      var dateStr = nextBatch.toLocaleDateString("en-GB", dateFmt);
+
+      var strip = document.createElement("div");
+      strip.className = "stock-strip";
+      strip.innerHTML =
+        '<span class="stock-qty' + (stock < 60 ? ' is-low' : '') + '">' + stock + ' in stock</span>' +
+        '<span class="stock-sep">&middot;</span>' +
+        '<span class="stock-batch">Next batch: ' + dateStr + '</span>';
+      anchorEl.insertAdjacentElement("afterend", strip);
+    });
+  });
+
   /* ---------- city picker (Home) ----------
      Pick a city -> saved silently (localStorage) -> department picker
      appears. The saved city auto-fills into [data-city-autofill] fields on
