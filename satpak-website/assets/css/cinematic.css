@@ -1140,3 +1140,103 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
   .kit-builder{grid-template-columns:1fr;}
   .kit-slot{width:100px;height:120px;}
 }
+
+/* --------------------------------------------------------------------------
+   Department carousel (Home hero) — one department enlarged and glowing in
+   its own Mineral Spectrum color, the others fanned out behind it.
+   -------------------------------------------------------------------------- */
+.carousel-scene{
+  position:relative;overflow:hidden;background:var(--heritage-dark);
+  padding:calc(var(--header-h) + 56px) 0 80px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.carousel-glow{
+  position:absolute;inset:0;z-index:0;transition:background 1.1s var(--cine-ease);
+  background:radial-gradient(70% 60% at 50% 30%,rgba(var(--cc-rgb,56,224,194),0.38) 0%,rgba(var(--core-rgb),0.14) 46%,rgba(2,7,10,0) 76%),var(--heritage-dark);
+}
+.carousel-head{position:relative;z-index:1;text-align:center;}
+.carousel-head h1{color:#fff;}
+.carousel-stage{
+  position:relative;z-index:1;width:100%;max-width:1100px;margin-top:56px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  perspective:1200px;
+}
+.carousel-arrow{
+  flex:none;width:48px;height:48px;border-radius:50%;border:1.3px solid var(--line-light);background:rgba(255,255,255,0.05);
+  color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s var(--ease);
+}
+.carousel-arrow:hover{background:rgba(255,255,255,0.14);}
+.carousel-arrow svg{width:20px;height:20px;}
+.carousel-track{
+  position:relative;flex:1;height:340px;display:flex;align-items:center;justify-content:center;
+}
+.carousel-card{
+  position:absolute;width:190px;height:300px;border-radius:var(--radius-lg);border:0;cursor:pointer;
+  background:
+    linear-gradient(180deg,transparent 45%,rgba(2,7,10,0.65) 100%),
+    radial-gradient(90% 80% at 50% 22%,rgba(var(--cc-rgb),0.7) 0%,rgba(2,7,10,0) 70%),
+    var(--heritage-dark-2);
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:18px 16px;
+  transition:transform .6s var(--cine-ease),opacity .6s var(--cine-ease),filter .6s var(--cine-ease);
+  transform:translateX(calc(var(--i,0) * 86px)) translateY(calc(abs(var(--i,0)) * 22px)) rotate(calc(var(--i,0) * 7deg)) scale(calc(1 - min(abs(var(--i,0)),3) * 0.09));
+  z-index:calc(10 - abs(var(--i,0)));
+  opacity:calc(1 - min(abs(var(--i,0)),3) * 0.28);
+  filter:brightness(calc(1 - min(abs(var(--i,0)),3) * 0.18));
+}
+.carousel-card[data-dept="ro"]{--cc-rgb:56,186,230;}
+.carousel-card[data-dept="chemicals"]{--cc-rgb:165,110,230;}
+.carousel-card[data-dept="article"]{--cc-rgb:56,224,194;}
+.carousel-card[data-dept="health"]{--cc-rgb:240,110,142;}
+.carousel-card[data-dept="homecare"]{--cc-rgb:158,214,74;}
+.carousel-card.is-active{box-shadow:0 20px 50px rgba(2,7,10,0.5);}
+.carousel-card-mark{
+  font-family:var(--font-headline);font-size:2.4rem;color:rgba(255,255,255,0.18);line-height:1;margin-bottom:auto;
+}
+.carousel-card-name{font-family:var(--font-headline);text-transform:uppercase;font-size:1.05rem;color:#fff;line-height:1.1;}
+.carousel-footer{position:relative;z-index:1;margin-top:40px;text-align:center;max-width:520px;}
+.carousel-footer-name{font-family:var(--font-headline);text-transform:uppercase;color:#fff;font-size:clamp(1.8rem,3.4vw,2.6rem);}
+.carousel-footer-desc{margin-top:10px;color:rgba(255,255,255,0.68);font-size:0.98rem;}
+.carousel-footer .btn{margin-top:22px;}
+@media (max-width:720px){
+  .carousel-card{width:140px;height:220px;}
+  .carousel-track{height:260px;}
+  .carousel-card[style]{transform:none;}
+}
+
+/* --------------------------------------------------------------------------
+   Quick links (Home)
+   -------------------------------------------------------------------------- */
+.quick-links-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+.quick-link{
+  display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:26px 12px;
+  border-radius:var(--radius-lg);background:var(--white);border:1px solid var(--line);transition:all .25s var(--ease);
+  font-size:0.86rem;font-weight:600;color:var(--charcoal);
+}
+.quick-link:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--teal);}
+.quick-link-icon{
+  width:48px;height:48px;border-radius:50%;background:var(--teal-100);color:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+}
+.quick-link-icon svg{width:22px;height:22px;}
+@media (max-width:900px){.quick-links-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:480px){.quick-links-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* --------------------------------------------------------------------------
+   Donation (Home)
+   -------------------------------------------------------------------------- */
+.donate-form{max-width:640px;}
+.donate-step{margin-bottom:32px;}
+.donate-step-label{display:block;font-weight:600;color:#fff;margin-bottom:14px;font-size:0.98rem;}
+.donate-options{display:flex;flex-wrap:wrap;gap:10px;}
+.donate-chip{
+  padding:11px 18px;border-radius:30px;border:1px solid var(--line-light);background:rgba(255,255,255,0.05);
+  color:rgba(255,255,255,0.86);font-size:0.88rem;font-weight:500;cursor:pointer;transition:all .22s var(--ease);
+}
+.donate-chip:hover{background:rgba(255,255,255,0.1);}
+.donate-chip.is-selected{background:var(--brass);border-color:var(--brass);color:#fff;}
+.donate-select{
+  width:100%;max-width:420px;padding:13px 16px;border-radius:10px;border:1px solid var(--line-light);
+  background:rgba(255,255,255,0.05);color:#fff;font-size:0.92rem;font-family:var(--font-sans);
+}
+.donate-select option{color:#111;}
+.donate-note{margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.5);max-width:440px;}

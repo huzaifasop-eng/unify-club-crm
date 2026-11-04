@@ -41,9 +41,60 @@
 <main>
 
 <!-- ===================================================================
-     1. Film hero — the plant, full-bleed, closing into a frame on scroll
+     1. Department carousel — the hero. Five departments, one at a time,
+        each in its own Mineral Spectrum color.
      =================================================================== -->
-<section class="film-scene" data-scene="pin" aria-label="Introduction">
+<section class="carousel-scene" aria-label="Our departments">
+  <div class="carousel-glow" data-carousel-glow aria-hidden="true"></div>
+  <div class="container carousel-head">
+    <span class="kicker" style="color:var(--brass-light);">Shaikh al Tijarat Pakistan · 35+ years</span>
+    <h1 class="display mt-16">Five departments.<br>One standard.</h1>
+  </div>
+
+  <div class="carousel-stage">
+    <button type="button" class="carousel-arrow prev" data-carousel-prev aria-label="Previous department">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+
+    <div class="carousel-track" data-carousel-track>
+      <button type="button" class="carousel-card" data-dept="ro" data-href="/ro-plants-services.html">
+        <span class="carousel-card-mark">RO</span>
+        <span class="carousel-card-name">RO Plants &amp; Services</span>
+      </button>
+      <button type="button" class="carousel-card" data-dept="chemicals" data-href="/chemicals-minerals.html">
+        <span class="carousel-card-mark">Ch</span>
+        <span class="carousel-card-name">Chemicals &amp; Minerals</span>
+      </button>
+      <button type="button" class="carousel-card is-active" data-dept="article" data-href="/article.html">
+        <span class="carousel-card-mark">Ar</span>
+        <span class="carousel-card-name">Article</span>
+      </button>
+      <button type="button" class="carousel-card" data-dept="health" data-href="/health-wellness.html">
+        <span class="carousel-card-mark">He</span>
+        <span class="carousel-card-name">Health &amp; Wellness</span>
+      </button>
+      <button type="button" class="carousel-card" data-dept="homecare" data-href="/home-care.html">
+        <span class="carousel-card-mark">Hc</span>
+        <span class="carousel-card-name">Home Care</span>
+      </button>
+    </div>
+
+    <button type="button" class="carousel-arrow next" data-carousel-next aria-label="Next department">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+
+  <div class="carousel-footer">
+    <h2 class="carousel-footer-name" data-carousel-name>Article</h2>
+    <p class="carousel-footer-desc" data-carousel-desc>Mineralized drinking water, delivered in 19-litre bottles across Karachi.</p>
+    <a class="btn btn-primary" data-carousel-cta href="/article.html">Explore this department</a>
+  </div>
+</section>
+
+<!-- ===================================================================
+     1b. Inside the plant — the real footage, right after the carousel
+     =================================================================== -->
+<section class="film-scene" data-scene="pin" aria-label="Inside our plant">
   <div class="film-sticky">
     <div class="film-frame grain">
       <img class="film-poster" src="/assets/video/hero-poster.webp" alt="" aria-hidden="true">
@@ -61,7 +112,7 @@
 
     <div class="film-copy">
       <div class="container">
-        <span class="kicker" data-after-lines style="color:var(--brass-light);">Shaikh al Tijarat Pakistan · 35+ years</span>
+        <span class="kicker" data-after-lines style="color:var(--brass-light);">Inside the plant</span>
         <h1 class="display mt-24">
           <span class="cine-line"><span>We did not enter</span></span>
           <span class="cine-line"><span>this industry.</span></span>
@@ -81,6 +132,75 @@
     </div>
 
     <p class="film-after" aria-hidden="true">Inside one of our plants, Karachi.</p>
+  </div>
+</section>
+
+<!-- ===================================================================
+     1c. Quick links
+     =================================================================== -->
+<section class="section section--ivory-dim quick-links" aria-label="Quick links">
+  <div class="container">
+    <span class="kicker" data-in="fade">Quick links</span>
+    <h2 class="h-xl mt-24" data-in="up">Get there faster.</h2>
+    <div class="quick-links-grid mt-48" data-stagger>
+      <a href="/chemicals-minerals.html#kit-builder" class="quick-link">
+        <span class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="7" height="7" rx="1"/><rect x="14" y="7" width="7" height="7" rx="1"/><rect x="8.5" y="15" width="7" height="6" rx="1"/></svg></span>
+        <span>Build a Kit</span>
+      </a>
+      <a href="/contact.html#technical" class="quick-link">
+        <span class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 1 9 9"/><path d="M12 7v5l3 3"/></svg></span>
+        <span>Book AMC</span>
+      </a>
+      <a href="#where-we-serve" class="quick-link">
+        <span class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.2-7-12a7 7 0 0 1 14 0c0 4.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+        <span>Pick Your City</span>
+      </a>
+      <a href="#portal-login" class="quick-link">
+        <span class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg></span>
+        <span>Portal Login</span>
+      </a>
+      <a href="/contact.html#distributor" class="quick-link">
+        <span class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/></svg></span>
+        <span>Become a Distributor</span>
+      </a>
+      <a href="https://wa.me/923181112606" class="quick-link" target="_blank" rel="noopener">
+        <span class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.5 8.5 0 0 1-4-.9L3 21l2-5a8.3 8.3 0 0 1-1-4A8.4 8.4 0 0 1 12.5 3a8.4 8.4 0 0 1 8.5 8.5z"/></svg></span>
+        <span>WhatsApp Order</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     1d. Donation — route a product or service to a real local org
+     =================================================================== -->
+<section class="section section--dark on-dark donation-section" aria-label="Donate a product or service" id="donate">
+  <div class="container">
+    <span class="kicker" data-in="fade">Give water, not just buy it</span>
+    <h2 class="h-xl mt-24" data-in="up">Donate a product <em>or a service.</em></h2>
+    <p class="lede mt-16" style="color:rgba(255,255,255,0.72);" data-in="up">Pick what you'd like to give and where it should go. This isn't a SaT PaK partnership list — it's a directory of real Karachi organizations you can route a donation to. We'll confirm the details with you on WhatsApp before anything is arranged.</p>
+
+    <div class="donate-form mt-48" data-donate-form>
+      <div class="donate-step">
+        <span class="donate-step-label">1. What would you like to give?</span>
+        <div class="donate-options" data-donate-what>
+          <button type="button" class="donate-chip" data-value="RO Plant">An RO Plant</button>
+          <button type="button" class="donate-chip" data-value="Mineral Water (Article)">Mineral Water (Article)</button>
+          <button type="button" class="donate-chip" data-value="Hand Wash / Sanitizer">Hand Wash / Sanitizer</button>
+          <button type="button" class="donate-chip" data-value="Shampoo / Personal Care">Shampoo / Personal Care</button>
+          <button type="button" class="donate-chip" data-value="Home Cleaning Supplies">Home Cleaning Supplies</button>
+          <button type="button" class="donate-chip" data-value="Something else">Something else</button>
+        </div>
+      </div>
+      <div class="donate-step">
+        <span class="donate-step-label">2. Where should it go?</span>
+        <select class="donate-select" data-donate-where aria-label="Choose a recipient organization">
+          <option value="">Pending — real, confirmed organization list loading soon</option>
+        </select>
+        <p class="donate-note">Don't see who you're looking for, or want to pick a specific area, mosque or address instead? Tell us on WhatsApp and we'll route it.</p>
+      </div>
+      <button type="button" class="btn btn-whatsapp mt-32" data-donate-submit>Arrange this on WhatsApp</button>
+    </div>
   </div>
 </section>
 

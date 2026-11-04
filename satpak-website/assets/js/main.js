@@ -724,6 +724,84 @@ function satpakInit(){
     render();
   });
 
+  /* ---------- department carousel (Home hero) ---------- */
+  safe("department carousel", function(){
+    var track = document.querySelector("[data-carousel-track]");
+    if(!track) return;
+    var cards = Array.prototype.slice.call(track.querySelectorAll(".carousel-card"));
+    var glow = document.querySelector("[data-carousel-glow]");
+    var nameEl = document.querySelector("[data-carousel-name]");
+    var descEl = document.querySelector("[data-carousel-desc]");
+    var ctaEl = document.querySelector("[data-carousel-cta]");
+    var prevBtn = document.querySelector("[data-carousel-prev]");
+    var nextBtn = document.querySelector("[data-carousel-next]");
+
+    var descriptions = {
+      ro: "Designed around your water, built end to end, looked after for years.",
+      chemicals: "Water-treatment chemistry formulated, compounded and packed in our own facility.",
+      article: "Mineralized drinking water, delivered in 19-litre bottles across Karachi.",
+      health: "Mineral-based personal care, built on the same chemistry.",
+      homecare: "Anti-bacterial essentials from a water-treatment manufacturer."
+    };
+
+    var active = cards.findIndex(function(c){ return c.classList.contains("is-active"); });
+    if(active < 0) active = 0;
+
+    function render(){
+      cards.forEach(function(card, i){
+        card.style.setProperty("--i", i - active);
+        card.classList.toggle("is-active", i === active);
+      });
+      var card = cards[active];
+      var dept = card.getAttribute("data-dept");
+      var href = card.getAttribute("data-href");
+      var name = card.querySelector(".carousel-card-name").textContent;
+      if(glow) glow.style.setProperty("--cc-rgb", getComputedStyle(card).getPropertyValue("--cc-rgb"));
+      if(nameEl) nameEl.textContent = name;
+      if(descEl) descEl.textContent = descriptions[dept] || "";
+      if(ctaEl) ctaEl.href = href;
+    }
+
+    cards.forEach(function(card, i){
+      card.addEventListener("click", function(){
+        if(i === active){ window.location.href = card.getAttribute("data-href"); return; }
+        active = i;
+        render();
+      });
+    });
+    if(prevBtn) prevBtn.addEventListener("click", function(){ active = (active - 1 + cards.length) % cards.length; render(); });
+    if(nextBtn) nextBtn.addEventListener("click", function(){ active = (active + 1) % cards.length; render(); });
+
+    render();
+  });
+
+  /* ---------- donation (Home) — WhatsApp lead-routing, not a checkout ---------- */
+  safe("donation form", function(){
+    var form = document.querySelector("[data-donate-form]");
+    if(!form) return;
+    var whatChips = Array.prototype.slice.call(form.querySelectorAll("[data-donate-what] .donate-chip"));
+    var whereSelect = form.querySelector("[data-donate-where]");
+    var submitBtn = form.querySelector("[data-donate-submit]");
+    var selectedWhat = null;
+
+    whatChips.forEach(function(chip){
+      chip.addEventListener("click", function(){
+        whatChips.forEach(function(c){ c.classList.remove("is-selected"); });
+        chip.classList.add("is-selected");
+        selectedWhat = chip.getAttribute("data-value");
+      });
+    });
+
+    if(submitBtn){
+      submitBtn.addEventListener("click", function(){
+        var where = (whereSelect && whereSelect.value) || "a location I'll specify";
+        var what = selectedWhat || "a product or service";
+        var msg = "Hi SaT PaK, I'd like to donate " + what + " to " + where + ". Can you help arrange it?";
+        window.open("https://wa.me/923181112606?text=" + encodeURIComponent(msg), "_blank", "noopener");
+      });
+    }
+  });
+
   /* ---------- city auto-fill (any page with a saved city) ---------- */
   safe("city autofill", function(){
     var city = null;
