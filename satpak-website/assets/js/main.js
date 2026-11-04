@@ -302,6 +302,7 @@ function satpakInit(){
     });
 
     renderCart();
+    window.addEventListener("satpak:cart-updated", renderCart);
   });
 
   /* ---------- clickable product cards (catalogue -> detail page) ----------
@@ -607,6 +608,120 @@ function satpakInit(){
         setTimeout(function(){ picker.scrollIntoView({behavior:"smooth", block:"center"}); }, 80);
       });
     });
+  });
+
+  /* ---------- kit builder (Chemicals — pick 3, see a kit rate) ---------- */
+  safe("kit builder", function(){
+    var wrap = document.querySelector("[data-kit-builder]");
+    if(!wrap) return;
+    var chips = Array.prototype.slice.call(wrap.querySelectorAll("[data-kit-item]"));
+    var slots = Array.prototype.slice.call(wrap.querySelectorAll("[data-kit-slot]"));
+    var glowEl = wrap.querySelector("[data-kit-glow]");
+    var priceEl = wrap.querySelector("[data-kit-price]");
+    var checkoutBtn = wrap.querySelector("[data-kit-checkout]");
+    var KIT_DISCOUNT = 0.1;
+    var picked = []; // {name, pack, price, can, chip}
+
+    function money(n){ return "Rs " + Math.round(n).toLocaleString("en-PK"); }
+
+    function renderSlots(){
+      slots.forEach(function(slot, i){
+        var item = picked[i];
+        if(!item){
+          slot.className = "kit-slot";
+          slot.style.removeProperty("--can");
+          slot.innerHTML = '<span class="kit-slot-num">' + (i + 1) + '</span>';
+          return;
+        }
+        slot.className = "kit-slot is-filled";
+        slot.style.setProperty("--can", item.can);
+        slot.innerHTML =
+          '<button type="button" class="kit-slot-remove" data-kit-remove="' + i + '" aria-label="Remove ' + item.name + '">×</button>' +
+          '<span class="kit-slot-name">' + item.name + '</span>' +
+          '<span class="kit-slot-price">' + money(item.price) + '</span>';
+        slot.querySelector("[data-kit-remove]").addEventListener("click", function(){
+          var line = picked[i];
+          picked.splice(i, 1);
+          if(line && line.chip) line.chip.classList.remove("is-added");
+          render();
+        });
+      });
+    }
+
+    function renderChips(){
+      chips.forEach(function(chip){
+        var name = chip.getAttribute("data-name");
+        var isAdded = picked.some(function(p){ return p.name === name; });
+        chip.classList.toggle("is-added", isAdded);
+        chip.classList.toggle("is-disabled", !isAdded && picked.length >= 3);
+      });
+    }
+
+    function renderPrice(){
+      if(picked.length < 3){
+        priceEl.innerHTML = '<span class="kit-price-hint">' + (3 - picked.length) + ' more to see your kit rate</span>';
+        checkoutBtn.setAttribute("disabled", "disabled");
+        return;
+      }
+      var total = picked.reduce(function(sum, p){ return sum + p.price; }, 0);
+      var discounted = total * (1 - KIT_DISCOUNT);
+      priceEl.innerHTML =
+        '<span class="kit-price-was">' + money(total) + '</span>' +
+        '<span class="kit-price-now">' + money(discounted) + '</span>' +
+        '<span class="kit-price-save">Indicative kit rate — ' + Math.round(KIT_DISCOUNT * 100) + '% off, confirmed on WhatsApp</span>';
+      checkoutBtn.removeAttribute("disabled");
+    }
+
+    function renderGlow(){
+      var last = picked[picked.length - 1];
+      if(glowEl) glowEl.style.setProperty("--glow", last ? last.can : "var(--brass-light)");
+    }
+
+    function render(){
+      renderSlots();
+      renderChips();
+      renderPrice();
+      renderGlow();
+    }
+
+    chips.forEach(function(chip){
+      chip.addEventListener("click", function(){
+        var name = chip.getAttribute("data-name");
+        if(picked.some(function(p){ return p.name === name; })) return;
+        if(picked.length >= 3) return;
+        picked.push({
+          name: name,
+          pack: chip.getAttribute("data-pack") || "",
+          price: parseFloat(chip.getAttribute("data-price")) || 0,
+          can: chip.style.getPropertyValue("--can") || "var(--brass-light)",
+          chip: chip
+        });
+        render();
+      });
+    });
+
+    checkoutBtn.addEventListener("click", function(){
+      if(picked.length < 3) return;
+      var CART_KEY = "satpak_cart";
+      var cart = [];
+      try{ cart = JSON.parse(localStorage.getItem(CART_KEY)) || []; }catch(e){}
+      picked.forEach(function(item){
+        var idx = -1;
+        for(var i = 0; i < cart.length; i++){
+          if(cart[i].name === item.name && cart[i].pack === item.pack){ idx = i; break; }
+        }
+        if(idx > -1){ cart[idx].qty += 1; }
+        else { cart.push({ name: item.name, pack: item.pack, qty: 1 }); }
+      });
+      try{ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }catch(e){}
+      window.dispatchEvent(new Event("satpak:cart-updated"));
+      if(typeof showToast === "function") showToast("Kit added — ask for the kit rate at checkout");
+      var names = picked.map(function(p){ return p.name; }).join(", ");
+      var msg = "Hi SaT PaK, I built a kit on your site: " + names + ". Can you confirm the kit rate?";
+      window.open("https://wa.me/923181112606?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    });
+
+    render();
   });
 
   /* ---------- city auto-fill (any page with a saved city) ---------- */

@@ -1044,3 +1044,67 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 @media (max-width:540px){
   .city-grid{grid-template-columns:1fr 1fr;}
 }
+
+/* --------------------------------------------------------------------------
+   Kit builder (Chemicals) — pick 3, numbered slots, one glow that follows
+   the last item you added. Same signature flow as the city cards, color
+   picked up live from each item's own --can accent.
+   -------------------------------------------------------------------------- */
+.kit-builder{display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:start;}
+.kit-rail{display:flex;flex-direction:column;gap:8px;}
+.kit-chip{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:11px 14px;border-radius:30px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);
+  color:rgba(255,255,255,0.86);cursor:pointer;transition:all .25s var(--ease);
+}
+.kit-chip:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.28);}
+.kit-chip-dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--can,var(--teal));box-shadow:0 0 0 3px color-mix(in srgb,var(--can,var(--teal)) 30%,transparent);}
+.kit-chip-name{flex:1;font-size:0.9rem;font-weight:500;}
+.kit-chip-price{font-size:0.78rem;color:rgba(255,255,255,0.5);}
+.kit-chip.is-added{border-color:var(--can,var(--brass-light));background:color-mix(in srgb,var(--can,var(--teal)) 22%,transparent);}
+.kit-chip.is-added .kit-chip-name::after{content:" ✓";color:var(--can,var(--brass-light));}
+.kit-chip.is-disabled{opacity:.4;pointer-events:none;}
+
+.kit-slots-wrap{
+  position:relative;border-radius:var(--radius-lg);overflow:hidden;padding:36px 28px 28px;
+  --glow:var(--brass-light);
+}
+.kit-slots-wrap::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(85% 90% at 50% 45%,color-mix(in srgb,var(--glow) 55%,transparent) 0%,transparent 70%),
+    var(--heritage-dark-2);
+  transition:background .5s var(--cine-ease);
+}
+.kit-slots-wrap::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:repeating-linear-gradient(108deg,rgba(255,255,255,0.1) 0,rgba(255,255,255,0.1) 1px,transparent 1px,transparent 13px);
+  mix-blend-mode:overlay;
+  -webkit-mask-image:radial-gradient(85% 90% at 50% 45%,#000 0%,#000 36%,transparent 68%);
+  mask-image:radial-gradient(85% 90% at 50% 45%,#000 0%,#000 36%,transparent 68%);
+}
+.kit-slots{position:relative;z-index:1;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+.kit-slot{
+  position:relative;width:130px;height:150px;border-radius:16px;border:1.5px dashed rgba(255,255,255,0.3);
+  display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);
+}
+.kit-slot-num{font-family:var(--font-headline);font-size:1.6rem;color:rgba(255,255,255,0.35);}
+.kit-slot.is-filled{border-style:solid;border-color:var(--can,var(--brass-light));background:rgba(2,7,10,0.35);flex-direction:column;gap:6px;padding:14px 10px;text-align:center;}
+.kit-slot-name{font-family:var(--font-headline);font-size:0.95rem;color:#fff;text-transform:uppercase;line-height:1.1;}
+.kit-slot-price{font-size:0.76rem;color:rgba(255,255,255,0.6);}
+.kit-slot-remove{
+  position:absolute;top:-9px;right:-9px;width:24px;height:24px;border-radius:50%;background:#fff;color:var(--heritage-dark);
+  display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;border:0;cursor:pointer;box-shadow:var(--shadow-sm);
+}
+.kit-bar{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.14);}
+.kit-price-hint{color:rgba(255,255,255,0.55);font-size:0.92rem;}
+.kit-price-was{text-decoration:line-through;color:rgba(255,255,255,0.45);font-size:1rem;margin-right:10px;}
+.kit-price-now{font-family:var(--font-headline);font-size:1.7rem;color:#fff;}
+.kit-price-save{display:block;font-size:0.78rem;color:var(--brass-light);margin-top:2px;}
+.kit-bar [data-kit-checkout][disabled]{opacity:.4;pointer-events:none;}
+.kit-note{position:relative;z-index:1;margin-top:14px;font-size:0.76rem;color:rgba(255,255,255,0.4);}
+
+@media (max-width:860px){
+  .kit-builder{grid-template-columns:1fr;}
+  .kit-slot{width:100px;height:120px;}
+}
