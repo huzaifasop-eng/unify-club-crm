@@ -961,22 +961,33 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 }
 .city-card--lg{grid-column:span 2;grid-row:span 2;}
 .city-card:hover,.city-card:focus-visible{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
-/* One signature gradient mesh — Midnight Black base with an Electric Blue
-   glow and a Cantaloupe Orange glow blended into it, not three flat colors
-   boxed separately. Each card just shifts where the glow sits. */
+/* One signature gradient flow — Cantaloupe Orange light source bleeding out
+   into Electric Blue then fading to Midnight Black, same direction/order on
+   every card, only the --flow-x/--flow-y origin moves. Thin diagonal
+   "god-ray" stripes ride the same origin via a matching mask, so the
+   streaks fade out exactly where the glow does. */
 .city-card::before{
   content:"";position:absolute;inset:0;z-index:0;
   background:
-    radial-gradient(90% 75% at var(--glow1,28% 18%),rgba(2,151,222,0.85) 0%,rgba(2,151,222,0) 60%),
-    radial-gradient(75% 65% at var(--glow2,82% 88%),rgba(252,115,77,0.7) 0%,rgba(252,115,77,0) 58%),
+    linear-gradient(180deg,transparent 40%,rgba(2,7,10,0.58) 100%),
+    radial-gradient(135% 115% at var(--flow-x,50%) var(--flow-y,120%),
+      rgba(252,115,77,0.8) 0%,
+      rgba(2,151,222,0.68) 36%,
+      rgba(2,7,10,0) 72%),
     var(--heritage-dark);
 }
-.city-card[data-tone="a"]{--glow1:22% 14%;--glow2:85% 90%;}
-.city-card[data-tone="b"]{--glow1:80% 10%;--glow2:15% 92%;}
-.city-card[data-tone="c"]{--glow1:50% 100%;--glow2:85% 0%;}
+.city-card::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:repeating-linear-gradient(108deg,rgba(255,255,255,0.12) 0,rgba(255,255,255,0.12) 1px,transparent 1px,transparent 13px);
+  mix-blend-mode:overlay;
+  -webkit-mask-image:radial-gradient(135% 115% at var(--flow-x,50%) var(--flow-y,120%),#000 0%,#000 38%,transparent 70%);
+  mask-image:radial-gradient(135% 115% at var(--flow-x,50%) var(--flow-y,120%),#000 0%,#000 38%,transparent 70%);
+}
+.city-card[data-tone="a"]{--flow-x:22%;--flow-y:88%;}
+.city-card[data-tone="b"]{--flow-x:80%;--flow-y:18%;}
+.city-card[data-tone="c"]{--flow-x:50%;--flow-y:55%;}
 .city-card[data-tone="ghost"]::before{background:var(--white);border:1.5px dashed var(--line);}
 .city-card[data-tone="ghost"]{color:var(--charcoal);}
-.city-card::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,transparent 45%,rgba(2,7,10,0.5));}
 .city-card[data-tone="ghost"]::after{display:none;}
 .city-card.is-selected{box-shadow:0 0 0 3px var(--brass-light),var(--shadow-lg);}
 .city-name,.city-tag{position:relative;z-index:1;}
