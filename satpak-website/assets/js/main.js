@@ -875,6 +875,76 @@ function satpakInit(){
     });
   });
 
+  /* ---------- portal auth prototype (login.html / signup.html) ----------
+     Front-end UI only — see the PROTOTYPE NOTICE comment in both pages.
+     No real password check, no real session, no real account is created.
+     This just demonstrates the intended flow: client/staff sign in
+     directly, admin sign-in adds a second verification step, and
+     client self-signup ends on an honest "pending review" screen. */
+  safe("portal auth prototype", function(){
+    document.querySelectorAll("[data-portal-auth]").forEach(function(card){
+      var form = card.querySelector("[data-portal-login-form]");
+      var success = card.querySelector("[data-portal-success]");
+      if(!form) return;
+      var has2fa = card.hasAttribute("data-portal-2fa");
+      var submitBtn = form.querySelector("[data-portal-submit]");
+      var step2 = form.querySelector('[data-portal-step="2"]');
+      var step1Fields = form.querySelectorAll('[data-portal-step="1"]');
+      var codeInput = form.querySelector('[name="code"]');
+      var stage = 1;
+
+      form.addEventListener("submit", function(){
+        var requiredOk = true;
+        form.querySelectorAll("[required]").forEach(function(f){
+          if(f.closest("[hidden]")) return;
+          if(!f.value){ requiredOk = false; f.style.borderColor = "#c94b4b"; }
+          else { f.style.borderColor = ""; }
+        });
+        if(!requiredOk) return;
+
+        if(has2fa && stage === 1){
+          step1Fields.forEach(function(f){ f.setAttribute("hidden", ""); });
+          if(step2) step2.removeAttribute("hidden");
+          if(codeInput) setTimeout(function(){ codeInput.focus(); }, 50);
+          if(submitBtn) submitBtn.textContent = "Verify & Sign In";
+          stage = 2;
+          return;
+        }
+        if(has2fa && stage === 2 && codeInput){
+          var digits = codeInput.value.replace(/\D/g, "");
+          if(digits.length < 6){
+            codeInput.style.borderColor = "#c94b4b";
+            return;
+          }
+        }
+        form.hidden = true;
+        if(success) success.hidden = false;
+      });
+    });
+
+    var signupForm = document.querySelector("[data-portal-signup-form]");
+    if(signupForm){
+      var signupCard = signupForm.closest("[data-portal-signup]");
+      var signupSuccess = signupCard && signupCard.querySelector("[data-portal-success]");
+      signupForm.addEventListener("submit", function(){
+        var requiredOk = true;
+        signupForm.querySelectorAll("[required]").forEach(function(f){
+          if(!f.value){ requiredOk = false; f.style.borderColor = "#c94b4b"; }
+          else { f.style.borderColor = ""; }
+        });
+        var pw = signupForm.querySelector('[name="password"]');
+        var pw2 = signupForm.querySelector('[name="password2"]');
+        if(pw && pw2 && pw.value && pw2.value && pw.value !== pw2.value){
+          requiredOk = false;
+          pw2.style.borderColor = "#c94b4b";
+        }
+        if(!requiredOk) return;
+        signupForm.hidden = true;
+        if(signupSuccess) signupSuccess.hidden = false;
+      });
+    }
+  });
+
   /* ---------- city picker (Home) ----------
      Pick a city -> saved silently (localStorage) -> department picker
      appears. The saved city auto-fills into [data-city-autofill] fields on

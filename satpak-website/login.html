@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign In | SaT PaK Portal</title>
+<meta name="description" content="Sign in to the SaT PaK portal — for clients, staff and admin.">
+<link rel="canonical" href="https://satpak.pk/login.html">
+<meta name="theme-color" content="#0E4D45">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/assets/img/brand/satpak-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/cinematic.css">
+</head>
+<!--
+  PROTOTYPE NOTICE — this is a static front-end only. There is no server,
+  database or real authentication behind this page. Every "sign in" here
+  is a client-side UI simulation (see assets/js/main.js, "portal auth
+  prototype"): it never checks a real password, never creates a real
+  session, and never grants real access to anything. The three panels
+  below mirror the structure of a real 3-tier portal (approval-gated
+  client self-signup, invited/temp-password staff accounts, a 2FA step
+  for admin) so the UI/UX is ready; wiring it to a real identity
+  provider / backend (sessions, password hashing, email verification,
+  real 2FA delivery, role-based access control) is server-side work for
+  later and is NOT implemented here.
+-->
+<body data-page="portal" class="has-dark-hero">
+<div id="site-loader" aria-hidden="true">
+  <div class="loader-sky">
+    <div class="loader-sky-clouds"></div>
+    <div class="loader-mark">
+      <img src="/assets/img/brand/satpak-mark.png" alt="" width="44" height="44">
+      <span class="loader-word">SaT PaK</span>
+      <span class="loader-sub">Where it starts</span>
+    </div>
+  </div>
+  <button type="button" class="loader-skip" data-loader-skip>Skip intro</button>
+</div>
+<script src="/assets/js/loader.js"></script>
+
+
+<div data-include="/partials/header.html"></div>
+
+<section class="type-hero type-hero--short grain" data-scene="pass" aria-label="Sign in">
+  <span class="ghost" aria-hidden="true">Portal</span>
+  <div class="container">
+    <span class="kicker" style="color:var(--brass-light);" data-after-lines>Portal</span>
+    <h1 class="display mt-24">
+      <span class="cine-line"><span>Client, staff</span></span>
+      <span class="cine-line"><span>or <em>admin.</em></span></span>
+    </h1>
+    <p class="lede" data-after-lines>Pick who you are and sign in below. New client? You can request an account from here too.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:640px;">
+
+    <div data-segmented data-reveal>
+      <div class="segmented-chooser">
+        <button class="segment-btn" data-segment-target="client">
+          <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+          <span>Client</span>
+        </button>
+        <button class="segment-btn" data-segment-target="staff">
+          <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 20v-2a4 4 0 0 1 4-4h3M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM13 20v-1a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1"/><circle cx="8" cy="7" r="3"/></svg></span>
+          <span>Staff</span>
+        </button>
+        <button class="segment-btn" data-segment-target="admin">
+          <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-4z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg></span>
+          <span>Admin</span>
+        </button>
+      </div>
+
+      <!-- Client -->
+      <div class="segment-panel" data-segment-panel="client" id="client">
+        <div class="form-card" data-portal-auth data-portal-role="Client">
+          <h3>Client sign in</h3>
+          <p class="body-copy mt-8">For existing clients with an active account.</p>
+          <form class="mt-24" data-portal-login-form onsubmit="return false;">
+            <div class="form-field"><label>Email or phone *</label><input type="text" name="identity" required autocomplete="username"></div>
+            <div class="form-field"><label>Password *</label><input type="password" name="password" required autocomplete="current-password"></div>
+            <button type="submit" class="btn btn-primary" data-portal-submit>Sign In</button>
+          </form>
+          <div class="portal-success" data-portal-success hidden>
+            <p><strong>You're signed in.</strong></p>
+            <p class="hint mt-8">This is where your real client portal — order history, service requests, AMC schedule, documents — will appear once SaT PaK's backend is connected. Nothing beyond this UI exists yet.</p>
+          </div>
+          <p class="hint mt-24">New client? <a href="/signup.html" style="color:var(--brass);font-weight:600;">Create an account</a> — new accounts are reviewed by our team before access is granted, usually within 1 business day.</p>
+        </div>
+      </div>
+
+      <!-- Staff -->
+      <div class="segment-panel" data-segment-panel="staff" id="staff">
+        <div class="form-card" data-portal-auth data-portal-role="Staff">
+          <h3>Staff sign in</h3>
+          <p class="body-copy mt-8">For SaT PaK team members with an assigned account.</p>
+          <form class="mt-24" data-portal-login-form onsubmit="return false;">
+            <div class="form-field"><label>Work email *</label><input type="email" name="identity" required autocomplete="username"></div>
+            <div class="form-field"><label>Password *</label><input type="password" name="password" required autocomplete="current-password"></div>
+            <button type="submit" class="btn btn-primary" data-portal-submit>Sign In</button>
+          </form>
+          <div class="portal-success" data-portal-success hidden>
+            <p><strong>You're signed in.</strong></p>
+            <p class="hint mt-8">This is where the staff portal — job queue, client details, AMC calendar, inventory — will appear once SaT PaK's backend is connected. Nothing beyond this UI exists yet.</p>
+          </div>
+          <p class="hint mt-24">Staff accounts are created by SaT PaK management — there's no public sign-up here. First time signing in? Use the temporary password you were given; you'll be asked to set your own.</p>
+        </div>
+      </div>
+
+      <!-- Admin -->
+      <div class="segment-panel" data-segment-panel="admin" id="admin">
+        <div class="form-card" data-portal-auth data-portal-role="Admin" data-portal-2fa>
+          <h3>Admin sign in</h3>
+          <p class="body-copy mt-8">Admin access requires a second verification step.</p>
+          <form class="mt-24" data-portal-login-form onsubmit="return false;">
+            <div class="form-field" data-portal-step="1"><label>Admin email *</label><input type="email" name="identity" required autocomplete="username"></div>
+            <div class="form-field" data-portal-step="1"><label>Password *</label><input type="password" name="password" required autocomplete="current-password"></div>
+            <div class="form-field" data-portal-step="2" hidden>
+              <label>Verification code *</label>
+              <input type="text" name="code" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="6-digit code" autocomplete="one-time-code">
+              <span class="hint">A code would be sent to your registered device in the real system — in this prototype, any 6 digits will do.</span>
+            </div>
+            <button type="submit" class="btn btn-primary" data-portal-submit>Continue</button>
+          </form>
+          <div class="portal-success" data-portal-success hidden>
+            <p><strong>You're signed in.</strong></p>
+            <p class="hint mt-8">This is where the admin console — staff accounts, client approvals, orders, site content — will appear once SaT PaK's backend is connected. Nothing beyond this UI exists yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div data-include="/partials/footer.html"></div>
+<script src="/assets/js/include.js"></script>
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/motion.js"></script>
+</body>
+</html>

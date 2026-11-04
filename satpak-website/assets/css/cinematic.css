@@ -1394,3 +1394,12 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
   .best-price-cta{right:16px;left:16px;bottom:16px;justify-content:center;}
   .best-price-panel{right:16px;left:16px;bottom:78px;width:auto;}
 }
+
+/* --------------------------------------------------------------------------
+   Portal auth prototype (login.html / signup.html) — see PROTOTYPE NOTICE
+   in both files. Front-end state only, no real authentication.
+   -------------------------------------------------------------------------- */
+.portal-success{margin-top:24px;padding:20px;border-radius:10px;background:#e8f3ee;border:1px solid #bcdccf;color:#0E4D45;}
+.portal-success p{margin:0;}
+.portal-success p + p{margin-top:8px;}
+.portal-success .hint{color:rgba(14,77,69,0.75);}

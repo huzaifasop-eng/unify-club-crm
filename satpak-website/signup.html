@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create a Client Account | SaT PaK Portal</title>
+<meta name="description" content="Request a client account for the SaT PaK portal — reviewed and activated by our team.">
+<link rel="canonical" href="https://satpak.pk/signup.html">
+<meta name="theme-color" content="#0E4D45">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/assets/img/brand/satpak-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/cinematic.css">
+</head>
+<!--
+  PROTOTYPE NOTICE — same as login.html: no server, no database, no real
+  account is created here. Submitting this form shows a client-side
+  "request received" confirmation only (see assets/js/main.js, "portal
+  auth prototype"). A real implementation would create a pending-approval
+  record server-side, notify an admin, and email the client once
+  approved — none of that exists yet.
+-->
+<body data-page="portal" class="has-dark-hero">
+<div id="site-loader" aria-hidden="true">
+  <div class="loader-sky">
+    <div class="loader-sky-clouds"></div>
+    <div class="loader-mark">
+      <img src="/assets/img/brand/satpak-mark.png" alt="" width="44" height="44">
+      <span class="loader-word">SaT PaK</span>
+      <span class="loader-sub">Where it starts</span>
+    </div>
+  </div>
+  <button type="button" class="loader-skip" data-loader-skip>Skip intro</button>
+</div>
+<script src="/assets/js/loader.js"></script>
+
+
+<div data-include="/partials/header.html"></div>
+
+<section class="type-hero type-hero--short grain" data-scene="pass" aria-label="Create a client account">
+  <span class="ghost" aria-hidden="true">Join</span>
+  <div class="container">
+    <span class="kicker" style="color:var(--brass-light);" data-after-lines>Portal</span>
+    <h1 class="display mt-24">
+      <span class="cine-line"><span>Request a</span></span>
+      <span class="cine-line"><span>client <em>account.</em></span></span>
+    </h1>
+    <p class="lede" data-after-lines>A quick form, then our team reviews and activates it — usually within 1 business day.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:560px;">
+    <div class="form-card" data-portal-signup>
+      <h3>Create your account</h3>
+      <p class="body-copy mt-8">Already have one? <a href="/login.html#client" style="color:var(--brass);font-weight:600;">Sign in instead</a>.</p>
+      <form class="mt-24" data-portal-signup-form onsubmit="return false;">
+        <div class="form-grid">
+          <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
+          <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
+          <div class="form-field full"><label>Email *</label><input type="email" name="email" required></div>
+          <div class="form-field"><label>Account type</label>
+            <select name="type"><option>Residential</option><option>Commercial / Industrial</option><option>Builder / Developer</option><option>Distributor</option></select>
+          </div>
+          <div class="form-field"><label>City</label><input type="text" name="city" data-city-autofill></div>
+          <div class="form-field"><label>Password *</label><input type="password" name="password" required autocomplete="new-password"></div>
+          <div class="form-field"><label>Confirm password *</label><input type="password" name="password2" required autocomplete="new-password"></div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-24" data-portal-submit>Request Account</button>
+        <p class="hint mt-16">By requesting an account, your details are sent to SaT PaK for review. We'll confirm by phone or email once it's active — nothing is charged and no order is placed.</p>
+      </form>
+      <div class="portal-success" data-portal-success hidden>
+        <p><strong>Request received.</strong></p>
+        <p class="hint mt-8">Our team will review your details and activate your account, usually within 1 business day. We'll reach out on the phone or email you provided.</p>
+        <a href="/login.html#client" class="btn btn-outline mt-16">Back to sign in</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div data-include="/partials/footer.html"></div>
+<script src="/assets/js/include.js"></script>
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/motion.js"></script>
+</body>
+</html>
