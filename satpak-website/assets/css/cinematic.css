@@ -1256,3 +1256,8 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 /* Expanded before/after documentary moment */
 .wipe-intro{max-width:62ch;}
 .wipe-scene.is-lead .wipe-media{aspect-ratio:16/7.2;}
+
+/* Lifestyle editorial routine groups (Health & Wellness) */
+@media (max-width:900px){
+  .editorial-group .split .grid-2{grid-template-columns:1fr;}
+}
