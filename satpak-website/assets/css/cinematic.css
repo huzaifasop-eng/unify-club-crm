@@ -961,13 +961,22 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 }
 .city-card--lg{grid-column:span 2;grid-row:span 2;}
 .city-card:hover,.city-card:focus-visible{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
-.city-card::before{content:"";position:absolute;inset:0;z-index:0;}
-.city-card[data-tone="teal"]::before{background:linear-gradient(140deg,var(--teal-700),var(--teal) 70%);}
-.city-card[data-tone="brass"]::before{background:linear-gradient(140deg,#7a3b1c,var(--brass-light) 85%);}
-.city-card[data-tone="dark"]::before{background:linear-gradient(140deg,var(--heritage-dark),#163238 85%);}
+/* One signature gradient mesh — Midnight Black base with an Electric Blue
+   glow and a Cantaloupe Orange glow blended into it, not three flat colors
+   boxed separately. Each card just shifts where the glow sits. */
+.city-card::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(90% 75% at var(--glow1,28% 18%),rgba(2,151,222,0.85) 0%,rgba(2,151,222,0) 60%),
+    radial-gradient(75% 65% at var(--glow2,82% 88%),rgba(252,115,77,0.7) 0%,rgba(252,115,77,0) 58%),
+    var(--heritage-dark);
+}
+.city-card[data-tone="a"]{--glow1:22% 14%;--glow2:85% 90%;}
+.city-card[data-tone="b"]{--glow1:80% 10%;--glow2:15% 92%;}
+.city-card[data-tone="c"]{--glow1:50% 100%;--glow2:85% 0%;}
 .city-card[data-tone="ghost"]::before{background:var(--white);border:1.5px dashed var(--line);}
 .city-card[data-tone="ghost"]{color:var(--charcoal);}
-.city-card::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.38));}
+.city-card::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,transparent 45%,rgba(2,7,10,0.5));}
 .city-card[data-tone="ghost"]::after{display:none;}
 .city-card.is-selected{box-shadow:0 0 0 3px var(--brass-light),var(--shadow-lg);}
 .city-name,.city-tag{position:relative;z-index:1;}

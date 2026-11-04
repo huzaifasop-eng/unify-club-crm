@@ -128,7 +128,13 @@ h1,h2,h3,.font-display{
 .section--dark h1,.section--dark h2,.section--dark h3{color:var(--white);}
 .section--dark .eyebrow{color:var(--brass-light);}
 .section--ivory-dim{background:var(--ivory-dim);}
-.section--teal{background:var(--teal);color:rgba(255,255,255,0.92);}
+.section--teal{
+  background:
+    radial-gradient(90% 70% at 15% 10%,rgba(2,151,222,0.55) 0%,rgba(2,151,222,0) 60%),
+    radial-gradient(75% 65% at 85% 95%,rgba(252,115,77,0.45) 0%,rgba(252,115,77,0) 58%),
+    var(--heritage-dark);
+  color:rgba(255,255,255,0.92);
+}
 .section--teal h1,.section--teal h2,.section--teal h3{color:var(--white);}
 
 h1{font-size:clamp(2.4rem,4.4vw,4rem);}
