@@ -22,6 +22,13 @@
 <!-- Analytics placeholders — add real IDs before launch (see README "Analytics & tracking") -->
 </head>
 <body data-page="home" class="home has-dark-hero">
+<div id="site-loader" aria-hidden="true">
+  <div class="loader-blobs"><span></span><span></span><span></span></div>
+  <div class="loader-pct" data-loader-pct>0%</div>
+  <button type="button" class="loader-skip" data-loader-skip>Skip intro</button>
+</div>
+<script src="/assets/js/loader.js"></script>
+
 
 <div data-include="/partials/header.html"></div>
 
@@ -82,6 +89,41 @@
       <div><span class="n" data-count-to="40" data-count-suffix="+">40+</span><span class="l">Product lines</span></div>
       <div><span class="n" data-count-to="500" data-count-suffix="+">500+</span><span class="l">Clients served</span></div>
       <div><span class="n word">Karachi</span><span class="l">Manufacturing base</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     2b. Where we serve — pick a city, then a department
+     =================================================================== -->
+<section class="section section--ivory-dim" id="where-we-serve" aria-labelledby="cities-title">
+  <div class="container">
+    <span class="kicker" data-in="fade">Where we serve</span>
+    <h2 class="h-xl mt-24" id="cities-title" data-in="up">Pick your city.</h2>
+    <p class="lede mt-16" data-in="up">Tell us where you are, and we'll point you straight to the right department.</p>
+
+    <div class="city-grid mt-48" data-city-grid data-stagger>
+      <button type="button" class="city-card city-card--lg" data-city="Karachi" data-tone="teal">
+        <span class="city-name">Karachi</span>
+        <span class="city-tag">Manufacturing base · HQ</span>
+      </button>
+      <button type="button" class="city-card" data-city="Lahore" data-tone="brass"><span class="city-name">Lahore</span></button>
+      <button type="button" class="city-card" data-city="Islamabad" data-tone="dark"><span class="city-name">Islamabad</span></button>
+      <button type="button" class="city-card" data-city="Rawalpindi" data-tone="teal"><span class="city-name">Rawalpindi</span></button>
+      <button type="button" class="city-card" data-city="Faisalabad" data-tone="brass"><span class="city-name">Faisalabad</span></button>
+      <button type="button" class="city-card" data-city="Multan" data-tone="dark"><span class="city-name">Multan</span></button>
+      <button type="button" class="city-card city-card--other" data-city="Other" data-tone="ghost"><span class="city-name">Somewhere else?</span><span class="city-tag">Tell us on WhatsApp</span></button>
+    </div>
+
+    <div class="dept-picker" data-dept-picker hidden>
+      <p class="dept-picker-lede">Got it — <strong data-dept-picker-city>Karachi</strong>. Which department do you need?</p>
+      <div class="dept-picker-grid">
+        <a href="/ro-plants-services.html" class="dept-pick">RO Plants &amp; Services</a>
+        <a href="/chemicals-minerals.html" class="dept-pick">Chemicals &amp; Minerals</a>
+        <a href="/article.html" class="dept-pick">Article — Mineral Water</a>
+        <a href="/health-wellness.html" class="dept-pick">Health &amp; Wellness</a>
+        <a href="/home-care.html" class="dept-pick">Home Care</a>
+      </div>
     </div>
   </div>
 </section>

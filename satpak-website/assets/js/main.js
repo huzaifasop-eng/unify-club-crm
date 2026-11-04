@@ -251,7 +251,10 @@ function satpakInit(){
       var lines = cart.map(function(l, i){
         return (i+1) + ") " + l.name + " × " + l.qty + " " + (l.qty === 1 ? "can" : "cans") + (l.pack ? " (" + l.pack + ")" : "");
       });
-      var msg = "Assalam o Alaikum, mujhe ye chahiye:\n" + lines.join("\n") + "\n\nBaraye meherbani rate aur availability bata dein.";
+      var savedCity = null;
+      try{ savedCity = localStorage.getItem("satpak_city"); }catch(e){}
+      var cityLine = savedCity ? ("Shehar: " + savedCity + "\n\n") : "";
+      var msg = "Assalam o Alaikum, mujhe ye chahiye:\n" + lines.join("\n") + "\n\n" + cityLine + "Baraye meherbani rate aur availability bata dein.";
       window.open("https://wa.me/923181112606?text=" + encodeURIComponent(msg), "_blank", "noopener");
     });
 
@@ -577,6 +580,43 @@ function satpakInit(){
       activateSegment(initialBtn ? initialHash : segBtns[0].getAttribute("data-segment-target"));
       if(initialBtn) setTimeout(function(){ segGroup.scrollIntoView({behavior:"smooth", block:"start"}); }, 150);
     }
+  });
+
+  /* ---------- city picker (Home) ----------
+     Pick a city -> saved silently (localStorage) -> department picker
+     appears. The saved city auto-fills into [data-city-autofill] fields on
+     any later form/WhatsApp message, with no manual re-entry. */
+  var CITY_KEY = "satpak_city";
+  safe("city picker", function(){
+    var grid = document.querySelector("[data-city-grid]");
+    var picker = document.querySelector("[data-dept-picker]");
+    if(!grid || !picker) return;
+    var cityOut = picker.querySelector("[data-dept-picker-city]");
+    grid.querySelectorAll(".city-card").forEach(function(card){
+      card.addEventListener("click", function(){
+        var city = card.getAttribute("data-city");
+        if(city === "Other"){
+          window.open("https://wa.me/923181112606?text=" + encodeURIComponent("Hi SaT PaK, I'm not in one of your listed cities — can you help?"), "_blank", "noopener");
+          return;
+        }
+        grid.querySelectorAll(".city-card").forEach(function(c){ c.classList.remove("is-selected"); });
+        card.classList.add("is-selected");
+        try{ localStorage.setItem(CITY_KEY, city); }catch(e){}
+        if(cityOut) cityOut.textContent = city;
+        picker.hidden = false;
+        setTimeout(function(){ picker.scrollIntoView({behavior:"smooth", block:"center"}); }, 80);
+      });
+    });
+  });
+
+  /* ---------- city auto-fill (any page with a saved city) ---------- */
+  safe("city autofill", function(){
+    var city = null;
+    try{ city = localStorage.getItem(CITY_KEY); }catch(e){}
+    if(!city) return;
+    document.querySelectorAll("[data-city-autofill]").forEach(function(field){
+      if(!field.value) field.value = city;
+    });
   });
 }
 

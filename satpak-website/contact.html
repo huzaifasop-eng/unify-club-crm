@@ -15,6 +15,13 @@
 <link rel="stylesheet" href="/assets/css/cinematic.css">
 </head>
 <body data-page="contact" class="has-dark-hero">
+<div id="site-loader" aria-hidden="true">
+  <div class="loader-blobs"><span></span><span></span><span></span></div>
+  <div class="loader-pct" data-loader-pct>0%</div>
+  <button type="button" class="loader-skip" data-loader-skip>Skip intro</button>
+</div>
+<script src="/assets/js/loader.js"></script>
+
 
 <div data-include="/partials/header.html"></div>
 
@@ -76,6 +83,7 @@
             <!-- Calendly inline widget: replace this comment with the embed <div class="calendly-inline-widget"> + script from your Calendly account. See README "Consultation booking". -->
             <form data-satpak-form data-ref-prefix="CONSULT" class="mt-24">
               <input type="hidden" name="department" value="Consultation">
+              <input type="hidden" name="city" data-city-autofill>
               <div class="form-grid">
                 <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
                 <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
@@ -100,6 +108,7 @@
             <p class="body-copy mt-8">For industrial, commercial and agricultural RO enquiries.</p>
             <form data-satpak-form data-ref-prefix="TECH" class="mt-24">
               <input type="hidden" name="department" value="RO Plants &amp; Services — Technical">
+              <input type="hidden" name="city" data-city-autofill>
               <div class="form-grid">
                 <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
                 <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
@@ -125,6 +134,7 @@
             <p class="body-copy mt-8">Mineralized tap water designed into your project from the ground up.</p>
             <form data-satpak-form data-ref-prefix="BUILD" class="mt-24">
               <input type="hidden" name="department" value="Builder — Mineralized Tap Water">
+              <input type="hidden" name="city" data-city-autofill>
               <div class="form-grid">
                 <div class="form-field"><label>Contact name *</label><input type="text" name="name" required></div>
                 <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
@@ -154,6 +164,7 @@
             <p class="body-copy mt-8">Six-plus distributors already resell under the SaT PaK name across Karachi. Tell us about your setup.</p>
             <form data-satpak-form data-ref-prefix="DIST" class="mt-24">
               <input type="hidden" name="department" value="Become a Distributor">
+              <input type="hidden" name="city" data-city-autofill>
               <div class="form-grid">
                 <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
                 <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
@@ -177,6 +188,7 @@
             <p class="body-copy mt-8">Products already in your cart fill in automatically, or just type what you need.</p>
             <form data-satpak-form data-ref-prefix="CHEM" class="mt-24">
               <input type="hidden" name="department" value="Chemicals &amp; Minerals — Quote">
+              <input type="hidden" name="city" data-city-autofill>
               <div class="form-grid">
                 <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
                 <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
@@ -199,6 +211,7 @@
             <p class="body-copy mt-8">Anonymous question box. Approved answers may be published as public Q&amp;A, with no personal details included.</p>
             <form data-satpak-form data-ref-prefix="ASK" class="mt-24">
               <input type="hidden" name="department" value="Ask SaT PaK">
+              <input type="hidden" name="city" data-city-autofill>
               <div class="form-field"><label>Your question *</label><textarea name="question" required></textarea></div>
               <div class="form-field"><label>Email (optional, only if you want a direct reply)</label><input type="email" name="email"></div>
               <button type="submit" class="btn btn-primary">Submit Question</button>
@@ -212,6 +225,7 @@
         <h3>Health &amp; Wellness Enquiries</h3>
         <form data-satpak-form data-ref-prefix="HEALTH" class="mt-24">
           <input type="hidden" name="department" value="Health &amp; Wellness">
+              <input type="hidden" name="city" data-city-autofill>
           <div class="form-grid">
             <div class="form-field"><label>Full name *</label><input type="text" name="name" required></div>
             <div class="form-field"><label>Phone *</label><input type="tel" name="phone" required></div>
