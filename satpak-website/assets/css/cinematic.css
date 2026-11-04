@@ -1276,3 +1276,66 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .stage-card h3{position:relative;z-index:1;font-family:var(--font-headline);text-transform:uppercase;font-weight:400;font-size:clamp(1.3rem,2.4vw,1.7rem);color:#fff;margin:0 0 12px;}
 .stage-card p{position:relative;z-index:1;color:rgba(255,255,255,0.68);font-size:0.95rem;margin:0;}
 @media (max-width:900px){.stage-cards{grid-template-columns:1fr;}}
+
+/* --------------------------------------------------------------------------
+   Contact — Typeform-style one-question-at-a-time wizard, built on top of
+   the existing inline segment-panel forms (no markup duplication; the
+   wizard just takes over presentation of the same .form-field elements).
+   -------------------------------------------------------------------------- */
+.form-card{position:relative;}
+.form-card.is-wizard{
+  position:fixed;inset:0;z-index:400;border-radius:0;border:0;
+  background:var(--heritage-dark);display:flex;flex-direction:column;justify-content:center;
+  padding:80px 28px 120px;overflow-y:auto;animation:fadeIn .25s var(--ease);
+}
+.form-card.is-wizard h3{color:#fff;font-size:clamp(1.3rem,2.6vw,1.6rem);max-width:640px;margin:0 auto;}
+.form-card.is-wizard > p{color:rgba(255,255,255,0.6);max-width:640px;margin:8px auto 0;}
+.form-card.is-wizard form{max-width:640px;margin:36px auto 0;width:100%;}
+.form-card.is-wizard .form-grid{display:block;}
+.form-card.is-wizard .form-field{display:none;margin-bottom:0;}
+.form-card.is-wizard .form-field.is-wizard-active{display:block;animation:fadeIn .3s var(--ease);}
+.form-card.is-wizard .form-field label{
+  display:block;font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.25rem,2.8vw,1.7rem);color:#fff;margin-bottom:20px;
+}
+.form-card.is-wizard .form-field input,
+.form-card.is-wizard .form-field select,
+.form-card.is-wizard .form-field textarea{
+  width:100%;background:transparent;border:none;border-bottom:2px solid rgba(255,255,255,0.28);
+  border-radius:0;color:#fff;font-size:1.25rem;padding:10px 2px;font-family:var(--font-sans);
+}
+.form-card.is-wizard .form-field select option{color:#111;}
+.form-card.is-wizard .form-field input:focus,
+.form-card.is-wizard .form-field select:focus,
+.form-card.is-wizard .form-field textarea:focus{outline:none;border-bottom-color:var(--brass-light);}
+.form-card.is-wizard .form-field .hint{color:rgba(255,255,255,0.5);}
+.form-card.is-wizard .file-drop{color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.28);}
+.form-card.is-wizard form > button[type="submit"]{display:none;}
+.wizard-field-error{display:none;margin-top:10px;font-size:0.84rem;color:#ff9a8a;}
+.wizard-field-error.is-visible{display:block;}
+.wizard-bar,.wizard-close,.wizard-nav{display:none;}
+.form-card.is-wizard .wizard-bar{
+  display:block;position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.1);z-index:402;
+}
+.wizard-bar-fill{height:100%;width:0%;background:var(--brass-light);transition:width .35s var(--cine-ease);}
+.form-card.is-wizard .wizard-close{
+  display:flex;position:fixed;top:20px;right:24px;z-index:402;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#fff;
+  align-items:center;justify-content:center;cursor:pointer;transition:background .2s var(--ease);
+}
+.wizard-close:hover{background:rgba(255,255,255,0.16);}
+.form-card.is-wizard .wizard-nav{
+  display:flex;position:fixed;left:0;right:0;bottom:0;z-index:402;padding:22px 28px;
+  align-items:center;justify-content:center;gap:20px;
+  background:linear-gradient(0deg,rgba(2,7,10,0.92),rgba(2,7,10,0));
+}
+.wizard-count{color:rgba(255,255,255,0.46);font-size:0.82rem;min-width:52px;text-align:center;}
+.wizard-back,.wizard-next{padding:12px 26px;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all .2s var(--ease);}
+.wizard-back{background:transparent;border:1.3px solid rgba(255,255,255,0.3);color:#fff;}
+.wizard-back:hover{background:rgba(255,255,255,0.08);}
+.wizard-next{background:var(--brass);border:1.3px solid var(--brass);color:#fff;}
+.wizard-next:hover{background:var(--brass-light);border-color:var(--brass-light);}
+@media (max-width:640px){
+  .form-card.is-wizard{padding:72px 20px 110px;}
+  .wizard-nav{padding:16px 20px;gap:14px;}
+}

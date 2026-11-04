@@ -583,6 +583,143 @@ function satpakInit(){
     }
   });
 
+  /* ---------- contact wizard (Typeform-style, one question at a time) ----------
+     Takes over presentation of the existing segment-panel forms — same
+     fields, same submit handler above, no duplicated markup. Clicking a
+     department button opens the wizard for that form; closing it falls
+     back to the normal inline panel underneath. */
+  safe("contact wizard", function(){
+    var segGroup = document.querySelector("[data-segmented]");
+    if(!segGroup) return;
+
+    function closeWizard(card){
+      card.classList.remove("is-wizard");
+      document.body.style.overflow = "";
+      if(card.__wizardHome){
+        if(card.__wizardHome.next && card.__wizardHome.next.parentNode === card.__wizardHome.parent){
+          card.__wizardHome.parent.insertBefore(card, card.__wizardHome.next);
+        } else {
+          card.__wizardHome.parent.appendChild(card);
+        }
+      }
+    }
+
+    function buildWizard(form){
+      var card = form.closest(".form-card");
+      if(!card || card.__wizardOpen) return;
+      var fields = Array.prototype.slice.call(form.querySelectorAll(".form-field"));
+      if(!fields.length) return;
+      form.setAttribute("novalidate", "");
+      var submitBtn = form.querySelector('button[type="submit"]');
+
+      var bar = document.createElement("div");
+      bar.className = "wizard-bar";
+      var barFill = document.createElement("div");
+      barFill.className = "wizard-bar-fill";
+      bar.appendChild(barFill);
+
+      var closeBtn = document.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.className = "wizard-close";
+      closeBtn.setAttribute("aria-label", "Close");
+      closeBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+      var nav = document.createElement("div");
+      nav.className = "wizard-nav";
+      var backBtn = document.createElement("button");
+      backBtn.type = "button"; backBtn.className = "wizard-back"; backBtn.textContent = "Back";
+      var countEl = document.createElement("span");
+      countEl.className = "wizard-count";
+      var nextBtn = document.createElement("button");
+      nextBtn.type = "button"; nextBtn.className = "wizard-next"; nextBtn.textContent = "Next";
+      nav.appendChild(backBtn); nav.appendChild(countEl); nav.appendChild(nextBtn);
+
+      card.appendChild(bar);
+      card.appendChild(closeBtn);
+      card.appendChild(nav);
+
+      var errorEls = fields.map(function(f){
+        var err = document.createElement("div");
+        err.className = "wizard-field-error";
+        err.textContent = "This one's needed before we can continue.";
+        f.appendChild(err);
+        return err;
+      });
+
+      var total = fields.length + 1;
+      var step = 0;
+
+      function render(){
+        fields.forEach(function(f, i){ f.classList.toggle("is-wizard-active", i === step); });
+        errorEls.forEach(function(e){ e.classList.remove("is-visible"); });
+        barFill.style.width = (((step + 1) / total) * 100) + "%";
+        backBtn.style.visibility = step === 0 ? "hidden" : "visible";
+        countEl.textContent = (step + 1) + " / " + total;
+        nextBtn.textContent = step < fields.length ? "Next" : "Submit";
+        if(step < fields.length){
+          var input = fields[step].querySelector("input,select,textarea");
+          if(input) setTimeout(function(){ input.focus(); }, 60);
+        }
+      }
+
+      function currentFieldValid(){
+        if(step >= fields.length) return true;
+        var control = fields[step].querySelector("[required]");
+        return !control || !!control.value;
+      }
+
+      function goNext(){
+        if(!currentFieldValid()){
+          errorEls[step].classList.add("is-visible");
+          return;
+        }
+        if(step < total - 1){ step++; render(); }
+        else if(submitBtn){ submitBtn.click(); }
+      }
+      function goBack(){ if(step > 0){ step--; render(); } }
+
+      nextBtn.addEventListener("click", goNext);
+      backBtn.addEventListener("click", goBack);
+      closeBtn.addEventListener("click", function(){ closeWizard(card); });
+
+      fields.forEach(function(f){
+        var control = f.querySelector("input,select");
+        if(control){
+          control.addEventListener("keydown", function(e){
+            if(e.key === "Enter"){ e.preventDefault(); goNext(); }
+          });
+        }
+      });
+
+      form.addEventListener("submit", function(){
+        setTimeout(function(){ closeWizard(card); step = 0; render(); }, 1400);
+      });
+
+      card.__wizardOpen = function(){
+        if(!card.__wizardHome){
+          card.__wizardHome = { parent: card.parentNode, next: card.nextSibling };
+        }
+        document.body.appendChild(card);
+        card.classList.add("is-wizard");
+        step = 0;
+        render();
+        document.body.style.overflow = "hidden";
+      };
+    }
+
+    document.querySelectorAll("[data-segment-panel] form[data-satpak-form]").forEach(buildWizard);
+
+    segGroup.querySelectorAll(".segment-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var target = btn.getAttribute("data-segment-target");
+        var panel = document.querySelector('[data-segment-panel="' + target + '"]');
+        var form = panel && panel.querySelector("form[data-satpak-form]");
+        var card = form && form.closest(".form-card");
+        if(card && card.__wizardOpen) card.__wizardOpen();
+      });
+    });
+  });
+
   /* ---------- city picker (Home) ----------
      Pick a city -> saved silently (localStorage) -> department picker
      appears. The saved city auto-fills into [data-city-autofill] fields on
