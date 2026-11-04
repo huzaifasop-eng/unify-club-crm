@@ -945,6 +945,93 @@ function satpakInit(){
     }
   });
 
+  /* ---------- AppleCare-style service attach (chemicals buy flow) ----------
+     Same pattern as adding AppleCare while configuring a Mac: 1-2 relevant
+     services show up as optional checkboxes next to the product. The
+     product-to-service mapping below is SaT PaK's real AMC services
+     (installation, recurring AMC supply/service, dosing onboarding —
+     see the Services/AMC section on ro-plants-services.html) matched to
+     each chemical by what it actually needs, as a reasonable placeholder
+     judgment call — not yet confirmed by SaT PaK. Checking a box doesn't
+     create a line item (there's no backend); it appends the request to
+     the product's WhatsApp enquiry message so a human can quote it. */
+  safe("applecare service attach", function(){
+    var SERVICES = {
+      install: { label: "Installation", desc: "Have our team install or apply this on site." },
+      amc: { label: "Add to AMC", desc: "Recurring supply or service, scheduled under an Annual Maintenance Contract." },
+      onboarding: { label: "Professional Onboarding", desc: "A technician sets the dose and walks your team through it." }
+    };
+    var MAP = {
+      "KLASSeC": ["amc", "onboarding"],
+      "CLARO": ["amc", "onboarding"],
+      "NEORA": ["amc", "onboarding"],
+      "E LYTE 0-4": ["onboarding", "amc"],
+      "MEDIX": ["install", "amc"],
+      "PULSER": ["install", "onboarding"],
+      "BIOX": ["install", "amc"],
+      "PUREX": ["install", "amc"],
+      "PVC Jointing Solution": ["install"],
+      "PVC Surfacer / Cleaner": ["install"],
+      "Filters / Caps & Fittings": ["install", "amc"],
+      "Tank Wash": ["install", "amc"]
+    };
+
+    document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
+      var name = ctrl.getAttribute("data-product-name");
+      var codes = MAP[name];
+      var parent = ctrl.parentElement;
+      if(!codes || !codes.length || !parent) return;
+
+      var anchor = parent.querySelector(".tier-note") || parent.querySelector(".tier-table") ||
+        parent.querySelector(".stock-strip") || parent.querySelector("[data-price-display]") || ctrl;
+
+      var wrap = document.createElement("div");
+      wrap.className = "service-attach";
+      var title = document.createElement("div");
+      title.className = "service-attach-title";
+      title.textContent = "Add a service to this order";
+      wrap.appendChild(title);
+
+      codes.forEach(function(code){
+        var svc = SERVICES[code];
+        if(!svc) return;
+        var id = "svc-" + name.replace(/[^a-z0-9]/gi, "") + "-" + code;
+        var label = document.createElement("label");
+        label.className = "service-check";
+        label.setAttribute("for", id);
+        label.innerHTML =
+          '<input type="checkbox" id="' + id + '" data-service-label="' + svc.label + '">' +
+          '<span class="service-check-body"><strong>' + svc.label + '</strong><span>' + svc.desc + '</span></span>';
+        wrap.appendChild(label);
+      });
+
+      var note = document.createElement("p");
+      note.className = "service-attach-note";
+      note.textContent = "Optional — tell us what you need and we'll quote it alongside your order.";
+      wrap.appendChild(note);
+
+      anchor.insertAdjacentElement("afterend", wrap);
+
+      var waLink = parent.querySelector(".btn-whatsapp");
+      if(!waLink) return;
+      var baseHref = waLink.getAttribute("href");
+      wrap.querySelectorAll("input[type=checkbox]").forEach(function(box){
+        box.addEventListener("change", function(){
+          var selected = Array.prototype.slice.call(wrap.querySelectorAll("input:checked"))
+            .map(function(b){ return b.getAttribute("data-service-label"); });
+          try{
+            var url = new URL(baseHref);
+            var params = new URLSearchParams(url.search);
+            var baseText = (params.get("text") || "").split(" — also interested in")[0];
+            params.set("text", baseText + (selected.length ? " — also interested in: " + selected.join(", ") : ""));
+            url.search = params.toString();
+            waLink.setAttribute("href", url.toString());
+          }catch(e){}
+        });
+      });
+    });
+  });
+
   /* ---------- city picker (Home) ----------
      Pick a city -> saved silently (localStorage) -> department picker
      appears. The saved city auto-fills into [data-city-autofill] fields on
