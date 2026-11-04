@@ -1351,3 +1351,46 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .stock-qty{font-weight:600;color:var(--teal);}
 .stock-qty.is-low{color:var(--brass);}
 .stock-sep{opacity:0.5;}
+
+/* --------------------------------------------------------------------------
+   Tiered pricing (IndiaMART-style, informational) + persistent
+   "Get Best Price" RFQ CTA. Tier price is shown for reference only —
+   the cart and Add to Cart total always use the listed retail price.
+   -------------------------------------------------------------------------- */
+.tier-table{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+.tier-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:0.82rem;border-top:1px solid var(--line);transition:background .2s var(--ease);}
+.tier-row:first-child{border-top:0;}
+.tier-range{color:rgba(30,30,30,0.6);}
+.tier-price{font-weight:600;color:var(--charcoal);}
+.tier-row.is-active{background:var(--teal-100);}
+.tier-row.is-active .tier-price{color:var(--teal);}
+.tier-note{margin-top:8px;font-size:0.76rem;color:rgba(30,30,30,0.45);}
+
+.best-price-cta{
+  position:fixed;right:98px;bottom:26px;z-index:399;
+  display:flex;align-items:center;gap:9px;padding:13px 20px 13px 16px;border-radius:40px;
+  background:var(--heritage-dark);color:#fff;box-shadow:0 10px 28px rgba(2,7,10,0.35);
+  border:1px solid rgba(255,255,255,0.12);cursor:pointer;font-weight:600;font-size:0.84rem;
+  transition:transform .2s var(--ease),background .2s;
+}
+.best-price-cta:hover{transform:translateY(-2px);}
+.best-price-cta svg{width:17px;height:17px;flex:none;}
+.best-price-panel{
+  position:fixed;right:20px;bottom:92px;z-index:399;width:290px;max-width:calc(100vw - 32px);
+  background:var(--white);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(2,7,10,0.25);
+  border:1px solid var(--line);padding:22px;
+  opacity:0;visibility:hidden;transform:translateY(12px);transition:all .25s var(--ease);
+}
+.best-price-panel.is-open{opacity:1;visibility:visible;transform:translateY(0);}
+.best-price-panel h4{margin:0 0 6px;font-family:var(--font-display);font-size:1.15rem;color:var(--charcoal);}
+.best-price-panel p{margin:0 0 16px;font-size:0.84rem;color:rgba(30,30,30,0.6);}
+.best-price-panel label{display:block;font-size:0.78rem;font-weight:600;margin-bottom:6px;color:rgba(30,30,30,0.7);}
+.best-price-panel select,.best-price-panel input{
+  width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);margin-bottom:14px;
+  font-size:0.88rem;font-family:var(--font-sans);box-sizing:border-box;
+}
+.best-price-panel .btn{width:100%;justify-content:center;}
+@media (max-width:640px){
+  .best-price-cta{right:16px;left:16px;bottom:16px;justify-content:center;}
+  .best-price-panel{right:16px;left:16px;bottom:78px;width:auto;}
+}

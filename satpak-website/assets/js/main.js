@@ -763,6 +763,118 @@ function satpakInit(){
     });
   });
 
+  /* ---------- tiered pricing (IndiaMART-style, informational only) ----------
+     Shows an indicative per-unit rate by quantity band next to each priced
+     product, highlighting the band the current quantity falls in. This is
+     reference pricing only — Add to Cart totals (above) are untouched and
+     always use the listed retail price. */
+  safe("tiered pricing", function(){
+    var TIERS = [
+      { min: 1, max: 9, label: "1–9", mult: 1 },
+      { min: 10, max: 49, label: "10–49", mult: 0.92 },
+      { min: 50, max: 199, label: "50–199", mult: 0.85 },
+      { min: 200, max: Infinity, label: "200+", mult: null }
+    ];
+    document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
+      var packSelect = ctrl.querySelector("[data-pack-select]");
+      var qtyInput = ctrl.querySelector("[data-qty-input]");
+      var parent = ctrl.parentElement;
+      if(!packSelect || !parent) return;
+
+      var anchor = parent.querySelector(".stock-strip") || parent.querySelector("[data-price-display]") || ctrl;
+
+      var table = document.createElement("div");
+      table.className = "tier-table";
+      var rows = TIERS.map(function(t){
+        var row = document.createElement("div");
+        row.className = "tier-row";
+        row.innerHTML = '<span class="tier-range">' + t.label + '</span><span class="tier-price"></span>';
+        table.appendChild(row);
+        return row;
+      });
+      var note = document.createElement("p");
+      note.className = "tier-note";
+      note.textContent = "Indicative tiered pricing — confirmed on enquiry.";
+
+      function render(){
+        var opt = packSelect.options[packSelect.selectedIndex];
+        var base = opt ? parseFloat(opt.getAttribute("data-price")) : NaN;
+        var qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
+        TIERS.forEach(function(t, i){
+          var priceEl = rows[i].querySelector(".tier-price");
+          if(isNaN(base)){
+            priceEl.textContent = "On inquiry";
+          } else if(t.mult === null){
+            priceEl.textContent = "Get Best Price";
+          } else {
+            priceEl.textContent = "Rs " + Math.round(base * t.mult).toLocaleString("en-PK") + " /unit";
+          }
+          rows[i].classList.toggle("is-active", qty >= t.min && qty <= t.max);
+        });
+      }
+
+      packSelect.addEventListener("change", render);
+      ctrl.querySelectorAll("[data-qty-dec],[data-qty-inc]").forEach(function(btn){
+        btn.addEventListener("click", function(){ setTimeout(render, 0); });
+      });
+      render();
+      anchor.insertAdjacentElement("afterend", note);
+      anchor.insertAdjacentElement("afterend", table);
+    });
+  });
+
+  /* ---------- "Get Best Price" RFQ chat CTA (bulk / tiered pricing) ----------
+     Persistent bottom-right CTA on any page with product controls. Opens a
+     small quick-RFQ popover that hands off to WhatsApp — same lead-routing
+     pattern as the kit builder and the donation form, not a live chat. */
+  safe("get best price CTA", function(){
+    var controls = document.querySelectorAll("[data-product-controls]");
+    if(!controls.length) return;
+    var productNames = Array.prototype.slice.call(controls)
+      .map(function(c){ return c.getAttribute("data-product-name"); })
+      .filter(function(v, i, arr){ return v && arr.indexOf(v) === i; });
+
+    var cta = document.createElement("button");
+    cta.type = "button";
+    cta.className = "best-price-cta";
+    cta.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.9 8.9 0 0 1-3.3-.7L3 21l1.9-5.6a8.4 8.4 0 0 1-.8-3.6A8.4 8.4 0 0 1 12.6 3a8.5 8.5 0 0 1 8.4 8.5z"/></svg><span>Get Best Price</span>';
+
+    var panel = document.createElement("div");
+    panel.className = "best-price-panel";
+    var options = productNames.map(function(n){ return "<option>" + n + "</option>"; }).join("");
+    panel.innerHTML =
+      "<h4>Get your best price</h4>" +
+      "<p>Bulk order? Tell us what and how many — we'll confirm a rate on WhatsApp.</p>" +
+      "<label>Product</label>" +
+      '<select data-bp-product>' + options + "<option>Something else / not sure yet</option></select>" +
+      "<label>Approximate quantity</label>" +
+      '<input type="text" data-bp-qty placeholder="e.g. 50 units">' +
+      '<button type="button" class="btn btn-whatsapp" data-bp-send>Ask on WhatsApp</button>';
+
+    document.body.appendChild(cta);
+    document.body.appendChild(panel);
+
+    function toggle(open){
+      panel.classList.toggle("is-open", open);
+    }
+    cta.addEventListener("click", function(){ toggle(!panel.classList.contains("is-open")); });
+    document.addEventListener("click", function(e){
+      if(panel.classList.contains("is-open") && !panel.contains(e.target) && !cta.contains(e.target)) toggle(false);
+    });
+
+    if(productNames.length === 1){
+      panel.querySelector("[data-bp-product]").value = productNames[0];
+    }
+
+    panel.querySelector("[data-bp-send]").addEventListener("click", function(){
+      var product = panel.querySelector("[data-bp-product]").value;
+      var qty = panel.querySelector("[data-bp-qty]").value.trim() || "a bulk quantity";
+      var msg = "Hi SaT PaK, I'd like your best price for " + product + " — approx " + qty + ". Can you share bulk/tiered rates?";
+      window.open("https://wa.me/923181112606?text=" + encodeURIComponent(msg), "_blank", "noopener");
+      toggle(false);
+    });
+  });
+
   /* ---------- city picker (Home) ----------
      Pick a city -> saved silently (localStorage) -> department picker
      appears. The saved city auto-fills into [data-city-autofill] fields on
