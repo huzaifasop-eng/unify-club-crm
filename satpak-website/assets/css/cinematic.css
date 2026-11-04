@@ -161,16 +161,23 @@
 /* --------------------------------------------------------------------------
    Numbers strip
    -------------------------------------------------------------------------- */
-.numbers{background:var(--ivory);padding:clamp(56px,9vh,96px) 0;}
-.numbers-grid{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);}
-.numbers-grid > div{padding:28px 22px 0;border-left:1px solid var(--line);}
+.numbers{
+  position:relative;overflow:hidden;padding:clamp(56px,9vh,96px) 0;
+  background:
+    repeating-linear-gradient(108deg,rgba(255,255,255,0.07) 0,rgba(255,255,255,0.07) 1px,transparent 1px,transparent 13px),
+    radial-gradient(100% 90% at 20% 115%,rgba(252,115,77,0.3) 0%,rgba(2,151,222,0.26) 42%,rgba(2,7,10,0) 74%),
+    var(--heritage-dark);
+  background-blend-mode:overlay,normal,normal;
+}
+.numbers-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line-light);}
+.numbers-grid > div{padding:28px 22px 0;border-left:1px solid var(--line-light);}
 .numbers-grid > div:first-child{border-left:0;padding-left:0;}
 .numbers-grid .n{
-  display:block;font-family:var(--font-display);font-weight:330;letter-spacing:-0.03em;line-height:1;
-  font-size:clamp(2.6rem,5vw,4.6rem);color:var(--teal);font-variant-numeric:tabular-nums;
+  display:block;font-family:var(--font-headline);letter-spacing:-0.01em;line-height:0.92;text-transform:uppercase;
+  font-size:clamp(2.6rem,5vw,4.6rem);color:#fff;font-variant-numeric:tabular-nums;
 }
-.numbers-grid .n.word{font-style:italic;color:var(--brass);}
-.numbers-grid .l{display:block;margin-top:12px;font-size:0.84rem;color:rgba(30,30,30,0.6);letter-spacing:0.02em;}
+.numbers-grid .n.word{font-family:var(--font-display);font-style:italic;font-weight:330;color:var(--brass-light);text-transform:none;}
+.numbers-grid .l{display:block;margin-top:12px;font-size:0.84rem;color:rgba(255,255,255,0.6);letter-spacing:0.02em;}
 
 /* --------------------------------------------------------------------------
    Department rows
@@ -197,6 +204,11 @@
 }
 .dept-row .d-go svg{width:20px;height:20px;}
 .dept-row .d-thumb{display:none;}
+.section--dark .dept-list,.section--dark .dept-row{border-color:var(--line-light);}
+.section--dark .dept-row .d-name{color:#fff;}
+.section--dark .dept-row .d-desc{color:rgba(255,255,255,0.66);}
+.section--dark .dept-row .d-index{color:var(--brass-light);}
+.section--dark .dept-row .d-go{border-color:var(--line-light);color:#fff;}
 @media (hover:hover){
   .dept-row:hover{padding-left:30px;}
   .dept-row:hover::before{transform:scaleY(1);}
@@ -350,6 +362,9 @@
 }
 .quote-who strong{display:block;font-size:0.98rem;color:var(--charcoal);}
 .quote-who span{display:block;font-size:0.84rem;color:rgba(30,30,30,0.55);}
+.section--dark .quote-slide blockquote{color:#fff;}
+.section--dark .quote-who strong{color:#fff;}
+.section--dark .quote-who span{color:rgba(255,255,255,0.55);}
 .quote-nav{display:flex;align-items:center;gap:22px;margin-top:48px;}
 .quote-ticks{display:flex;gap:10px;flex:1;max-width:360px;}
 .quote-tick{flex:1;height:3px;border:0;padding:0;background:var(--line);position:relative;overflow:hidden;border-radius:3px;}
@@ -363,6 +378,9 @@
 }
 .quote-arrow:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
 .quote-arrow svg{width:18px;height:18px;}
+.section--dark .quote-tick{background:var(--line-light);}
+.section--dark .quote-arrow{border-color:var(--line-light);color:#fff;}
+.section--dark .quote-arrow:hover{background:var(--brass);border-color:var(--brass);}
 
 /* --------------------------------------------------------------------------
    The water line — seven stages along a pipe that fills as you scroll
@@ -596,6 +614,8 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
   transition:all .3s var(--ease);
 }
 .area-cloud span:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+.section--dark .area-cloud span{background:rgba(255,255,255,0.06);border-color:var(--line-light);color:#fff;}
+.section--dark .area-cloud span:hover{background:var(--brass);border-color:var(--brass);}
 
 /* --------------------------------------------------------------------------
    Buttons with a moving arrow (cinematic CTAs)
@@ -710,6 +730,10 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
 .spec-num{font-family:var(--font-display);font-style:italic;font-size:1.1rem;color:var(--brass);}
 .spec-list h3{margin:0;font-family:var(--font-headline);font-weight:400;text-transform:uppercase;letter-spacing:-0.01em;font-size:clamp(1.6rem,3.2vw,2.6rem);color:var(--teal);line-height:1;}
 .spec-list p{margin:0;color:rgba(30,30,30,0.66);font-size:1rem;max-width:420px;}
+.section--dark .spec-list,.section--dark .spec-list li{border-color:var(--line-light);}
+.section--dark .spec-num{color:var(--brass-light);}
+.section--dark .spec-list h3{color:#fff;}
+.section--dark .spec-list p{color:rgba(255,255,255,0.66);}
 
 /* oversized running list of components */
 .word-marquee{padding:clamp(40px,7vh,72px) 0 clamp(48px,8vh,88px);overflow:hidden;background:var(--ivory);border-top:1px solid var(--line);}
@@ -727,10 +751,13 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
 .service-list > div{padding:24px 0;border-top:1px solid var(--line);}
 .service-list dt{font-family:var(--font-display);font-size:1.35rem;color:var(--teal);font-weight:450;}
 .service-list dd{margin:8px 0 0;color:rgba(30,30,30,0.66);line-height:1.65;}
+.section--dark .service-list dt{color:#fff;}
+.section--dark .service-list dd{color:rgba(255,255,255,0.66);}
 .amc-card{
   position:relative;overflow:hidden;border-radius:var(--radius-lg);padding:clamp(32px,4vw,52px);
   background:var(--heritage-dark);color:var(--ink-on-dark);
 }
+.section--dark .amc-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(6px);}
 .amc-card::after{
   content:"";position:absolute;width:420px;height:420px;right:-160px;top:-160px;border-radius:50%;
   border:1px solid rgba(194,160,106,0.22);box-shadow:0 0 0 60px rgba(194,160,106,0.04),0 0 0 120px rgba(194,160,106,0.025);
@@ -784,6 +811,11 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
 .chronicle li > div{padding-left:48px;}
 .chronicle h3{margin:0;font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:clamp(1.5rem,2.6vw,2.2rem);letter-spacing:-0.01em;line-height:1;color:var(--teal);}
 .chronicle p{margin:12px 0 0;max-width:520px;color:rgba(30,30,30,0.66);}
+.section--dark .chronicle::before{background:var(--line-light);}
+.section--dark .chronicle li::before{background:var(--heritage-dark);border-color:var(--brass-light);}
+.section--dark .chronicle .era{color:var(--brass-light);}
+.section--dark .chronicle h3{color:#fff;}
+.section--dark .chronicle p{color:rgba(255,255,255,0.66);}
 
 .numbers-grid.three{grid-template-columns:repeat(3,1fr);}
 
@@ -979,7 +1011,7 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .handshake-quote blockquote::before{content:"\201C";}
 .handshake-quote blockquote::after{content:"\201D";}
 .handshake-quote cite{display:block;text-align:center;margin-top:20px;font-style:normal;font-size:0.9rem;color:rgba(250,247,241,0.7);}
-.handshake-quote .draft-flag{color:var(--brass-light);font-size:0.78rem;}
+.draft-flag{color:var(--brass-light);font-size:0.78rem;font-style:italic;}
 
 /* --------------------------------------------------------------------------
    City picker (Home) — pick a city, then a department

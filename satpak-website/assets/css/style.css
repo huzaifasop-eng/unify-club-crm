@@ -130,11 +130,20 @@ h1 em,h2 em,.font-display em{
 }
 .section--tight{padding:64px 0;}
 .section--dark{
-  background:var(--heritage-dark);
+  position:relative;overflow:hidden;
+  background:
+    repeating-linear-gradient(108deg,rgba(255,255,255,0.07) 0,rgba(255,255,255,0.07) 1px,transparent 1px,transparent 13px),
+    radial-gradient(100% 85% at var(--flow-x,78%) var(--flow-y,8%),
+      rgba(2,151,222,0.4) 0%,
+      rgba(252,115,77,0.22) 40%,
+      rgba(2,7,10,0) 74%),
+    var(--heritage-dark);
+  background-blend-mode:overlay,normal,normal;
   color:rgba(250,247,241,0.86);
 }
 .section--dark h1,.section--dark h2,.section--dark h3{color:var(--white);}
 .section--dark .eyebrow{color:var(--brass-light);}
+.section--dark .body-copy{color:rgba(250,247,241,0.78);}
 .section--ivory-dim{background:var(--ivory-dim);}
 .section--teal{
   background:
@@ -197,6 +206,9 @@ p.lede{
 .btn-outline:hover{background:var(--teal);color:var(--white);}
 .btn-on-dark{border-color:rgba(255,255,255,0.55);color:var(--white);}
 .btn-on-dark:hover{background:rgba(255,255,255,0.1);border-color:var(--white);}
+.section--dark .btn-outline{border-color:rgba(255,255,255,0.55);color:var(--white);}
+.section--dark .btn-outline:hover{background:rgba(255,255,255,0.1);border-color:var(--white);}
+.section--dark .btn-text{color:var(--brass-light);}
 .btn-text{
   padding:0;border:0;background:none;color:var(--brass);
   font-weight:600;border-bottom:1.5px solid transparent;border-radius:0;
@@ -771,6 +783,8 @@ p.lede{
 }
 .sector-item .icon svg{width:23px;height:23px;}
 .sector-item span{font-size:0.82rem;font-weight:600;color:var(--charcoal);}
+.section--dark .sector-item .icon{background:rgba(255,255,255,0.1);color:#fff;}
+.section--dark .sector-item span{color:rgba(255,255,255,0.85);}
 
 /* category grouping (Health & Wellness / Home Care) */
 .category-header{display:flex;align-items:baseline;gap:14px;margin:56px 0 24px;}
