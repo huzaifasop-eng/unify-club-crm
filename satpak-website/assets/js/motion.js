@@ -7,7 +7,9 @@
      [data-scene="pin|pass|enter"]     exposes scroll progress to CSS as --p (0 → 1)
      [data-parallax="0.12"]            drifts against the scroll
      [data-words]                      text that lights up word by word with its scene
-     [data-count-to]                   counts up from zero when it comes into view
+     [data-count-to]                   tracks scroll position of its [data-counter-group]
+                                        (needs data-scene="enter" on the group): counts up
+                                        scrolling in, back down scrolling past it
      video[data-src-wide]              picks a wide or tall cut, plays only when visible
    Everything still reads correctly with JavaScript off or reduced motion on. */
 (function(){
@@ -98,6 +100,30 @@
   var tracks = toArray(document.querySelectorAll("[data-htrack]")).map(function(el){
     return { el:el, scene:el.closest("[data-scene]"), distance:0 };
   });
+  /* Counters follow scroll position directly rather than playing once:
+     count up as the group scrolls into view, count back down if the user
+     scrolls back past it. Reuses the same --p progress a data-scene="enter"
+     element already gets from the loop below, so each [data-counter-group]
+     needs that attribute on itself (or an ancestor) to animate; without it,
+     every number just shows its final value. */
+  function formatCount(el, value){
+    el.textContent = value.toLocaleString("en-US") + (el.getAttribute("data-count-suffix") || "");
+  }
+  var counterGroups = toArray(document.querySelectorAll("[data-counter-group]")).map(function(group){
+    return {
+      scene: group.closest("[data-scene]") || group,
+      nums: toArray(group.querySelectorAll("[data-count-to]")).map(function(el){
+        return { el:el, target:parseInt(el.getAttribute("data-count-to"), 10) || 0, shown:-1 };
+      })
+    };
+  });
+  if(reduceMotion){
+    counterGroups.forEach(function(group){
+      group.nums.forEach(function(n){ formatCount(n.el, n.target); });
+    });
+    counterGroups = [];
+  }
+
   var pipelines = toArray(document.querySelectorAll("[data-pipeline]")).map(function(el){
     var scene = el.closest("[data-scene]") || el;
     var stations = toArray(el.querySelectorAll(".station"));
@@ -216,6 +242,16 @@
       }
       placeDrop(line, p);
     });
+
+    counterGroups.forEach(function(group){
+      var p = parseFloat(group.scene.style.getPropertyValue("--p"));
+      if(isNaN(p)) p = 0;
+      p = clamp(p, 0, 1);
+      group.nums.forEach(function(n){
+        var val = Math.round(n.target * p);
+        if(val !== n.shown){ n.shown = val; formatCount(n.el, val); }
+      });
+    });
   }
 
   function requestUpdate(){
@@ -234,39 +270,6 @@
     wordBlocks.forEach(function(b){ b.words.forEach(function(w){ w.classList.add("is-lit"); }); });
     pipelines.forEach(function(line){ line.stations.forEach(function(st){ st.classList.add("is-lit"); }); });
   }
-
-  /* ------------------------------------------------------------------
-     Counters — every number shares one duration, so the small ones
-     tick slowly and the large ones race, and all of them land together
-     ------------------------------------------------------------------ */
-  var counterGroups = toArray(document.querySelectorAll("[data-counter-group]"));
-  function formatCount(el, value){
-    el.textContent = value.toLocaleString("en-US") + (el.getAttribute("data-count-suffix") || "");
-  }
-  counterGroups.forEach(function(group){
-    var nums = toArray(group.querySelectorAll("[data-count-to]"));
-    if(reduceMotion || !("IntersectionObserver" in window)){
-      nums.forEach(function(el){ formatCount(el, parseInt(el.getAttribute("data-count-to"), 10)); });
-      return;
-    }
-    nums.forEach(function(el){ formatCount(el, 0); });
-    var io = new IntersectionObserver(function(entries){
-      if(!entries[0].isIntersecting) return;
-      io.disconnect();
-      var duration = 2400, start = null;
-      function frame(now){
-        if(start === null) start = now;
-        var t = Math.min((now - start) / duration, 1);
-        var eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-        nums.forEach(function(el){
-          formatCount(el, Math.round(parseInt(el.getAttribute("data-count-to"), 10) * eased));
-        });
-        if(t < 1) requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }, { rootMargin:"99999px 0px -10% 0px", threshold:0 });
-    io.observe(group);
-  });
 
   /* ------------------------------------------------------------------
      Background films: right cut for the screen, play only when seen
