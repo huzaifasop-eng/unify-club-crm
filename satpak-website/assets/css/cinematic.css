@@ -399,12 +399,29 @@
 .step-more{max-height:0;overflow:hidden;transition:max-height .35s var(--ease);}
 .step-more-inner{padding-top:12px;font-size:0.88rem;line-height:1.6;color:rgba(30,30,30,0.6);}
 .step-line .dot{
-  width:56px;height:56px;border-radius:50%;background:var(--ivory);border:1.3px solid var(--brass);color:var(--brass);
+  position:relative;width:56px;height:56px;border-radius:50%;background:var(--ivory);border:1.3px solid var(--brass);color:var(--brass);
   display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+  transition:background .35s var(--ease),border-color .35s var(--ease),color .35s var(--ease),
+    transform .35s var(--cine-ease),box-shadow .35s var(--ease);
 }
-.step-line .dot svg{width:22px;height:22px;}
-.step-line h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:1.35rem;color:var(--teal);margin-bottom:8px;}
+.step-line .dot svg{width:22px;height:22px;transition:transform .35s var(--cine-ease);}
+.step-line .step-num{
+  position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;
+  background:var(--white);border:1px solid var(--line);color:rgba(30,30,30,0.5);
+  font-family:var(--font-display);font-style:italic;font-size:0.66rem;display:flex;align-items:center;justify-content:center;
+  transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease);
+}
+@media (hover:hover){
+  .step-line .step:hover .dot{transform:translateY(-4px) scale(1.06);box-shadow:0 10px 24px rgba(194,160,106,0.3);}
+  .step-line .step:hover .dot svg{transform:scale(1.1);}
+}
+.step-line .step.is-open .dot{background:var(--brass);border-color:var(--brass);color:#fff;box-shadow:0 10px 26px rgba(194,160,106,0.4);}
+.step-line .step.is-open .step-num{background:var(--brass);border-color:var(--brass);color:#fff;}
+.step-line h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:1.35rem;color:var(--teal);margin-bottom:8px;transition:color .3s var(--ease);}
+.step-line .step:hover h3,.step-line .step.is-open h3{color:var(--brass);}
 .step-line p{font-size:0.9rem;color:rgba(30,30,30,0.62);}
+.step-more-inner{opacity:0;transform:translateY(-6px);transition:opacity .3s var(--ease) .05s,transform .3s var(--ease) .05s;}
+.step.is-open .step-more-inner{opacity:1;transform:translateY(0);}
 
 /* --------------------------------------------------------------------------
    Article
