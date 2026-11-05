@@ -1195,9 +1195,6 @@ function satpakInit(){
     var nameEl = document.querySelector("[data-carousel-name]");
     var descEl = document.querySelector("[data-carousel-desc]");
     var ctaEl = document.querySelector("[data-carousel-cta]");
-    var prevBtn = document.querySelector("[data-carousel-prev]");
-    var nextBtn = document.querySelector("[data-carousel-next]");
-
     var descriptions = {
       ro: "Designed around your water, built end to end, looked after for years.",
       chemicals: "Water-treatment chemistry formulated, compounded and packed in our own facility.",
@@ -1226,6 +1223,9 @@ function satpakInit(){
 
     var dragged = false;
 
+    /* Hover-to-centre: move the mouse toward any card — left or right — and
+       it glides to the middle on its own, no arrow buttons needed. */
+    var hoverTimer = null;
     cards.forEach(function(card, i){
       card.addEventListener("click", function(e){
         if(dragged){ e.preventDefault(); dragged = false; return; }
@@ -1233,9 +1233,16 @@ function satpakInit(){
         active = i;
         render();
       });
+      card.addEventListener("mouseenter", function(){
+        if(dragged) return;
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(function(){
+          if(i === active) return;
+          active = i;
+          render();
+        }, 70);
+      });
     });
-    if(prevBtn) prevBtn.addEventListener("click", function(){ active = (active - 1 + cards.length) % cards.length; render(); });
-    if(nextBtn) nextBtn.addEventListener("click", function(){ active = (active + 1) % cards.length; render(); });
 
     /* Drag/swipe: grab anywhere on the track and move left/right to change
        department, instead of only clicking the arrow buttons. The active

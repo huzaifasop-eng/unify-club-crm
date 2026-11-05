@@ -1087,35 +1087,29 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
   display:flex;align-items:center;justify-content:center;gap:12px;
   perspective:1200px;
 }
-.carousel-arrow{
-  flex:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--card);
-  color:var(--charcoal);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s var(--ease);
-  box-shadow:var(--shadow-sm,0 4px 14px rgba(var(--ink-rgb),0.08));
-}
-.carousel-arrow:hover{background:var(--teal-100);border-color:var(--teal);}
-.carousel-arrow svg{width:20px;height:20px;}
 .carousel-track{
-  position:relative;flex:1;height:360px;display:flex;align-items:center;justify-content:center;
+  position:relative;flex:1;height:460px;display:flex;align-items:center;justify-content:center;
   --drag-px:0px;--drag-deg:0deg;cursor:grab;touch-action:pan-y;
 }
 .carousel-track.is-dragging{cursor:grabbing;}
 .carousel-track.is-dragging .carousel-card{transition:none;}
 .carousel-card{
-  position:absolute;width:190px;height:300px;border-radius:var(--radius-lg);border:1px solid var(--line);cursor:pointer;
+  position:absolute;width:250px;height:390px;border-radius:var(--radius-lg);border:1px solid var(--line);cursor:pointer;
   background:
-    linear-gradient(180deg,transparent 40%,rgba(var(--cc-rgb),0.24) 100%),
+    linear-gradient(180deg,rgba(var(--ink-rgb),0.05) 0%,rgba(var(--cc-rgb),0.32) 100%),
     radial-gradient(90% 80% at 50% 18%,rgba(var(--cc-rgb),0.18) 0%,rgba(var(--cc-rgb),0) 70%),
+    var(--cc-img,none) center/cover no-repeat,
     var(--white);
-  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:20px 18px;
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:22px 20px;
   transition:transform .6s var(--cine-ease),opacity .6s var(--cine-ease),filter .6s var(--cine-ease),box-shadow .4s var(--ease);
-  transform:translateX(calc(var(--i,0) * 86px + var(--drag-px,0px))) translateY(calc(abs(var(--i,0)) * 22px)) rotate(calc(var(--i,0) * 7deg + var(--drag-deg,0deg))) scale(calc(1 - min(abs(var(--i,0)),3) * 0.09));
+  transform:translateX(calc(var(--i,0) * 112px + var(--drag-px,0px))) translateY(calc(abs(var(--i,0)) * 24px)) rotate(calc(var(--i,0) * 7deg + var(--drag-deg,0deg))) scale(calc(1 - min(abs(var(--i,0)),3) * 0.09));
   z-index:calc(10 - abs(var(--i,0)));
   opacity:calc(1 - min(abs(var(--i,0)),3) * 0.28);
   filter:brightness(calc(1 - min(abs(var(--i,0)),3) * 0.08));
 }
-.carousel-card[data-dept="ro"]{--cc-rgb:14,127,181;}
-.carousel-card[data-dept="chemicals"]{--cc-rgb:122,79,176;}
-.carousel-card[data-dept="article"]{--cc-rgb:14,154,130;}
+.carousel-card[data-dept="ro"]{--cc-rgb:14,127,181;--cc-img:url(/assets/img/plant/plant-wide.webp);}
+.carousel-card[data-dept="chemicals"]{--cc-rgb:122,79,176;--cc-img:url(/assets/img/stock/jerry-cans.webp);}
+.carousel-card[data-dept="article"]{--cc-rgb:14,154,130;--cc-img:url(/assets/img/stock/water-jug-19l.webp);}
 .carousel-card[data-dept="health"]{--cc-rgb:193,58,91;}
 .carousel-card[data-dept="homecare"]{--cc-rgb:92,138,31;}
 .carousel-card.is-active{
@@ -1129,6 +1123,7 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
   position:relative;width:54px;height:54px;border-radius:50%;margin-bottom:auto;
   display:flex;align-items:center;justify-content:center;
   background:rgba(var(--cc-rgb),0.12);border:1px solid rgba(var(--cc-rgb),0.3);
+  backdrop-filter:blur(6px);
   transition:transform .5s var(--cine-ease),background .4s var(--ease);
 }
 .carousel-card.is-active .carousel-card-mark-wrap{
@@ -1139,14 +1134,18 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
   font-family:var(--font-headline);font-size:1.3rem;color:rgb(var(--cc-rgb));line-height:1;transition:color .4s var(--ease);
 }
 .carousel-card.is-active .carousel-card-mark{color:#fff;}
-.carousel-card-name{font-family:var(--font-headline);text-transform:uppercase;font-size:1.05rem;color:var(--charcoal);line-height:1.1;margin-top:16px;}
+.carousel-card-name{font-family:var(--font-headline);text-transform:uppercase;font-size:1.05rem;color:var(--charcoal);line-height:1.1;margin-top:16px;text-shadow:0 1px 12px rgba(var(--ink-rgb),0.5),0 1px 2px rgba(var(--ink-rgb),0.5);}
+.carousel-card[style*="--cc-img"] .carousel-card-name,
+.carousel-card[data-dept="ro"] .carousel-card-name,
+.carousel-card[data-dept="chemicals"] .carousel-card-name,
+.carousel-card[data-dept="article"] .carousel-card-name{color:#fff;}
 .carousel-footer{position:relative;z-index:1;margin-top:40px;text-align:center;max-width:520px;}
 .carousel-footer-name{font-family:var(--font-headline);text-transform:uppercase;color:var(--charcoal);font-size:clamp(1.8rem,3.4vw,2.6rem);}
 .carousel-footer-desc{margin-top:10px;color:rgba(var(--ink-rgb),0.68);font-size:0.98rem;}
 .carousel-footer .btn{margin-top:22px;}
 @media (max-width:720px){
-  .carousel-card{width:140px;height:220px;}
-  .carousel-track{height:280px;}
+  .carousel-card{width:170px;height:270px;}
+  .carousel-track{height:340px;}
   .carousel-card[style]{transform:none;}
 }
 
