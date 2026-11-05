@@ -27,7 +27,7 @@ window.SATPAK_I18N = {
     "footer.company": "کمپنی",
     "footer.story": "ہماری کہانی اور ورثہ",
     "footer.distributor": "ڈسٹری بیوٹر بنیں",
-    "footer.profile": "کمپنی پروفائل ڈاؤن لوڈ کریں",
+    "footer.profile": "کمپنی پروفائل حاصل کریں",
     "footer.legal": "قانونی",
     "footer.privacy": "پرائیویسی پالیسی",
     "footer.terms": "شرائط و ضوابط",
