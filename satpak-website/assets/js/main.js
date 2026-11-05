@@ -1402,8 +1402,11 @@ function satpakInit(){
     }
   });
 
-  /* ---------- ambient floating client logos (Home) ---------- */
-  safe("floating client logos", function(){
+  /* ---------- ambient floating client bubbles (department pages) ----------
+     One at a time, rising up a lane hugging the right edge only, drifting
+     left-right as it climbs, then popping near the top — see "Trusted by"
+     label under each. Lives on every department page now, not Home. */
+  safe("floating client bubbles", function(){
     var layer = document.querySelector("[data-floating-clients]");
     if(!layer) return;
     if(window.matchMedia("(max-width: 900px)").matches) return;
@@ -1439,45 +1442,38 @@ function satpakInit(){
       return clients[order.pop()];
     }
 
-    function randomPosition(){
-      var top, left;
-      do {
-        top = 14 + Math.random() * 64;
-        left = 5 + Math.random() * 78;
-      } while(top > 62 && left > 60); /* leave the corner WhatsApp/social cluster clear */
-      return { top:top, left:left };
-    }
-
-    var active = null;
     function showNext(){
       if(document.hidden) { setTimeout(showNext, 1000); return; }
       var data = nextClient();
       var chip = document.createElement("div");
       chip.className = "floating-client-chip" + (data.text ? " text" : "");
-      var pos = randomPosition();
-      chip.style.top = pos.top + "%";
-      chip.style.left = pos.left + "%";
+
+      var bubble = document.createElement("div");
+      bubble.className = "bubble";
       if(data.text){
-        chip.textContent = data.text;
+        bubble.textContent = data.text;
       } else {
         var img = document.createElement("img");
         img.src = data.src; img.alt = ""; img.loading = "lazy";
-        chip.appendChild(img);
+        bubble.appendChild(img);
       }
+      var label = document.createElement("span");
+      label.className = "label";
+      label.textContent = "Trusted by";
+      chip.appendChild(bubble);
+      chip.appendChild(label);
+
       layer.appendChild(chip);
-      active = chip;
       requestAnimationFrame(function(){
-        requestAnimationFrame(function(){ chip.classList.add("is-visible"); });
+        requestAnimationFrame(function(){ chip.classList.add("is-rising"); });
       });
 
-      setTimeout(function(){
-        chip.classList.remove("is-visible");
-        setTimeout(function(){
-          if(chip.parentNode) chip.parentNode.removeChild(chip);
-          if(active === chip) active = null;
-        }, 1100);
-        setTimeout(showNext, 1800 + Math.random() * 2200);
-      }, 4000);
+      function cleanup(){
+        if(chip.parentNode) chip.parentNode.removeChild(chip);
+        setTimeout(showNext, 1200 + Math.random() * 2000);
+      }
+      chip.addEventListener("animationend", cleanup);
+      setTimeout(cleanup, 8000); /* safety net if animationend never fires */
     }
 
     setTimeout(showNext, 2500);
