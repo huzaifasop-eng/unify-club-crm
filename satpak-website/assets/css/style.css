@@ -778,12 +778,17 @@ p.lede{
 .section--dark .sector-item .icon{background:var(--teal-100);color:var(--teal);}
 .section--dark .sector-item span{color:var(--charcoal);}
 
-/* category grouping (Health & Wellness / Home Care) */
-.category-header{display:flex;align-items:baseline;gap:14px;margin:56px 0 24px;}
-.category-header:first-of-type{margin-top:0;}
-.category-header h3{font-family:var(--font-headline);font-weight:400;text-transform:uppercase;font-size:1.5rem;color:var(--teal);}
-.category-header .count{font-size:0.8rem;color:rgba(30,30,30,0.45);}
 .product-card-gradient .product-thumb{background:linear-gradient(150deg,var(--teal-100) 0%,#fdfbf7 70%);}
+
+/* benefits / encouraging strip (Health & Wellness, Home Care) */
+.benefit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.benefit-card{padding:28px 24px;border:1px solid var(--line);border-radius:16px;background:var(--white);}
+.benefit-card .icon{width:44px;height:44px;border-radius:12px;background:var(--teal-100);color:var(--teal);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.benefit-card .icon svg{width:22px;height:22px;}
+.benefit-card h3{font-family:var(--font-headline);font-weight:400;font-size:1.08rem;margin:0 0 8px;color:var(--charcoal);line-height:1.25;}
+.benefit-card p{font-size:0.88rem;color:rgba(26,21,16,0.66);margin:0;line-height:1.55;}
+@media (max-width:900px){.benefit-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.benefit-grid{grid-template-columns:1fr;}}
 
 /* process animation (RO 0-100) */
 .process-track::before{transform-origin:left center;transform:scaleX(0);transition:transform 1.1s var(--ease);}
