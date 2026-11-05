@@ -153,7 +153,13 @@
 
   function measureTracks(){
     tracks.forEach(function(t){
-      t.distance = Math.max(0, t.el.scrollWidth - t.el.parentNode.clientWidth);
+      /* scrollWidth never includes the element's own margin, but a track
+         centred with equal left/right margin (like .pipeline-track) needs
+         that margin travelled too, or the far end overshoots past the
+         viewport edge by exactly one margin's width at full scroll. */
+      var cs = getComputedStyle(t.el);
+      var marginX = (parseFloat(cs.marginLeft) || 0) + (parseFloat(cs.marginRight) || 0);
+      t.distance = Math.max(0, t.el.scrollWidth + marginX - t.el.parentNode.clientWidth);
     });
   }
 

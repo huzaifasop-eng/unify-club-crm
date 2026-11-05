@@ -542,7 +542,7 @@ html:not(.js-motion) .lab-row .tick{transform:scale(1);}
   .pipeline-track{width:auto;height:auto;margin:0 20px;transform:none !important;}
   .pipe{display:none;}
   .stations{position:relative;display:flex;flex-direction:column;gap:0;padding-left:36px;}
-  .stations::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:rgba(255,255,255,0.12);}
+  .stations::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:rgba(26,21,16,0.14);}
   .stations::after{content:"";position:absolute;left:7px;top:6px;width:2px;height:calc(var(--p,0) * 100%);max-height:calc(100% - 12px);background:var(--brass-light);}
   .station{align-items:flex-start;text-align:left;padding:0 0 34px;}
   .station .node{left:-36px;top:4px;margin:0;}
