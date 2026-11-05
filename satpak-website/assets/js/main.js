@@ -1214,8 +1214,11 @@ function satpakInit(){
       if(ctaEl) ctaEl.href = href;
     }
 
+    var dragged = false;
+
     cards.forEach(function(card, i){
-      card.addEventListener("click", function(){
+      card.addEventListener("click", function(e){
+        if(dragged){ e.preventDefault(); dragged = false; return; }
         if(i === active){ window.location.href = card.getAttribute("data-href"); return; }
         active = i;
         render();
@@ -1223,6 +1226,62 @@ function satpakInit(){
     });
     if(prevBtn) prevBtn.addEventListener("click", function(){ active = (active - 1 + cards.length) % cards.length; render(); });
     if(nextBtn) nextBtn.addEventListener("click", function(){ active = (active + 1) % cards.length; render(); });
+
+    /* Drag/swipe: grab anywhere on the track and move left/right to change
+       department, instead of only clicking the arrow buttons. The active
+       index still drives everything — this just lets a live drag offset
+       (--drag-px) nudge the fan before snapping to the nearest card. */
+    (function(){
+      var pointerId = null, startX = 0, dx = 0, dragging = false;
+      var THRESHOLD = 46;
+
+      function setDrag(px){
+        track.style.setProperty("--drag-px", px + "px");
+        track.style.setProperty("--drag-deg", (px * 0.012) + "deg");
+      }
+
+      track.addEventListener("pointerdown", function(e){
+        if(e.button !== undefined && e.button !== 0) return;
+        pointerId = e.pointerId;
+        startX = e.clientX;
+        dx = 0;
+        dragging = false;
+      });
+
+      track.addEventListener("pointermove", function(e){
+        if(pointerId === null || e.pointerId !== pointerId) return;
+        dx = e.clientX - startX;
+        if(!dragging && Math.abs(dx) > 5){
+          dragging = true;
+          dragged = true;
+          track.classList.add("is-dragging");
+          try{ track.setPointerCapture(pointerId); }catch(err){}
+        }
+        if(dragging) setDrag(Math.max(-220, Math.min(220, dx)));
+      });
+
+      function endDrag(){
+        if(pointerId === null) return;
+        var wasDragging = dragging;
+        track.classList.remove("is-dragging");
+        setDrag(0);
+        if(wasDragging){
+          if(dx > THRESHOLD) active = (active - 1 + cards.length) % cards.length;
+          else if(dx < -THRESHOLD) active = (active + 1) % cards.length;
+          render();
+        }
+        pointerId = null;
+        dragging = false;
+        dx = 0;
+        setTimeout(function(){ dragged = false; }, 0);
+      }
+
+      track.addEventListener("pointerup", endDrag);
+      track.addEventListener("pointercancel", endDrag);
+      track.addEventListener("pointerleave", function(e){
+        if(dragging) endDrag();
+      });
+    })();
 
     render();
   });

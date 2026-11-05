@@ -1153,17 +1153,20 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .carousel-arrow:hover{background:var(--teal-100);border-color:var(--teal);}
 .carousel-arrow svg{width:20px;height:20px;}
 .carousel-track{
-  position:relative;flex:1;height:340px;display:flex;align-items:center;justify-content:center;
+  position:relative;flex:1;height:360px;display:flex;align-items:center;justify-content:center;
+  --drag-px:0px;--drag-deg:0deg;cursor:grab;touch-action:pan-y;
 }
+.carousel-track.is-dragging{cursor:grabbing;}
+.carousel-track.is-dragging .carousel-card{transition:none;}
 .carousel-card{
   position:absolute;width:190px;height:300px;border-radius:var(--radius-lg);border:1px solid var(--line);cursor:pointer;
   background:
-    linear-gradient(180deg,transparent 45%,rgba(var(--cc-rgb),0.22) 100%),
-    radial-gradient(90% 80% at 50% 22%,rgba(var(--cc-rgb),0.16) 0%,rgba(var(--cc-rgb),0) 70%),
+    linear-gradient(180deg,transparent 40%,rgba(var(--cc-rgb),0.24) 100%),
+    radial-gradient(90% 80% at 50% 18%,rgba(var(--cc-rgb),0.18) 0%,rgba(var(--cc-rgb),0) 70%),
     var(--white);
-  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:18px 16px;
-  transition:transform .6s var(--cine-ease),opacity .6s var(--cine-ease),filter .6s var(--cine-ease);
-  transform:translateX(calc(var(--i,0) * 86px)) translateY(calc(abs(var(--i,0)) * 22px)) rotate(calc(var(--i,0) * 7deg)) scale(calc(1 - min(abs(var(--i,0)),3) * 0.09));
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:20px 18px;
+  transition:transform .6s var(--cine-ease),opacity .6s var(--cine-ease),filter .6s var(--cine-ease),box-shadow .4s var(--ease);
+  transform:translateX(calc(var(--i,0) * 86px + var(--drag-px,0px))) translateY(calc(abs(var(--i,0)) * 22px)) rotate(calc(var(--i,0) * 7deg + var(--drag-deg,0deg))) scale(calc(1 - min(abs(var(--i,0)),3) * 0.09));
   z-index:calc(10 - abs(var(--i,0)));
   opacity:calc(1 - min(abs(var(--i,0)),3) * 0.28);
   filter:brightness(calc(1 - min(abs(var(--i,0)),3) * 0.08));
@@ -1173,18 +1176,35 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .carousel-card[data-dept="article"]{--cc-rgb:14,154,130;}
 .carousel-card[data-dept="health"]{--cc-rgb:193,58,91;}
 .carousel-card[data-dept="homecare"]{--cc-rgb:92,138,31;}
-.carousel-card.is-active{box-shadow:0 20px 50px rgba(26,21,16,0.18);border-color:rgba(var(--cc-rgb),0.4);}
-.carousel-card-mark{
-  font-family:var(--font-headline);font-size:2.4rem;color:rgba(var(--cc-rgb),0.3);line-height:1;margin-bottom:auto;
+.carousel-card.is-active{
+  box-shadow:0 24px 54px rgba(26,21,16,0.2);border-color:rgba(var(--cc-rgb),0.45);
 }
-.carousel-card-name{font-family:var(--font-headline);text-transform:uppercase;font-size:1.05rem;color:var(--charcoal);line-height:1.1;}
+.carousel-card.is-active::after{
+  content:"";position:absolute;left:20px;right:20px;bottom:0;height:3px;border-radius:3px 3px 0 0;
+  background:rgb(var(--cc-rgb));
+}
+.carousel-card-mark-wrap{
+  position:relative;width:54px;height:54px;border-radius:50%;margin-bottom:auto;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(var(--cc-rgb),0.12);border:1px solid rgba(var(--cc-rgb),0.3);
+  transition:transform .5s var(--cine-ease),background .4s var(--ease);
+}
+.carousel-card.is-active .carousel-card-mark-wrap{
+  background:rgb(var(--cc-rgb));border-color:rgb(var(--cc-rgb));
+  transform:scale(1.08);
+}
+.carousel-card-mark{
+  font-family:var(--font-headline);font-size:1.3rem;color:rgb(var(--cc-rgb));line-height:1;transition:color .4s var(--ease);
+}
+.carousel-card.is-active .carousel-card-mark{color:#fff;}
+.carousel-card-name{font-family:var(--font-headline);text-transform:uppercase;font-size:1.05rem;color:var(--charcoal);line-height:1.1;margin-top:16px;}
 .carousel-footer{position:relative;z-index:1;margin-top:40px;text-align:center;max-width:520px;}
 .carousel-footer-name{font-family:var(--font-headline);text-transform:uppercase;color:var(--charcoal);font-size:clamp(1.8rem,3.4vw,2.6rem);}
 .carousel-footer-desc{margin-top:10px;color:rgba(26,21,16,0.68);font-size:0.98rem;}
 .carousel-footer .btn{margin-top:22px;}
 @media (max-width:720px){
   .carousel-card{width:140px;height:220px;}
-  .carousel-track{height:260px;}
+  .carousel-track{height:280px;}
   .carousel-card[style]{transform:none;}
 }
 
