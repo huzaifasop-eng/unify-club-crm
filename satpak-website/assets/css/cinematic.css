@@ -73,68 +73,13 @@
   background-image:var(--grain);background-size:160px;opacity:.07;mix-blend-mode:overlay;
 }
 
-/* --------------------------------------------------------------------------
-   Film hero (home): full-bleed footage that settles into a framed window
-   as you scroll — the "scroll behaviour" moment
-   -------------------------------------------------------------------------- */
-.film-scene{position:relative;height:175vh;background:var(--ivory);}
-.film-sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;}
-.film-frame{
-  position:absolute;inset:0;overflow:hidden;background:var(--heritage-dark);
-  clip-path:inset(calc(var(--p,0) * 9%) calc(var(--p,0) * 6%) calc(var(--p,0) * 12%) calc(var(--p,0) * 6%) round calc(var(--p,0) * 30px));
-}
-.film-frame video,.film-frame .film-poster{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  transform:scale(calc(1.12 - var(--p,0) * 0.12));
-}
-.film-frame::before{
-  content:"";position:absolute;inset:0;z-index:1;
-  background:
-    linear-gradient(180deg,rgba(8,26,24,0.55) 0%,rgba(8,26,24,0.12) 32%,rgba(8,26,24,0.30) 58%,rgba(8,26,24,0.88) 100%),
-    radial-gradient(120% 90% at 85% 10%,rgba(154,123,63,0.25),transparent 55%);
-}
-.film-copy{
-  position:absolute;left:0;right:0;bottom:0;z-index:3;color:#fff;
-  padding-bottom:clamp(36px,8vh,96px);
-  opacity:calc(1 - var(--p,0) * 1.8);transform:translateY(calc(var(--p,0) * -90px));
-}
-.film-copy .display,.page-film .display{color:#fff;}
-.film-copy .lede{color:rgba(255,255,255,0.84);margin-top:26px;max-width:520px;font-size:clamp(1rem,1.3vw,1.15rem);}
-.film-copy .btn-row{margin-top:34px;}
+.page-film .display{color:#fff;}
 .film-meta{
   display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
   border-top:1px solid rgba(255,255,255,0.22);margin-top:46px;padding-top:18px;
   font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.66);
 }
 .film-meta b{font-weight:600;color:#fff;}
-
-/* the line that appears once the frame closes in */
-.film-after{
-  position:absolute;left:0;right:0;bottom:3.6vh;z-index:3;text-align:center;
-  font-family:var(--font-display);font-style:italic;font-size:clamp(1rem,1.6vw,1.35rem);color:var(--teal);
-  opacity:calc((var(--p,0) - 0.6) * 3);
-}
-
-/* rotating heritage seal */
-.seal{
-  position:absolute;z-index:3;right:clamp(20px,5vw,72px);top:clamp(96px,16vh,150px);
-  width:clamp(108px,11vw,148px);aspect-ratio:1;color:rgba(255,255,255,0.86);
-  opacity:calc(1 - var(--p,0) * 2);
-}
-.seal svg{width:100%;height:100%;animation:sealSpin 26s linear infinite;}
-.seal text{font-family:var(--font-sans);font-size:9.6px;letter-spacing:0.32em;fill:currentColor;text-transform:uppercase;}
-.seal .seal-core{
-  position:absolute;inset:30%;border-radius:50%;background:rgba(255,255,255,0.1);backdrop-filter:blur(6px);
-  display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.25);
-}
-.seal .seal-core img{width:70%;height:auto;}
-@keyframes sealSpin{to{transform:rotate(360deg);}}
-
-.coords{
-  position:absolute;z-index:3;left:clamp(14px,2vw,26px);top:50%;transform:translateY(-50%) rotate(180deg);
-  writing-mode:vertical-rl;font-size:10.5px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.5);
-  opacity:calc(1 - var(--p,0) * 2);
-}
 
 /* --------------------------------------------------------------------------
    Page film hero (inner pages)
