@@ -242,6 +242,24 @@
 .client-tile.text{font-family:var(--font-display);font-size:1.12rem;color:var(--teal);text-align:center;line-height:1.2;}
 
 /* --------------------------------------------------------------------------
+   Ambient floating client logos (Home) — one at a time, drifting in
+   somewhere on screen, lingering a few seconds, then fading out again.
+   Separate from the static Trusted By marquee. Purely decorative:
+   pointer-events stay off throughout so it never blocks a click.
+   -------------------------------------------------------------------------- */
+.floating-clients-layer{position:fixed;inset:0;z-index:55;pointer-events:none;overflow:hidden;}
+.floating-client-chip{
+  position:absolute;display:flex;align-items:center;justify-content:center;
+  width:116px;height:64px;padding:12px 16px;background:var(--white);border:1px solid var(--line);
+  border-radius:12px;box-shadow:var(--shadow-md);opacity:0;transform:translateY(10px) scale(.88);
+  transition:opacity 1s var(--ease),transform 1s var(--ease);
+}
+.floating-client-chip.is-visible{opacity:1;transform:translateY(0) scale(1);}
+.floating-client-chip img{max-width:100%;max-height:36px;width:auto;height:auto;}
+.floating-client-chip.text{font-family:var(--font-display);font-size:0.86rem;color:var(--teal);text-align:center;line-height:1.2;}
+@media (max-width:900px),(prefers-reduced-motion:reduce){.floating-clients-layer{display:none;}}
+
+/* --------------------------------------------------------------------------
    Testimonials
    -------------------------------------------------------------------------- */
 .quotes{position:relative;display:grid;grid-template-columns:1fr;}

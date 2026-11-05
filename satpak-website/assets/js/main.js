@@ -1313,6 +1313,87 @@ function satpakInit(){
     }
   });
 
+  /* ---------- ambient floating client logos (Home) ---------- */
+  safe("floating client logos", function(){
+    var layer = document.querySelector("[data-floating-clients]");
+    if(!layer) return;
+    if(window.matchMedia("(max-width: 900px)").matches) return;
+    if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var clients = [
+      { src:"/assets/img/clients/al-asr-group.webp", alt:"Al Asr Group" },
+      { src:"/assets/img/clients/roots-millennium.webp", alt:"Roots Millennium Schools" },
+      { src:"/assets/img/clients/bluex.webp", alt:"BlueEx" },
+      { src:"/assets/img/clients/aziz-sons.webp", alt:"Aziz Sons Textile" },
+      { src:"/assets/img/clients/al-anwar-plastics.webp", alt:"Al-Anwar Plastics" },
+      { src:"/assets/img/clients/sana-logistics.webp", alt:"Sana Logistics" },
+      { src:"/assets/img/clients/masafi.webp", alt:"Masafi" },
+      { src:"/assets/img/clients/shandaar-foods.webp", alt:"Shandaar Foods" },
+      { src:"/assets/img/clients/ebrahim-textile.webp", alt:"Ebrahim Textile Mills" },
+      { src:"/assets/img/clients/athar-co.webp", alt:"Athar & Co" },
+      { src:"/assets/img/clients/madrissah-ibn-e-abbas.webp", alt:"Madrissah Ibn-e-Abbas" },
+      { src:"/assets/img/clients/unify-club.webp", alt:"Unify Club" },
+      { text:"Pakistan Armed Forces" },
+      { text:"RO plant operators" },
+      { text:"Bokhari Horticulture & Gardening" }
+    ];
+
+    var order = [];
+    function nextClient(){
+      if(order.length === 0){
+        order = clients.map(function(_, i){ return i; });
+        for(var i = order.length - 1; i > 0; i--){
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = order[i]; order[i] = order[j]; order[j] = t;
+        }
+      }
+      return clients[order.pop()];
+    }
+
+    function randomPosition(){
+      var top, left;
+      do {
+        top = 14 + Math.random() * 64;
+        left = 5 + Math.random() * 78;
+      } while(top > 62 && left > 60); /* leave the corner WhatsApp/social cluster clear */
+      return { top:top, left:left };
+    }
+
+    var active = null;
+    function showNext(){
+      if(document.hidden) { setTimeout(showNext, 1000); return; }
+      var data = nextClient();
+      var chip = document.createElement("div");
+      chip.className = "floating-client-chip" + (data.text ? " text" : "");
+      var pos = randomPosition();
+      chip.style.top = pos.top + "%";
+      chip.style.left = pos.left + "%";
+      if(data.text){
+        chip.textContent = data.text;
+      } else {
+        var img = document.createElement("img");
+        img.src = data.src; img.alt = ""; img.loading = "lazy";
+        chip.appendChild(img);
+      }
+      layer.appendChild(chip);
+      active = chip;
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){ chip.classList.add("is-visible"); });
+      });
+
+      setTimeout(function(){
+        chip.classList.remove("is-visible");
+        setTimeout(function(){
+          if(chip.parentNode) chip.parentNode.removeChild(chip);
+          if(active === chip) active = null;
+        }, 1100);
+        setTimeout(showNext, 1800 + Math.random() * 2200);
+      }, 4000);
+    }
+
+    setTimeout(showNext, 2500);
+  });
+
   /* ---------- city auto-fill (any page with a saved city) ---------- */
   safe("city autofill", function(){
     var city = null;
