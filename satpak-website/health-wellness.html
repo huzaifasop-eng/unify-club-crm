@@ -119,10 +119,17 @@
     <h2 class="h-xl mt-24" id="range-title" style="max-width:22ch;" data-in="up">Seven formulas, <em>one chemistry.</em></h2>
     <p class="body-copy mt-24" style="max-width:62ch;" data-in="up">From the first glass in the morning to the last ritual before bed — grouped by when you reach for them, not by shelf. Full specifications shared on enquiry.</p>
 
-    <div class="catalogue-group mt-48" data-in="up">
+    <div class="filter-bar mt-48" data-filter-group="[data-product]">
+      <button class="filter-chip is-active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="morning">Morning</button>
+      <button class="filter-chip" data-filter="day">Through the day</button>
+      <button class="filter-chip" data-filter="evening">Evening ritual</button>
+    </div>
+
+    <div class="catalogue-group mt-48" data-catalogue-group data-cats="morning" data-in="up">
       <div class="catalogue-group-head"><h3>Morning</h3><p>Mineral-first, to start the day.</p></div>
       <div class="catalogue-grid catalogue-grid--3 care-grid" data-stagger>
-      <article class="product-card">
+      <article class="product-card" data-product data-cats="morning">
         <div class="product-thumb has-art" style="--can:#3a8a80"><span class="product-cat-tag">Hydration</span>
           <svg class="can" viewBox="0 0 120 150" style="--can:#3a8a80" role="img" aria-label="Mineral Water container"><use href="#bottle"/><text class="can-name xs" x="60" y="90" text-anchor="middle">MINERAL</text><text class="can-sub" x="60" y="102" text-anchor="middle">Water</text></svg>
         </div>
@@ -130,7 +137,7 @@
           <div class="product-controls" data-product-controls data-product-name="Mineral Water"><select class="pack-select" data-pack-select aria-label="Pack size"><option>100 ml</option><option>250 ml</option><option>500 ml</option></select><div class="qty-selector"><button type="button" data-qty-dec aria-label="Decrease quantity">&minus;</button><input type="text" value="1" readonly data-qty-input aria-label="Quantity"><button type="button" data-qty-inc aria-label="Increase quantity">+</button></div><button class="btn btn-primary btn-sm" data-add-to-cart>Add to Cart</button></div>
         </div>
       </article>
-      <article class="product-card">
+      <article class="product-card" data-product data-cats="morning">
         <div class="product-thumb has-art" style="--can:#1d5a73"><span class="product-cat-tag">Hair care</span>
           <svg class="can" viewBox="0 0 120 150" style="--can:#1d5a73" role="img" aria-label="Shampoo container"><use href="#bottle"/><text class="can-name xs" x="60" y="90" text-anchor="middle">SHAMPOO</text><text class="can-sub" x="60" y="102" text-anchor="middle">Hair &amp; bath</text></svg>
         </div>
@@ -138,7 +145,15 @@
           <div class="product-controls" data-product-controls data-product-name="Shampoo"><select class="pack-select" data-pack-select aria-label="Pack size"><option>100 ml</option><option>250 ml</option><option>500 ml</option></select><div class="qty-selector"><button type="button" data-qty-dec aria-label="Decrease quantity">&minus;</button><input type="text" value="1" readonly data-qty-input aria-label="Quantity"><button type="button" data-qty-inc aria-label="Increase quantity">+</button></div><button class="btn btn-primary btn-sm" data-add-to-cart>Add to Cart</button></div>
         </div>
       </article>
-      <article class="product-card">
+      <article class="product-card" data-product data-cats="morning">
+        <div class="product-thumb has-art" style="--can:#4f7a3a"><span class="product-cat-tag">Hair care</span>
+          <svg class="can" viewBox="0 0 120 150" style="--can:#4f7a3a" role="img" aria-label="Herbal Shampoo container"><use href="#bottle"/><text class="can-name xs" x="60" y="86" text-anchor="middle">HERBAL</text><text class="can-name xs" x="60" y="98" text-anchor="middle">SHAMPOO</text></svg>
+        </div>
+        <div class="product-body"><h3>Herbal Shampoo</h3><p>A herbal, botanical-led alternative built on the same mineral base.</p>
+          <div class="product-controls" data-product-controls data-product-name="Herbal Shampoo"><select class="pack-select" data-pack-select aria-label="Pack size"><option>100 ml</option><option>250 ml</option><option>500 ml</option></select><div class="qty-selector"><button type="button" data-qty-dec aria-label="Decrease quantity">&minus;</button><input type="text" value="1" readonly data-qty-input aria-label="Quantity"><button type="button" data-qty-inc aria-label="Increase quantity">+</button></div><button class="btn btn-primary btn-sm" data-add-to-cart>Add to Cart</button></div>
+        </div>
+      </article>
+      <article class="product-card" data-product data-cats="morning">
         <div class="product-thumb has-art" style="--can:#2e6b45"><span class="product-cat-tag">Oral care</span>
           <svg class="can" viewBox="0 0 120 150" style="--can:#2e6b45" role="img" aria-label="Mouth Wash container"><use href="#bottle"/><text class="can-name xs" x="60" y="90" text-anchor="middle">MOUTH WASH</text><text class="can-sub" x="60" y="102" text-anchor="middle">Oral rinse</text></svg>
         </div>
@@ -149,10 +164,10 @@
       </div>
     </div>
 
-    <div class="catalogue-group" data-in="up">
+    <div class="catalogue-group" data-catalogue-group data-cats="day" data-in="up">
       <div class="catalogue-group-head"><h3>Through the day</h3><p>Held to the same daily-use discipline as our industrial dosing systems.</p></div>
       <div class="catalogue-grid catalogue-grid--3 care-grid" data-stagger>
-      <article class="product-card">
+      <article class="product-card" data-product data-cats="day">
         <div class="product-thumb has-art" style="--can:#0E4D45"><span class="product-cat-tag">Everyday</span>
           <svg class="can" viewBox="0 0 120 150" style="--can:#0E4D45" role="img" aria-label="Hand Wash container"><use href="#pump"/><text class="can-name xs" x="60" y="90" text-anchor="middle">HAND WASH</text><text class="can-sub" x="60" y="102" text-anchor="middle">Everyday</text></svg>
         </div>
@@ -160,7 +175,7 @@
           <div class="product-controls" data-product-controls data-product-name="Hand Wash"><select class="pack-select" data-pack-select aria-label="Pack size"><option>100 ml</option><option>250 ml</option><option>500 ml</option></select><div class="qty-selector"><button type="button" data-qty-dec aria-label="Decrease quantity">&minus;</button><input type="text" value="1" readonly data-qty-input aria-label="Quantity"><button type="button" data-qty-inc aria-label="Increase quantity">+</button></div><button class="btn btn-primary btn-sm" data-add-to-cart>Add to Cart</button></div>
         </div>
       </article>
-      <article class="product-card">
+      <article class="product-card" data-product data-cats="day">
         <div class="product-thumb has-art" style="--can:#6b4f2a"><span class="product-cat-tag">Everyday</span>
           <svg class="can" viewBox="0 0 120 150" style="--can:#6b4f2a" role="img" aria-label="Sanitizer container"><use href="#spray"/><text class="can-name xs" x="60" y="92" text-anchor="middle">SANITIZER</text><text class="can-sub" x="60" y="104" text-anchor="middle">On the go</text></svg>
         </div>
@@ -171,10 +186,10 @@
       </div>
     </div>
 
-    <div class="catalogue-group" data-in="up">
+    <div class="catalogue-group" data-catalogue-group data-cats="evening" data-in="up">
       <div class="catalogue-group-head"><h3>Evening ritual</h3><p>The quieter end of the same chemistry.</p></div>
       <div class="catalogue-grid catalogue-grid--3 care-grid" data-stagger>
-      <article class="product-card">
+      <article class="product-card" data-product data-cats="evening">
         <div class="product-thumb has-art" style="--can:#9A7B3F"><span class="product-cat-tag">Skin care</span>
           <svg class="can" viewBox="0 0 120 150" style="--can:#9A7B3F" role="img" aria-label="Hand & Skin Cream container"><use href="#jar"/><text class="can-name xs" x="60" y="108" text-anchor="middle">CREAM</text><text class="can-sub" x="60" y="120" text-anchor="middle">Hand &amp; skin</text></svg>
         </div>
@@ -182,7 +197,7 @@
           <div class="product-controls" data-product-controls data-product-name="Hand & Skin Cream"><select class="pack-select" data-pack-select aria-label="Pack size"><option>100 ml</option><option>250 ml</option><option>500 ml</option></select><div class="qty-selector"><button type="button" data-qty-dec aria-label="Decrease quantity">&minus;</button><input type="text" value="1" readonly data-qty-input aria-label="Quantity"><button type="button" data-qty-inc aria-label="Increase quantity">+</button></div><button class="btn btn-primary btn-sm" data-add-to-cart>Add to Cart</button></div>
         </div>
       </article>
-      <article class="product-card">
+      <article class="product-card" data-product data-cats="evening">
         <div class="product-thumb has-art" style="--can:#5a3d5c"><span class="product-cat-tag">Everyday</span>
           <svg class="can" viewBox="0 0 120 150" style="--can:#5a3d5c" role="img" aria-label="Perfume container"><use href="#spray"/><text class="can-name xs" x="60" y="92" text-anchor="middle">PERFUME</text><text class="can-sub" x="60" y="104" text-anchor="middle">Fragrance</text></svg>
         </div>

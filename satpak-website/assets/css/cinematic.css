@@ -436,6 +436,10 @@ body[data-page="article"] .page-film .film-meta b{text-shadow:0 1px 4px rgba(0,0
   background:linear-gradient(100deg,transparent,rgba(255,255,255,0.35),transparent);transform:skewX(-18deg);
 }
 .product-card:hover .product-thumb .can{transform:translateY(-8px) rotate(-3deg);}
+/* "Unboxing" hover for consumer products (creams/shampoos): a slow,
+   tactile 5% rotate-and-zoom instead of the industrial lift above. */
+.care-grid .product-thumb .can{transition:transform 1s var(--cine-ease);}
+.care-grid .product-card:hover .product-thumb .can{transform:translateY(-4px) scale(1.05) rotate(2deg);}
 .product-card:hover .product-thumb::after{left:130%;transition:left 1s var(--cine-ease);}
 .product-cat-tag.exclusive{background:var(--brass);color:#fff;}
 
