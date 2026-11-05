@@ -1265,6 +1265,15 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .donate-logo-strip-note{margin-top:18px;font-size:0.76rem;color:rgba(255,255,255,0.4);max-width:620px;}
 @media (max-width:640px){.donate-logo-grid a{width:96px;height:56px;padding:8px 10px;}}
 
+/* Contact: trust-signal strip reusing real, already-published numbers */
+.contact-trust-strip{
+  list-style:none;margin:0;padding:24px 0 36px;display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,64px);
+  border-bottom:1px solid var(--line);
+}
+.contact-trust-strip li{display:flex;align-items:baseline;gap:10px;}
+.contact-trust-strip strong{font-family:var(--font-display);font-size:1.6rem;color:var(--teal);line-height:1;}
+.contact-trust-strip span{font-size:0.86rem;color:rgba(30,30,30,0.6);max-width:20ch;}
+
 /* --------------------------------------------------------------------------
    Documentary chapter marker — threads a running chapter number through a
    page's spine sections (used first on RO Plants & Services).
