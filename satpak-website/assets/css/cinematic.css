@@ -1029,6 +1029,7 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 }
 .carousel-head{position:relative;z-index:1;text-align:center;}
 .carousel-head h1{color:var(--charcoal);}
+.hero-badge{display:flex;width:fit-content;margin:0 auto 18px;text-transform:uppercase;letter-spacing:0.08em;font-size:0.76rem;}
 .carousel-stage{
   position:relative;z-index:1;width:100%;max-width:1100px;margin-top:56px;
   display:flex;align-items:center;justify-content:center;gap:12px;
