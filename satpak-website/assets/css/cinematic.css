@@ -306,7 +306,7 @@ body[data-page="article"] .page-film .film-meta b{text-shadow:0 1px 4px rgba(0,0
 .floating-client-chip .label{
   font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:rgba(var(--ink-rgb),0.5);text-align:center;
 }
-.floating-client-chip.is-rising{animation:bubble-rise 7s ease-in forwards;}
+.floating-client-chip.is-rising{animation:bubble-rise 6s ease-in forwards;}
 @keyframes bubble-rise{
   0%{opacity:0;transform:translate(-50%,0) scale(0.5);}
   7%{opacity:1;transform:translate(-50%,-8vh) scale(1);}

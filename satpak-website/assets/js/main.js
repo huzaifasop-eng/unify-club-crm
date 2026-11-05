@@ -1468,12 +1468,17 @@ function satpakInit(){
         requestAnimationFrame(function(){ chip.classList.add("is-rising"); });
       });
 
+      var cleaned = false;
+      var safetyTimer;
       function cleanup(){
+        if(cleaned) return; /* animationend and the safety net can both fire — only run this once */
+        cleaned = true;
+        clearTimeout(safetyTimer);
         if(chip.parentNode) chip.parentNode.removeChild(chip);
-        setTimeout(showNext, 1200 + Math.random() * 2000);
+        setTimeout(showNext, 15000); /* one bubble at a time: 6s shown, then a clean 15s gap */
       }
       chip.addEventListener("animationend", cleanup);
-      setTimeout(cleanup, 8000); /* safety net if animationend never fires */
+      safetyTimer = setTimeout(cleanup, 6500); /* safety net if animationend never fires */
     }
 
     setTimeout(showNext, 2500);
