@@ -887,12 +887,17 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 /* --------------------------------------------------------------------------
    City picker (Home) — pick a city, then a department
    -------------------------------------------------------------------------- */
-.city-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:130px;gap:16px;}
+.city-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:150px;gap:16px;}
 .city-card{
   position:relative;grid-column:span 1;grid-row:span 1;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;
   display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:18px 20px;text-align:left;
   cursor:pointer;color:var(--charcoal);transition:transform .35s var(--ease),box-shadow .35s var(--ease);
 }
+.city-card-icon{
+  position:relative;z-index:1;width:34px;height:34px;margin-bottom:auto;color:var(--brass);opacity:.85;
+}
+.city-card--lg .city-card-icon{width:44px;height:44px;}
+.city-card-icon svg{width:100%;height:100%;}
 .city-card--lg{grid-column:span 2;grid-row:span 2;}
 .city-card:hover,.city-card:focus-visible{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
 /* One signature gradient flow — a light warm-gold core bleeding out into
@@ -939,7 +944,7 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
 .dept-pick:hover{background:var(--teal);border-color:var(--teal);color:#fff;}
 
 @media (max-width:900px){
-  .city-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px;}
+  .city-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:140px;}
   .city-card--lg{grid-column:span 2;grid-row:span 1;}
 }
 @media (max-width:540px){
