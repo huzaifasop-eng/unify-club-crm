@@ -97,6 +97,12 @@
   background:linear-gradient(180deg,rgba(8,26,24,0.32) 0%,rgba(8,26,24,0.06) 38%,rgba(8,26,24,0.55) 100%);
 }
 .page-film .container{position:relative;z-index:3;width:100%;}
+/* .btn-on-dark normally takes its ink from --charcoal, which is the page's
+   own (often dark) identity ink meant for a light canvas — wrong here,
+   since this button sits directly on real video footage and needs to stay
+   light regardless of the active page identity. */
+.page-film .btn-on-dark{border-color:rgba(255,255,255,0.55);color:#fff;}
+.page-film .btn-on-dark:hover{background:rgba(255,255,255,0.14);border-color:#fff;}
 
 /* Article: the equipment footage is generic, so give it a deliberate,
    always-moving treatment and a mineral-teal grade instead of swapping
@@ -110,6 +116,23 @@ body[data-page="article"] .page-film video{
   animation:mineral-breathe 20s ease-in-out infinite alternate;
   transform-origin:62% 48%;
 }
+/* The wordmark hero sits straight on top of the footage with no card
+   behind it, so its own scrim needs to carry full legibility on its own —
+   a stronger bottom-weighted darken plus text-shadow on the wordmark/
+   tagline, and a more opaque, better-bordered chip "box" so none of it
+   washes out against a bright frame of the loop. */
+body[data-page="article"] .page-film::before{
+  background:linear-gradient(180deg,rgba(8,26,24,0.4) 0%,rgba(8,26,24,0.18) 32%,rgba(8,26,24,0.8) 100%);
+}
+body[data-page="article"] .wordmark,body[data-page="article"] .tagline{
+  text-shadow:0 2px 18px rgba(0,0,0,0.55),0 1px 3px rgba(0,0,0,0.5);
+}
+body[data-page="article"] .fact-chips span{
+  background:rgba(8,26,24,0.55);border-color:rgba(255,255,255,0.4);
+  text-shadow:0 1px 4px rgba(0,0,0,0.5);
+}
+body[data-page="article"] .page-film .film-meta{color:rgba(255,255,255,0.82);text-shadow:0 1px 4px rgba(0,0,0,0.5);}
+body[data-page="article"] .page-film .film-meta b{text-shadow:0 1px 4px rgba(0,0,0,0.5);}
 @keyframes mineral-breathe{from{scale:1.12;}to{scale:1.26;}}
 @media (prefers-reduced-motion:reduce){
   body[data-page="article"] .page-film video{animation:none;}
