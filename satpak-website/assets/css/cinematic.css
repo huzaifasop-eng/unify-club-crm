@@ -886,6 +886,17 @@ body[data-page="homecare"]{--ivory-dim:#FBF2EA;}
   transform:translateY(calc((var(--p,0) - 0.3) * 120px));
 }
 
+/* type-hero split layout — a type-led hero that also carries a floating
+   can-hero visual (Chemicals), reusing the product-stage halo/can pattern
+   instead of inventing new hero art. */
+.type-hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center;width:100%;}
+.type-hero-art{position:relative;display:flex;align-items:center;justify-content:center;min-height:320px;}
+.type-hero-art .can.can-hero{filter:drop-shadow(0 30px 30px rgba(var(--ink-rgb),0.22));}
+@media (max-width:900px){
+  .type-hero-grid{grid-template-columns:1fr;}
+  .type-hero-art{min-height:220px;order:-1;margin-bottom:-12px;}
+}
+
 .can .can-name.xs{font-size:6.3px;letter-spacing:0.03em;}
 .care-grid .product-thumb .can{width:56%;}
 @media (max-width:640px){.care-grid .product-thumb{aspect-ratio:16/11;}.care-grid .product-thumb .can{width:38%;}}

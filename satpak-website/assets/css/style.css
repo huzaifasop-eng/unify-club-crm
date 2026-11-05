@@ -33,6 +33,7 @@
   --card:#ffffff;
   --grad-a:#C9A876;
   --grad-b:#8C611F;
+  --grad-ink:#1A1510;    /* readable ink for text/icons sitting on the grad-a→grad-b highlight gradient */
   --line:rgba(var(--ink-rgb),0.12);
   --line-light:rgba(var(--ink-rgb),0.14);
 
@@ -82,14 +83,14 @@
    canvas/card tone (no separate "dim" shade) so section classes that key off
    them never produce a visible background "cut" between sections.
    ========================================================================== */
-body[data-page="home"]{--ivory:#FAF4F5;--ivory-dim:#FAF4F5;--heritage-dark:#FAF4F5;--heritage-dark-2:#FAF4F5;--card:#EFE2E5;--charcoal:#291518;--ink-rgb:41,21,24;--teal:#8C2F45;--teal-700:#5C1D2C;--teal-100:#EFE2E5;--accent-rgb:140,47,69;--grad-a:#D9B396;--grad-b:#EFE3D5;--line:rgba(41,21,24,0.12);--line-light:rgba(41,21,24,0.14);}
-body[data-page="ro"]{--ivory:#F1F4F6;--ivory-dim:#F1F4F6;--heritage-dark:#F1F4F6;--heritage-dark-2:#F1F4F6;--card:#E2E7EC;--charcoal:#151C21;--ink-rgb:21,28,33;--teal:#3E5568;--teal-700:#293B49;--teal-100:#E2E7EC;--accent-rgb:62,85,104;--grad-a:#96A1AC;--grad-b:#BAC5CF;--line:rgba(21,28,33,0.12);--line-light:rgba(21,28,33,0.14);}
-body[data-page="chemicals"]{--ivory:#FAF5F2;--ivory-dim:#FAF5F2;--heritage-dark:#FAF5F2;--heritage-dark-2:#FAF5F2;--card:#EFE3DF;--charcoal:#2C120D;--ink-rgb:44,18,13;--teal:#A85A3D;--teal-700:#7A3F29;--teal-100:#EFE3DF;--accent-rgb:168,90,61;--grad-a:#C59E8E;--grad-b:#D6BCAE;--line:rgba(44,18,13,0.12);--line-light:rgba(44,18,13,0.14);}
-body[data-page="article"]{--ivory:#F7F4F0;--ivory-dim:#F7F4F0;--heritage-dark:#F7F4F0;--heritage-dark-2:#F7F4F0;--card:#ECE7E1;--charcoal:#29221F;--ink-rgb:41,34,31;--teal:#8A6A4E;--teal-700:#5F4835;--teal-100:#ECE7E1;--accent-rgb:138,106,78;--grad-a:#A38067;--grad-b:#C2A68F;--line:rgba(41,34,31,0.12);--line-light:rgba(41,34,31,0.14);}
-body[data-page="health"]{--ivory:#F2F6F4;--ivory-dim:#F2F6F4;--heritage-dark:#F2F6F4;--heritage-dark-2:#F2F6F4;--card:#E3EAE6;--charcoal:#12221D;--ink-rgb:18,34,29;--teal:#1F6B4F;--teal-700:#154A37;--teal-100:#E3EAE6;--accent-rgb:31,107,79;--grad-a:#E2C974;--grad-b:#B89742;--line:rgba(18,34,29,0.12);--line-light:rgba(18,34,29,0.14);}
-body[data-page="homecare"]{--ivory:#FBFBFA;--ivory-dim:#FBFBFA;--heritage-dark:#FBFBFA;--heritage-dark-2:#FBFBFA;--card:#F5F2F0;--charcoal:#12221D;--ink-rgb:18,34,29;--teal:#3F5F4F;--teal-700:#2A4135;--teal-100:#F5F2F0;--accent-rgb:63,95,79;--grad-a:#0A261D;--grad-b:#2E4F43;--line:rgba(18,34,29,0.12);--line-light:rgba(18,34,29,0.14);}
-body[data-page="contact"]{--ivory:#F4F6F7;--ivory-dim:#F4F6F7;--heritage-dark:#F4F6F7;--heritage-dark-2:#F4F6F7;--card:#E9ECEE;--charcoal:#152024;--ink-rgb:21,32,36;--teal:#3D6B6E;--teal-700:#294A4C;--teal-100:#E9ECEE;--accent-rgb:61,107,110;--grad-a:#9AA6AB;--grad-b:#C5A59E;--line:rgba(21,32,36,0.12);--line-light:rgba(21,32,36,0.14);}
-body[data-page="portal"]{--ivory:#FAF5F4;--ivory-dim:#FAF5F4;--heritage-dark:#FAF5F4;--heritage-dark-2:#FAF5F4;--card:#EFE8E6;--charcoal:#211215;--ink-rgb:33,18,21;--teal:#7A2030;--teal-700:#531620;--teal-100:#EFE8E6;--accent-rgb:122,32,48;--grad-a:#E8C39E;--grad-b:#F5E6D3;--line:rgba(33,18,21,0.12);--line-light:rgba(33,18,21,0.14);}
+body[data-page="home"]{--ivory:#FAF4F5;--ivory-dim:#FAF4F5;--heritage-dark:#FAF4F5;--heritage-dark-2:#FAF4F5;--card:#EFE2E5;--charcoal:#291518;--ink-rgb:41,21,24;--teal:#8C2F45;--teal-700:#5C1D2C;--teal-100:#EFE2E5;--accent-rgb:140,47,69;--grad-a:#D9B396;--grad-b:#EFE3D5;--grad-ink:#291518;--line:rgba(41,21,24,0.12);--line-light:rgba(41,21,24,0.14);}
+body[data-page="ro"]{--ivory:#F1F4F6;--ivory-dim:#F1F4F6;--heritage-dark:#F1F4F6;--heritage-dark-2:#F1F4F6;--card:#E2E7EC;--charcoal:#151C21;--ink-rgb:21,28,33;--teal:#3E5568;--teal-700:#293B49;--teal-100:#E2E7EC;--accent-rgb:62,85,104;--grad-a:#96A1AC;--grad-b:#BAC5CF;--grad-ink:#151C21;--line:rgba(21,28,33,0.12);--line-light:rgba(21,28,33,0.14);}
+body[data-page="chemicals"]{--ivory:#FAF5F2;--ivory-dim:#FAF5F2;--heritage-dark:#FAF5F2;--heritage-dark-2:#FAF5F2;--card:#EFE3DF;--charcoal:#2C120D;--ink-rgb:44,18,13;--teal:#A85A3D;--teal-700:#7A3F29;--teal-100:#EFE3DF;--accent-rgb:168,90,61;--grad-a:#C59E8E;--grad-b:#D6BCAE;--grad-ink:#2C120D;--line:rgba(44,18,13,0.12);--line-light:rgba(44,18,13,0.14);}
+body[data-page="article"]{--ivory:#F7F4F0;--ivory-dim:#F7F4F0;--heritage-dark:#F7F4F0;--heritage-dark-2:#F7F4F0;--card:#ECE7E1;--charcoal:#29221F;--ink-rgb:41,34,31;--teal:#8A6A4E;--teal-700:#5F4835;--teal-100:#ECE7E1;--accent-rgb:138,106,78;--grad-a:#A38067;--grad-b:#C2A68F;--grad-ink:#29221F;--line:rgba(41,34,31,0.12);--line-light:rgba(41,34,31,0.14);}
+body[data-page="health"]{--ivory:#F2F6F4;--ivory-dim:#F2F6F4;--heritage-dark:#F2F6F4;--heritage-dark-2:#F2F6F4;--card:#E3EAE6;--charcoal:#12221D;--ink-rgb:18,34,29;--teal:#1F6B4F;--teal-700:#154A37;--teal-100:#E3EAE6;--accent-rgb:31,107,79;--grad-a:#E2C974;--grad-b:#B89742;--grad-ink:#12221D;--line:rgba(18,34,29,0.12);--line-light:rgba(18,34,29,0.14);}
+body[data-page="homecare"]{--ivory:#FBFBFA;--ivory-dim:#FBFBFA;--heritage-dark:#FBFBFA;--heritage-dark-2:#FBFBFA;--card:#F5F2F0;--charcoal:#12221D;--ink-rgb:18,34,29;--teal:#3F5F4F;--teal-700:#2A4135;--teal-100:#F5F2F0;--accent-rgb:63,95,79;--grad-a:#0A261D;--grad-b:#2E4F43;--grad-ink:#F1F5F3;--line:rgba(18,34,29,0.12);--line-light:rgba(18,34,29,0.14);}
+body[data-page="contact"]{--ivory:#F4F6F7;--ivory-dim:#F4F6F7;--heritage-dark:#F4F6F7;--heritage-dark-2:#F4F6F7;--card:#E9ECEE;--charcoal:#152024;--ink-rgb:21,32,36;--teal:#3D6B6E;--teal-700:#294A4C;--teal-100:#E9ECEE;--accent-rgb:61,107,110;--grad-a:#9AA6AB;--grad-b:#C5A59E;--grad-ink:#152024;--line:rgba(21,32,36,0.12);--line-light:rgba(21,32,36,0.14);}
+body[data-page="portal"]{--ivory:#FAF5F4;--ivory-dim:#FAF5F4;--heritage-dark:#FAF5F4;--heritage-dark-2:#FAF5F4;--card:#EFE8E6;--charcoal:#211215;--ink-rgb:33,18,21;--teal:#7A2030;--teal-700:#531620;--teal-100:#EFE8E6;--accent-rgb:122,32,48;--grad-a:#E8C39E;--grad-b:#F5E6D3;--grad-ink:#211215;--line:rgba(33,18,21,0.12);--line-light:rgba(33,18,21,0.14);}
 
 /* -------- same 8 identities, dark toggle: genuinely dark canvas, the
    light-mode accent becomes the hover/pressed shade, the gradient's own
@@ -440,9 +441,9 @@ p.lede{
 /* product cards */
 .product-card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
-  display:flex;flex-direction:column;transition:all .3s var(--ease);
+  display:flex;flex-direction:column;transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);
 }
-.product-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.product-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);}
 .product-card.is-clickable{cursor:pointer;}
 .product-card.is-clickable:hover h3{color:var(--teal);}
 .product-thumb{
@@ -490,13 +491,28 @@ p.lede{
   .catalogue-grid--2,.catalogue-grid--3,.catalogue-grid--4{grid-template-columns:1fr;}
 }
 
+/* catalogue cards (3/4-up grids): keep the card short enough that a whole
+   category fits on screen without scroll fatigue — clamp the blurb to two
+   lines and fold price + "View Details" onto one shared row instead of
+   three stacked rows. */
+.catalogue-grid--3 .product-body,.catalogue-grid--4 .product-body{padding:18px 18px 20px;gap:6px;}
+.catalogue-grid--3 .product-body p,.catalogue-grid--4 .product-body p{
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.6em;
+}
+.catalogue-grid--3 .product-thumb,.catalogue-grid--4 .product-thumb{aspect-ratio:16/12;}
+.product-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;}
+.product-foot .product-price-tag{margin:0;}
+.link-view-details{font-size:0.84rem;font-weight:600;color:var(--teal);white-space:nowrap;}
+.link-view-details:hover{color:var(--teal-700);}
+
 /* filters */
 .filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
 .filter-chip{
   padding:9px 18px;border-radius:20px;border:1.3px solid var(--line);font-size:0.86rem;font-weight:600;
-  background:var(--card);color:var(--charcoal);transition:all .2s;
+  background:var(--card);color:var(--charcoal);transition:all .4s var(--ease);
 }
-.filter-chip.is-active,.filter-chip:hover{background:var(--teal);border-color:var(--teal);color:#fff;}
+.filter-chip.is-active{background:linear-gradient(135deg,var(--grad-a),var(--grad-b));border-color:var(--grad-a);color:var(--grad-ink);}
+.filter-chip:hover{background:var(--teal);border-color:var(--teal);color:#fff;}
 
 /* timeline */
 .timeline{position:relative;padding-left:36px;}
