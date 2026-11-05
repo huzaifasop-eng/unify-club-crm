@@ -1303,6 +1303,78 @@ function satpakInit(){
     render();
   });
 
+  /* ---------- sectors we serve: sector -> department -> city/order size -> destination ---------- */
+  safe("sector flow", function(){
+    var grid = document.querySelector("[data-sector-grid]");
+    var flow = document.querySelector("[data-sector-flow]");
+    if(!grid || !flow) return;
+    var nameEl = flow.querySelector("[data-sector-flow-name]");
+    var deptChips = Array.prototype.slice.call(flow.querySelectorAll("[data-flow-dept]"));
+    var buyerChips = Array.prototype.slice.call(flow.querySelectorAll("[data-flow-buyer]"));
+    var citySelect = flow.querySelector("[data-flow-city]");
+    var goBtn = flow.querySelector("[data-flow-go]");
+
+    var retailAnchor = { ro:"", chemicals:"#catalogue", article:"#subscribe", health:"#range", homecare:"#range" };
+    var bulkHref = { ro:"/contact.html#technical" };
+
+    var selectedDept = null, selectedHref = null, selectedBuyer = null;
+
+    function updateGo(){ goBtn.disabled = !(selectedDept && selectedBuyer); }
+
+    Array.prototype.slice.call(grid.querySelectorAll(".sector-item")).forEach(function(btn){
+      btn.addEventListener("click", function(){
+        grid.querySelectorAll(".sector-item").forEach(function(b){ b.classList.remove("is-active"); });
+        btn.classList.add("is-active");
+        if(nameEl) nameEl.textContent = btn.getAttribute("data-sector") || "your sector";
+        flow.classList.add("is-open");
+        flow.scrollIntoView({ behavior:"smooth", block:"center" });
+      });
+    });
+
+    deptChips.forEach(function(chip){
+      chip.addEventListener("click", function(){
+        deptChips.forEach(function(c){ c.classList.remove("is-selected"); });
+        chip.classList.add("is-selected");
+        selectedDept = chip.getAttribute("data-flow-dept");
+        selectedHref = chip.getAttribute("data-flow-href");
+        updateGo();
+      });
+    });
+    buyerChips.forEach(function(chip){
+      chip.addEventListener("click", function(){
+        buyerChips.forEach(function(c){ c.classList.remove("is-selected"); });
+        chip.classList.add("is-selected");
+        selectedBuyer = chip.getAttribute("data-flow-buyer");
+        updateGo();
+      });
+    });
+
+    if(goBtn) goBtn.addEventListener("click", function(){
+      if(!selectedDept || !selectedBuyer) return;
+      var sector = (grid.querySelector(".sector-item.is-active") || {}).getAttribute
+        ? grid.querySelector(".sector-item.is-active").getAttribute("data-sector") : "";
+      var city = citySelect ? citySelect.value : "";
+      var params = new URLSearchParams();
+      if(sector) params.set("sector", sector);
+      if(city) params.set("city", city);
+
+      var dest;
+      if(selectedBuyer === "bulk"){
+        dest = bulkHref[selectedDept] || "/contact.html#distributor";
+      } else {
+        var anchor = retailAnchor[selectedDept] || "";
+        dest = selectedHref + anchor;
+      }
+      var qs = params.toString();
+      if(qs){
+        var hashIndex = dest.indexOf("#");
+        if(hashIndex === -1) dest += "?" + qs;
+        else dest = dest.slice(0, hashIndex) + "?" + qs + dest.slice(hashIndex);
+      }
+      window.location.href = dest;
+    });
+  });
+
   /* ---------- donation (Home) — WhatsApp lead-routing, not a checkout ---------- */
   safe("donation form", function(){
     var form = document.querySelector("[data-donate-form]");

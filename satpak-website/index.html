@@ -398,15 +398,48 @@
       <span class="kicker" data-in="fade">Sectors we serve</span>
       <h2 class="h-xl mt-24 center" style="max-width:18ch;margin-left:auto;margin-right:auto;" data-in="up">Water runs through every kind of operation.</h2>
     </div>
-    <div class="sector-strip mt-64" data-stagger>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div><span>Education</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h12v10H2z"/><path d="M14 11h4l4 3v3h-8z"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg></div><span>Logistics</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 21h12"/><rect x="8" y="5" width="8" height="14" rx="1"/><path d="M8 9l8 2M8 13l8 2"/></svg></div><span>Textile</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18a9 9 0 0 1-18 0z"/><path d="M8 8c0-1 1-1.4 1-2.5M12 8c0-1 1-1.4 1-2.5M16 8c0-1 1-1.4 1-2.5"/></svg></div><span>Food Processing</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 3v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l2-3V2z"/><path d="M8 12h8"/></svg></div><span>Plastics</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 13h18v5M21 13a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="10.2" r="1.8"/></svg></div><span>Hospitality</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21v-6a7 7 0 0 1 14 0v6"/><path d="M12 8V5"/><path d="M13.4 2.6a1.6 1.6 0 1 1-1.9 1.9 1.3 1.3 0 1 0 1.9-1.9z"/><path d="M10 21v-3a2 2 0 0 1 4 0v3"/></svg></div><span>Religious Institutions</span></div>
-      <div class="sector-item"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg></div><span>Defence</span></div>
+    <div class="sector-strip mt-64" data-stagger data-sector-grid>
+      <button type="button" class="sector-item" data-sector="Education"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div><span>Education</span></button>
+      <button type="button" class="sector-item" data-sector="Logistics"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h12v10H2z"/><path d="M14 11h4l4 3v3h-8z"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg></div><span>Logistics</span></button>
+      <button type="button" class="sector-item" data-sector="Textile"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 21h12"/><rect x="8" y="5" width="8" height="14" rx="1"/><path d="M8 9l8 2M8 13l8 2"/></svg></div><span>Textile</span></button>
+      <button type="button" class="sector-item" data-sector="Food Processing"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18a9 9 0 0 1-18 0z"/><path d="M8 8c0-1 1-1.4 1-2.5M12 8c0-1 1-1.4 1-2.5M16 8c0-1 1-1.4 1-2.5"/></svg></div><span>Food Processing</span></button>
+      <button type="button" class="sector-item" data-sector="Plastics"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 3v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l2-3V2z"/><path d="M8 12h8"/></svg></div><span>Plastics</span></button>
+      <button type="button" class="sector-item" data-sector="Hospitality"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 13h18v5M21 13a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="10.2" r="1.8"/></svg></div><span>Hospitality</span></button>
+      <button type="button" class="sector-item" data-sector="Religious Institutions"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21v-6a7 7 0 0 1 14 0v6"/><path d="M12 8V5"/><path d="M13.4 2.6a1.6 1.6 0 1 1-1.9 1.9 1.3 1.3 0 1 0 1.9-1.9z"/><path d="M10 21v-3a2 2 0 0 1 4 0v3"/></svg></div><span>Religious Institutions</span></button>
+      <button type="button" class="sector-item" data-sector="Defence"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg></div><span>Defence</span></button>
+      <button type="button" class="sector-item" data-sector="Healthcare"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></div><span>Healthcare</span></button>
+      <button type="button" class="sector-item" data-sector="Pharmaceuticals"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="6" rx="3"/><path d="M12 9v6"/></svg></div><span>Pharmaceuticals</span></button>
+      <button type="button" class="sector-item" data-sector="Agriculture"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10"/><path d="M12 10c0-4 3-7 7-7 0 4-3 7-7 7z"/><path d="M12 14c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"/></svg></div><span>Agriculture</span></button>
+      <button type="button" class="sector-item" data-sector="Residential Societies"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><rect x="10" y="14" width="4" height="6"/></svg></div><span>Residential Societies</span></button>
+      <button type="button" class="sector-item" data-sector="Construction"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M9 11h6"/></svg></div><span>Construction</span></button>
+    </div>
+
+    <div class="sector-flow" data-sector-flow>
+      <p class="sector-flow-lede">For <strong data-sector-flow-name>your sector</strong> — a couple of quick picks and we'll send you to the right place.</p>
+      <div class="sector-flow-row">
+        <span class="sector-flow-label">Which department?</span>
+        <button type="button" class="sector-flow-chip" data-flow-dept="ro" data-flow-href="/ro-plants-services.html">RO Plants &amp; Services</button>
+        <button type="button" class="sector-flow-chip" data-flow-dept="chemicals" data-flow-href="/chemicals-minerals.html">Chemicals &amp; Minerals</button>
+        <button type="button" class="sector-flow-chip" data-flow-dept="article" data-flow-href="/article.html">Article — Mineral Water</button>
+        <button type="button" class="sector-flow-chip" data-flow-dept="health" data-flow-href="/health-wellness.html">Health &amp; Wellness</button>
+        <button type="button" class="sector-flow-chip" data-flow-dept="homecare" data-flow-href="/home-care.html">Home Care</button>
+      </div>
+      <div class="sector-flow-row">
+        <span class="sector-flow-label">Your city</span>
+        <select class="sector-flow-select" data-flow-city aria-label="Your city">
+          <option value="">Choose a city</option>
+          <option>Karachi</option><option>Lahore</option><option>Islamabad</option><option>Faisalabad</option>
+          <option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option>
+          <option>Sukkur</option><option>Rawalpindi</option><option>Gujranwala</option><option>Bahawalpur</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="sector-flow-row">
+        <span class="sector-flow-label">Order size</span>
+        <button type="button" class="sector-flow-chip" data-flow-buyer="retail">Regular order</button>
+        <button type="button" class="sector-flow-chip" data-flow-buyer="bulk">Bulk / wholesale quantity</button>
+      </div>
+      <button type="button" class="btn btn-primary sector-flow-go" data-flow-go disabled>Take me there</button>
     </div>
   </div>
 </section>
