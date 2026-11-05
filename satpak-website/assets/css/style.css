@@ -414,7 +414,7 @@ p.lede{
 /* ---------- cards ---------- */
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:34px;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s;
+  padding:34px;transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);
 }
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:transparent;}
 .card-icon{
@@ -428,14 +428,14 @@ p.lede{
 
 .dept-card{
   display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:38px 34px;position:relative;overflow:hidden;transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease);
+  padding:38px 34px;position:relative;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);
 }
 .dept-card:hover{border-color:var(--brass);box-shadow:var(--shadow-md);transform:translateY(-4px);}
 .dept-card .dept-index{font-family:var(--font-display);font-size:0.85rem;color:var(--brass);letter-spacing:0.08em;}
 .dept-card h3{font-family:var(--font-display);font-size:1.4rem;font-weight:500;color:var(--teal);margin:14px 0 10px;}
 .dept-card p{color:rgba(var(--ink-rgb),0.66);font-size:0.94rem;}
-.dept-card .arrow{margin-top:20px;display:inline-flex;align-items:center;gap:8px;color:var(--brass);font-weight:600;font-size:0.86rem;transition:gap .22s var(--ease);}
-.dept-card .arrow svg{transition:transform .22s var(--ease);}
+.dept-card .arrow{margin-top:20px;display:inline-flex;align-items:center;gap:8px;color:var(--brass);font-weight:600;font-size:0.86rem;transition:gap .4s var(--ease);}
+.dept-card .arrow svg{transition:transform .4s var(--ease);}
 .dept-card:hover .arrow{gap:12px;}
 
 /* product cards */
