@@ -132,6 +132,7 @@ function satpakInit(){
       var chips = group.querySelectorAll(".filter-chip");
       var targetSelector = group.getAttribute("data-filter-group");
       var items = document.querySelectorAll(targetSelector);
+      var catalogueGroups = document.querySelectorAll("[data-catalogue-group]");
       chips.forEach(function(chip){
         chip.addEventListener("click", function(){
           chips.forEach(function(c){ c.classList.remove("is-active"); });
@@ -141,6 +142,15 @@ function satpakInit(){
             var cats = (item.getAttribute("data-cats") || "").split(",");
             var show = val === "all" || cats.indexOf(val) !== -1;
             item.style.display = show ? "" : "none";
+          });
+          /* a catalogue section (its own heading + grid) only makes
+             sense to show when the active filter is "all" or matches
+             that section's own category — otherwise it's an empty
+             heading sitting over nothing. */
+          catalogueGroups.forEach(function(sectionGroup){
+            var cats = (sectionGroup.getAttribute("data-cats") || "").split(",");
+            var show = val === "all" || cats.indexOf(val) !== -1;
+            sectionGroup.style.display = show ? "" : "none";
           });
         });
       });
