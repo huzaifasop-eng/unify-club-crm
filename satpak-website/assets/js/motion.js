@@ -289,37 +289,6 @@
   });
 
   /* ------------------------------------------------------------------
-     Department rows: a preview frame that trails the cursor
-     ------------------------------------------------------------------ */
-  var deptList = document.querySelector("[data-dept-list]");
-  var preview = document.querySelector("[data-dept-preview]");
-  if(deptList && preview && window.matchMedia("(hover: hover)").matches){
-    var panes = toArray(preview.querySelectorAll(".pane"));
-    var mx = 0, my = 0, px = 0, py = 0, raf = null;
-    function follow(){
-      px += (mx - px) * 0.14;
-      py += (my - py) * 0.14;
-      preview.style.transform = "translate(" + px.toFixed(1) + "px," + py.toFixed(1) + "px)";
-      raf = requestAnimationFrame(follow);
-    }
-    toArray(deptList.querySelectorAll("[data-preview]")).forEach(function(row){
-      row.addEventListener("mouseenter", function(){
-        var target = parseInt(row.getAttribute("data-preview"), 10);
-        panes.forEach(function(pane, i){ pane.classList.toggle("is-shown", i === target); });
-        preview.classList.add("is-live");
-      });
-      row.addEventListener("mouseleave", function(){ preview.classList.remove("is-live"); });
-    });
-    deptList.addEventListener("mousemove", function(e){
-      mx = e.clientX; my = e.clientY;
-      if(!raf){ px = mx; py = my; follow(); }
-    });
-    deptList.addEventListener("mouseleave", function(){
-      if(raf){ cancelAnimationFrame(raf); raf = null; }
-    });
-  }
-
-  /* ------------------------------------------------------------------
      Testimonials
      ------------------------------------------------------------------ */
   toArray(document.querySelectorAll("[data-quotes]")).forEach(function(box){
