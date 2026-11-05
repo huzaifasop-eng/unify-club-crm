@@ -775,7 +775,9 @@ function satpakInit(){
       { min: 50, max: 199, label: "50–199", mult: 0.85 },
       { min: 200, max: Infinity, label: "200+", mult: null }
     ];
-    document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
+    /* Detail pages (wide buy-box) only — a full tier table is too dense
+       for a narrow catalogue grid card; those keep just the stock strip. */
+    document.querySelectorAll(".buy-box [data-product-controls]").forEach(function(ctrl){
       var packSelect = ctrl.querySelector("[data-pack-select]");
       var qtyInput = ctrl.querySelector("[data-qty-input]");
       var parent = ctrl.parentElement;
@@ -976,7 +978,8 @@ function satpakInit(){
       "Tank Wash": ["install", "amc"]
     };
 
-    document.querySelectorAll("[data-product-controls]").forEach(function(ctrl){
+    /* Detail pages only — see the tiered-pricing note above for why. */
+    document.querySelectorAll(".buy-box [data-product-controls]").forEach(function(ctrl){
       var name = ctrl.getAttribute("data-product-name");
       var codes = MAP[name];
       var parent = ctrl.parentElement;
