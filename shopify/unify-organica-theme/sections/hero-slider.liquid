@@ -1,43 +1,23 @@
-<section class="slider" data-slider data-autoplay="{{ section.settings.autoplay_seconds }}" aria-roledescription="carousel">
+<section class="hero-banner" data-slider data-autoplay="{{ section.settings.autoplay_seconds }}" aria-roledescription="carousel">
   <div class="slider__track">
     {%- for block in section.blocks -%}
-      <div class="slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }} aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ forloop.length }}">
-        {%- assign href = block.settings.link | default: routes.all_products_collection_url -%}
-        {%- if block.settings.image != blank -%}
-          <a href="{{ href }}" class="slide__img-link" aria-label="{{ block.settings.heading | default: 'Shop now' | escape }}">
-            <picture>
-              {%- if block.settings.image_mobile != blank -%}
-                <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 900 }}">
-              {%- endif -%}
-              {{ block.settings.image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'eager', class: 'slide__img', alt: block.settings.image.alt | default: block.settings.heading }}
-            </picture>
-          </a>
-        {%- else -%}
-          <div class="slide__art" style="--slide-bg: {{ block.settings.bg }}; --slide-ink: {{ block.settings.ink }};">
-            <div class="page-width slide__grid">
-              {%- if block.settings.photo_asset != blank -%}
-              <div class="slide__photo-wrap"><img src="{{ block.settings.photo_asset | asset_url }}" alt="{{ block.settings.heading | escape }}" width="1536" height="1024" class="slide__photo" loading="eager"></div>
-              {%- else -%}
-              <div class="slide__packs">
-                {%- assign packs = block.settings.pack_left | append: ',' | append: block.settings.pack_main | append: ',' | append: block.settings.pack_right | split: ',' -%}
-                {%- assign pos = 'a,b,c' | split: ',' -%}
-                {%- for h in packs -%}
-                  {%- if h != blank -%}
-                    <img src="{{ 'cut-' | append: h | append: '.png' | asset_url }}" alt="" width="365" height="600" class="slide__pack slide__pack--{{ pos[forloop.index0] }}" loading="{% if forloop.parentloop.first %}eager{% else %}lazy{% endif %}">
-                  {%- endif -%}
-                {%- endfor -%}
-              </div>
-              {%- endif -%}
-              <div class="slide__copy">
-                {%- if block.settings.kicker != blank -%}<p class="slide__kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                <h2 class="slide__title">{{ block.settings.heading }}</h2>
-                {%- if block.settings.offer != blank -%}<p class="slide__offer"><small>{{ block.settings.offer_prefix }}</small>{{ block.settings.offer }}<small>{{ block.settings.offer_suffix }}</small></p>{%- endif -%}
-                {%- if block.settings.button != blank -%}<a href="{{ href }}" class="btn">{{ block.settings.button }}</a>{%- endif -%}
-              </div>
-            </div>
-          </div>
-        {%- endif -%}
-      </div>
+      {%- assign href = block.settings.link | default: routes.all_products_collection_url -%}
+      <a href="{{ href }}" class="slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }} aria-label="{{ block.settings.alt | default: 'Shop now' | escape }}">
+        {%- assign loading = 'lazy' -%}
+        {%- if forloop.first -%}{%- assign loading = 'eager' -%}{%- endif -%}
+        <picture>
+          {%- if block.settings.image_mobile != blank -%}
+            <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 1000 }}">
+          {%- elsif block.settings.asset_mobile != blank -%}
+            <source media="(max-width: 749px)" srcset="{{ block.settings.asset_mobile | asset_url }}">
+          {%- endif -%}
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: loading, class: 'slide__img', alt: block.settings.alt }}
+          {%- else -%}
+            <img src="{{ block.settings.asset | default: 'banner-hero.jpg' | asset_url }}" alt="{{ block.settings.alt | escape }}" width="2400" height="900" class="slide__img" loading="{{ loading }}">
+          {%- endif -%}
+        </picture>
+      </a>
     {%- endfor -%}
   </div>
   {%- if section.blocks.size > 1 -%}
@@ -60,22 +40,12 @@
   "max_blocks": 6,
   "blocks": [
     { "type": "slide", "name": "Slide", "settings": [
-      { "type": "image_picker", "id": "image", "label": "Banner image (desktop)", "info": "Recommended 1920 x 730. When set, the image replaces the illustrated banner." },
-      { "type": "image_picker", "id": "image_mobile", "label": "Banner image (mobile)", "info": "Recommended 800 x 1000." },
+      { "type": "image_picker", "id": "image", "label": "Banner image (desktop)", "info": "Recommended 2400 x 900." },
+      { "type": "image_picker", "id": "image_mobile", "label": "Banner image (mobile)", "info": "Recommended 1000 x 1150." },
       { "type": "url", "id": "link", "label": "Link" },
-      { "type": "header", "content": "Illustrated banner (no image)" },
-      { "type": "text", "id": "kicker", "label": "Small text", "default": "Organic week" },
-      { "type": "text", "id": "heading", "label": "Heading", "default": "The big organic sale" },
-      { "type": "text", "id": "offer_prefix", "label": "Offer prefix", "default": "Up to" },
-      { "type": "text", "id": "offer", "label": "Offer", "default": "30%" },
-      { "type": "text", "id": "offer_suffix", "label": "Offer suffix", "default": "off" },
-      { "type": "text", "id": "button", "label": "Button", "default": "Shop the sale" },
-      { "type": "color", "id": "bg", "label": "Background", "default": "#eef3f1" },
-      { "type": "color", "id": "ink", "label": "Offer colour", "default": "#e0453a" },
-      { "type": "text", "id": "photo_asset", "label": "Built-in photo", "info": "Use lineup.jpg for the full product lineup photo. Leave empty to show bottles below." },
-      { "type": "text", "id": "pack_left", "label": "Left bottle", "default": "hair-shampoo", "info": "Bottles available: hair-oil, hair-shampoo, joints-oil, body-wash, hand-wash" },
-      { "type": "text", "id": "pack_main", "label": "Centre bottle", "default": "hair-oil" },
-      { "type": "text", "id": "pack_right", "label": "Right bottle", "default": "joints-oil" }
+      { "type": "text", "id": "alt", "label": "Image description (for accessibility)", "default": "Unify Organica products" },
+      { "type": "text", "id": "asset", "label": "Built-in banner (desktop)", "default": "banner-hero.jpg", "info": "Used when no image is uploaded. Built-in: banner-hero.jpg, banner-body.jpg" },
+      { "type": "text", "id": "asset_mobile", "label": "Built-in banner (mobile)", "default": "banner-hero-mobile.jpg", "info": "Built-in: banner-hero-mobile.jpg, banner-body-mobile.jpg" }
     ]}
   ],
   "presets": [{ "name": "Banner slider", "blocks": [{ "type": "slide" }] }]

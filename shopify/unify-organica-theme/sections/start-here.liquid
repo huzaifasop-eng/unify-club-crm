@@ -1,0 +1,42 @@
+<section class="section section--row">
+  <div class="page-width">
+    <div class="starter">
+      <div class="starter__media">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+        {%- else -%}
+          <img src="{{ 'lineup.jpg' | asset_url }}" alt="Unify Organica product range" width="1536" height="1024" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="starter__copy">
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+        <div class="starter__btns">
+          {%- if section.settings.button1 != blank -%}<a href="{{ section.settings.link1 | default: routes.all_products_collection_url }}" class="btn btn--light">{{ section.settings.button1 }}</a>{%- endif -%}
+          {%- if section.settings.button2 != blank -%}
+            {%- assign wa = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-' -%}
+            {%- assign l2 = section.settings.link2 -%}
+            {%- if l2 == blank and wa != blank -%}{%- assign l2 = 'https://wa.me/' | append: wa -%}{%- endif -%}
+            <a href="{{ l2 | default: routes.all_products_collection_url }}" class="btn btn--light">{{ section.settings.button2 }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Start here",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Don't know where to start?" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Tell us about your hair or skin and we'll suggest the right routine." },
+    { "type": "text", "id": "button1", "label": "Button 1", "default": "Shop all products" },
+    { "type": "url", "id": "link1", "label": "Button 1 link" },
+    { "type": "text", "id": "button2", "label": "Button 2", "default": "Ask us on WhatsApp" },
+    { "type": "url", "id": "link2", "label": "Button 2 link", "info": "Leave empty to open WhatsApp with the number from Theme settings." }
+  ],
+  "presets": [{ "name": "Start here" }]
+}
+{% endschema %}

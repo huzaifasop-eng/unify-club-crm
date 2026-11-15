@@ -1,45 +1,50 @@
 <footer class="footer">
-  <div class="page-width footer__grid">
-    <div class="footer__brand">
-      <a href="{{ routes.root_url }}" class="footer__logo">{%- assign logo_w = 190 -%}<img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo"{% if logo_w %} style="max-width:{{ logo_w }}px"{% endif %}></a>
-      <p>{{ section.settings.blurb }}</p>
-      <ul class="social">
-        {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a></li>{%- endif -%}
-        {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a></li>{%- endif -%}
-        {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" aria-label="TikTok">{% render 'icon', name: 'tiktok' %}</a></li>{%- endif -%}
-        {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a></li>{%- endif -%}
-      </ul>
+  <div class="footer__news">
+    <div class="page-width footer__news-inner">
+      <p>{{ section.settings.news_text }}</p>
+      {%- form 'customer', class: 'footer__form', id: 'footer-newsletter' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p class="form-success">Thanks for subscribing!</p>
+        {%- else -%}
+          <input type="email" name="contact[email]" placeholder="Enter your email" aria-label="Email" autocomplete="email" required>
+          <button type="submit" class="btn">Subscribe</button>
+        {%- endif -%}
+      {%- endform -%}
     </div>
+  </div>
+  <div class="page-width footer__grid">
     {%- for block in section.blocks -%}
       <div class="footer__col" {{ block.shopify_attributes }}>
         <h3 class="footer__title">{{ block.settings.title }}</h3>
         {%- case block.type -%}
           {%- when 'menu' -%}
             <ul>{%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}</ul>
-          {%- when 'newsletter' -%}
-            <p>{{ block.settings.text }}</p>
-            {%- form 'customer', class: 'footer__form', id: 'footer-newsletter' -%}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              {%- if form.posted_successfully? -%}
-                <p class="form-success">Thanks for subscribing!</p>
-              {%- else -%}
-                <input type="email" name="contact[email]" placeholder="Your email" aria-label="Email" autocomplete="email" required>
-                <button type="submit" class="btn">Subscribe</button>
-              {%- endif -%}
-            {%- endform -%}
+          {%- when 'contact' -%}
+            <ul class="footer__contact">
+              {%- if block.settings.phone != blank -%}<li>{% render 'icon', name: 'whatsapp' %}<a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></li>{%- endif -%}
+              {%- if block.settings.email != blank -%}<li>{% render 'icon', name: 'account' %}<a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a></li>{%- endif -%}
+              {%- if block.settings.address != blank -%}<li>{% render 'icon', name: 'truck' %}<span>{{ block.settings.address }}</span></li>{%- endif -%}
+            </ul>
+            <p class="footer__follow">Follow us</p>
+            <ul class="social">
+              {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a></li>{%- endif -%}
+              {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a></li>{%- endif -%}
+              {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" aria-label="TikTok">{% render 'icon', name: 'tiktok' %}</a></li>{%- endif -%}
+              {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a></li>{%- endif -%}
+            </ul>
         {%- endcase -%}
       </div>
     {%- endfor -%}
   </div>
-  <div class="footer__bottom">
-    <div class="page-width footer__bottom-inner">
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}. All rights reserved.</p>
-      {%- if section.settings.show_payment -%}
-        <ul class="payments" aria-label="Payment methods">
-          {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon--payment' }}</li>{%- endfor -%}
-        </ul>
-      {%- endif -%}
+  {%- if section.settings.show_payment and shop.enabled_payment_types.size > 0 -%}
+    <div class="footer__pay">
+      <span>We accept</span>
+      <ul class="payments">{%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon--payment' }}</li>{%- endfor -%}</ul>
     </div>
+  {%- endif -%}
+  <div class="footer__bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}. All rights reserved.</p>
   </div>
 </footer>
 
@@ -47,25 +52,28 @@
 {
   "name": "Footer",
   "settings": [
-    { "type": "textarea", "id": "blurb", "label": "Brand text", "default": "Organic hair and body care, made in small batches from plant oils, herbs and butters." },
+    { "type": "text", "id": "news_text", "label": "Newsletter text", "default": "Let's keep in touch! Get email offers and the latest news from us" },
     { "type": "checkbox", "id": "show_payment", "label": "Show payment icons", "default": true }
   ],
-  "max_blocks": 4,
+  "max_blocks": 5,
   "blocks": [
     { "type": "menu", "name": "Menu", "settings": [
-      { "type": "text", "id": "title", "label": "Heading", "default": "About us" },
+      { "type": "text", "id": "title", "label": "Heading", "default": "About" },
       { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
     ]},
-    { "type": "newsletter", "name": "Newsletter", "limit": 1, "settings": [
-      { "type": "text", "id": "title", "label": "Heading", "default": "Newsletter" },
-      { "type": "text", "id": "text", "label": "Text", "default": "Be first to know about new launches and sales." }
+    { "type": "contact", "name": "Get in touch", "limit": 1, "settings": [
+      { "type": "text", "id": "title", "label": "Heading", "default": "Get in touch" },
+      { "type": "text", "id": "phone", "label": "Phone / WhatsApp" },
+      { "type": "text", "id": "email", "label": "Email" },
+      { "type": "text", "id": "address", "label": "Address" }
     ]}
   ],
   "default": {
     "blocks": [
-      { "type": "menu", "settings": { "title": "About us", "menu": "footer" } },
+      { "type": "menu", "settings": { "title": "About", "menu": "footer" } },
+      { "type": "menu", "settings": { "title": "Support", "menu": "footer" } },
       { "type": "menu", "settings": { "title": "Quick links", "menu": "main-menu" } },
-      { "type": "newsletter", "settings": {} }
+      { "type": "contact", "settings": {} }
     ]
   }
 }

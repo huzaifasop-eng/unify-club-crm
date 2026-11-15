@@ -5,7 +5,7 @@
         <summary class="icon-btn" aria-label="Open menu">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-nav__panel">
           <div class="mobile-nav__head">
-            <img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo" style="max-width:140px">
+            <img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo" style="max-width:130px">
             <button type="button" class="icon-btn" data-close-details aria-label="Close menu">{% render 'icon', name: 'close' %}</button>
           </div>
           <ul class="mobile-nav__list">
@@ -27,34 +27,34 @@
             {%- endfor -%}
           </ul>
           {%- if shop.customer_accounts_enabled -%}
-            <a class="btn btn--outline btn--block" href="{{ routes.account_url }}">{% if customer %}My account{% else %}Sign in / Create account{% endif %}</a>
+            <a class="btn btn--block" href="{{ routes.account_url }}">{% if customer %}My account{% else %}Sign in / Create account{% endif %}</a>
           {%- endif -%}
         </div>
       </details>
-    </div>
-
-    <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name }}">
-      {%- if section.settings.logo != blank -%}
-        {%- assign logo_style = 'max-width:' | append: section.settings.logo_width | append: 'px' -%}
-        {{ section.settings.logo | image_url: width: 600 | image_tag: style: logo_style, class: 'header__logo-img', alt: shop.name }}
-      {%- else -%}
-        {%- assign logo_w = section.settings.logo_width -%}
-        <img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo"{% if logo_w %} style="max-width:{{ logo_w }}px"{% endif %}>
-      {%- endif -%}
-    </a>
-
-    <div class="header__right">
-      <form action="{{ routes.search_url }}" method="get" role="search" class="header__search">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="pill-search">
         <input type="search" name="q" placeholder="Search" aria-label="Search">
         <input type="hidden" name="type" value="product">
         <button type="submit" aria-label="Search">{% render 'icon', name: 'search' %}</button>
       </form>
+    </div>
+
+    <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name }}">
+      {%- assign logo_style = 'max-width:' | append: section.settings.logo_width | append: 'px' -%}
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 600 | image_tag: style: logo_style, class: 'brand-logo', alt: shop.name }}
+      {%- else -%}
+        <img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo" style="{{ logo_style }}">
+      {%- endif -%}
+    </a>
+
+    <div class="header__right">
       <a href="{{ routes.search_url }}" class="icon-btn show-mobile" aria-label="Search">{% render 'icon', name: 'search' %}</a>
       {%- if shop.customer_accounts_enabled -%}
         <a href="{{ routes.account_url }}" class="icon-btn hide-mobile" aria-label="Account">{% render 'icon', name: 'account' %}</a>
       {%- endif -%}
-      <a href="{{ routes.cart_url }}" class="icon-btn cart-link" data-cart-open aria-label="Cart">
+      <a href="{{ routes.cart_url }}" class="cart-link" data-cart-open aria-label="Cart">
         {% render 'icon', name: 'bag' %}
+        <span class="cart-link__label">Cart</span>
         <span class="cart-count" data-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
@@ -65,20 +65,13 @@
       {%- for link in section.settings.menu.links -%}
         {%- assign t = link.title | downcase -%}
         <li class="{% if link.links != blank %}has-dropdown{% endif %}">
-          <a href="{{ link.url }}" class="{% if t contains 'sale' %}is-sale{% endif %}" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+          <a href="{{ link.url }}" class="{% if t contains 'sale' %}is-sale{% endif %}" {% if link.active %}aria-current="page"{% endif %}>
+            {{- link.title -}}
+            {%- if link.links != blank %} <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>{%- endif -%}
+          </a>
           {%- if link.links != blank -%}
             <div class="dropdown">
-              <a href="{{ link.url }}" class="dropdown__all">All {{ link.title | downcase }}</a>
-              <ul>
-                {%- for child in link.links -%}
-                  <li>
-                    <a href="{{ child.url }}">{{ child.title }}</a>
-                    {%- if child.links != blank -%}
-                      <ul class="dropdown__sub">{%- for g in child.links -%}<li><a href="{{ g.url }}">{{ g.title }}</a></li>{%- endfor -%}</ul>
-                    {%- endif -%}
-                  </li>
-                {%- endfor -%}
-              </ul>
+              <ul>{%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}</ul>
             </div>
           {%- endif -%}
         </li>
@@ -92,7 +85,7 @@
   "name": "Header",
   "settings": [
     { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the built-in Unify Organica logo." },
-    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 200 },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 170 },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Menu items containing the word \"sale\" are shown in red." },
     { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": true }
   ]

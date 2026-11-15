@@ -1,0 +1,39 @@
+<section class="section">
+  <div class="page-width">
+    <h2 class="title-center">{{ section.settings.heading }}</h2>
+    <div class="carousel" data-carousel>
+      <button type="button" class="carousel__btn carousel__btn--prev" data-carousel-prev aria-label="Previous">{% render 'icon', name: 'arrow' %}</button>
+      <div class="carousel__track carousel__track--tiles" data-carousel-track>
+        {%- for block in section.blocks -%}
+          {%- assign url = block.settings.link | default: routes.all_products_collection_url -%}
+          <a href="{{ url }}" class="ctile carousel__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 500, 700', sizes: '(min-width: 990px) 19vw, 45vw', alt: block.settings.label }}
+            {%- else -%}
+              <img src="{{ block.settings.asset | asset_url }}" alt="{{ block.settings.label | escape }}" width="800" height="1000" loading="lazy">
+            {%- endif -%}
+            <span class="ctile__label">{{ block.settings.label }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+      <button type="button" class="carousel__btn carousel__btn--next" data-carousel-next aria-label="Next">{% render 'icon', name: 'arrow' %}</button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection tiles",
+  "settings": [ { "type": "text", "id": "heading", "label": "Heading", "default": "Top collections" } ],
+  "max_blocks": 10,
+  "blocks": [
+    { "type": "tile", "name": "Tile", "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "Hair care" },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "image_picker", "id": "image", "label": "Image", "info": "Portrait 4:5 recommended." },
+      { "type": "text", "id": "asset", "label": "Built-in image", "default": "tile-hair-care.jpg", "info": "Built-in: tile-hair-care.jpg, tile-body-care.jpg, tile-joint-care.jpg, tile-all.jpg, look-hair-oil.jpg …" }
+    ]}
+  ],
+  "presets": [{ "name": "Collection tiles", "blocks": [{ "type": "tile" }, { "type": "tile" }] }]
+}
+{% endschema %}

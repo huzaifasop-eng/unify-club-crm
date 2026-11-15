@@ -1,0 +1,26 @@
+<section class="promo">
+  <a href="{{ section.settings.link | default: routes.all_products_collection_url }}" class="promo__inner">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750, 1200, 1800, 2400', sizes: '100vw', class: 'promo__img', alt: section.settings.heading }}
+    {%- else -%}
+      <img src="{{ 'banner-promo.jpg' | asset_url }}" alt="" width="2400" height="620" class="promo__img" loading="lazy">
+    {%- endif -%}
+    <span class="promo__copy">
+      <span class="promo__title">{{ section.settings.heading }}</span>
+      <span class="promo__script">{{ section.settings.script }}</span>
+    </span>
+  </a>
+</section>
+
+{% schema %}
+{
+  "name": "Promo banner",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Wide image, about 2400 x 620. Leave text area on the left." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Natural care made for" },
+    { "type": "text", "id": "script", "label": "Script line", "default": "every day" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Promo banner" }]
+}
+{% endschema %}

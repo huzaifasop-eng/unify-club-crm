@@ -1,1 +1,11 @@
-{ "sections": { "main": { "type": "main-collection", "settings": {} }, "marquee": { "type": "trust-marquee", "blocks": { "a": { "type": "item", "settings": { "text": "Certified organic", "icon": "leaf" } }, "b": { "type": "item", "settings": { "text": "Cruelty-free", "icon": "rabbit" } }, "c": { "type": "item", "settings": { "text": "Free shipping over 3,000", "icon": "truck" } } }, "block_order": ["a","b","c"], "settings": {} } }, "order": ["main", "marquee"] }
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

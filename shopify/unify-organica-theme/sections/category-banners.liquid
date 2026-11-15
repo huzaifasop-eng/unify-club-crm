@@ -1,0 +1,39 @@
+<section class="section section--row">
+  <div class="page-width">
+    <div class="cbanners">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="cbanner" style="--cb-bg: {{ block.settings.bg }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'cbanner__photo', alt: block.settings.title }}
+          {%- else -%}
+            <span class="cbanner__packs">
+              {%- assign packs = block.settings.bottles | split: ',' -%}
+              {%- for h in packs -%}
+                {%- assign hs = h | strip -%}
+                <img src="{{ 'cut-' | append: hs | append: '.png' | asset_url }}" alt="" width="280" height="900" loading="lazy">
+              {%- endfor -%}
+            </span>
+          {%- endif -%}
+          <span class="cbanner__title">{{ block.settings.title }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category banners",
+  "max_blocks": 6,
+  "blocks": [
+    { "type": "banner", "name": "Banner", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Hair Care" },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+      { "type": "text", "id": "bottles", "label": "Built-in bottles", "default": "hair-shampoo,hair-oil", "info": "Comma-separated: hair-oil, hair-shampoo, joints-oil, body-wash, hand-wash" },
+      { "type": "color", "id": "bg", "label": "Background", "default": "#efeee9" }
+    ]}
+  ],
+  "presets": [{ "name": "Category banners", "blocks": [{ "type": "banner" }, { "type": "banner" }] }]
+}
+{% endschema %}

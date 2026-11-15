@@ -41,18 +41,7 @@
         {%- if collection -%} <a href="{{ collection.url }}">{{ collection.title }}</a> /{%- endif -%}
         <span>{{ product.title }}</span>
       </nav>
-      {%- if product.type != blank -%}<p class="eyebrow">{{ product.type }}</p>{%- endif -%}
-      <h1 class="h1 product__title">{{ product.title }}</h1>
-
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'rating' -%}
-          <a href="#reviews" class="product__rating" {{ block.shopify_attributes }}>
-            <span class="stars">{%- for i in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}</span>
-            <span class="small muted">{{ block.settings.text }}</span>
-          </a>
-        {%- endif -%}
-      {%- endfor -%}
-
+      <h1 class="product__title">{{ product.title }}</h1>
       <p class="price price--large" data-price>
         <s class="price__was" data-price-was {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s>
         <span class="price__now{% if current_variant.compare_at_price > current_variant.price %} price__now--sale{% endif %}" data-price-now>{{ current_variant.price | money }}</span>
@@ -61,6 +50,21 @@
           <span class="badge badge--sale product__save">Sale {{ save_pct }}%</span>
         {%- endif -%}
       </p>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'rating' -%}
+          {%- assign rc = product.metafields.reviews.rating_count.value | default: 0 -%}
+          {%- if rc > 0 -%}
+            {%- assign rv = product.metafields.reviews.rating.value.rating | round -%}
+            <a href="#reviews" class="product__rating" {{ block.shopify_attributes }}>
+              <span class="stars stars--dark">{%- for i in (1..5) -%}<span class="{% if i > rv %}off{% endif %}">{% render 'icon', name: 'star' %}</span>{%- endfor -%}</span>
+              <span>{{ rc }} Reviews</span>
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+
 
       {%- form 'product', product, class: 'product-form', data-ajax-cart: '', data-product-form: '' -%}
         {%- if single_option -%}
@@ -103,10 +107,10 @@
         {%- case block.type -%}
           {%- when 'badges' -%}
             <ul class="perks" {{ block.shopify_attributes }}>
-              <li>{% render 'icon', name: 'leaf' %} 100% organic</li>
-              <li>{% render 'icon', name: 'rabbit' %} Cruelty-free</li>
-              <li>{% render 'icon', name: 'shield' %} No parabens</li>
-              <li>{% render 'icon', name: 'truck' %} {{ block.settings.shipping_text }}</li>
+              {%- if block.settings.perk1 != blank -%}<li>{% render 'icon', name: 'shield' %} {{ block.settings.perk1 }}</li>{%- endif -%}
+              {%- if block.settings.perk2 != blank -%}<li>{% render 'icon', name: 'truck' %} {{ block.settings.perk2 }}</li>{%- endif -%}
+              {%- if block.settings.perk3 != blank -%}<li>{% render 'icon', name: 'leaf' %} {{ block.settings.perk3 }}</li>{%- endif -%}
+              {%- if block.settings.perk4 != blank -%}<li>{% render 'icon', name: 'whatsapp' %} {{ block.settings.perk4 }}</li>{%- endif -%}
             </ul>
           {%- when 'description' -%}
             <div class="rte product__desc" {{ block.shopify_attributes }}>{{ product.description }}</div>
@@ -126,10 +130,13 @@
   "name": "Product information",
   "blocks": [
     { "type": "rating", "name": "Rating", "limit": 1, "settings": [
-      { "type": "text", "id": "text", "label": "Text", "default": "4.9 · Loved by 1,200+ customers" }
+      { "type": "paragraph", "content": "Shows stars and review count from your reviews app (product reviews metafields). Hidden until a product has reviews." }
     ]},
-    { "type": "badges", "name": "Benefit badges", "limit": 1, "settings": [
-      { "type": "text", "id": "shipping_text", "label": "Delivery text", "default": "Ships in 24h" }
+    { "type": "badges", "name": "Perks list", "limit": 1, "settings": [
+      { "type": "text", "id": "perk1", "label": "Perk 1", "default": "Cash on delivery all over Pakistan" },
+      { "type": "text", "id": "perk2", "label": "Perk 2", "default": "Free delivery on orders above Rs 3,000" },
+      { "type": "text", "id": "perk3", "label": "Perk 3", "default": "Made with natural oils & herbal extracts" },
+      { "type": "text", "id": "perk4", "label": "Perk 4", "default": "Questions? Chat with us on WhatsApp" }
     ]},
     { "type": "description", "name": "Description", "limit": 1, "settings": [] },
     { "type": "collapsible", "name": "Collapsible tab", "settings": [

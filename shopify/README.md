@@ -14,7 +14,7 @@ A complete Online Store 2.0 theme for **Unify Organica** (organic hair oils, sha
 ## Brand assets
 
 - **Logo:** your exact Unify Organica logo, with the white background removed (`catalog/images/unify-organica-logo.png`). It is built into the theme, so the header, footer, mobile menu and coming-soon page use it automatically. To swap it later, upload a new logo in *Theme settings → Header → Logo image*.
-- **Colours** are sampled from the logo: navy `#08264a` (buttons, headings, announcement bar) and leaf green `#1f6b1a` (accents, active tabs).
+- **Colours:** navy `#08264a` (menu strip) and leaf green `#1f6b1a` (buttons) are sampled from the logo; prices and sale tags are red `#c21010`; announcement bar and footer are near-black. All are editable in *Theme settings → Colours*.
 - **Product photos:** each bottle was cut out of your lineup photo and placed on a matching soft background (1000×1000).
 
 ## Products
@@ -44,24 +44,34 @@ A complete Online Store 2.0 theme for **Unify Organica** (organic hair oils, sha
 
 4. **Menus** — *Online Store → Navigation*. Suggested `main-menu`: Hair Oil · Hair Shampoo · Joints Oil · Body Wash · Hand Wash · Shop All · Contact. Suggested `footer`: About us, Contact, Shipping policy, Returns & exchange, Track my order, Privacy policy, Terms.
 5. **WhatsApp** — *Theme settings → Social media → WhatsApp number* to show the floating chat button.
-6. **Reviews** — replace the sample reviews on the homepage with real ones (and customer photos).
+6. **Reviews** — install a reviews app (e.g. Judge.me). Stars and review counts appear on cards and product pages automatically once products have reviews.
+7. **Footer contact** — *Customize → Footer → Get in touch*: add phone/WhatsApp, email and address.
 
 ## What's in the theme
 
-Layout and feel follow a clean, high-density beauty-store style (white background, Poppins, teal accent, red sale prices). All branding, copy and artwork are Unify Organica's own.
+Layout and feel follow a modern Pakistani retail store pattern (Inter type, bold uppercase titles, grey rounded product cards, red prices). Branding, products, photos and copy are Unify Organica's own.
 
-- **Header:** teal announcement bar (messages rotate), centred spaced-letter UNIFY ORGANICA wordmark, underline search box, account and cart, all-caps category menu underneath with dropdowns. Any menu item containing "sale" turns red.
-- **Homepage:** full-width banner slider (upload your own banners or use the illustrated ones), scrolling claims strip (Organic · Natural · Halal · Sulphate free · Paraben free · Cruelty free; each claim opens an explanation pop-up), tagline, "Shop by category" outlined buttons, tabbed product carousel, Bestsellers and Bundles carousels, customer photo reviews carousel, journal posts.
-- **Product cards:** bordered card, red "Sale X%" badge, struck-through price with red sale price, outlined "Add to cart" button (adds instantly; shows "Choose options" for products with sizes and "Notify me" when sold out).
-- **Floating WhatsApp button:** set your number in *Theme settings → Social media*.
-- Slide-out cart with free-shipping progress bar; product page with sale badge, size buttons, quantity, buy-now button, share link, collapsible Benefits / How to use / Ingredients / Shipping tabs and "Pairs beautifully with" recommendations.
-- Collection pages with sorting, search, cart page with gift note, blog, contact, 404, coming-soon page and customer accounts.
-- The earlier story-style sections (Hero, Ingredient story, Ritual steps, Image with text, Newsletter, Rich text) are still available under *Add section* in the theme editor.
-- Works at phone width and passes Shopify Theme Check with 0 offenses.
+**Homepage, top to bottom**
+1. Black announcement bar (rotating messages).
+2. Header: pill search on the left, your logo centred, account + CART on the right; navy menu strip with drop-down arrows (menu items containing "sale" turn red).
+3. Full-width banner slider (2 built-in banners made from your bottles; upload your own 2400×900 / 1000×1150 to replace).
+4. **Top collections** — rounded photo tiles with labels.
+5. **Our best sellers** — underline tabs (Hair care · Body care · Joint care · All products) with a blurred "Discover all" tile.
+6. **Shop all** row, then **Shop the look** tall photo tiles with a product chip, then Hair care / Body care / Joint care rows ("View all" on the right).
+7. Wide promo strip ("Natural care made for *every day*").
+8. 2×2 category banners in a large serif display font.
+9. Dark "Don't know where to start?" block (buttons: shop all, ask on WhatsApp).
+10. Trust icons (cash on delivery, natural ingredients, 200 ml, nationwide delivery, WhatsApp support).
+11. SEO text about each product, then a black footer with newsletter, link columns, contact and payment icons.
+
+**Product cards:** name, short tagline, star rating + review count (only once a reviews app such as Judge.me adds reviews), bold red price with struck-through old price, red SALE tag, quick "+" add to cart.
+
+**Product page:** vertical thumbnails, large image, bold uppercase title, red price, stars (when reviews exist), quantity, full-width Add to cart and Buy now, perks list (COD, free delivery, natural ingredients, WhatsApp), collapsible How to use / Ingredients / Shipping tabs, "Pairs beautifully with".
+
+Also: slide-out cart with free-shipping progress bar, floating WhatsApp button, collection pages with sorting, search, blog, contact, coming-soon page, customer accounts.
 
 ## Assumptions to check
 
 - Prices, the "free shipping above Rs 3,000" message and cash on delivery assume a Pakistan store. Change them in the CSV and theme editor if not.
-- The homepage reviews are **placeholders** marked "Sample review". Replace them before launch.
 - **Joints Oil wording:** the listing says "soothes joint discomfort / eases stiffness / supports easier movement". Pain-relief claims for a topical oil can fall under DRAP's health-product rules; confirm your registration before using stronger medical wording such as "relieves pain".
 - The claims strip (Natural oils · Herbal extracts · Gentle care · 200 ml bottles · Cash on delivery) avoids certifications; add "Organic", "Halal" etc. only if certified.

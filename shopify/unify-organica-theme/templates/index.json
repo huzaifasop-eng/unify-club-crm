@@ -2,194 +2,123 @@
   "sections": {
     "slider": {
       "type": "hero-slider",
+      "settings": {
+        "autoplay_seconds": 5
+      },
       "blocks": {
         "s1": {
           "type": "slide",
           "settings": {
-            "kicker": "Natural care for the whole family",
-            "heading": "Meet Unify Organica",
-            "offer_prefix": "",
-            "offer": "",
-            "offer_suffix": "",
-            "button": "Shop all products",
-            "bg": "#eef4ea",
-            "ink": "#1f6b1a",
-            "photo_asset": "lineup.jpg",
+            "asset": "banner-hero.jpg",
+            "asset_mobile": "banner-hero-mobile.jpg",
+            "alt": "Unify Organica Hair Oil, Hair Shampoo, Joints Oil, Body Wash and Hand Wash",
             "link": "shopify://collections/all"
           }
         },
         "s2": {
           "type": "slide",
           "settings": {
-            "kicker": "Hair care",
-            "heading": "Hair Oil + Shampoo",
-            "offer_prefix": "Nourish · Strengthen ·",
-            "offer": "Grow",
-            "offer_suffix": "",
-            "button": "Shop hair care",
-            "bg": "#f3efe3",
-            "ink": "#1f6b1a",
-            "pack_left": "hair-shampoo",
-            "pack_main": "hair-oil",
-            "pack_right": "",
-            "link": "shopify://collections/hair-care"
-          }
-        },
-        "s3": {
-          "type": "slide",
-          "settings": {
-            "kicker": "For knee & joints",
-            "heading": "Joints Oil",
-            "offer_prefix": "With natural",
-            "offer": "herbal oils",
-            "offer_suffix": "",
-            "button": "Shop joints oil",
-            "bg": "#f6ece6",
-            "ink": "#a3262e",
-            "pack_left": "",
-            "pack_main": "joints-oil",
-            "pack_right": "",
-            "link": "shopify://products/joints-oil"
-          }
-        },
-        "s4": {
-          "type": "slide",
-          "settings": {
-            "kicker": "Body care",
-            "heading": "Body Wash & Hand Wash",
-            "offer_prefix": "Refreshing ·",
-            "offer": "Clean",
-            "offer_suffix": "· Gentle",
-            "button": "Shop body care",
-            "bg": "#eaf1f7",
-            "ink": "#1b5e9e",
-            "pack_left": "body-wash",
-            "pack_main": "hand-wash",
-            "pack_right": "",
+            "asset": "banner-body.jpg",
+            "asset_mobile": "banner-body-mobile.jpg",
+            "alt": "Unify Organica Body Wash and Hand Wash",
             "link": "shopify://collections/body-care"
           }
         }
       },
       "block_order": [
         "s1",
-        "s2",
-        "s3",
-        "s4"
-      ],
-      "settings": {
-        "autoplay_seconds": 5
-      }
+        "s2"
+      ]
     },
-    "claims": {
-      "type": "trust-marquee",
+    "tiles": {
+      "type": "collection-tiles",
+      "settings": {
+        "heading": "Top collections"
+      },
       "blocks": {
-        "c1": {
-          "type": "item",
+        "t1": {
+          "type": "tile",
           "settings": {
-            "text": "Natural oils",
-            "icon": "drop",
-            "detail": "Formulated with natural oils."
+            "label": "Hair Care",
+            "link": "shopify://collections/hair-care",
+            "asset": "tile-hair-care.jpg"
           }
         },
-        "c2": {
-          "type": "item",
+        "t2": {
+          "type": "tile",
           "settings": {
-            "text": "Herbal extracts",
-            "icon": "leaf",
-            "detail": "Made with herbal and botanical extracts."
+            "label": "Body Care",
+            "link": "shopify://collections/body-care",
+            "asset": "tile-body-care.jpg"
           }
         },
-        "c3": {
-          "type": "item",
+        "t3": {
+          "type": "tile",
           "settings": {
-            "text": "Gentle care",
-            "icon": "hand",
-            "detail": "Gentle formulas for everyday use."
+            "label": "Joint Care",
+            "link": "shopify://collections/joint-care",
+            "asset": "tile-joint-care.jpg"
           }
         },
-        "c4": {
-          "type": "item",
+        "t4": {
+          "type": "tile",
           "settings": {
-            "text": "200 ml bottles",
-            "icon": "sparkle",
-            "detail": "Every product comes in a generous 200 ml bottle."
+            "label": "Hand Wash",
+            "link": "shopify://products/hand-wash",
+            "asset": "look-hand-wash.jpg"
           }
         },
-        "c5": {
-          "type": "item",
+        "t5": {
+          "type": "tile",
           "settings": {
-            "text": "Cash on delivery",
-            "icon": "truck",
-            "detail": "Pay when your order arrives."
+            "label": "Shop All",
+            "link": "shopify://collections/all",
+            "asset": "tile-all.jpg"
           }
         }
       },
       "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4",
-        "c5"
-      ],
-      "settings": {}
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ]
     },
-    "categories": {
-      "type": "category-buttons",
+    "bestsellers": {
+      "type": "product-tabs",
+      "settings": {
+        "heading": "Our best sellers",
+        "subheading": "Natural care you’ll reach for every day",
+        "limit": 4
+      },
       "blocks": {
         "b1": {
-          "type": "button",
+          "type": "tab",
           "settings": {
-            "label": "Hair oil",
-            "link": "shopify://products/hair-oil"
+            "label": "Hair care",
+            "collection": "hair-care"
           }
         },
         "b2": {
-          "type": "button",
+          "type": "tab",
           "settings": {
-            "label": "Hair shampoo",
-            "link": "shopify://products/hair-shampoo"
+            "label": "Body care",
+            "collection": "body-care"
           }
         },
         "b3": {
-          "type": "button",
+          "type": "tab",
           "settings": {
-            "label": "Joints oil",
-            "link": "shopify://products/joints-oil"
+            "label": "Joint care",
+            "collection": "joint-care"
           }
         },
         "b4": {
-          "type": "button",
+          "type": "tab",
           "settings": {
-            "label": "Body wash",
-            "link": "shopify://products/body-wash"
-          }
-        },
-        "b5": {
-          "type": "button",
-          "settings": {
-            "label": "Hand wash",
-            "link": "shopify://products/hand-wash"
-          }
-        },
-        "b6": {
-          "type": "button",
-          "settings": {
-            "label": "Hair care",
-            "link": "shopify://collections/hair-care"
-          }
-        },
-        "b7": {
-          "type": "button",
-          "settings": {
-            "label": "Body care",
-            "link": "shopify://collections/body-care"
-          }
-        },
-        "b8": {
-          "type": "button",
-          "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all"
+            "label": "All products",
+            "collection": "all"
           }
         }
       },
@@ -197,142 +126,257 @@
         "b1",
         "b2",
         "b3",
-        "b4",
-        "b5",
-        "b6",
-        "b7",
-        "b8"
-      ],
-      "settings": {
-        "tagline": "Natural care for hair, body and joints — made by Unify Organica.",
-        "heading": "Shop by category"
-      }
+        "b4"
+      ]
     },
-    "tabs": {
-      "type": "product-tabs",
-      "blocks": {
-        "t1": {
-          "type": "tab",
-          "settings": {
-            "label": "Hair care",
-            "collection": "hair-care"
-          }
-        },
-        "t2": {
-          "type": "tab",
-          "settings": {
-            "label": "Body care",
-            "collection": "body-care"
-          }
-        },
-        "t3": {
-          "type": "tab",
-          "settings": {
-            "label": "Joint care",
-            "collection": "joint-care"
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "t3"
-      ],
-      "settings": {
-        "heading": "Our products",
-        "limit": 8
-      }
-    },
-    "bestsellers": {
+    "row_all": {
       "type": "featured-collection",
       "settings": {
-        "heading": "Shop all products",
+        "heading": "Shop all",
         "collection": "all",
-        "limit": 8
+        "limit": 5,
+        "sample_filter": "all"
       }
     },
-    "reviews": {
-      "type": "testimonials",
+    "looks": {
+      "type": "shop-the-look",
+      "settings": {},
       "blocks": {
-        "r1": {
-          "type": "review",
+        "l1": {
+          "type": "look",
           "settings": {
-            "product": "Unify Organica Hair Oil",
-            "quote": "Sample review — replace with a real customer review of the Hair Oil.",
-            "author": "Customer name",
-            "date": "Recently",
-            "rating": 5,
-            "verified": true
+            "sample": "hair-oil",
+            "sample_title": "Hair Oil",
+            "sample_price": 1200,
+            "product": "hair-oil"
           }
         },
-        "r2": {
-          "type": "review",
+        "l2": {
+          "type": "look",
           "settings": {
-            "product": "Unify Organica Hair Shampoo",
-            "quote": "Sample review — replace with a real customer review of the Hair Shampoo.",
-            "author": "Customer name",
-            "date": "Recently",
-            "rating": 5,
-            "verified": true
+            "sample": "hair-shampoo",
+            "sample_title": "Hair Shampoo",
+            "sample_price": 1100,
+            "product": "hair-shampoo"
           }
         },
-        "r3": {
-          "type": "review",
+        "l3": {
+          "type": "look",
           "settings": {
-            "product": "Unify Organica Joints Oil",
-            "quote": "Sample review — replace with a real customer review of the Joints Oil.",
-            "author": "Customer name",
-            "date": "Recently",
-            "rating": 5,
-            "verified": true
+            "sample": "joints-oil",
+            "sample_title": "Joints Oil",
+            "sample_price": 1500,
+            "product": "joints-oil"
           }
         },
-        "r4": {
-          "type": "review",
+        "l4": {
+          "type": "look",
           "settings": {
-            "product": "Unify Organica Body Wash",
-            "quote": "Sample review — replace with a real customer review of the Body Wash.",
-            "author": "Customer name",
-            "date": "Recently",
-            "rating": 5,
-            "verified": true
+            "sample": "body-wash",
+            "sample_title": "Body Wash",
+            "sample_price": 950,
+            "product": "body-wash"
           }
         },
-        "r5": {
-          "type": "review",
+        "l5": {
+          "type": "look",
           "settings": {
-            "product": "Unify Organica Hand Wash",
-            "quote": "Sample review — replace with a real customer review of the Hand Wash.",
-            "author": "Customer name",
-            "date": "Recently",
-            "rating": 5,
-            "verified": true
+            "sample": "hand-wash",
+            "sample_title": "Hand Wash",
+            "sample_price": 650,
+            "product": "hand-wash"
           }
         }
       },
       "block_order": [
-        "r1",
-        "r2",
-        "r3",
-        "r4",
-        "r5"
-      ],
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5"
+      ]
+    },
+    "row_hair": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Hair care",
+        "collection": "hair-care",
+        "limit": 5,
+        "sample_filter": "hair care"
+      }
+    },
+    "promo": {
+      "type": "promo-banner",
+      "settings": {
+        "heading": "Natural care made for",
+        "script": "every day",
+        "link": "shopify://collections/all"
+      }
+    },
+    "row_body": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Body care",
+        "collection": "body-care",
+        "limit": 5,
+        "sample_filter": "body care"
+      }
+    },
+    "cbanners": {
+      "type": "category-banners",
+      "settings": {},
+      "blocks": {
+        "c1": {
+          "type": "banner",
+          "settings": {
+            "title": "Hair Care",
+            "link": "shopify://collections/hair-care",
+            "bottles": "hair-shampoo,hair-oil",
+            "bg": "#eef1e6"
+          }
+        },
+        "c2": {
+          "type": "banner",
+          "settings": {
+            "title": "Joint Care",
+            "link": "shopify://collections/joint-care",
+            "bottles": "joints-oil",
+            "bg": "#f3ebe6"
+          }
+        },
+        "c3": {
+          "type": "banner",
+          "settings": {
+            "title": "Body Wash",
+            "link": "shopify://products/body-wash",
+            "bottles": "body-wash",
+            "bg": "#e9eff5"
+          }
+        },
+        "c4": {
+          "type": "banner",
+          "settings": {
+            "title": "Hand Wash",
+            "link": "shopify://products/hand-wash",
+            "bottles": "hand-wash",
+            "bg": "#f7efdc"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "row_joint": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Joint care",
+        "collection": "joint-care",
+        "limit": 5,
+        "sample_filter": "joint care"
+      }
+    },
+    "start": {
+      "type": "start-here",
       "settings": {}
     },
-    "blog": {
-      "type": "blog-posts",
-      "settings": {
-        "blog": "news"
-      }
+    "trust": {
+      "type": "trust-icons",
+      "settings": {},
+      "blocks": {
+        "i1": {
+          "type": "item",
+          "settings": {
+            "text": "Cash on delivery",
+            "icon": "truck"
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "text": "Natural oils & herbal extracts",
+            "icon": "leaf"
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "text": "200 ml value bottles",
+            "icon": "drop"
+          }
+        },
+        "i4": {
+          "type": "item",
+          "settings": {
+            "text": "Nationwide delivery",
+            "icon": "bag"
+          }
+        },
+        "i5": {
+          "type": "item",
+          "settings": {
+            "text": "WhatsApp support",
+            "icon": "whatsapp"
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5"
+      ]
+    },
+    "seo": {
+      "type": "seo-text",
+      "settings": {},
+      "blocks": {
+        "q1": {
+          "type": "text",
+          "settings": {
+            "heading": "Natural hair care by Unify Organica",
+            "text": "<p>Unify Organica Hair Oil combines natural oils and herbal extracts to nourish the scalp, reduce hair fall and add natural shine. Pair it with Unify Organica Hair Shampoo, made with aloe vera, hibiscus and herbal extracts, for a gentle daily routine that strengthens hair from root to tip.</p>"
+          }
+        },
+        "q2": {
+          "type": "text",
+          "settings": {
+            "heading": "Joints Oil for knees and joints",
+            "text": "<p>Unify Organica Joints Oil is a blend of natural herbal oils made for massaging knees and joints. Warm a few drops between your palms and massage gently for a soothing daily ritual.</p>"
+          }
+        },
+        "q3": {
+          "type": "text",
+          "settings": {
+            "heading": "Body wash and hand wash for the whole family",
+            "text": "<p>Our Body Wash with aloe vera and cucumber extract keeps skin refreshed and hydrated, while our Hand Wash with lemon extract cleans gently and leaves a fresh fragrance. Both come in generous 200 ml bottles with cash on delivery across Pakistan.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ]
     }
   },
   "order": [
     "slider",
-    "claims",
-    "categories",
-    "tabs",
+    "tiles",
     "bestsellers",
-    "reviews",
-    "blog"
+    "row_all",
+    "looks",
+    "row_hair",
+    "promo",
+    "row_body",
+    "cbanners",
+    "row_joint",
+    "start",
+    "trust",
+    "seo"
   ]
 }

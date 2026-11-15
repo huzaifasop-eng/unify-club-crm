@@ -1,22 +1,28 @@
 {%- assign col = section.settings.collection -%}
 {%- assign view_url = routes.all_products_collection_url -%}
 {%- if col != blank -%}{%- assign view_url = col.url -%}{%- endif -%}
-<section class="section section--compact{% if section.settings.tinted %} section--tint{% endif %}">
+<section class="section section--row">
   <div class="page-width">
-    {% render 'section-title', title: section.settings.heading, link: view_url %}
-    {% render 'product-carousel', collection: col, limit: section.settings.limit %}
+    <div class="row-head">
+      <h2>{{ section.settings.heading }}</h2>
+      <a href="{{ view_url }}" class="row-head__link">View all</a>
+    </div>
+    {%- assign f = section.settings.sample_filter | downcase -%}
+    {% render 'product-grid', collection: col, limit: section.settings.limit, filter: f %}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Product carousel",
+  "name": "Product row",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Bestsellers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Hair care" },
     { "type": "collection", "id": "collection", "label": "Collection" },
-    { "type": "range", "id": "limit", "label": "Products to show", "min": 4, "max": 16, "step": 1, "default": 8 },
-    { "type": "checkbox", "id": "tinted", "label": "Tinted background", "default": false }
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 15, "step": 1, "default": 5 },
+    { "type": "select", "id": "sample_filter", "label": "Sample products (before a collection is chosen)", "default": "all", "options": [
+      { "value": "all", "label": "All" }, { "value": "hair care", "label": "Hair care" }, { "value": "body care", "label": "Body care" }, { "value": "joint care", "label": "Joint care" }
+    ]}
   ],
-  "presets": [{ "name": "Product carousel" }]
+  "presets": [{ "name": "Product row" }]
 }
 {% endschema %}

@@ -3,28 +3,99 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "rating": { "type": "rating", "settings": {} },
-        "badges": { "type": "badges", "settings": {} },
-        "description": { "type": "description", "settings": {} },
-        "how": { "type": "collapsible", "settings": { "heading": "How to use", "content": "<p>Massage a small amount into scalp or skin. For hair oils, leave on for at least 1 hour or overnight, then wash with an Organica shampoo.</p>", "open": true } },
-        "ingredients": { "type": "collapsible", "settings": { "heading": "Ingredients", "content": "<p>Full ingredient list is printed on every pack. Connect this tab to a product metafield to show it per product.</p>" } },
-        "shipping": { "type": "collapsible", "settings": { "heading": "Shipping & returns", "content": "<p>Dispatched within 24 hours. Cash on delivery available. Unopened products can be returned within 7 days.</p>" } }
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "how": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "How to use",
+            "content": "<p>Massage a small amount into scalp or skin. For hair oils, leave on for at least 1 hour or overnight, then wash with an Organica shampoo.</p>",
+            "open": true
+          }
+        },
+        "ingredients": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Ingredients",
+            "content": "<p>Full ingredient list is printed on every pack. Connect this tab to a product metafield to show it per product.</p>"
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Shipping & returns",
+            "content": "<p>Dispatched within 24 hours. Cash on delivery available. Unopened products can be returned within 7 days.</p>"
+          }
+        }
       },
-      "block_order": ["rating", "badges", "description", "how", "ingredients", "shipping"],
+      "block_order": [
+        "rating",
+        "badges",
+        "description",
+        "how",
+        "ingredients",
+        "shipping"
+      ],
       "settings": {}
     },
-    "recommendations": { "type": "product-recommendations", "settings": {} },
-    "marquee": {
-      "type": "trust-marquee",
-      "blocks": {
-        "m1": { "type": "item", "settings": { "text": "Certified organic", "icon": "leaf" } },
-        "m2": { "type": "item", "settings": { "text": "Never tested on animals", "icon": "rabbit" } },
-        "m3": { "type": "item", "settings": { "text": "Cash on delivery", "icon": "truck" } },
-        "m4": { "type": "item", "settings": { "text": "Hand-poured in small batches", "icon": "hand" } }
-      },
-      "block_order": ["m1", "m2", "m3", "m4"],
+    "recommendations": {
+      "type": "product-recommendations",
       "settings": {}
+    },
+    "trust": {
+      "type": "trust-icons",
+      "settings": {},
+      "blocks": {
+        "i1": {
+          "type": "item",
+          "settings": {
+            "text": "Cash on delivery",
+            "icon": "truck"
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "text": "Natural oils & herbal extracts",
+            "icon": "leaf"
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "text": "Nationwide delivery",
+            "icon": "bag"
+          }
+        },
+        "i4": {
+          "type": "item",
+          "settings": {
+            "text": "WhatsApp support",
+            "icon": "whatsapp"
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4"
+      ]
     }
   },
-  "order": ["main", "recommendations", "marquee"]
+  "order": [
+    "main",
+    "recommendations",
+    "trust"
+  ]
 }

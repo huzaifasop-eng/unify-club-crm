@@ -1,0 +1,50 @@
+{%- comment -%}
+  Product row: 5 per row on desktop, swipeable on mobile.
+  Params: collection (object or blank), limit, filter (only for built-in sample products), discover_url (adds a "Discover more" tile)
+{%- endcomment -%}
+{%- liquid
+  assign demo_handles = 'hair-oil|hair-shampoo|joints-oil|body-wash|hand-wash' | split: '|'
+  assign demo_titles = 'Unify Organica Hair Oil|Unify Organica Hair Shampoo|Unify Organica Joints Oil|Unify Organica Body Wash|Unify Organica Hand Wash' | split: '|'
+  assign demo_subtitles = 'Nourish · Strengthen · Grow|Daily Care & Hair Strength|For Knee & Joints|Refreshing & Hydrating|Clean · Protect · Care' | split: '|'
+  assign demo_groups = 'hair care|hair care|joint care|body care|body care' | split: '|'
+  assign demo_prices = '1200|1100|1500|950|650' | split: '|'
+  assign demo_compares = '1500|0|1800|0|0' | split: '|'
+  assign shown = 0
+  assign remaining = 0
+  if collection != blank and collection.products_count > limit
+    assign remaining = collection.products_count | minus: limit
+  endif
+-%}
+<div class="pgrid" data-carousel>
+  <div class="pgrid__track" data-carousel-track>
+    {%- if collection != blank and collection.products_count > 0 -%}
+      {%- for product in collection.products limit: limit -%}
+        <div class="pgrid__item">{% render 'product-card', product: product %}</div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for h in demo_handles -%}
+        {%- assign i = forloop.index0 -%}
+        {%- if filter == blank or demo_groups[i] == filter or filter contains 'all' or filter contains 'best' -%}
+          {%- if shown < limit -%}
+            {%- assign shown = shown | plus: 1 -%}
+            {%- assign p = demo_prices[i] | times: 100 -%}
+            {%- assign c = demo_compares[i] | times: 100 -%}
+            {%- assign img = 'product-' | append: h | append: '.jpg' | asset_url -%}
+            <div class="pgrid__item">{% render 'product-card', placeholder_title: demo_titles[i], placeholder_subtitle: demo_subtitles[i], placeholder_price: p, placeholder_compare: c, placeholder_image: img %}</div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+    {%- if discover_url != blank -%}
+      <div class="pgrid__item">
+        <a href="{{ discover_url }}" class="discover">
+          <img src="{{ 'tile-all.jpg' | asset_url }}" alt="" width="800" height="1000" loading="lazy">
+          <span class="discover__glass">
+            <span>{% if remaining > 0 %}Discover {{ remaining }} more{% else %}Discover all{% endif %} ↗</span>
+            <span class="discover__btn">Explore</span>
+          </span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

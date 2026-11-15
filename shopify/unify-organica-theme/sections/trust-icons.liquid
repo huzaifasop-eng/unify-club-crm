@@ -1,0 +1,27 @@
+<section class="section section--row">
+  <div class="page-width">
+    <ul class="trust">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>{% render 'icon', name: block.settings.icon %}<span>{{ block.settings.text }}</span></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust icons",
+  "max_blocks": 6,
+  "blocks": [
+    { "type": "item", "name": "Item", "settings": [
+      { "type": "text", "id": "text", "label": "Text", "default": "Cash on delivery" },
+      { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+        { "value": "truck", "label": "Delivery" }, { "value": "leaf", "label": "Leaf" }, { "value": "drop", "label": "Drop" },
+        { "value": "shield", "label": "Shield" }, { "value": "hand", "label": "Hand" }, { "value": "bag", "label": "Bag" },
+        { "value": "whatsapp", "label": "WhatsApp" }, { "value": "sparkle", "label": "Sparkle" }
+      ]}
+    ]}
+  ],
+  "presets": [{ "name": "Trust icons", "blocks": [{ "type": "item" }, { "type": "item" }, { "type": "item" }] }]
+}
+{% endschema %}

@@ -12,21 +12,33 @@
     "settings": [
       {
         "type": "color",
-        "id": "color_accent",
-        "label": "Brand green (from logo)",
-        "default": "#1f6b1a"
-      },
-      {
-        "type": "color",
         "id": "color_primary",
-        "label": "Brand navy — buttons & headings",
+        "label": "Brand navy (headings, menu strip)",
         "default": "#08264a"
       },
       {
         "type": "color",
+        "id": "color_accent",
+        "label": "Brand green (accents)",
+        "default": "#1f6b1a"
+      },
+      {
+        "type": "color",
+        "id": "color_button",
+        "label": "Buttons (Add to cart, Subscribe)",
+        "default": "#1f6b1a"
+      },
+      {
+        "type": "color",
         "id": "color_sale",
-        "label": "Sale price & badges",
-        "default": "#e3473b"
+        "label": "Prices & sale tags",
+        "default": "#c21010"
+      },
+      {
+        "type": "color",
+        "id": "color_dark",
+        "label": "Dark bars (announcement, footer)",
+        "default": "#0d0d0d"
       },
       {
         "type": "color",
@@ -37,14 +49,14 @@
       {
         "type": "color",
         "id": "color_surface",
-        "label": "Soft panels",
-        "default": "#f5f7f6"
+        "label": "Card background",
+        "default": "#f6f6f6"
       },
       {
         "type": "color",
         "id": "color_text",
         "label": "Text",
-        "default": "#232323"
+        "default": "#111111"
       },
       {
         "type": "color",
@@ -67,13 +79,19 @@
         "type": "font_picker",
         "id": "type_header_font",
         "label": "Headings",
-        "default": "poppins_n5"
+        "default": "inter_n8"
       },
       {
         "type": "font_picker",
         "id": "type_body_font",
         "label": "Body",
-        "default": "poppins_n4"
+        "default": "inter_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_display_font",
+        "label": "Banner display font",
+        "default": "playfair_display_n4"
       }
     ]
   },
@@ -88,7 +106,7 @@
         "max": 1600,
         "step": 20,
         "unit": "px",
-        "default": 1280
+        "default": 1400
       },
       {
         "type": "range",
@@ -98,7 +116,7 @@
         "max": 32,
         "step": 2,
         "unit": "px",
-        "default": 6
+        "default": 12
       },
       {
         "type": "image_picker",
