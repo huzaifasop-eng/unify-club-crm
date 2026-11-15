@@ -31,14 +31,20 @@ A complete Online Store 2.0 theme for **Unify Organica** (organic hair oils, sha
 
 ## What's in the theme
 
-- Homepage: scrolling announcement bar, sticky header, hero with illustrated products and rotating "100% organic" seal, trust marquee, shop-by-category tiles, bestsellers grid, ingredient story, ritual steps, gift-box promo, testimonials, brand story, newsletter (10% off signup).
-- Slide-out cart drawer with free-shipping progress bar and quantity controls (AJAX, no page reload).
-- Product page: gallery, size pills, quantity, dynamic checkout buttons, benefit badges, collapsible tabs (connect "Ingredients" to a metafield), "Pairs beautifully with" recommendations.
-- Collection pages with sorting and pagination, search, cart page with gift note, blog, contact, 404, password/coming-soon page with launch-list signup, customer account pages.
-- Responsive to phone width, respects reduced-motion, passes Shopify Theme Check with 0 offenses.
+Layout and feel follow a clean, high-density beauty-store style (white background, Poppins, teal accent, red sale prices). All branding, copy and artwork are Unify Organica's own.
+
+- **Header:** teal announcement bar (messages rotate), centred spaced-letter UNIFY ORGANICA wordmark, underline search box, account and cart, all-caps category menu underneath with dropdowns. Any menu item containing "sale" turns red.
+- **Homepage:** full-width banner slider (upload your own banners or use the illustrated ones), scrolling claims strip (Organic · Natural · Halal · Sulphate free · Paraben free · Cruelty free; each claim opens an explanation pop-up), tagline, "Shop by category" outlined buttons, tabbed product carousel, Bestsellers and Bundles carousels, customer photo reviews carousel, journal posts.
+- **Product cards:** bordered card, red "Sale X%" badge, struck-through price with red sale price, outlined "Add to cart" button (adds instantly; shows "Choose options" for products with sizes and "Notify me" when sold out).
+- **Floating WhatsApp button:** set your number in *Theme settings → Social media*.
+- Slide-out cart with free-shipping progress bar; product page with sale badge, size buttons, quantity, buy-now button, share link, collapsible Benefits / How to use / Ingredients / Shipping tabs and "Pairs beautifully with" recommendations.
+- Collection pages with sorting, search, cart page with gift note, blog, contact, 404, coming-soon page and customer accounts.
+- The earlier story-style sections (Hero, Ingredient story, Ritual steps, Image with text, Newsletter, Rich text) are still available under *Add section* in the theme editor.
+- Works at phone width and passes Shopify Theme Check with 0 offenses.
 
 ## Assumptions to check
 
-- Copy, prices (PKR-scale numbers), the "free shipping over 3,000" message and "cash on delivery" assume a Pakistan-based store. Change them in the theme editor / CSV if not.
-- Testimonials are **sample text**. Replace them with real customer reviews before launch.
+- Copy, prices (PKR-scale numbers), the "free shipping above Rs 3,000" message and "cash on delivery" assume a Pakistan-based store. Change them in the theme editor / CSV if not.
+- The customer reviews section holds **placeholder text** marked "Sample review". Replace with real reviews and customer photos before launch.
+- Halal / organic / cruelty-free claims (and their pop-up explanations) should only stay if they are true and certified for your products.
 - "Certified organic" / "dermatologically tested" claims should only stay if you hold those certifications.

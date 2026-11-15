@@ -54,8 +54,12 @@
       {%- endfor -%}
 
       <p class="price price--large" data-price>
-        <span class="price__now" data-price-now>{{ current_variant.price | money }}</span>
         <s class="price__was" data-price-was {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s>
+        <span class="price__now{% if current_variant.compare_at_price > current_variant.price %} price__now--sale{% endif %}" data-price-now>{{ current_variant.price | money }}</span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | floor -%}
+          <span class="badge badge--sale product__save">Sale {{ save_pct }}%</span>
+        {%- endif -%}
       </p>
 
       {%- form 'product', product, class: 'product-form', data-ajax-cart: '', data-product-form: '' -%}
@@ -92,6 +96,7 @@
         </div>
         {{ form | payment_button }}
       {%- endform -%}
+      <button type="button" class="product__share" data-share>{% render 'icon', name: 'arrow' %} Share</button>
       <script type="application/json" data-variants>{{ product.variants | json }}</script>
 
       {%- for block in section.blocks -%}

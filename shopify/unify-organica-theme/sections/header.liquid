@@ -1,75 +1,98 @@
 <header class="header{% if section.settings.sticky %} header--sticky{% endif %}" data-header>
-  <div class="page-width header__inner">
-    <details class="mobile-nav" data-mobile-nav>
-      <summary class="icon-btn" aria-label="Open menu">{% render 'icon', name: 'menu' %}</summary>
-      <div class="mobile-nav__panel">
-        <div class="mobile-nav__head">
-          <span class="logo-text">Unify <em>Organica</em></span>
-          <button type="button" class="icon-btn" data-close-details aria-label="Close menu">{% render 'icon', name: 'close' %}</button>
+  <div class="page-width header__top">
+    <div class="header__left">
+      <details class="mobile-nav" data-mobile-nav>
+        <summary class="icon-btn" aria-label="Open menu">{% render 'icon', name: 'menu' %}</summary>
+        <div class="mobile-nav__panel">
+          <div class="mobile-nav__head">
+            <span class="wordmark wordmark--small">Unify Organica</span>
+            <button type="button" class="icon-btn" data-close-details aria-label="Close menu">{% render 'icon', name: 'close' %}</button>
+          </div>
+          <ul class="mobile-nav__list">
+            {%- for link in section.settings.menu.links -%}
+              {%- assign t = link.title | downcase -%}
+              <li>
+                {%- if link.links != blank -%}
+                  <details>
+                    <summary{% if t contains 'sale' %} class="is-sale"{% endif %}>{{ link.title }} {% render 'icon', name: 'plus' %}</summary>
+                    <ul>
+                      <li><a href="{{ link.url }}">All {{ link.title | downcase }}</a></li>
+                      {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
+                    </ul>
+                  </details>
+                {%- else -%}
+                  <a href="{{ link.url }}"{% if t contains 'sale' %} class="is-sale"{% endif %}>{{ link.title }}</a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+          {%- if shop.customer_accounts_enabled -%}
+            <a class="btn btn--outline btn--block" href="{{ routes.account_url }}">{% if customer %}My account{% else %}Sign in / Create account{% endif %}</a>
+          {%- endif -%}
         </div>
-        <ul class="mobile-nav__list">
-          {%- for link in section.settings.menu.links -%}
-            <li>
-              <a href="{{ link.url }}">{{ link.title }}</a>
-              {%- if link.links != blank -%}
-                <ul>{%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}</ul>
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
-        </ul>
-      </div>
-    </details>
+      </details>
+    </div>
 
     <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name }}">
       {%- if section.settings.logo != blank -%}
         {%- assign logo_style = 'max-width:' | append: section.settings.logo_width | append: 'px' -%}
-        {{ section.settings.logo | image_url: width: 500 | image_tag: style: logo_style, class: 'header__logo-img', alt: shop.name }}
+        {{ section.settings.logo | image_url: width: 600 | image_tag: style: logo_style, class: 'header__logo-img', alt: shop.name }}
       {%- else -%}
-        <span class="logo-mark">{% render 'icon', name: 'leaf' %}</span>
-        <span class="logo-text">Unify <em>Organica</em></span>
+        <span class="wordmark">Unify <span>Organica</span></span>
       {%- endif -%}
     </a>
 
-    <nav class="header__nav" aria-label="Main">
-      <ul>
-        {%- for link in section.settings.menu.links -%}
-          <li class="{% if link.links != blank %}has-dropdown{% endif %}">
-            <a href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
-            {%- if link.links != blank -%}
-              <div class="dropdown"><ul>{%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}</ul></div>
-            {%- endif -%}
-          </li>
-        {%- endfor -%}
-      </ul>
-    </nav>
-
-    <div class="header__icons">
-      <details class="search-pop">
-        <summary class="icon-btn" aria-label="Search">{% render 'icon', name: 'search' %}</summary>
-        <form action="{{ routes.search_url }}" method="get" role="search" class="search-pop__form">
-          <input type="search" name="q" placeholder="Search oils, shampoos, creams…" aria-label="Search">
-          <input type="hidden" name="type" value="product">
-          <button type="submit" class="btn btn--small">Search</button>
-        </form>
-      </details>
+    <div class="header__right">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="header__search">
+        <input type="search" name="q" placeholder="Search" aria-label="Search">
+        <input type="hidden" name="type" value="product">
+        <button type="submit" aria-label="Search">{% render 'icon', name: 'search' %}</button>
+      </form>
+      <a href="{{ routes.search_url }}" class="icon-btn show-mobile" aria-label="Search">{% render 'icon', name: 'search' %}</a>
       {%- if shop.customer_accounts_enabled -%}
         <a href="{{ routes.account_url }}" class="icon-btn hide-mobile" aria-label="Account">{% render 'icon', name: 'account' %}</a>
       {%- endif -%}
-      <a href="{{ routes.cart_url }}" class="icon-btn cart-link" data-cart-open aria-label="Bag">
+      <a href="{{ routes.cart_url }}" class="icon-btn cart-link" data-cart-open aria-label="Cart">
         {% render 'icon', name: 'bag' %}
-        <span class="cart-count{% if cart.item_count == 0 %} is-empty{% endif %}" data-cart-count>{{ cart.item_count }}</span>
+        <span class="cart-count" data-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
   </div>
+
+  <nav class="header__nav" aria-label="Main">
+    <ul class="page-width">
+      {%- for link in section.settings.menu.links -%}
+        {%- assign t = link.title | downcase -%}
+        <li class="{% if link.links != blank %}has-dropdown{% endif %}">
+          <a href="{{ link.url }}" class="{% if t contains 'sale' %}is-sale{% endif %}" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+          {%- if link.links != blank -%}
+            <div class="dropdown">
+              <a href="{{ link.url }}" class="dropdown__all">All {{ link.title | downcase }}</a>
+              <ul>
+                {%- for child in link.links -%}
+                  <li>
+                    <a href="{{ child.url }}">{{ child.title }}</a>
+                    {%- if child.links != blank -%}
+                      <ul class="dropdown__sub">{%- for g in child.links -%}<li><a href="{{ g.url }}">{{ g.title }}</a></li>{%- endfor -%}</ul>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
 </header>
 
 {% schema %}
 {
   "name": "Header",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the Unify Organica wordmark." },
-    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 160 },
-    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the spaced-letter UNIFY ORGANICA wordmark." },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 220 },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Menu items containing the word \"sale\" are shown in red." },
     { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": true }
   ]
 }

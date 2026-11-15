@@ -1,0 +1,43 @@
+{%- assign b = section.settings.blog -%}
+<section class="section section--compact">
+  <div class="page-width">
+    {%- assign blog_url = routes.root_url -%}
+    {%- if b != blank -%}{%- assign blog_url = b.url -%}{%- endif -%}
+    {% render 'section-title', title: section.settings.heading, link: blog_url, link_label: 'Read the journal' %}
+    <div class="grid grid--articles">
+      {%- if b != blank and b.articles_count > 0 -%}
+        {%- for article in b.articles limit: 3 -%}
+          <article class="post">
+            <a href="{{ article.url }}" class="post__media">
+              {%- if article.image -%}{{ article.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: article.title }}
+              {%- else -%}<div class="post__art">{% render 'icon', name: 'leaf' %}</div>{%- endif -%}
+            </a>
+            <h3 class="post__title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
+            <a href="{{ article.url }}" class="link-arrow">Read more</a>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign titles = 'How to oil your hair the right way (and how often)|Sulphate-free shampoo: what changes for your scalp|A 5-minute night routine for cracked heels' | split: '|' -%}
+        {%- assign arts = 'Hair Oil|Shampoo|Hand & Feet Cream' | split: '|' -%}
+        {%- for t in titles -%}
+          <article class="post">
+            <div class="post__media post__media--art">{% render 'bottle-art', type: arts[forloop.index0], label: 'Journal' %}</div>
+            <h3 class="post__title">{{ t }}</h3>
+            <span class="link-arrow">Read more</span>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From our journal" },
+    { "type": "blog", "id": "blog", "label": "Blog" }
+  ],
+  "presets": [{ "name": "Blog posts" }]
+}
+{% endschema %}

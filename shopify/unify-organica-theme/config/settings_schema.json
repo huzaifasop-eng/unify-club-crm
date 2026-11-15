@@ -10,43 +10,154 @@
   {
     "name": "Colours",
     "settings": [
-      { "type": "color", "id": "color_primary", "label": "Primary (forest green)", "default": "#1f3a2b" },
-      { "type": "color", "id": "color_accent", "label": "Accent (honey gold)", "default": "#c08a3e" },
-      { "type": "color", "id": "color_sage", "label": "Sage", "default": "#a9bfa0" },
-      { "type": "color", "id": "color_blush", "label": "Blush", "default": "#e9cfc2" },
-      { "type": "color", "id": "color_background", "label": "Background", "default": "#fbf7ef" },
-      { "type": "color", "id": "color_surface", "label": "Card surface", "default": "#f3ecdf" },
-      { "type": "color", "id": "color_text", "label": "Text", "default": "#1d2620" }
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Brand accent (teal)",
+        "default": "#2eaf9f"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Buttons & headings",
+        "default": "#1f1f1f"
+      },
+      {
+        "type": "color",
+        "id": "color_sale",
+        "label": "Sale price & badges",
+        "default": "#e3473b"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Soft panels",
+        "default": "#f5f7f6"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#232323"
+      },
+      {
+        "type": "color",
+        "id": "color_sage",
+        "label": "Illustration sage",
+        "default": "#a9bfa0"
+      },
+      {
+        "type": "color",
+        "id": "color_blush",
+        "label": "Illustration blush",
+        "default": "#e9cfc2"
+      }
     ]
   },
   {
     "name": "Typography",
     "settings": [
-      { "type": "font_picker", "id": "type_header_font", "label": "Headings", "default": "playfair_display_n4" },
-      { "type": "font_picker", "id": "type_body_font", "label": "Body", "default": "assistant_n4" }
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "label": "Headings",
+        "default": "poppins_n5"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Body",
+        "default": "poppins_n4"
+      }
     ]
   },
   {
     "name": "Layout",
     "settings": [
-      { "type": "range", "id": "page_width", "label": "Page width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "default": 1320 },
-      { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 20 },
-      { "type": "image_picker", "id": "favicon", "label": "Favicon" }
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page width",
+        "min": 1000,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "default": 1280
+      },
+      {
+        "type": "range",
+        "id": "corner_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 6
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
     ]
   },
   {
     "name": "Cart",
     "settings": [
-      { "type": "number", "id": "free_shipping_threshold", "label": "Free shipping threshold", "info": "Order value (in your store currency) that unlocks free shipping. Shows a progress bar in the cart. Set 0 to hide.", "default": 3000 }
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "Order value (in your store currency) that unlocks free shipping. Shows a progress bar in the cart. Set 0 to hide.",
+        "default": 3000
+      }
     ]
   },
   {
     "name": "Social media",
     "settings": [
-      { "type": "url", "id": "social_instagram", "label": "Instagram" },
-      { "type": "url", "id": "social_facebook", "label": "Facebook" },
-      { "type": "url", "id": "social_tiktok", "label": "TikTok" },
-      { "type": "url", "id": "social_youtube", "label": "YouTube" }
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube"
+      },
+      {
+        "type": "header",
+        "content": "WhatsApp chat button"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number",
+        "info": "International format, e.g. 923001234567. Leave empty to hide the floating button."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Pre-filled message",
+        "default": "Hi Unify Organica! I have a question about"
+      }
     ]
   }
 ]

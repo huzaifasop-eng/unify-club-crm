@@ -1,18 +1,18 @@
 <style>
   :root {
     --color-primary: {{ settings.color_primary }};
-    --color-primary-soft: {{ settings.color_primary | color_mix: settings.color_background, 12 }};
     --color-accent: {{ settings.color_accent }};
+    --color-accent-soft: {{ settings.color_accent | color_mix: settings.color_background, 12 }};
+    --color-sale: {{ settings.color_sale }};
     --color-sage: {{ settings.color_sage }};
     --color-blush: {{ settings.color_blush }};
     --color-bg: {{ settings.color_background }};
     --color-surface: {{ settings.color_surface }};
     --color-text: {{ settings.color_text }};
-    --color-text-muted: {{ settings.color_text | color_mix: settings.color_background, 65 }};
-    --color-line: {{ settings.color_text | color_mix: settings.color_background, 14 }};
+    --color-text-muted: {{ settings.color_text | color_mix: settings.color_background, 62 }};
+    --color-line: {{ settings.color_text | color_mix: settings.color_background, 12 }};
     --font-heading: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
     --font-heading-weight: {{ settings.type_header_font.weight }};
-    --font-heading-style: {{ settings.type_header_font.style }};
     --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
     --font-body-weight: {{ settings.type_body_font.weight }};
     --radius: {{ settings.corner_radius }}px;
