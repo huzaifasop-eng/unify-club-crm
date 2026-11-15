@@ -4,55 +4,47 @@ A complete Online Store 2.0 theme for **Unify Organica** (organic hair oils, sha
 
 | Path | What it is |
 | --- | --- |
-| `unify-organica-theme/` | The theme source (Liquid, JSON templates, CSS, JS, packshot assets) |
+| `unify-organica-theme/` | The theme source (Liquid, JSON templates, CSS, JS, logo and product images) |
 | `unify-organica-theme.zip` | Same theme zipped, ready to upload |
-| `unify-organica-products.csv` | **32 products / 38 variants** with prices, sale prices, descriptions, SEO text, tags and product photos |
-| `catalog/products.json` | The catalogue source: names, label text, ingredients, sizes, prices |
-| `catalog/images/` | Branded 1600×1600 packshot for every product |
-| `catalog/render-packshots.cjs` | Re-renders the packshots after you edit `products.json` |
+| `unify-organica-products.csv` | Your 5 products, each with its own photo plus the lineup photo, description, benefits, how-to-use and SEO text |
+| `catalog/products.json` | Product data used to build the CSV |
+| `catalog/images/` | Square product photos cut from your lineup image, the lineup photo, and the transparent logo |
 | `preview/index.html` | Static render of the homepage (open in a browser) |
 
-## Brand & packaging system
+## Brand assets
 
-Every pack carries the same label structure: leaf monogram → UNIFY ORGANICA → product name → descriptor → key ingredients → size → a colour band reading *Organic · Halal · Cruelty free*. Each line has its own colour so shelves read at a glance:
+- **Logo:** your exact Unify Organica logo, with the white background removed (`catalog/images/unify-organica-logo.png`). It is built into the theme, so the header, footer, mobile menu and coming-soon page use it automatically. To swap it later, upload a new logo in *Theme settings → Header → Logo image*.
+- **Colours** are sampled from the logo: navy `#08264a` (buttons, headings, announcement bar) and leaf green `#1f6b1a` (accents, active tabs).
+- **Product photos:** each bottle was cut out of your lineup photo and placed on a matching soft background (1000×1000).
 
-| Line | Pack | Colour |
-| --- | --- | --- |
-| Hair oils & serums | Amber glass dropper, gold collar | Amber / honey |
-| Shampoos & conditioners | Pump bottle, tube, jar | Sage, aqua, plum |
-| Body wash & body care | Pump bottle, jar, lip pot | Terracotta, citrus, rose, charcoal, cocoa |
-| Hand wash | Pump bottle | Teal, lavender, lemongrass |
-| Hand & feet creams | Standing tube | Cream, mint, rose, saffron |
-| Handmade soaps | Kraft carton with label band | Kraft + green / cream / black |
-| Gift sets | Gift box with gold ribbon | Forest green, amber, teal |
+## Products
+
+| Product | Handle | Collection tag | Price (PKR, placeholder) |
+| --- | --- | --- | --- |
+| Unify Organica Hair Oil 200 ml | `hair-oil` | `hair-care` | 1,200 (was 1,500) |
+| Unify Organica Hair Shampoo 200 ml | `hair-shampoo` | `hair-care` | 1,100 |
+| Unify Organica Joints Oil 200 ml | `joints-oil` | `joint-care` | 1,500 (was 1,800) |
+| Unify Organica Body Wash 200 ml | `body-wash` | `body-care` | 950 |
+| Unify Organica Hand Wash 200 ml | `hand-wash` | `body-care` | 650 |
+
+**Set your real prices** — the CSV prices are placeholders.
 
 ## Launch in 6 steps
 
 1. **Upload the theme** — Shopify admin → *Online Store → Themes → Add theme → Upload zip file* → `unify-organica-theme.zip` → *Publish*.
-2. **Import products** — *Products → Import* → `unify-organica-products.csv`. Photos download automatically from this GitHub repository (it must stay public, or upload the files in `catalog/images/` to each product instead).
-3. **Create collections** (*Products → Collections → Create*, type **Automated**, condition *Product tag is equal to …*). Use these handles so the homepage connects automatically:
+2. **Import products** — *Products → Import* → `unify-organica-products.csv`. Photos download automatically from this GitHub repository (it must stay public at import time; after import Shopify keeps its own copy).
+3. **Create collections** (*Products → Collections → Create*, type **Automated**, condition *Product tag is equal to …*):
 
    | Title | Handle | Tag |
    | --- | --- | --- |
-   | Hair Oils | `hair-oils` | `hair-oils` |
-   | Shampoos & Conditioners | `shampoos` | `shampoos` |
-   | Body Wash | `body-wash` | `body-wash` |
+   | Hair Care | `hair-care` | `hair-care` |
    | Body Care | `body-care` | `body-care` |
-   | Hand Wash | `hand-wash` | `hand-wash` |
-   | Hand & Feet Care | `hand-feet-care` | `hand-feet-care` |
-   | Handmade Soaps | `soaps` | `soaps` |
-   | Gift Sets | `gift-sets` | `gift-sets` |
+   | Joint Care | `joint-care` | `joint-care` |
    | Bestsellers | `bestsellers` | `bestseller` |
-   | New Arrivals | `new-arrivals` | `new` |
-   | Men | `men` | `men` |
 
-4. **Menus** — *Online Store → Navigation*. Suggested `main-menu`: Sale · New Arrivals · Hair Oils · Shampoos · Body Wash · Body Care · Hand Wash · Hand & Feet · Soaps · Gift Sets · Men. Suggested `footer`: About us, Contact, Shipping policy, Returns & exchange, Track my order, FAQs, Privacy policy, Terms. Create a page with template `page.contact` for the contact form.
-5. **Your own photos (optional)** — when you shoot real product photos, add them to each product; they replace the rendered packshot automatically.
-6. **Customize** — theme editor: banner slides (upload your own or keep the packshot banners), colours, WhatsApp number, free-shipping threshold, social links.
-
-### Editing products or labels later
-
-Edit `catalog/products.json` (name, descriptor, ingredients, sizes, prices), then from the repository root run `node shopify/catalog/render-packshots.cjs` to redraw every label. The CSV is generated from the same file.
+4. **Menus** — *Online Store → Navigation*. Suggested `main-menu`: Hair Oil · Hair Shampoo · Joints Oil · Body Wash · Hand Wash · Shop All · Contact. Suggested `footer`: About us, Contact, Shipping policy, Returns & exchange, Track my order, Privacy policy, Terms.
+5. **WhatsApp** — *Theme settings → Social media → WhatsApp number* to show the floating chat button.
+6. **Reviews** — replace the sample reviews on the homepage with real ones (and customer photos).
 
 ## What's in the theme
 
@@ -69,8 +61,7 @@ Layout and feel follow a clean, high-density beauty-store style (white backgroun
 
 ## Assumptions to check
 
-- Prices are a sensible PKR price ladder, not costed — check them against your margins. Copy, prices, the "free shipping above Rs 3,000" message and "cash on delivery" assume a Pakistan-based store. Change them in the theme editor / CSV if not.
-- The customer reviews section holds **placeholder text** marked "Sample review". Replace with real reviews and customer photos before launch.
-- Ingredient lists on the labels are **headline actives only**, not full INCI declarations. Your printed packaging needs the full ingredient list, batch, expiry and manufacturer details required by DRAP/local rules.
-- Halal / organic / cruelty-free claims (and their pop-up explanations) should only stay if they are true and certified for your products.
-- "Certified organic" / "dermatologically tested" claims should only stay if you hold those certifications.
+- Prices, the "free shipping above Rs 3,000" message and cash on delivery assume a Pakistan store. Change them in the CSV and theme editor if not.
+- The homepage reviews are **placeholders** marked "Sample review". Replace them before launch.
+- **Joints Oil wording:** the listing says "soothes joint discomfort / eases stiffness / supports easier movement". Pain-relief claims for a topical oil can fall under DRAP's health-product rules; confirm your registration before using stronger medical wording such as "relieves pain".
+- The claims strip (Natural oils · Herbal extracts · Gentle care · 200 ml bottles · Cash on delivery) avoids certifications; add "Organic", "Halal" etc. only if certified.
