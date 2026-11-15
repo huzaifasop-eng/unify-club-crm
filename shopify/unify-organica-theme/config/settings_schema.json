@@ -1,0 +1,52 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Unify Organica",
+    "theme_version": "1.0.0",
+    "theme_author": "Unify Organica",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Colours",
+    "settings": [
+      { "type": "color", "id": "color_primary", "label": "Primary (forest green)", "default": "#1f3a2b" },
+      { "type": "color", "id": "color_accent", "label": "Accent (honey gold)", "default": "#c08a3e" },
+      { "type": "color", "id": "color_sage", "label": "Sage", "default": "#a9bfa0" },
+      { "type": "color", "id": "color_blush", "label": "Blush", "default": "#e9cfc2" },
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#fbf7ef" },
+      { "type": "color", "id": "color_surface", "label": "Card surface", "default": "#f3ecdf" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#1d2620" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "type_header_font", "label": "Headings", "default": "playfair_display_n4" },
+      { "type": "font_picker", "id": "type_body_font", "label": "Body", "default": "assistant_n4" }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Page width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "default": 1320 },
+      { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 20 },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "number", "id": "free_shipping_threshold", "label": "Free shipping threshold", "info": "Order value (in your store currency) that unlocks free shipping. Shows a progress bar in the cart. Set 0 to hide.", "default": 3000 }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_facebook", "label": "Facebook" },
+      { "type": "url", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "url", "id": "social_youtube", "label": "YouTube" }
+    ]
+  }
+]

@@ -1,0 +1,32 @@
+<section class="section"><div class="page-width narrow">
+  <p><a href="{{ routes.account_url }}" class="link-btn">← Back to account</a></p>
+  <h1 class="h2">Your addresses</h1>
+  {%- paginate customer.addresses by 10 -%}
+    {%- for address in customer.addresses -%}
+      <div class="address-card">
+        {%- if address == customer.default_address -%}<p class="badge">Default</p>{%- endif -%}
+        {{ address | format_address }}
+        {%- form 'customer_address', address -%}
+          <button type="submit" class="link-btn" name="_method" value="delete" onclick="return confirm('Delete this address?')">Delete</button>
+        {%- endform -%}
+      </div>
+    {%- endfor -%}
+  {%- endpaginate -%}
+  <h2 class="h4">Add a new address</h2>
+  {%- form 'customer_address', customer.new_address, class: 'contact-form' -%}
+    <div class="field-row">
+      <label>First name<input type="text" name="address[first_name]"></label>
+      <label>Last name<input type="text" name="address[last_name]"></label>
+    </div>
+    <label>Address<input type="text" name="address[address1]"></label>
+    <label>Apartment, suite<input type="text" name="address[address2]"></label>
+    <div class="field-row">
+      <label>City<input type="text" name="address[city]"></label>
+      <label>Postal code<input type="text" name="address[zip]"></label>
+    </div>
+    <label>Country<select name="address[country]" class="select">{{ all_country_option_tags }}</select></label>
+    <label>Phone<input type="tel" name="address[phone]"></label>
+    <label class="check"><input type="checkbox" name="address[default]" value="1"> Set as default</label>
+    <button type="submit" class="btn">Save address</button>
+  {%- endform -%}
+</div></section>

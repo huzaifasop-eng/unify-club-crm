@@ -1,0 +1,9 @@
+<section class="section"><div class="page-width auth">
+  <h1 class="h2 center">Activate your account</h1>
+  {%- form 'activate_customer_password', class: 'contact-form' -%}
+    {%- if form.errors -%}<p class="form-error">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label>Password<input type="password" name="customer[password]" autocomplete="new-password" required></label>
+    <label>Confirm password<input type="password" name="customer[password_confirmation]" autocomplete="new-password" required></label>
+    <button type="submit" class="btn btn--block">Activate</button>
+  {%- endform -%}
+</div></section>

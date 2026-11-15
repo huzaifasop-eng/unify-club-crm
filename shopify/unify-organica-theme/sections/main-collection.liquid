@@ -1,0 +1,51 @@
+<section class="collection-hero">
+  <div class="page-width">
+    <nav class="breadcrumbs small" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a> / <span>{{ collection.title }}</span></nav>
+    <h1 class="h1">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="rte lead">{{ collection.description }}</div>{%- endif -%}
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="page-width">
+    {%- paginate collection.products by section.settings.per_page -%}
+      <div class="toolbar">
+        <p class="muted small">{{ collection.products_count }} products</p>
+        <form class="toolbar__sort" method="get">
+          <label for="SortBy" class="small">Sort</label>
+          <select id="SortBy" name="sort_by" class="select select--small" onchange="this.form.submit()">
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>
+            {%- endfor -%}
+          </select>
+        </form>
+      </div>
+      {%- if collection.products.size > 0 -%}
+        <div class="grid grid--products">
+          {%- for product in collection.products -%}
+            <div class="reveal" style="--d: {{ forloop.index0 | modulo: 4 | times: 60 }}ms">{% render 'product-card', product: product %}</div>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="empty">
+          {% render 'bottle-art', type: collection.title, label: 'Coming soon' %}
+          <p>New batch brewing — products are coming to this collection soon.</p>
+          <a class="btn" href="{{ routes.all_products_collection_url }}">Shop everything</a>
+        </div>
+      {%- endif -%}
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" aria-label="Pagination">{{ paginate | default_pagination: next: '→', previous: '←' }}</nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection grid",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 16 }
+  ]
+}
+{% endschema %}

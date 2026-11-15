@@ -1,0 +1,137 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign single_option = false
+  if product.options.size == 1 and product.has_only_default_variant == false
+    assign single_option = true
+  endif
+-%}
+<section class="section product" data-product-section>
+  <div class="page-width product__grid">
+    <div class="product__gallery">
+      {%- if product.media.size > 0 -%}
+        <div class="gallery__main" data-gallery-main>
+          {%- for media in product.media -%}
+            <div class="gallery__slide{% if media.id == product.featured_media.id %} is-active{% endif %}" data-media-id="{{ media.id }}">
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  {{ media | image_url: width: 1200 | image_tag: widths: '500, 800, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'eager', alt: media.alt | default: product.title }}
+                {%- else -%}
+                  {{ media | media_tag: image_size: '1200x' }}
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="gallery__thumbs">
+            {%- for media in product.media -%}
+              <button type="button" class="gallery__thumb{% if media.id == product.featured_media.id %} is-active{% endif %}" data-thumb="{{ media.id }}" aria-label="Show image {{ forloop.index }}">
+                {{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="gallery__main gallery__main--art">{% render 'bottle-art', type: product.type, label: product.type %}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="product__info">
+      <nav class="breadcrumbs small" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a> /
+        {%- if collection -%} <a href="{{ collection.url }}">{{ collection.title }}</a> /{%- endif -%}
+        <span>{{ product.title }}</span>
+      </nav>
+      {%- if product.type != blank -%}<p class="eyebrow">{{ product.type }}</p>{%- endif -%}
+      <h1 class="h1 product__title">{{ product.title }}</h1>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'rating' -%}
+          <a href="#reviews" class="product__rating" {{ block.shopify_attributes }}>
+            <span class="stars">{%- for i in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}</span>
+            <span class="small muted">{{ block.settings.text }}</span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <p class="price price--large" data-price>
+        <span class="price__now" data-price-now>{{ current_variant.price | money }}</span>
+        <s class="price__was" data-price-was {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s>
+      </p>
+
+      {%- form 'product', product, class: 'product-form', data-ajax-cart: '', data-product-form: '' -%}
+        {%- if single_option -%}
+          <fieldset class="pills">
+            <legend class="small">{{ product.options.first }}</legend>
+            {%- for variant in product.variants -%}
+              <label class="pill{% unless variant.available %} pill--na{% endunless %}">
+                <input type="radio" name="id" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                <span>{{ variant.title }}</span>
+              </label>
+            {%- endfor -%}
+          </fieldset>
+        {%- elsif product.has_only_default_variant -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+        {%- else -%}
+          <label class="small" for="VariantSelect">Options</label>
+          <select id="VariantSelect" name="id" class="select">
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}" {% if variant.id == current_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}{% unless variant.available %} — sold out{% endunless %}</option>
+            {%- endfor -%}
+          </select>
+        {%- endif -%}
+
+        <div class="product-form__buy">
+          <div class="qty">
+            <button type="button" data-qty-step="-1" aria-label="Decrease quantity">{% render 'icon', name: 'minus' %}</button>
+            <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+            <button type="button" data-qty-step="1" aria-label="Increase quantity">{% render 'icon', name: 'plus' %}</button>
+          </div>
+          <button type="submit" class="btn btn--block" data-add-btn {% unless current_variant.available %}disabled{% endunless %}>
+            {%- if current_variant.available -%}Add to bag{%- else -%}Sold out{%- endif -%}
+          </button>
+        </div>
+        {{ form | payment_button }}
+      {%- endform -%}
+      <script type="application/json" data-variants>{{ product.variants | json }}</script>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'badges' -%}
+            <ul class="perks" {{ block.shopify_attributes }}>
+              <li>{% render 'icon', name: 'leaf' %} 100% organic</li>
+              <li>{% render 'icon', name: 'rabbit' %} Cruelty-free</li>
+              <li>{% render 'icon', name: 'shield' %} No parabens</li>
+              <li>{% render 'icon', name: 'truck' %} {{ block.settings.shipping_text }}</li>
+            </ul>
+          {%- when 'description' -%}
+            <div class="rte product__desc" {{ block.shopify_attributes }}>{{ product.description }}</div>
+          {%- when 'collapsible' -%}
+            <details class="accordion" {{ block.shopify_attributes }} {% if block.settings.open %}open{% endif %}>
+              <summary><span>{{ block.settings.heading }}</span>{% render 'icon', name: 'plus' %}</summary>
+              <div class="rte">{{ block.settings.content }}</div>
+            </details>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product information",
+  "blocks": [
+    { "type": "rating", "name": "Rating", "limit": 1, "settings": [
+      { "type": "text", "id": "text", "label": "Text", "default": "4.9 · Loved by 1,200+ customers" }
+    ]},
+    { "type": "badges", "name": "Benefit badges", "limit": 1, "settings": [
+      { "type": "text", "id": "shipping_text", "label": "Delivery text", "default": "Ships in 24h" }
+    ]},
+    { "type": "description", "name": "Description", "limit": 1, "settings": [] },
+    { "type": "collapsible", "name": "Collapsible tab", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Key ingredients" },
+      { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Use a dynamic source (product metafield) to show ingredients per product.</p>" },
+      { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+    ]}
+  ]
+}
+{% endschema %}

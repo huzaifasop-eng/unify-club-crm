@@ -1,0 +1,17 @@
+<section class="section"><div class="page-width">
+  <h1 class="h1">Hello, {{ customer.first_name | default: 'friend' }}</h1>
+  <p><a href="{{ routes.account_logout_url }}" class="link-btn">Sign out</a> · <a href="{{ routes.account_addresses_url }}" class="link-btn">Addresses ({{ customer.addresses_count }})</a></p>
+  <h2 class="h4">Order history</h2>
+  {%- paginate customer.orders by 20 -%}
+    {%- if customer.orders.size > 0 -%}
+      <table class="table">
+        <thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Fulfilment</th><th>Total</th></tr></thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr><td><a href="{{ order.customer_url }}">{{ order.name }}</a></td><td>{{ order.created_at | date: '%d %b %Y' }}</td><td>{{ order.financial_status_label }}</td><td>{{ order.fulfillment_status_label }}</td><td>{{ order.total_price | money }}</td></tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- else -%}<p class="muted">No orders yet.</p>{%- endif -%}
+  {%- endpaginate -%}
+</div></section>

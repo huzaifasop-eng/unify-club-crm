@@ -1,0 +1,76 @@
+<header class="header{% if section.settings.sticky %} header--sticky{% endif %}" data-header>
+  <div class="page-width header__inner">
+    <details class="mobile-nav" data-mobile-nav>
+      <summary class="icon-btn" aria-label="Open menu">{% render 'icon', name: 'menu' %}</summary>
+      <div class="mobile-nav__panel">
+        <div class="mobile-nav__head">
+          <span class="logo-text">Unify <em>Organica</em></span>
+          <button type="button" class="icon-btn" data-close-details aria-label="Close menu">{% render 'icon', name: 'close' %}</button>
+        </div>
+        <ul class="mobile-nav__list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+              {%- if link.links != blank -%}
+                <ul>{%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}</ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </details>
+
+    <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        {%- assign logo_style = 'max-width:' | append: section.settings.logo_width | append: 'px' -%}
+        {{ section.settings.logo | image_url: width: 500 | image_tag: style: logo_style, class: 'header__logo-img', alt: shop.name }}
+      {%- else -%}
+        <span class="logo-mark">{% render 'icon', name: 'leaf' %}</span>
+        <span class="logo-text">Unify <em>Organica</em></span>
+      {%- endif -%}
+    </a>
+
+    <nav class="header__nav" aria-label="Main">
+      <ul>
+        {%- for link in section.settings.menu.links -%}
+          <li class="{% if link.links != blank %}has-dropdown{% endif %}">
+            <a href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+            {%- if link.links != blank -%}
+              <div class="dropdown"><ul>{%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}</ul></div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="header__icons">
+      <details class="search-pop">
+        <summary class="icon-btn" aria-label="Search">{% render 'icon', name: 'search' %}</summary>
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search-pop__form">
+          <input type="search" name="q" placeholder="Search oils, shampoos, creams…" aria-label="Search">
+          <input type="hidden" name="type" value="product">
+          <button type="submit" class="btn btn--small">Search</button>
+        </form>
+      </details>
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="icon-btn hide-mobile" aria-label="Account">{% render 'icon', name: 'account' %}</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="icon-btn cart-link" data-cart-open aria-label="Bag">
+        {% render 'icon', name: 'bag' %}
+        <span class="cart-count{% if cart.item_count == 0 %} is-empty{% endif %}" data-cart-count>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the Unify Organica wordmark." },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 160 },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": true }
+  ]
+}
+{% endschema %}

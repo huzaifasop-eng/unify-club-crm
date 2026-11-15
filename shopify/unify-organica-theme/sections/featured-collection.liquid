@@ -1,0 +1,41 @@
+{%- assign col = section.settings.collection -%}
+<section class="section{% if section.settings.tinted %} section--tint{% endif %}">
+  <div class="page-width">
+    <div class="section-head reveal">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+      </div>
+      <a href="{% if col != blank %}{{ col.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}" class="link-arrow">View all {% render 'icon', name: 'arrow' %}</a>
+    </div>
+    <div class="grid grid--products">
+      {%- if col != blank and col.products_count > 0 -%}
+        {%- for product in col.products limit: section.settings.limit -%}
+          <div class="reveal" style="--d: {{ forloop.index0 | times: 70 }}ms">{% render 'product-card', product: product %}</div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign names = 'Rosemary & Onion Growth Oil|Hibiscus Gentle Shampoo|Oat & Honey Body Wash|Neem & Tulsi Hand Wash|Shea Butter Hand & Feet Cream|Argan Shine Hair Serum|Aloe Mint Scalp Shampoo|Complete Ritual Gift Set' | split: '|' -%}
+        {%- assign types = 'Hair Oil|Shampoo|Body Wash|Hand Wash|Hand & Feet Cream|Hair Oil|Shampoo|Gift Set' | split: '|' -%}
+        {%- assign prices = '2200|1800|1600|950|1400|2500|1800|6500' | split: '|' -%}
+        {%- for i in (0..7) limit: section.settings.limit -%}
+          {%- assign p = prices[i] | times: 100 -%}
+          <div class="reveal">{% render 'product-card', placeholder_title: names[i], placeholder_type: types[i], placeholder_price: p %}</div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by thousands" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our bestsellers" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 8 },
+    { "type": "checkbox", "id": "tinted", "label": "Tinted background", "default": false }
+  ],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}

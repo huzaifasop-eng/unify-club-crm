@@ -1,0 +1,67 @@
+<footer class="footer">
+  <div class="footer__leaves" aria-hidden="true">
+    {%- for i in (1..3) -%}{% render 'icon', name: 'leaf' %}{%- endfor -%}
+  </div>
+  <div class="page-width footer__grid">
+    <div class="footer__brand">
+      <a href="{{ routes.root_url }}" class="header__logo footer__logo">
+        <span class="logo-mark">{% render 'icon', name: 'leaf' %}</span>
+        <span class="logo-text">Unify <em>Organica</em></span>
+      </a>
+      <p>{{ section.settings.blurb }}</p>
+      <ul class="social">
+        {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a></li>{%- endif -%}
+        {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a></li>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" aria-label="TikTok">{% render 'icon', name: 'tiktok' %}</a></li>{%- endif -%}
+        {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a></li>{%- endif -%}
+      </ul>
+    </div>
+    {%- for block in section.blocks -%}
+      <div class="footer__col" {{ block.shopify_attributes }}>
+        <h3 class="footer__title">{{ block.settings.title }}</h3>
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <ul>{%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}</ul>
+          {%- when 'text' -%}
+            <div class="rte">{{ block.settings.text }}</div>
+        {%- endcase -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  <div class="page-width footer__bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}. Made with nature, by hand.</p>
+    {%- if section.settings.show_payment -%}
+      <ul class="payments" aria-label="Payment methods">
+        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon--payment' }}</li>{%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "blurb", "label": "Brand blurb", "default": "Small-batch organic hair & body care, cold-pressed and hand-poured with ingredients you can pronounce." },
+    { "type": "checkbox", "id": "show_payment", "label": "Show payment icons", "default": true }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    { "type": "menu", "name": "Menu", "settings": [
+      { "type": "text", "id": "title", "label": "Heading", "default": "Shop" },
+      { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+    ]},
+    { "type": "text", "name": "Text", "settings": [
+      { "type": "text", "id": "title", "label": "Heading", "default": "Visit & contact" },
+      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Questions about your hair or skin? Message us — a real human replies within a day.</p>" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "menu", "settings": { "title": "Shop", "menu": "main-menu" } },
+      { "type": "menu", "settings": { "title": "Help", "menu": "footer" } },
+      { "type": "text", "settings": { "title": "Talk to us" } }
+    ]
+  }
+}
+{% endschema %}

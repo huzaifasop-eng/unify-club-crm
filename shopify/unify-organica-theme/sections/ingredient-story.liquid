@@ -1,0 +1,58 @@
+<section class="section ingredients" style="--ing-bg: {{ section.settings.bg }};">
+  <div class="page-width ingredients__grid">
+    <div class="ingredients__intro reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2">{{ section.settings.heading }}</h2>
+      <div class="rte">{{ section.settings.text }}</div>
+      {%- if section.settings.image != blank -%}
+        <div class="ingredients__photo">{{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.heading }}</div>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="btn btn--light">{{ section.settings.button_label }} {% render 'icon', name: 'arrow' %}</a>{%- endif -%}
+    </div>
+    <ul class="ingredients__list">
+      {%- for block in section.blocks -%}
+        <li class="ingredient reveal" style="--ing-tone: {{ block.settings.tone }}; --d: {{ forloop.index0 | times: 60 }}ms" {{ block.shopify_attributes }}>
+          <span class="ingredient__dot">{% render 'icon', name: 'leaf' %}</span>
+          <div>
+            <h3 class="h5">{{ block.settings.name }}</h3>
+            <p>{{ block.settings.benefit }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ingredient story",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What's inside" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Botanicals with a job to do" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Every ingredient earns its place. We source from small organic farms, cold-press our oils to keep their nutrients alive, and leave out the fillers, fragrances and foamers that do nothing for you.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Read our ingredient glossary" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#1f3a2b" }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    { "type": "ingredient", "name": "Ingredient", "settings": [
+      { "type": "text", "id": "name", "label": "Name", "default": "Rosemary" },
+      { "type": "text", "id": "benefit", "label": "Benefit", "default": "Stimulates the scalp and supports thicker growth." },
+      { "type": "color", "id": "tone", "label": "Accent", "default": "#9cbf8f" }
+    ]}
+  ],
+  "presets": [{
+    "name": "Ingredient story",
+    "blocks": [
+      { "type": "ingredient", "settings": { "name": "Rosemary & Onion", "benefit": "Stimulates the scalp and supports thicker, stronger growth.", "tone": "#9cbf8f" } },
+      { "type": "ingredient", "settings": { "name": "Moroccan Argan", "benefit": "Vitamin E-rich shine that tames frizz without weight.", "tone": "#d6a55c" } },
+      { "type": "ingredient", "settings": { "name": "Aloe Vera", "benefit": "Cools, soothes and hydrates sensitive skin and scalp.", "tone": "#a7d4b8" } },
+      { "type": "ingredient", "settings": { "name": "Neem & Tulsi", "benefit": "Nature's purifiers — clean hands without stripping them.", "tone": "#7fae74" } },
+      { "type": "ingredient", "settings": { "name": "Raw Shea Butter", "benefit": "Deep repair for cracked heels and dry knuckles.", "tone": "#e8cfa5" } },
+      { "type": "ingredient", "settings": { "name": "Virgin Coconut", "benefit": "Locks in moisture and protects lengths from breakage.", "tone": "#f1e6d2" } }
+    ]
+  }]
+}
+{% endschema %}

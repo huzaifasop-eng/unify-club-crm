@@ -1,0 +1,70 @@
+<section class="section">
+  <div class="page-width">
+    <div class="section-head reveal">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.text != blank -%}<p class="section-head__text">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+    <div class="cats">
+      {%- for block in section.blocks -%}
+        {%- assign col = block.settings.collection -%}
+        {%- assign url = routes.all_products_collection_url -%}
+        {%- if col != blank -%}{%- assign url = col.url -%}{%- endif -%}
+        <a href="{{ url }}" class="cat reveal" style="--cat-tone: {{ block.settings.bg }}; --d: {{ forloop.index0 | times: 60 }}ms;" {{ block.shopify_attributes }}>
+          <div class="cat__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {%- elsif col.image -%}
+              {{ col.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {%- else -%}
+              {% render 'bottle-art', kind: block.settings.art, type: block.settings.title, label: block.settings.title %}
+            {%- endif -%}
+          </div>
+          <div class="cat__info">
+            <h3 class="h4">{{ block.settings.title }}</h3>
+            <p>{{ block.settings.subtitle }}</p>
+            <span class="cat__go">{% render 'icon', name: 'arrow' %}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by category",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop by ritual" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Head-to-toe, the organic way" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Six families of products, one promise: nothing your grandmother couldn't pronounce." }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    { "type": "category", "name": "Category", "settings": [
+      { "type": "collection", "id": "collection", "label": "Collection" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Hair Oils" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Cold-pressed growth blends" },
+      { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+      { "type": "select", "id": "art", "label": "Illustration (when no image)", "default": "oil", "options": [
+        { "value": "oil", "label": "Dropper bottle" }, { "value": "pump", "label": "Pump bottle" },
+        { "value": "tube", "label": "Tube" }, { "value": "jar", "label": "Jar" }, { "value": "box", "label": "Gift box" }
+      ]},
+      { "type": "color", "id": "bg", "label": "Tile colour", "default": "#efe2cc" }
+    ]}
+  ],
+  "presets": [{
+    "name": "Shop by category",
+    "blocks": [
+      { "type": "category", "settings": { "title": "Hair Oils", "subtitle": "Cold-pressed growth blends", "art": "oil", "bg": "#f1e1c6" } },
+      { "type": "category", "settings": { "title": "Shampoos", "subtitle": "Sulphate-free, scalp-first", "art": "pump", "bg": "#dfe8d8" } },
+      { "type": "category", "settings": { "title": "Body Wash", "subtitle": "Creamy botanical lather", "art": "pump", "bg": "#f3dcd2" } },
+      { "type": "category", "settings": { "title": "Hand Wash", "subtitle": "Gentle on every wash", "art": "pump", "bg": "#dcebe6" } },
+      { "type": "category", "settings": { "title": "Hand & Feet Creams", "subtitle": "Shea-rich repair", "art": "tube", "bg": "#f4ead8" } },
+      { "type": "category", "settings": { "title": "Gift Sets", "subtitle": "Rituals, beautifully boxed", "art": "box", "bg": "#d9e2d6" } }
+    ]
+  }]
+}
+{% endschema %}

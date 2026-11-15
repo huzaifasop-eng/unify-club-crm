@@ -1,0 +1,42 @@
+<section class="marquee" style="--marquee-bg: {{ section.settings.bg }}; --marquee-fg: {{ section.settings.fg }};">
+  <div class="marquee__track">
+    {%- for i in (1..2) -%}
+      <ul class="marquee__group" {% if i == 2 %}aria-hidden="true"{% endif %}>
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>{% render 'icon', name: block.settings.icon %}<span>{{ block.settings.text }}</span></li>
+        {%- endfor -%}
+      </ul>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust marquee",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#1f3a2b" },
+    { "type": "color", "id": "fg", "label": "Text", "default": "#f3ead8" }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Item", "settings": [
+      { "type": "text", "id": "text", "label": "Text", "default": "Certified organic" },
+      { "type": "select", "id": "icon", "label": "Icon", "default": "leaf", "options": [
+        { "value": "leaf", "label": "Leaf" }, { "value": "drop", "label": "Drop" }, { "value": "rabbit", "label": "Cruelty-free" },
+        { "value": "shield", "label": "Shield" }, { "value": "hand", "label": "Handmade" }, { "value": "recycle", "label": "Recycle" },
+        { "value": "truck", "label": "Delivery" }, { "value": "sparkle", "label": "Sparkle" }
+      ]}
+    ]}
+  ],
+  "presets": [{
+    "name": "Trust marquee",
+    "blocks": [
+      { "type": "item", "settings": { "text": "Certified organic", "icon": "leaf" } },
+      { "type": "item", "settings": { "text": "Cold-pressed oils", "icon": "drop" } },
+      { "type": "item", "settings": { "text": "Never tested on animals", "icon": "rabbit" } },
+      { "type": "item", "settings": { "text": "Paraben & sulphate free", "icon": "shield" } },
+      { "type": "item", "settings": { "text": "Hand-poured in small batches", "icon": "hand" } },
+      { "type": "item", "settings": { "text": "Recyclable packaging", "icon": "recycle" } }
+    ]
+  }]
+}
+{% endschema %}

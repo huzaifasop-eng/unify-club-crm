@@ -1,0 +1,111 @@
+{%- comment -%}
+  Illustrated packaging used whenever a product/collection has no photo.
+  Params:
+    type  - product type or keyword (e.g. "Hair Oil", "Shampoo", "Hand & Feet Cream")
+    kind  - optional override: oil | pump | tube | jar | box
+    tone  - optional hex override for the packaging colour
+    label - optional short label printed on the pack
+    class - optional extra class
+{%- endcomment -%}
+{%- liquid
+  assign t = type | default: '' | downcase
+  assign k = 'pump'
+  assign c = '#7f9f7a'
+  if t contains 'oil' or t contains 'serum'
+    assign k = 'oil'
+    assign c = '#b5742c'
+  elsif t contains 'shampoo' or t contains 'conditioner'
+    assign k = 'pump'
+    assign c = '#5f8466'
+  elsif t contains 'body'
+    assign k = 'pump'
+    assign c = '#c4826c'
+  elsif t contains 'hand wash' or t contains 'handwash' or t contains 'soap'
+    assign k = 'pump'
+    assign c = '#86a99a'
+  elsif t contains 'cream' or t contains 'lotion' or t contains 'feet'
+    assign k = 'tube'
+    assign c = '#d9bf98'
+  elsif t contains 'butter' or t contains 'balm' or t contains 'mask' or t contains 'scrub'
+    assign k = 'jar'
+    assign c = '#a7845c'
+  elsif t contains 'gift' or t contains 'set' or t contains 'bundle' or t contains 'kit'
+    assign k = 'box'
+    assign c = '#2f5040'
+  endif
+  if kind != blank
+    assign k = kind
+  endif
+  if tone != blank
+    assign c = tone
+  endif
+  assign uid = 'ba-' | append: k | append: c | handleize
+  assign l = label | default: type | default: 'Organica' | truncate: 18, ''
+-%}
+<svg class="bottle-art bottle-art--{{ k }} {{ class }}" viewBox="0 0 200 260" role="img" aria-label="{{ l | escape }}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="{{ uid }}-shine" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity=".0"/>
+      <stop offset=".18" stop-color="#fff" stop-opacity=".38"/>
+      <stop offset=".3" stop-color="#fff" stop-opacity=".0"/>
+      <stop offset=".85" stop-color="#000" stop-opacity=".0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".18"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="100" cy="246" rx="62" ry="8" fill="#000" opacity=".08"/>
+  {%- case k -%}
+    {%- when 'oil' -%}
+      <rect x="86" y="18" width="28" height="16" rx="8" fill="#1f2a22"/>
+      <rect x="82" y="32" width="36" height="30" rx="4" fill="#26332a"/>
+      <rect x="92" y="60" width="16" height="10" fill="#26332a"/>
+      <rect x="54" y="68" width="92" height="174" rx="22" fill="{{ c }}"/>
+      <rect x="54" y="68" width="92" height="174" rx="22" fill="url(#{{ uid }}-shine)"/>
+      <rect x="64" y="128" width="72" height="78" rx="6" fill="#f6f1e7"/>
+    {%- when 'tube' -%}
+      <path d="M58 30 h84 l-6 172 h-72 z" fill="{{ c }}"/>
+      <path d="M58 30 h84 l-6 172 h-72 z" fill="url(#{{ uid }}-shine)"/>
+      <rect x="54" y="20" width="92" height="14" rx="3" fill="{{ c }}" opacity=".85"/>
+      <path d="M54 22 h92" stroke="#000" stroke-opacity=".12" stroke-width="2" stroke-dasharray="3 4"/>
+      <rect x="66" y="200" width="68" height="44" rx="8" fill="#26332a"/>
+      <rect x="68" y="110" width="64" height="72" rx="6" fill="#f6f1e7"/>
+    {%- when 'jar' -%}
+      <rect x="42" y="86" width="116" height="30" rx="8" fill="#26332a"/>
+      <rect x="38" y="112" width="124" height="130" rx="26" fill="{{ c }}"/>
+      <rect x="38" y="112" width="124" height="130" rx="26" fill="url(#{{ uid }}-shine)"/>
+      <rect x="54" y="146" width="92" height="64" rx="6" fill="#f6f1e7"/>
+    {%- when 'box' -%}
+      <rect x="30" y="96" width="140" height="146" rx="10" fill="{{ c }}"/>
+      <rect x="30" y="96" width="140" height="146" rx="10" fill="url(#{{ uid }}-shine)"/>
+      <rect x="24" y="80" width="152" height="32" rx="8" fill="{{ c }}"/>
+      <rect x="92" y="80" width="16" height="162" fill="#c9a24e"/>
+      <path d="M100 80 C80 50 54 58 64 76 C70 86 92 82 100 80 C108 82 130 86 136 76 C146 58 120 50 100 80 Z" fill="none" stroke="#c9a24e" stroke-width="7"/>
+      <rect x="50" y="150" width="100" height="56" rx="6" fill="#f6f1e7"/>
+    {%- else -%}
+      <rect x="94" y="14" width="44" height="10" rx="5" fill="#26332a"/>
+      <rect x="94" y="14" width="12" height="40" rx="3" fill="#26332a"/>
+      <rect x="78" y="40" width="44" height="24" rx="5" fill="#26332a"/>
+      <rect x="86" y="62" width="28" height="12" fill="#26332a"/>
+      <rect x="52" y="72" width="96" height="170" rx="18" fill="{{ c }}"/>
+      <rect x="52" y="72" width="96" height="170" rx="18" fill="url(#{{ uid }}-shine)"/>
+      <rect x="62" y="122" width="76" height="84" rx="6" fill="#f6f1e7"/>
+  {%- endcase -%}
+  {%- liquid
+    assign label_y = 168
+    case k
+      when 'oil'
+        assign label_y = 166
+      when 'tube'
+        assign label_y = 146
+      when 'jar'
+        assign label_y = 178
+      when 'box'
+        assign label_y = 178
+    endcase
+  -%}
+  <g transform="translate(100 {{ label_y }})" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif">
+    <path d="M-7 -26 C-7 -36 0 -42 0 -42 C0 -42 7 -36 7 -26 C7 -20 3 -17 0 -17 C-3 -17 -7 -20 -7 -26 Z" fill="{{ c }}"/>
+    <text y="-4" font-size="11" letter-spacing="2.4" fill="#1f2a22">UNIFY</text>
+    <text y="9" font-size="7" letter-spacing="2" fill="#1f2a22" opacity=".7">ORGANICA</text>
+    <text y="24" font-size="7.5" fill="#1f2a22" opacity=".85" font-style="italic">{{ l | escape }}</text>
+  </g>
+</svg>

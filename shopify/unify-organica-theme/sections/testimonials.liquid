@@ -1,0 +1,52 @@
+<section class="section section--tint">
+  <div class="page-width">
+    <div class="section-head reveal">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+      </div>
+      <div class="rating-summary"><span class="stars">{%- for i in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}</span> {{ section.settings.summary }}</div>
+    </div>
+    <div class="quotes" data-scroller>
+      {%- for block in section.blocks -%}
+        <figure class="quote reveal" style="--d: {{ forloop.index0 | times: 70 }}ms" {{ block.shopify_attributes }}>
+          <span class="stars">{%- for i in (1..block.settings.rating) -%}{% render 'icon', name: 'star' %}{%- endfor -%}</span>
+          <blockquote>“{{ block.settings.quote }}”</blockquote>
+          <figcaption>
+            <span class="quote__avatar">{{ block.settings.author | slice: 0 }}</span>
+            <span><strong>{{ block.settings.author }}</strong><small>{{ block.settings.product }}</small></span>
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real routines, real results" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Kind words from our community" },
+    { "type": "text", "id": "summary", "label": "Rating summary", "default": "4.9 average from verified buyers" }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    { "type": "quote", "name": "Testimonial", "settings": [
+      { "type": "textarea", "id": "quote", "label": "Quote", "default": "My hair fall reduced within a month." },
+      { "type": "text", "id": "author", "label": "Name", "default": "Customer" },
+      { "type": "text", "id": "product", "label": "Product", "default": "Verified buyer" },
+      { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 }
+    ]}
+  ],
+  "presets": [{
+    "name": "Testimonials",
+    "blocks": [
+      { "type": "quote", "settings": { "quote": "Six weeks of the rosemary oil and I can see baby hairs along my hairline. The smell is so calming at night.", "author": "Ayesha K.", "product": "Rosemary & Onion Growth Oil", "rating": 5 } },
+      { "type": "quote", "settings": { "quote": "First shampoo that doesn't leave my scalp itchy. Lathers gently and my colour isn't fading.", "author": "Sara M.", "product": "Hibiscus Gentle Shampoo", "rating": 5 } },
+      { "type": "quote", "settings": { "quote": "My cracked heels were healed in a week. I keep one tube at home and one in my bag.", "author": "Fatima R.", "product": "Shea Butter Hand & Feet Cream", "rating": 5 } },
+      { "type": "quote", "settings": { "quote": "Bought the gift set for my mother — the packaging felt so premium she didn't want to open it.", "author": "Usman A.", "product": "Complete Ritual Gift Set", "rating": 5 } }
+    ]
+  }]
+}
+{% endschema %}
