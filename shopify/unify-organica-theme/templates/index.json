@@ -3,66 +3,344 @@
     "slider": {
       "type": "hero-slider",
       "blocks": {
-        "s1": { "type": "slide", "settings": { "kicker": "Organic week", "heading": "The big organic sale", "offer_prefix": "Up to", "offer": "30%", "offer_suffix": "off", "button": "Shop the sale", "bg": "#eef3f1", "ink": "#e3473b", "art_left": "Shampoo", "art_main": "Hair Oil", "art_right": "Hand & Feet Cream" } },
-        "s2": { "type": "slide", "settings": { "kicker": "New launch", "heading": "Rosemary & Onion Growth Oil", "offer_prefix": "", "offer": "Grow", "offer_suffix": "stronger roots", "button": "Shop hair oils", "bg": "#f6ede0", "ink": "#b5742c", "art_left": "Serum", "art_main": "Hair Oil", "art_right": "Hair Oil" } },
-        "s3": { "type": "slide", "settings": { "kicker": "Gifting", "heading": "Ritual gift sets", "offer_prefix": "Save", "offer": "15%", "offer_suffix": "on bundles", "button": "Shop gift sets", "bg": "#e8f1ee", "ink": "#2eaf9f", "art_left": "Body Wash", "art_main": "Gift Set", "art_right": "Hand Wash" } }
+        "s1": {
+          "type": "slide",
+          "settings": {
+            "kicker": "Organic week",
+            "heading": "The big organic sale",
+            "offer_prefix": "Up to",
+            "offer": "30%",
+            "offer_suffix": "off",
+            "button": "Shop the sale",
+            "bg": "#eef3f1",
+            "ink": "#e3473b",
+            "pack_left": "hibiscus-gentle-shampoo",
+            "pack_main": "rosemary-onion-growth-oil",
+            "pack_right": "shea-butter-hand-feet-cream"
+          }
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "kicker": "New launch",
+            "heading": "Rosemary & Onion Growth Oil",
+            "offer_prefix": "",
+            "offer": "Grow",
+            "offer_suffix": "stronger roots",
+            "button": "Shop hair oils",
+            "bg": "#f6ede0",
+            "ink": "#b5742c",
+            "pack_left": "argan-shine-hair-serum",
+            "pack_main": "rosemary-onion-growth-oil",
+            "pack_right": "amla-bhringraj-hair-oil"
+          }
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {
+            "kicker": "Gifting",
+            "heading": "Ritual gift sets",
+            "offer_prefix": "Save",
+            "offer": "15%",
+            "offer_suffix": "on bundles",
+            "button": "Shop gift sets",
+            "bg": "#e8f1ee",
+            "ink": "#2eaf9f",
+            "pack_left": "oat-honey-body-wash",
+            "pack_main": "complete-ritual-gift-set",
+            "pack_right": "neem-tulsi-hand-wash"
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3"],
-      "settings": { "autoplay_seconds": 5 }
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "autoplay_seconds": 5
+      }
     },
     "claims": {
       "type": "trust-marquee",
       "blocks": {
-        "c1": { "type": "item", "settings": { "text": "Organic", "icon": "leaf", "detail": "Our oils, herbs and butters come from certified organic growers wherever available." } },
-        "c2": { "type": "item", "settings": { "text": "Natural", "icon": "drop", "detail": "Plant-based formulas with no synthetic colours or mineral oil." } },
-        "c3": { "type": "item", "settings": { "text": "Halal", "icon": "shield", "detail": "Formulated without alcohol or animal-derived ingredients." } },
-        "c4": { "type": "item", "settings": { "text": "Sulphate free", "icon": "sparkle", "detail": "Gentle plant cleansers that do not strip your scalp or skin." } },
-        "c5": { "type": "item", "settings": { "text": "Paraben free", "icon": "shield", "detail": "Preserved safely without parabens." } },
-        "c6": { "type": "item", "settings": { "text": "Cruelty free", "icon": "rabbit", "detail": "Never tested on animals." } }
+        "c1": {
+          "type": "item",
+          "settings": {
+            "text": "Organic",
+            "icon": "leaf",
+            "detail": "Our oils, herbs and butters come from certified organic growers wherever available."
+          }
+        },
+        "c2": {
+          "type": "item",
+          "settings": {
+            "text": "Natural",
+            "icon": "drop",
+            "detail": "Plant-based formulas with no synthetic colours or mineral oil."
+          }
+        },
+        "c3": {
+          "type": "item",
+          "settings": {
+            "text": "Halal",
+            "icon": "shield",
+            "detail": "Formulated without alcohol or animal-derived ingredients."
+          }
+        },
+        "c4": {
+          "type": "item",
+          "settings": {
+            "text": "Sulphate free",
+            "icon": "sparkle",
+            "detail": "Gentle plant cleansers that do not strip your scalp or skin."
+          }
+        },
+        "c5": {
+          "type": "item",
+          "settings": {
+            "text": "Paraben free",
+            "icon": "shield",
+            "detail": "Preserved safely without parabens."
+          }
+        },
+        "c6": {
+          "type": "item",
+          "settings": {
+            "text": "Cruelty free",
+            "icon": "rabbit",
+            "detail": "Never tested on animals."
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ],
       "settings": {}
     },
     "categories": {
       "type": "category-buttons",
       "blocks": {
-        "b1": { "type": "button", "settings": { "label": "Hair oils", "link": "shopify://collections/hair-oils" } },
-        "b2": { "type": "button", "settings": { "label": "Shampoos", "link": "shopify://collections/shampoos" } },
-        "b3": { "type": "button", "settings": { "label": "Body wash", "link": "shopify://collections/body-wash" } },
-        "b4": { "type": "button", "settings": { "label": "Hand wash", "link": "shopify://collections/hand-wash" } },
-        "b5": { "type": "button", "settings": { "label": "Hand & feet creams", "link": "shopify://collections/hand-feet-care" } },
-        "b6": { "type": "button", "settings": { "label": "Gift sets", "link": "shopify://collections/gift-sets" } },
-        "b7": { "type": "button", "settings": { "label": "Bestsellers", "link": "shopify://collections/bestsellers" } },
-        "b8": { "type": "button", "settings": { "label": "Shop all", "link": "shopify://collections/all" } }
+        "b1": {
+          "type": "button",
+          "settings": {
+            "label": "Hair oils",
+            "link": "shopify://collections/hair-oils"
+          }
+        },
+        "b2": {
+          "type": "button",
+          "settings": {
+            "label": "Shampoos & conditioners",
+            "link": "shopify://collections/shampoos"
+          }
+        },
+        "b3": {
+          "type": "button",
+          "settings": {
+            "label": "Body wash",
+            "link": "shopify://collections/body-wash"
+          }
+        },
+        "b4": {
+          "type": "button",
+          "settings": {
+            "label": "Body care",
+            "link": "shopify://collections/body-care"
+          }
+        },
+        "b5": {
+          "type": "button",
+          "settings": {
+            "label": "Hand wash",
+            "link": "shopify://collections/hand-wash"
+          }
+        },
+        "b6": {
+          "type": "button",
+          "settings": {
+            "label": "Hand & feet care",
+            "link": "shopify://collections/hand-feet-care"
+          }
+        },
+        "b7": {
+          "type": "button",
+          "settings": {
+            "label": "Handmade soaps",
+            "link": "shopify://collections/soaps"
+          }
+        },
+        "b8": {
+          "type": "button",
+          "settings": {
+            "label": "Gift sets",
+            "link": "shopify://collections/gift-sets"
+          }
+        }
       },
-      "block_order": ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8"],
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8"
+      ],
       "settings": {}
     },
     "tabs": {
       "type": "product-tabs",
       "blocks": {
-        "t1": { "type": "tab", "settings": { "label": "Hair care", "collection": "hair-oils" } },
-        "t2": { "type": "tab", "settings": { "label": "Body care", "collection": "body-wash" } },
-        "t3": { "type": "tab", "settings": { "label": "Hands & feet", "collection": "hand-feet-care" } }
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Hair care",
+            "collection": "hair-oils"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "Body care",
+            "collection": "body-care"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "label": "Hands & feet",
+            "collection": "hand-feet-care"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3"],
-      "settings": { "heading": "Winter essentials", "limit": 8 }
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "heading": "Winter essentials",
+        "limit": 8
+      }
     },
-    "bestsellers": { "type": "featured-collection", "settings": { "heading": "Bestsellers", "collection": "bestsellers", "limit": 8, "seed": 4 } },
-    "bundles": { "type": "featured-collection", "settings": { "heading": "Bundles & gift sets", "collection": "gift-sets", "limit": 6, "seed": 7 } },
+    "bestsellers": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Bestsellers",
+        "collection": "bestsellers",
+        "limit": 8,
+        "seed": 4
+      }
+    },
+    "bundles": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Bundles & gift sets",
+        "collection": "gift-sets",
+        "limit": 6,
+        "seed": 5
+      }
+    },
     "reviews": {
       "type": "testimonials",
       "blocks": {
-        "r1": { "type": "review", "settings": { "product": "Hair Oil", "quote": "Sample review — replace with a real customer quote about the growth oil.", "author": "Customer name", "date": "1 week ago", "rating": 5, "verified": true } },
-        "r2": { "type": "review", "settings": { "product": "Shampoo", "quote": "Sample review — replace with a real customer quote about the shampoo.", "author": "Customer name", "date": "2 weeks ago", "rating": 5, "verified": true } },
-        "r3": { "type": "review", "settings": { "product": "Hand & Feet Cream", "quote": "Sample review — replace with a real customer quote about the cream.", "author": "Customer name", "date": "3 weeks ago", "rating": 5, "verified": true } },
-        "r4": { "type": "review", "settings": { "product": "Body Wash", "quote": "Sample review — replace with a real customer quote about the body wash.", "author": "Customer name", "date": "1 month ago", "rating": 5, "verified": true } },
-        "r5": { "type": "review", "settings": { "product": "Gift Set", "quote": "Sample review — replace with a real customer quote about the gift set.", "author": "Customer name", "date": "1 month ago", "rating": 5, "verified": true } }
+        "r1": {
+          "type": "review",
+          "settings": {
+            "product": "Hair Oil",
+            "quote": "Sample review — replace with a real customer quote about the growth oil.",
+            "author": "Customer name",
+            "date": "1 week ago",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "product": "Shampoo",
+            "quote": "Sample review — replace with a real customer quote about the shampoo.",
+            "author": "Customer name",
+            "date": "2 weeks ago",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "product": "Hand & Feet Cream",
+            "quote": "Sample review — replace with a real customer quote about the cream.",
+            "author": "Customer name",
+            "date": "3 weeks ago",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "product": "Body Wash",
+            "quote": "Sample review — replace with a real customer quote about the body wash.",
+            "author": "Customer name",
+            "date": "1 month ago",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "product": "Gift Set",
+            "quote": "Sample review — replace with a real customer quote about the gift set.",
+            "author": "Customer name",
+            "date": "1 month ago",
+            "rating": 5,
+            "verified": true
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3", "r4", "r5"],
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
       "settings": {}
     },
-    "blog": { "type": "blog-posts", "settings": { "blog": "news" } }
+    "blog": {
+      "type": "blog-posts",
+      "settings": {
+        "blog": "news"
+      }
+    },
+    "new": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "New arrivals",
+        "collection": "new-arrivals",
+        "limit": 8,
+        "seed": 17
+      }
+    }
   },
-  "order": ["slider", "claims", "categories", "tabs", "bestsellers", "bundles", "reviews", "blog"]
+  "order": [
+    "slider",
+    "claims",
+    "categories",
+    "tabs",
+    "bestsellers",
+    "bundles",
+    "new",
+    "reviews",
+    "blog"
+  ]
 }

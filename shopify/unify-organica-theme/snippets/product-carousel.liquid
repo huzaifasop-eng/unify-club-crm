@@ -1,4 +1,4 @@
-{%- comment -%} Params: collection (object or blank), limit, seed (0-7, shifts placeholder set) {%- endcomment -%}
+{%- comment -%} Params: collection (object or blank), limit, seed (shifts the sample products shown before a collection is connected) {%- endcomment -%}
 <div class="carousel" data-carousel>
   <button type="button" class="carousel__btn carousel__btn--prev" data-carousel-prev aria-label="Previous">{% render 'icon', name: 'arrow' %}</button>
   <div class="carousel__track" data-carousel-track>
@@ -7,16 +7,20 @@
         <div class="carousel__item">{% render 'product-card', product: product %}</div>
       {%- endfor -%}
     {%- else -%}
-      {%- assign names = 'Rosemary & Onion Growth Oil|Hibiscus Gentle Shampoo|Oat & Honey Body Wash|Neem & Tulsi Hand Wash|Shea Butter Hand & Feet Cream|Argan Shine Hair Serum|Aloe Mint Scalp Shampoo|Complete Ritual Gift Set|Amla & Bhringraj Hair Oil|Lavender & Aloe Hand Wash|Peppermint Foot Repair Cream|Hair Growth Duo' | split: '|' -%}
-      {%- assign types = 'Hair Oil|Shampoo|Body Wash|Hand Wash|Hand & Feet Cream|Hair Oil|Shampoo|Gift Set|Hair Oil|Hand Wash|Hand & Feet Cream|Gift Set' | split: '|' -%}
-      {%- assign prices = '2200|1800|1600|950|1400|2500|1800|6500|1900|950|1500|3600' | split: '|' -%}
-      {%- assign compares = '2600|0|1900|0|1650|0|2100|7500|0|1100|0|4000' | split: '|' -%}
+      {%- liquid
+  assign demo_handles = 'rosemary-onion-growth-oil|hibiscus-gentle-shampoo|oat-honey-body-wash|neem-tulsi-hand-wash|shea-butter-hand-feet-cream|complete-ritual-gift-set|argan-shine-hair-serum|cocoa-butter-body-lotion|goat-milk-honey-soap|aloe-mint-scalp-shampoo|peppermint-foot-repair-cream|coffee-body-scrub|amla-bhringraj-hair-oil|hair-growth-duo|lavender-aloe-hand-wash|banana-honey-hair-mask|citrus-sandalwood-body-wash|beetroot-lip-balm|beard-growth-oil|rose-glycerin-hand-cream|neem-turmeric-soap|onion-anti-hairfall-shampoo|hand-feet-care-kit|charcoal-detox-body-wash' | split: '|'
+  assign demo_titles = 'Rosemary & Onion Growth Oil|Hibiscus Gentle Shampoo|Oat & Honey Body Wash|Neem & Tulsi Hand Wash|Shea Butter Hand & Feet Cream|Complete Ritual Gift Set|Argan Shine Hair Serum|Cocoa Butter Body Lotion|Goat Milk & Honey Soap|Aloe Mint Scalp Shampoo|Peppermint Foot Repair Cream|Coffee Body Scrub|Amla & Bhringraj Hair Oil|Hair Growth Duo|Lavender & Aloe Hand Wash|Banana & Honey Hair Mask|Citrus & Sandalwood Body Wash|Beetroot Tinted Lip Balm|Beard Growth Oil|Rose & Glycerin Hand Cream|Neem & Turmeric Soap|Onion Anti-Hairfall Shampoo|Hand & Feet Care Kit|Charcoal Detox Body Wash' | split: '|'
+  assign demo_types = 'Hair Oil|Shampoo|Body Wash|Hand Wash|Hand & Feet Cream|Gift Set|Hair Oil|Body Lotion|Soap|Shampoo|Hand & Feet Cream|Body Scrub|Hair Oil|Gift Set|Hand Wash|Hair Mask|Body Wash|Lip Care|Beard Oil|Hand & Feet Cream|Soap|Shampoo|Gift Set|Body Wash' | split: '|'
+  assign demo_prices = '2200|1800|1600|950|1400|6500|2500|1900|650|1800|1500|1800|1900|3600|950|2100|1700|750|1800|1100|650|1900|3400|1800' | split: '|'
+  assign demo_compares = '2600|0|1900|0|1650|7500|0|2200|0|2100|0|0|0|4100|1100|2400|0|0|0|0|0|0|3850|0' | split: '|'
+-%}
       {%- assign s = seed | default: 0 -%}
       {%- for n in (1..limit) -%}
-        {%- assign i = n | minus: 1 | plus: s | modulo: 12 -%}
-        {%- assign p = prices[i] | times: 100 -%}
-        {%- assign c = compares[i] | times: 100 -%}
-        <div class="carousel__item">{% render 'product-card', placeholder_title: names[i], placeholder_type: types[i], placeholder_price: p, placeholder_compare: c %}</div>
+        {%- assign i = n | minus: 1 | plus: s | modulo: demo_handles.size -%}
+        {%- assign p = demo_prices[i] | times: 100 -%}
+        {%- assign c = demo_compares[i] | times: 100 -%}
+        {%- assign img = 'pack-' | append: demo_handles[i] | append: '.jpg' | asset_url -%}
+        <div class="carousel__item">{% render 'product-card', placeholder_title: demo_titles[i], placeholder_type: demo_types[i], placeholder_price: p, placeholder_compare: c, placeholder_image: img %}</div>
       {%- endfor -%}
     {%- endif -%}
   </div>

@@ -1,5 +1,5 @@
 {%- comment -%}
-  Params: product (object, optional), or placeholder_title / placeholder_type / placeholder_price / placeholder_compare (cents)
+  Params: product (object, optional), or placeholder_title / placeholder_type / placeholder_price / placeholder_compare (cents) / placeholder_image (url)
 {%- endcomment -%}
 {%- liquid
   if product != blank
@@ -27,6 +27,8 @@
       {%- if product.media[1] -%}
         {{ product.media[1] | image_url: width: 600 | image_tag: loading: 'lazy', class: 'card__img card__img--hover', alt: '' }}
       {%- endif -%}
+    {%- elsif placeholder_image != blank -%}
+      <img src="{{ placeholder_image }}" alt="{{ title | escape }}" class="card__img" loading="lazy" width="640" height="640">
     {%- else -%}
       <div class="card__art">{% render 'bottle-art', type: ptype, label: ptype %}</div>
     {%- endif -%}

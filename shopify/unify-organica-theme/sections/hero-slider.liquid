@@ -16,9 +16,13 @@
           <div class="slide__art" style="--slide-bg: {{ block.settings.bg }}; --slide-ink: {{ block.settings.ink }};">
             <div class="page-width slide__grid">
               <div class="slide__packs">
-                {% render 'bottle-art', type: block.settings.art_left, label: block.settings.art_left, class: 'slide__pack slide__pack--a' %}
-                {% render 'bottle-art', type: block.settings.art_main, label: block.settings.art_main, class: 'slide__pack slide__pack--b' %}
-                {% render 'bottle-art', type: block.settings.art_right, label: block.settings.art_right, class: 'slide__pack slide__pack--c' %}
+                {%- assign packs = block.settings.pack_left | append: ',' | append: block.settings.pack_main | append: ',' | append: block.settings.pack_right | split: ',' -%}
+                {%- assign pos = 'a,b,c' | split: ',' -%}
+                {%- for h in packs -%}
+                  {%- if h != blank -%}
+                    <img src="{{ 'cut-' | append: h | append: '.png' | asset_url }}" alt="" width="365" height="600" class="slide__pack slide__pack--{{ pos[forloop.index0] }}" loading="{% if forloop.parentloop.first %}eager{% else %}lazy{% endif %}">
+                  {%- endif -%}
+                {%- endfor -%}
               </div>
               <div class="slide__copy">
                 {%- if block.settings.kicker != blank -%}<p class="slide__kicker">{{ block.settings.kicker }}</p>{%- endif -%}
@@ -64,9 +68,9 @@
       { "type": "text", "id": "button", "label": "Button", "default": "Shop the sale" },
       { "type": "color", "id": "bg", "label": "Background", "default": "#eef3f1" },
       { "type": "color", "id": "ink", "label": "Offer colour", "default": "#e0453a" },
-      { "type": "text", "id": "art_left", "label": "Left pack type", "default": "Shampoo" },
-      { "type": "text", "id": "art_main", "label": "Centre pack type", "default": "Hair Oil" },
-      { "type": "text", "id": "art_right", "label": "Right pack type", "default": "Hand & Feet Cream" }
+      { "type": "text", "id": "pack_left", "label": "Left product", "default": "hibiscus-gentle-shampoo", "info": "Packshot names available: hibiscus-gentle-shampoo, rosemary-onion-growth-oil, shea-butter-hand-feet-cream, argan-shine-hair-serum, amla-bhringraj-hair-oil, onion-anti-hairfall-shampoo, oat-honey-body-wash, complete-ritual-gift-set, neem-tulsi-hand-wash" },
+      { "type": "text", "id": "pack_main", "label": "Centre product", "default": "rosemary-onion-growth-oil" },
+      { "type": "text", "id": "pack_right", "label": "Right product", "default": "shea-butter-hand-feet-cream" }
     ]}
   ],
   "presets": [{ "name": "Banner slider", "blocks": [{ "type": "slide" }] }]
