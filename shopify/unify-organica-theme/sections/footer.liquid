@@ -1,7 +1,7 @@
 <footer class="footer">
   <div class="page-width footer__grid">
     <div class="footer__brand">
-      <a href="{{ routes.root_url }}" class="wordmark">Unify <span>Organica</span></a>
+      <a href="{{ routes.root_url }}" class="footer__logo">{%- assign logo_w = 190 -%}<img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo"{% if logo_w %} style="max-width:{{ logo_w }}px"{% endif %}></a>
       <p>{{ section.settings.blurb }}</p>
       <ul class="social">
         {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a></li>{%- endif -%}

@@ -13,14 +13,14 @@
       {
         "type": "color",
         "id": "color_accent",
-        "label": "Brand accent (teal)",
-        "default": "#2eaf9f"
+        "label": "Brand green (from logo)",
+        "default": "#1f6b1a"
       },
       {
         "type": "color",
         "id": "color_primary",
-        "label": "Buttons & headings",
-        "default": "#1f1f1f"
+        "label": "Brand navy — buttons & headings",
+        "default": "#08264a"
       },
       {
         "type": "color",

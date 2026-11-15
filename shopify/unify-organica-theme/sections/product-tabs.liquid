@@ -10,8 +10,8 @@
     {%- endif -%}
     {%- for block in section.blocks -%}
       <div class="tab-panel" role="tabpanel" data-panel="{{ forloop.index0 }}" {% unless forloop.first %}hidden{% endunless %}>
-        {%- assign seed = forloop.index0 | times: 3 -%}
-        {% render 'product-carousel', collection: block.settings.collection, limit: section.settings.limit, seed: seed %}
+        {%- assign demo_filter = block.settings.label | downcase -%}
+        {% render 'product-carousel', collection: block.settings.collection, limit: section.settings.limit, filter: demo_filter %}
       </div>
     {%- endfor -%}
   </div>

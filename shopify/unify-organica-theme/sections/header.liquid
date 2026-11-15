@@ -5,7 +5,7 @@
         <summary class="icon-btn" aria-label="Open menu">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-nav__panel">
           <div class="mobile-nav__head">
-            <span class="wordmark wordmark--small">Unify Organica</span>
+            <img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo" style="max-width:140px">
             <button type="button" class="icon-btn" data-close-details aria-label="Close menu">{% render 'icon', name: 'close' %}</button>
           </div>
           <ul class="mobile-nav__list">
@@ -38,7 +38,8 @@
         {%- assign logo_style = 'max-width:' | append: section.settings.logo_width | append: 'px' -%}
         {{ section.settings.logo | image_url: width: 600 | image_tag: style: logo_style, class: 'header__logo-img', alt: shop.name }}
       {%- else -%}
-        <span class="wordmark">Unify <span>Organica</span></span>
+        {%- assign logo_w = section.settings.logo_width -%}
+        <img src="{{ 'unify-organica-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="1355" height="400" class="brand-logo"{% if logo_w %} style="max-width:{{ logo_w }}px"{% endif %}>
       {%- endif -%}
     </a>
 
@@ -90,8 +91,8 @@
 {
   "name": "Header",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the spaced-letter UNIFY ORGANICA wordmark." },
-    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 220 },
+    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the built-in Unify Organica logo." },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 200 },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Menu items containing the word \"sale\" are shown in red." },
     { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": true }
   ]

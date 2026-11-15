@@ -10,7 +10,13 @@
               {%- if block.settings.image != blank -%}
                 {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: block.settings.product }}
               {%- else -%}
-                {% render 'bottle-art', type: block.settings.product, label: block.settings.product %}
+                {%- assign rh = block.settings.product | remove: 'Unify Organica' | strip | handleize -%}
+                {%- assign known = 'hair-oil,hair-shampoo,joints-oil,body-wash,hand-wash' | split: ',' -%}
+                {%- if known contains rh -%}
+                  <img src="{{ 'product-' | append: rh | append: '.jpg' | asset_url }}" alt="{{ block.settings.product | escape }}" width="700" height="700" loading="lazy">
+                {%- else -%}
+                  {% render 'bottle-art', type: block.settings.product, label: block.settings.product %}
+                {%- endif -%}
               {%- endif -%}
             </div>
             <div class="review__body">

@@ -6,56 +6,75 @@
         "s1": {
           "type": "slide",
           "settings": {
-            "kicker": "Organic week",
-            "heading": "The big organic sale",
-            "offer_prefix": "Up to",
-            "offer": "30%",
-            "offer_suffix": "off",
-            "button": "Shop the sale",
-            "bg": "#eef3f1",
-            "ink": "#e3473b",
-            "pack_left": "hibiscus-gentle-shampoo",
-            "pack_main": "rosemary-onion-growth-oil",
-            "pack_right": "shea-butter-hand-feet-cream"
+            "kicker": "Natural care for the whole family",
+            "heading": "Meet Unify Organica",
+            "offer_prefix": "",
+            "offer": "",
+            "offer_suffix": "",
+            "button": "Shop all products",
+            "bg": "#eef4ea",
+            "ink": "#1f6b1a",
+            "photo_asset": "lineup.jpg",
+            "link": "shopify://collections/all"
           }
         },
         "s2": {
           "type": "slide",
           "settings": {
-            "kicker": "New launch",
-            "heading": "Rosemary & Onion Growth Oil",
-            "offer_prefix": "",
+            "kicker": "Hair care",
+            "heading": "Hair Oil + Shampoo",
+            "offer_prefix": "Nourish · Strengthen ·",
             "offer": "Grow",
-            "offer_suffix": "stronger roots",
-            "button": "Shop hair oils",
-            "bg": "#f6ede0",
-            "ink": "#b5742c",
-            "pack_left": "argan-shine-hair-serum",
-            "pack_main": "rosemary-onion-growth-oil",
-            "pack_right": "amla-bhringraj-hair-oil"
+            "offer_suffix": "",
+            "button": "Shop hair care",
+            "bg": "#f3efe3",
+            "ink": "#1f6b1a",
+            "pack_left": "hair-shampoo",
+            "pack_main": "hair-oil",
+            "pack_right": "",
+            "link": "shopify://collections/hair-care"
           }
         },
         "s3": {
           "type": "slide",
           "settings": {
-            "kicker": "Gifting",
-            "heading": "Ritual gift sets",
-            "offer_prefix": "Save",
-            "offer": "15%",
-            "offer_suffix": "on bundles",
-            "button": "Shop gift sets",
-            "bg": "#e8f1ee",
-            "ink": "#2eaf9f",
-            "pack_left": "oat-honey-body-wash",
-            "pack_main": "complete-ritual-gift-set",
-            "pack_right": "neem-tulsi-hand-wash"
+            "kicker": "For knee & joints",
+            "heading": "Joints Oil",
+            "offer_prefix": "With natural",
+            "offer": "herbal oils",
+            "offer_suffix": "",
+            "button": "Shop joints oil",
+            "bg": "#f6ece6",
+            "ink": "#a3262e",
+            "pack_left": "",
+            "pack_main": "joints-oil",
+            "pack_right": "",
+            "link": "shopify://products/joints-oil"
+          }
+        },
+        "s4": {
+          "type": "slide",
+          "settings": {
+            "kicker": "Body care",
+            "heading": "Body Wash & Hand Wash",
+            "offer_prefix": "Refreshing ·",
+            "offer": "Clean",
+            "offer_suffix": "· Gentle",
+            "button": "Shop body care",
+            "bg": "#eaf1f7",
+            "ink": "#1b5e9e",
+            "pack_left": "body-wash",
+            "pack_main": "hand-wash",
+            "pack_right": "",
+            "link": "shopify://collections/body-care"
           }
         }
       },
       "block_order": [
         "s1",
         "s2",
-        "s3"
+        "s3",
+        "s4"
       ],
       "settings": {
         "autoplay_seconds": 5
@@ -67,49 +86,41 @@
         "c1": {
           "type": "item",
           "settings": {
-            "text": "Organic",
-            "icon": "leaf",
-            "detail": "Our oils, herbs and butters come from certified organic growers wherever available."
+            "text": "Natural oils",
+            "icon": "drop",
+            "detail": "Formulated with natural oils."
           }
         },
         "c2": {
           "type": "item",
           "settings": {
-            "text": "Natural",
-            "icon": "drop",
-            "detail": "Plant-based formulas with no synthetic colours or mineral oil."
+            "text": "Herbal extracts",
+            "icon": "leaf",
+            "detail": "Made with herbal and botanical extracts."
           }
         },
         "c3": {
           "type": "item",
           "settings": {
-            "text": "Halal",
-            "icon": "shield",
-            "detail": "Formulated without alcohol or animal-derived ingredients."
+            "text": "Gentle care",
+            "icon": "hand",
+            "detail": "Gentle formulas for everyday use."
           }
         },
         "c4": {
           "type": "item",
           "settings": {
-            "text": "Sulphate free",
+            "text": "200 ml bottles",
             "icon": "sparkle",
-            "detail": "Gentle plant cleansers that do not strip your scalp or skin."
+            "detail": "Every product comes in a generous 200 ml bottle."
           }
         },
         "c5": {
           "type": "item",
           "settings": {
-            "text": "Paraben free",
-            "icon": "shield",
-            "detail": "Preserved safely without parabens."
-          }
-        },
-        "c6": {
-          "type": "item",
-          "settings": {
-            "text": "Cruelty free",
-            "icon": "rabbit",
-            "detail": "Never tested on animals."
+            "text": "Cash on delivery",
+            "icon": "truck",
+            "detail": "Pay when your order arrives."
           }
         }
       },
@@ -118,8 +129,7 @@
         "c2",
         "c3",
         "c4",
-        "c5",
-        "c6"
+        "c5"
       ],
       "settings": {}
     },
@@ -129,57 +139,57 @@
         "b1": {
           "type": "button",
           "settings": {
-            "label": "Hair oils",
-            "link": "shopify://collections/hair-oils"
+            "label": "Hair oil",
+            "link": "shopify://products/hair-oil"
           }
         },
         "b2": {
           "type": "button",
           "settings": {
-            "label": "Shampoos & conditioners",
-            "link": "shopify://collections/shampoos"
+            "label": "Hair shampoo",
+            "link": "shopify://products/hair-shampoo"
           }
         },
         "b3": {
           "type": "button",
           "settings": {
-            "label": "Body wash",
-            "link": "shopify://collections/body-wash"
+            "label": "Joints oil",
+            "link": "shopify://products/joints-oil"
           }
         },
         "b4": {
           "type": "button",
           "settings": {
-            "label": "Body care",
-            "link": "shopify://collections/body-care"
+            "label": "Body wash",
+            "link": "shopify://products/body-wash"
           }
         },
         "b5": {
           "type": "button",
           "settings": {
             "label": "Hand wash",
-            "link": "shopify://collections/hand-wash"
+            "link": "shopify://products/hand-wash"
           }
         },
         "b6": {
           "type": "button",
           "settings": {
-            "label": "Hand & feet care",
-            "link": "shopify://collections/hand-feet-care"
+            "label": "Hair care",
+            "link": "shopify://collections/hair-care"
           }
         },
         "b7": {
           "type": "button",
           "settings": {
-            "label": "Handmade soaps",
-            "link": "shopify://collections/soaps"
+            "label": "Body care",
+            "link": "shopify://collections/body-care"
           }
         },
         "b8": {
           "type": "button",
           "settings": {
-            "label": "Gift sets",
-            "link": "shopify://collections/gift-sets"
+            "label": "Shop all",
+            "link": "shopify://collections/all"
           }
         }
       },
@@ -193,7 +203,10 @@
         "b7",
         "b8"
       ],
-      "settings": {}
+      "settings": {
+        "tagline": "Natural care for hair, body and joints — made by Unify Organica.",
+        "heading": "Shop by category"
+      }
     },
     "tabs": {
       "type": "product-tabs",
@@ -202,7 +215,7 @@
           "type": "tab",
           "settings": {
             "label": "Hair care",
-            "collection": "hair-oils"
+            "collection": "hair-care"
           }
         },
         "t2": {
@@ -215,8 +228,8 @@
         "t3": {
           "type": "tab",
           "settings": {
-            "label": "Hands & feet",
-            "collection": "hand-feet-care"
+            "label": "Joint care",
+            "collection": "joint-care"
           }
         }
       },
@@ -226,26 +239,16 @@
         "t3"
       ],
       "settings": {
-        "heading": "Winter essentials",
+        "heading": "Our products",
         "limit": 8
       }
     },
     "bestsellers": {
       "type": "featured-collection",
       "settings": {
-        "heading": "Bestsellers",
-        "collection": "bestsellers",
-        "limit": 8,
-        "seed": 4
-      }
-    },
-    "bundles": {
-      "type": "featured-collection",
-      "settings": {
-        "heading": "Bundles & gift sets",
-        "collection": "gift-sets",
-        "limit": 6,
-        "seed": 5
+        "heading": "Shop all products",
+        "collection": "all",
+        "limit": 8
       }
     },
     "reviews": {
@@ -254,10 +257,10 @@
         "r1": {
           "type": "review",
           "settings": {
-            "product": "Hair Oil",
-            "quote": "Sample review — replace with a real customer quote about the growth oil.",
+            "product": "Unify Organica Hair Oil",
+            "quote": "Sample review — replace with a real customer review of the Hair Oil.",
             "author": "Customer name",
-            "date": "1 week ago",
+            "date": "Recently",
             "rating": 5,
             "verified": true
           }
@@ -265,10 +268,10 @@
         "r2": {
           "type": "review",
           "settings": {
-            "product": "Shampoo",
-            "quote": "Sample review — replace with a real customer quote about the shampoo.",
+            "product": "Unify Organica Hair Shampoo",
+            "quote": "Sample review — replace with a real customer review of the Hair Shampoo.",
             "author": "Customer name",
-            "date": "2 weeks ago",
+            "date": "Recently",
             "rating": 5,
             "verified": true
           }
@@ -276,10 +279,10 @@
         "r3": {
           "type": "review",
           "settings": {
-            "product": "Hand & Feet Cream",
-            "quote": "Sample review — replace with a real customer quote about the cream.",
+            "product": "Unify Organica Joints Oil",
+            "quote": "Sample review — replace with a real customer review of the Joints Oil.",
             "author": "Customer name",
-            "date": "3 weeks ago",
+            "date": "Recently",
             "rating": 5,
             "verified": true
           }
@@ -287,10 +290,10 @@
         "r4": {
           "type": "review",
           "settings": {
-            "product": "Body Wash",
-            "quote": "Sample review — replace with a real customer quote about the body wash.",
+            "product": "Unify Organica Body Wash",
+            "quote": "Sample review — replace with a real customer review of the Body Wash.",
             "author": "Customer name",
-            "date": "1 month ago",
+            "date": "Recently",
             "rating": 5,
             "verified": true
           }
@@ -298,10 +301,10 @@
         "r5": {
           "type": "review",
           "settings": {
-            "product": "Gift Set",
-            "quote": "Sample review — replace with a real customer quote about the gift set.",
+            "product": "Unify Organica Hand Wash",
+            "quote": "Sample review — replace with a real customer review of the Hand Wash.",
             "author": "Customer name",
-            "date": "1 month ago",
+            "date": "Recently",
             "rating": 5,
             "verified": true
           }
@@ -321,15 +324,6 @@
       "settings": {
         "blog": "news"
       }
-    },
-    "new": {
-      "type": "featured-collection",
-      "settings": {
-        "heading": "New arrivals",
-        "collection": "new-arrivals",
-        "limit": 8,
-        "seed": 17
-      }
     }
   },
   "order": [
@@ -338,8 +332,6 @@
     "categories",
     "tabs",
     "bestsellers",
-    "bundles",
-    "new",
     "reviews",
     "blog"
   ]

@@ -465,6 +465,7 @@ button{cursor:pointer}
 }
 @media (max-width:640px){
   body{font-size:14px}
+  .slide__photo{height:auto;aspect-ratio:3/2}
   .carousel__track,.carousel--reviews .carousel__track{grid-auto-columns:calc((100% - .75rem) / 2);gap:.75rem}
   .carousel--reviews .carousel__track{grid-auto-columns:78%}
   .grid--products{grid-template-columns:repeat(2,1fr);gap:.75rem}
@@ -481,3 +482,14 @@ button{cursor:pointer}
   .line-item--page .line-item__price{grid-column:2;justify-items:start;text-align:left}
   .wa-float{width:50px;height:50px;right:14px;bottom:14px}
 }
+
+/* Brand logo image */
+.brand-logo{display:block;width:100%;height:auto}
+.header__logo .brand-logo{width:clamp(130px,16vw,200px)}
+.footer__logo{display:inline-block;width:190px}
+.password__card .brand-logo{width:240px;margin-bottom:1rem}
+.mobile-nav__head .brand-logo{width:130px}
+.announce{background:var(--color-primary)}
+.section-title h2,.section-title--plain{color:var(--color-primary)}
+.slide__photo{width:100%;height:clamp(300px,32vw,460px);object-fit:cover;border-radius:var(--radius);box-shadow:0 20px 40px -24px rgba(0,0,0,.4)}
+.carousel__track{justify-content:safe center}

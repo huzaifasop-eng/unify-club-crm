@@ -1,4 +1,4 @@
-{%- comment -%} Params: collection (object or blank), limit, seed (shifts the sample products shown before a collection is connected) {%- endcomment -%}
+{%- comment -%} Params: collection (object or blank), limit, filter (tab label, used only for the built-in sample products) {%- endcomment -%}
 <div class="carousel" data-carousel>
   <button type="button" class="carousel__btn carousel__btn--prev" data-carousel-prev aria-label="Previous">{% render 'icon', name: 'arrow' %}</button>
   <div class="carousel__track" data-carousel-track>
@@ -8,19 +8,25 @@
       {%- endfor -%}
     {%- else -%}
       {%- liquid
-  assign demo_handles = 'rosemary-onion-growth-oil|hibiscus-gentle-shampoo|oat-honey-body-wash|neem-tulsi-hand-wash|shea-butter-hand-feet-cream|complete-ritual-gift-set|argan-shine-hair-serum|cocoa-butter-body-lotion|goat-milk-honey-soap|aloe-mint-scalp-shampoo|peppermint-foot-repair-cream|coffee-body-scrub|amla-bhringraj-hair-oil|hair-growth-duo|lavender-aloe-hand-wash|banana-honey-hair-mask|citrus-sandalwood-body-wash|beetroot-lip-balm|beard-growth-oil|rose-glycerin-hand-cream|neem-turmeric-soap|onion-anti-hairfall-shampoo|hand-feet-care-kit|charcoal-detox-body-wash' | split: '|'
-  assign demo_titles = 'Rosemary & Onion Growth Oil|Hibiscus Gentle Shampoo|Oat & Honey Body Wash|Neem & Tulsi Hand Wash|Shea Butter Hand & Feet Cream|Complete Ritual Gift Set|Argan Shine Hair Serum|Cocoa Butter Body Lotion|Goat Milk & Honey Soap|Aloe Mint Scalp Shampoo|Peppermint Foot Repair Cream|Coffee Body Scrub|Amla & Bhringraj Hair Oil|Hair Growth Duo|Lavender & Aloe Hand Wash|Banana & Honey Hair Mask|Citrus & Sandalwood Body Wash|Beetroot Tinted Lip Balm|Beard Growth Oil|Rose & Glycerin Hand Cream|Neem & Turmeric Soap|Onion Anti-Hairfall Shampoo|Hand & Feet Care Kit|Charcoal Detox Body Wash' | split: '|'
-  assign demo_types = 'Hair Oil|Shampoo|Body Wash|Hand Wash|Hand & Feet Cream|Gift Set|Hair Oil|Body Lotion|Soap|Shampoo|Hand & Feet Cream|Body Scrub|Hair Oil|Gift Set|Hand Wash|Hair Mask|Body Wash|Lip Care|Beard Oil|Hand & Feet Cream|Soap|Shampoo|Gift Set|Body Wash' | split: '|'
-  assign demo_prices = '2200|1800|1600|950|1400|6500|2500|1900|650|1800|1500|1800|1900|3600|950|2100|1700|750|1800|1100|650|1900|3400|1800' | split: '|'
-  assign demo_compares = '2600|0|1900|0|1650|7500|0|2200|0|2100|0|0|0|4100|1100|2400|0|0|0|0|0|0|3850|0' | split: '|'
--%}
-      {%- assign s = seed | default: 0 -%}
-      {%- for n in (1..limit) -%}
-        {%- assign i = n | minus: 1 | plus: s | modulo: demo_handles.size -%}
-        {%- assign p = demo_prices[i] | times: 100 -%}
-        {%- assign c = demo_compares[i] | times: 100 -%}
-        {%- assign img = 'pack-' | append: demo_handles[i] | append: '.jpg' | asset_url -%}
-        <div class="carousel__item">{% render 'product-card', placeholder_title: demo_titles[i], placeholder_type: demo_types[i], placeholder_price: p, placeholder_compare: c, placeholder_image: img %}</div>
+        assign demo_handles = 'hair-oil|hair-shampoo|joints-oil|body-wash|hand-wash' | split: '|'
+        assign demo_titles = 'Unify Organica Hair Oil|Unify Organica Hair Shampoo|Unify Organica Joints Oil|Unify Organica Body Wash|Unify Organica Hand Wash' | split: '|'
+        assign demo_types = 'Hair Oil|Shampoo|Joints Oil|Body Wash|Hand Wash' | split: '|'
+        assign demo_groups = 'hair care|hair care|joint care|body care|body care' | split: '|'
+        assign demo_prices = '1200|1100|1500|950|650' | split: '|'
+        assign demo_compares = '1500|0|1800|0|0' | split: '|'
+        assign shown = 0
+      -%}
+      {%- for h in demo_handles -%}
+        {%- assign i = forloop.index0 -%}
+        {%- if filter == blank or demo_groups[i] == filter or filter contains 'all' -%}
+          {%- if shown < limit -%}
+            {%- assign shown = shown | plus: 1 -%}
+            {%- assign p = demo_prices[i] | times: 100 -%}
+            {%- assign c = demo_compares[i] | times: 100 -%}
+            {%- assign img = 'product-' | append: h | append: '.jpg' | asset_url -%}
+            <div class="carousel__item">{% render 'product-card', placeholder_title: demo_titles[i], placeholder_type: demo_types[i], placeholder_price: p, placeholder_compare: c, placeholder_image: img %}</div>
+          {%- endif -%}
+        {%- endif -%}
       {%- endfor -%}
     {%- endif -%}
   </div>

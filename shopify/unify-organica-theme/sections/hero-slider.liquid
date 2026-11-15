@@ -15,6 +15,9 @@
         {%- else -%}
           <div class="slide__art" style="--slide-bg: {{ block.settings.bg }}; --slide-ink: {{ block.settings.ink }};">
             <div class="page-width slide__grid">
+              {%- if block.settings.photo_asset != blank -%}
+              <div class="slide__photo-wrap"><img src="{{ block.settings.photo_asset | asset_url }}" alt="{{ block.settings.heading | escape }}" width="1536" height="1024" class="slide__photo" loading="eager"></div>
+              {%- else -%}
               <div class="slide__packs">
                 {%- assign packs = block.settings.pack_left | append: ',' | append: block.settings.pack_main | append: ',' | append: block.settings.pack_right | split: ',' -%}
                 {%- assign pos = 'a,b,c' | split: ',' -%}
@@ -24,6 +27,7 @@
                   {%- endif -%}
                 {%- endfor -%}
               </div>
+              {%- endif -%}
               <div class="slide__copy">
                 {%- if block.settings.kicker != blank -%}<p class="slide__kicker">{{ block.settings.kicker }}</p>{%- endif -%}
                 <h2 class="slide__title">{{ block.settings.heading }}</h2>
@@ -68,9 +72,10 @@
       { "type": "text", "id": "button", "label": "Button", "default": "Shop the sale" },
       { "type": "color", "id": "bg", "label": "Background", "default": "#eef3f1" },
       { "type": "color", "id": "ink", "label": "Offer colour", "default": "#e0453a" },
-      { "type": "text", "id": "pack_left", "label": "Left product", "default": "hibiscus-gentle-shampoo", "info": "Packshot names available: hibiscus-gentle-shampoo, rosemary-onion-growth-oil, shea-butter-hand-feet-cream, argan-shine-hair-serum, amla-bhringraj-hair-oil, onion-anti-hairfall-shampoo, oat-honey-body-wash, complete-ritual-gift-set, neem-tulsi-hand-wash" },
-      { "type": "text", "id": "pack_main", "label": "Centre product", "default": "rosemary-onion-growth-oil" },
-      { "type": "text", "id": "pack_right", "label": "Right product", "default": "shea-butter-hand-feet-cream" }
+      { "type": "text", "id": "photo_asset", "label": "Built-in photo", "info": "Use lineup.jpg for the full product lineup photo. Leave empty to show bottles below." },
+      { "type": "text", "id": "pack_left", "label": "Left bottle", "default": "hair-shampoo", "info": "Bottles available: hair-oil, hair-shampoo, joints-oil, body-wash, hand-wash" },
+      { "type": "text", "id": "pack_main", "label": "Centre bottle", "default": "hair-oil" },
+      { "type": "text", "id": "pack_right", "label": "Right bottle", "default": "joints-oil" }
     ]}
   ],
   "presets": [{ "name": "Banner slider", "blocks": [{ "type": "slide" }] }]
